@@ -1,0 +1,512 @@
+/* ======================================================= */
+/* 1. THIẾT LẬP CHUNG (RESET & VARIABLES) */
+/* ======================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #003366;      /* Xanh Navy Đậm */
+    --secondary-color: #FFD700;    /* Vàng Ánh Kim/Gold */
+    --accent-color: #4a90e2;       /* Xanh dương nhạt hơn cho link */
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --bg-light: #f9f9f9;           /* Nền cho section */
+}
+
+body {
+    font-family: 'Arial', sans-serif; 
+    line-height: 1.6;
+    background-color: var(--bg-light); 
+    color: var(--text-dark);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+}
+
+.section-title, .page-title {
+    text-align: center;
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    padding-top: 20px;
+    font-weight: 700;
+}
+
+.page-title {
+    font-size: 3em;
+    color: var(--text-light);
+}
+
+/* ======================================================= */
+/* 2. HEADER & MENU ĐIỀU HƯỚNG */
+/* ======================================================= */
+.main-header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-header h1 {
+    font-size: 1.8em;
+    color: var(--secondary-color);
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+}
+
+.main-nav ul li a {
+    color: var(--text-light);
+    padding: 10px 15px;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+}
+
+.main-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+}
+
+.menu-toggle {
+    display: none; /* Ẩn trên desktop */
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* NÚT CTA CHUNG */
+.btn-cta {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-cta:hover {
+    background-color: #e0b400; 
+}
+
+/* ======================================================= */
+/* 3. BANNER VÀ CTA */
+/* ======================================================= */
+/* Banner Trang Chủ */
+.hero-banner {
+    /* THAY THẾ LINK ẢNH NÀY */
+    background-image: url('placeholder-hero.jpg'); 
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 150px 0;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 51, 102, 0.5); /* Lớp phủ xanh đậm */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 25px;
+    color: var(--secondary-color);
+}
+.hero-content h2 {
+    font-size: 1.2em;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.hero-ctas a {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.1em;
+    display: inline-block;
+    transition: opacity 0.3s;
+}
+.hero-ctas a:hover {
+    opacity: 0.9;
+}
+
+/* Banner Trang Nội dung (services, about, contact) */
+.page-banner {
+    background-color: var(--primary-color);
+    padding: 80px 0;
+    text-align: center;
+}
+
+/* ======================================================= */
+/* 4. CÁC SECTION NỘI DUNG CHUNG */
+/* ======================================================= */
+section {
+    padding: 60px 0;
+}
+
+.about-summary {
+    text-align: center;
+    padding-bottom: 40px;
+}
+.about-summary p {
+    font-size: 1.1em;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+.btn-link {
+    color: var(--primary-color);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 2px;
+}
+.btn-link:hover {
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
+}
+
+/* DỊCH VỤ NỔI BẬT (Trang Chủ) */
+.service-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.service-card {
+    background-color: var(--text-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+.service-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+/* GIÁ TRỊ CỐT LÕI (VÌ SAO CHỌN CHÚNG TÔI) */
+.why-choose-us {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 60px 0;
+}
+.why-choose-us .section-title {
+    color: var(--secondary-color);
+}
+.core-values {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    text-align: center;
+}
+.value-item {
+    flex: 1;
+    padding: 20px;
+}
+.value-item h4 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+}
+
+/* ======================================================= */
+/* 5. STYLE RIÊNG CHO CÁC TRANG (SERVICES, ABOUT, CONTACT, TRAINING) */
+/* ======================================================= */
+
+/* DỊCH VỤ CHI TIẾT (services.html) */
+.service-block {
+    background-color: var(--text-light);
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.service-block h2 {
+    color: var(--primary-color);
+    text-align: left;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+}
+.service-block ul {
+    list-style: disc;
+    margin: 15px 0 15px 20px;
+}
+.service-block .btn-primary {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.service-block .btn-primary:hover {
+    background-color: var(--accent-color);
+}
+
+/* VỀ CHÚNG TÔI (about.html) */
+.team-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+.team-member {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--text-light);
+    border-radius: 8px;
+    width: 250px;
+}
+
+/* ĐÀO TẠO (training.html) */
+.course-item {
+    background-color: var(--text-light);
+    padding: 30px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--secondary-color);
+    border-radius: 5px;
+}
+.course-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.cta-training {
+    text-align: center;
+    background-color: var(--secondary-color);
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+.cta-training p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* LIÊN HỆ (contact.html) */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.booking-form-area label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.booking-form-area input[type="text"],
+.booking-form-area input[type="tel"],
+.booking-form-area input[type="datetime-local"],
+.booking-form-area select,
+.booking-form-area textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.booking-form-area textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.contact-info-area p {
+    margin-bottom: 15px;
+}
+.map-container {
+    overflow: hidden;
+    padding-top: 56.25%; /* Tỷ lệ 16:9 */
+    position: relative;
+    border-radius: 8px;
+}
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ======================================================= */
+/* 6. FOOTER */
+/* ======================================================= */
+.main-footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 40px 0 20px;
+    font-size: 0.9em;
+}
+
+.main-footer .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-info, .social-links {
+    padding: 10px;
+}
+
+.footer-info h3, .social-links h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.social-links a {
+    color: var(--secondary-color);
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--text-light);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* ======================================================= */
+/* 7. MEDIA QUERIES (RESPONSIVE DESIGN) */
+/* ======================================================= */
+@media (max-width: 900px) {
+    /* Trang Chủ */
+    .service-cards {
+        flex-direction: column; /* Chuyển dịch vụ thành 1 cột */
+    }
+    .core-values {
+        flex-wrap: wrap;
+    }
+    .value-item {
+        width: 45%; /* 2 cột trên tablet */
+        margin-bottom: 20px;
+    }
+
+    /* Liên Hệ */
+    .contact-grid {
+        grid-template-columns: 1fr; /* 1 cột trên tablet/mobile */
+        gap: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-header .container {
+        flex-wrap: wrap;
+    }
+    .main-header .logo {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .main-nav {
+        width: 100%;
+    }
+    .main-nav ul {
+        display: none; /* Ẩn menu mặc định */
+        flex-direction: column;
+        width: 100%;
+        background-color: rgba(0, 51, 102, 0.95);
+        position: absolute;
+        left: 0;
+        top: 60px; /* Độ cao của header */
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    .main-nav ul.active {
+        display: flex; /* Hiển thị khi có class active (dùng JS) */
+    }
+    .main-nav ul li a {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .main-nav ul li:last-child a {
+        border-bottom: none;
+    }
+    .menu-toggle {
+        display: block; /* Hiện nút toggle */
+        order: -1; /* Đưa nút toggle lên đầu */
+        margin-right: 15px;
+    }
+    .btn-cta {
+        display: none; /* Ẩn nút CTA trên mobile để menu gọn hơn */
+    }
+    
+    /* Điều chỉnh font chữ và padding */
+    .hero-content h1 {
+        font-size: 2.2em;
+    }
+    .section-title, .page-title {
+        font-size: 2em;
+    }
+    .hero-banner {
+        padding: 100px 0;
+    }
+    .value-item {
+        width: 100%; /* 1 cột trên mobile */
+    }
+}
