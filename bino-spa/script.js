@@ -11,19 +11,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 2. Hiệu ứng hiển thị menu trên điện thoại (Nếu bạn phát triển giao diện responsive)
-    // Giả sử bạn có một nút menu (ví dụ: <button class="menu-toggle">Menu</button>)
+    // 2. Hiệu ứng hiển thị menu trên điện thoại (ĐÃ SỬA)
     const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.main-nav');
+    // Thay vì chọn .main-nav, hãy chọn trực tiếp <ul> bên trong
+    const mainNavUl = document.querySelector('.main-nav ul'); 
+    
+    // Nếu bạn muốn hiển thị/ẩn nút menu toggle bằng CSS, bạn có thể bỏ dòng 'this.classList.toggle('active');'
+    // Tuy nhiên, việc toggle class active trên nút menu cũng là một pattern tốt để thay đổi icon (ví dụ: ☰ thành X)
 
-    if (menuToggle) {
+    if (menuToggle && mainNavUl) { // Kiểm tra cả <ul>
         menuToggle.addEventListener('click', function() {
-            nav.classList.toggle('active');
-            this.classList.toggle('active');
+            // SỬA: Thêm/Bỏ class 'active' vào thẻ <ul> (đúng với CSS: .main-nav ul.active)
+            mainNavUl.classList.toggle('active');
+            // Giữ lại dòng này nếu bạn muốn thay đổi style cho nút ☰ khi menu mở
+            this.classList.toggle('active'); 
         });
     }
 
-    // 3. Hiển thị thông báo khi nhấn nút Đặt Lịch (để thay thế bằng hệ thống booking thực tế sau này)
+    // 3. Hiển thị thông báo khi nhấn nút Đặt Lịch
     document.querySelectorAll('.btn-cta').forEach(button => {
         button.addEventListener('click', function(e) {
             // Ngăn chặn chuyển hướng trang nếu là nút đặt lịch trên trang chủ
