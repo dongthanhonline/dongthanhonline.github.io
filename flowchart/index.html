@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart Text Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Set Inter font and dark mode */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f2937; /* Dark background */
+            color: #f3f4f6;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+        /* Ensure canvas fills container and is centered */
+        #flowchartCanvas {
+            display: block;
+            background-color: #2b394c; /* Slightly lighter than body for contrast */
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            /* Add pointer style to indicate it can be dragged */
+            cursor: grab; 
+        }
+        /* Customize scrollbar for input area */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+            border-radius: 4px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background-color: #374151;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto flex-grow w-full flex flex-col">
+        <h1 class="text-3xl font-extrabold mb-6 text-center text-indigo-400">
+            Flowchart Generator (Text-to-Diagram)
+        </h1>
+
+        <div class="flex flex-col gap-6 flex-grow">
+            
+            <div class="flex flex-col h-[40%] min-h-[200px]">
+                <label for="flowchartText" class="text-lg font-semibold mb-2 text-gray-300">
+                    Enter Workflow (Use Tab or 4 spaces for indentation):
+                </label>
+                <textarea 
+                    id="flowchartText" 
+                    class="flex-grow p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 text-sm resize-none"
+                    placeholder="Start: Initialize Process
+    Step 1: Check File
+        [Is file valid?] ?
+            | NO -> Report Error
+            | YES -> Read Data
+    Step 2: Process Data
+        [More data lines?] ?
+            | NO -> End
+            | YES -> Process Next Line
+    End: Store Results"
+                ></textarea>
+                <p class="mt-2 text-xs text-gray-400">
+                    Tip: Every new line is a step. Indentation (Tab or 4 spaces) creates Parent-Child relationships. Drag on the Canvas to pan the diagram.
+                </p>
+            </div>
+
+            <div class="relative rounded-lg overflow-hidden border-2 border-indigo-500/50 flex-grow">
+                <canvas id="flowchartCanvas" class="w-full h-full"></canvas> 
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.getElementById('flowchartText');
+        const canvas = document.getElementById('flowchartCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const NODE_WIDTH = 180;
+        const NODE_HEIGHT = 40;
+        const H_SPACING = 50; // Horizontal spacing between levels
+        const V_SPACING = 30; // Vertical spacing between nodes
+        const SPACES_PER_TAB = 4; // Number of spaces equivalent to 1 Tab
+
+        let nodeMap = {}; // Store position and size of nodes to draw connections
+        let allNodes = []; // Store calculated nodes
+
+        // --- GLOBAL PANNING STATE ---
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        // --- 1. TEXT PARSING (Parsing Logic) ---
+
+        /**
+         * Parses the input text into a Node structure.
+         * Determines the level and Parent-Child relationships.
+         */
+        function parseFlowchart(text) {
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+            const nodes = [];
+            let currentPath = []; // Array containing the ID of the parent node at each level
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // FIX STEP: Replace tab (\t) with 4 spaces before calculating indentation
+                const lineWithSpaces = line.replace(/\t/g, ' '.repeat(SPACES_PER_TAB));
+
+                // Calculate indentation level (every 4 spaces is 1 level)
+                const leadingSpaces = lineWithSpaces.search(/\S|$/);
+                const level = Math.floor(leadingSpaces / SPACES_PER_TAB);
+                
+                const textContent = line.trim();
+                const node = {
+                    id: i,
+                    text: textContent,
+                    level: level,
+                    // Store base position (before applying offset)
+                    baseX: 0, 
+                    baseY: 0, 
+                    width: NODE_WIDTH,
+                    height: NODE_HEIGHT,
+                    parentId: null 
+                };
+
+                // Update parent path: Remove parents at levels lower than or equal to the current level
+                currentPath = currentPath.slice(0, level);
+                
+                // Assign parent if not level 0
+                if (level > 0 && currentPath.length > 0) {
+                    node.parentId = currentPath[currentPath.length - 1];
+                }
+                
+                // Add the current node's ID to the parent path
+                currentPath.push(node.id);
+                nodes.push(node);
+            }
+            return nodes;
+        }
+
+        // --- 2. DRAW FLOWCHART (Drawing Logic) ---
+
+        /**
+         * Sets up canvas size based on container size.
+         */
+        function setupCanvas() {
+            canvas.width = canvas.clientWidth;
+            // Keep a fixed height or equal to container height, logic will self-adjust scroll limits
+            canvas.height = 1500; 
+        }
+        
+        /**
+         * Calculates the base position for all nodes (without applying offset)
+         * Updates logic so the first child node doesn't drop to a new line.
+         */
+        function calculateNodePositions(nodes) {
+            // y_position will track the current Y position for level 0.
+            let y_position = V_SPACING; 
+            let requiredWidth = 0;
+            
+            // Track the Y position for the last node placed at EACH level.
+            // This allows the first child node to be placed horizontally aligned with the parent.
+            const lastYByLevel = new Array(100).fill(V_SPACING); // Assume max 100 levels
+            
+            nodes.forEach((node, index) => {
+                // 1. Calculate X position (based on level)
+                node.baseX = H_SPACING + node.level * (NODE_WIDTH + H_SPACING);
+                
+                // 2. Calculate Y position (Updated logic)
+                if (node.level === 0) {
+                    // Level 0 always drops to a new line (based on y_position)
+                    node.baseY = y_position;
+                    // Prepare for the next level 0 node
+                    y_position += NODE_HEIGHT + V_SPACING;
+                } else {
+                    // Child node (level > 0)
+                    const parentLevel = node.level - 1;
+                    const parentId = node.parentId;
+                    
+                    // The simplest approach here is to rely on `lastYByLevel`
+                    
+                    // Potential Y position: 
+                    // Option A: Place right next to the parent (keep parent's Y)
+                    const parentNode = nodeMap[parentId]; // Use the already updated nodeMap
+                    const parentY = parentNode ? parentNode.baseY : 0;
+                    
+                    // Option B: Place on the next available line
+                    const nextAvailableY = lastYByLevel[node.level];
+                    
+                    if (parentNode) {
+                        // If no node has been placed at the current level (node.level),
+                        // OR if the next available Y of the current level <= Parent's Y
+                        // => This is the first child node of this parent chain.
+                        if (nextAvailableY <= parentY) {
+                             // Place horizontally aligned with the parent (save space)
+                             node.baseY = parentY;
+                        } else {
+                             // Place on the next line if another node already exists at this level
+                             node.baseY = nextAvailableY;
+                        }
+                    } else {
+                        // If no parent node (even if level > 0, an unusual case)
+                        node.baseY = nextAvailableY;
+                    }
+                    
+                    // Update the next available Y position for the current level
+                    lastYByLevel[node.level] = node.baseY + NODE_HEIGHT + V_SPACING;
+                    
+                    // If this node is placed lower than the level 0 node, we need to update y_position
+                    if (node.baseY >= y_position) {
+                        y_position = node.baseY + NODE_HEIGHT + V_SPACING;
+                    }
+                }
+                
+                // Store position in the map immediately so child nodes can access it
+                nodeMap[node.id] = node;
+
+                requiredWidth = Math.max(requiredWidth, node.baseX + NODE_WIDTH + H_SPACING);
+            });
+            
+            // Update the logical content height and width (for panning limits)
+            // Get the highest Y position used
+            canvas.requiredHeight = y_position;
+            canvas.requiredWidth = requiredWidth;
+
+            // Do not change the physical canvas size, only use requiredHeight to limit Panning.
+        }
+
+
+        /**
+         * Draws all nodes and connections.
+         */
+        function drawFlowchart(nodes) {
+            setupCanvas(); // Ensure canvas has appropriate size
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // NOTE: nodeMap should be cleared here before calculation, 
+            // but since calculateNodePositions function has logic to overwrite nodeMap, clearing is not strictly needed.
+            // However, re-initializing `nodeMap = {}` here is safer.
+            nodeMap = {}; 
+            allNodes = nodes; // Save for use in panning
+
+            if (nodes.length === 0) return;
+
+            // 1. Calculate base position (only run when content changes)
+            calculateNodePositions(nodes);
+
+            // 2. Draw Nodes (Rectangles and Text)
+            // Loop through drawing based on calculated node positions
+            nodes.forEach(node => {
+				if (node.text.toLowerCase().includes('space'))
+				{
+					return;
+				}
+                // Apply offset for display position
+                let x = node.baseX + offsetX;
+                let y = node.baseY + offsetY;
+
+                // Choose node color based on level or content
+                let fillColor = '#374151'; // Default: Dark Gray
+                let textColor = '#f3f4f6'; // Default: White
+				let text = node.text;
+                if (node.text.toLowerCase().includes('start') || node.text.includes('Initialize Process') || node.text.includes('Bắt đầu')) {
+                    fillColor = '#10b981'; // Green
+                    textColor = '#1f2937';
+                } else if (node.text.toLowerCase().includes('end') || node.text.includes('Kết thúc') || node.text.includes('Hoàn thành') || node.text.includes('Store Results')) {
+                    fillColor = '#ef4444'; // Red
+                    textColor = '#1f2937';
+                } else if (node.text.toLowerCase().includes('process') || node.text.toLowerCase().includes('step')) {
+                    fillColor = '#87CEEB'; // Blue
+                    textColor = '#1F2937';
+                } else if (node.text.toLowerCase().includes('g:') || node.text.toLowerCase().includes('ga:') || node.text.toLowerCase().includes('gr:') ||node.text.toLowerCase().includes('gv:')) {
+                    fillColor = '#90EE90'; // LightGreen
+                    textColor = '#1f2937';
+                } else if (node.text.toLowerCase().includes('u:') || node.text.toLowerCase().includes('ua:') || node.text.toLowerCase().includes('ur:') ||node.text.toLowerCase().includes('uv:')) {
+                    fillColor = '#FFFFE0'; // LightYellow
+                    textColor = '#ef4444';
+                } else if (node.text.includes('?')) {
+                    // Decision node (Diamond)
+                    fillColor = '#f59e0b'; // Amber/Orange
+                    textColor = '#1f2937';
+                    drawDiamond(x, y, node.width, node.height, fillColor);
+                    drawText(text, x, y, node.width, textColor);
+                    return; // Skip drawing standard rectangle
+                }
+				
+				if (node.text.toLowerCase().includes('|yes') || node.text.toLowerCase().includes('|y')) {
+                    textColor = '#90EE90'; //DarkGreen
+					text = node.text.replace(/\|(yes|y)/gi, '');
+                } else if (node.text.toLowerCase().includes('|no') || node.text.toLowerCase().includes('|n')) {
+                    textColor = '#ef4444'; //Deep Yellow
+					text = node.text.replace(/\|(no|n)/gi, '');
+                }		
+				
+                // Draw Rounded Rectangle
+                drawRoundedRect(x, y, node.width, node.height, 5, fillColor);
+                
+                // Draw Text
+                drawText(text, x, y, node.width, textColor);
+            });
+
+            // 3. Draw Connections (Lines)
+            nodes.forEach(node => {
+				if (node.text.toLowerCase().includes('space'))
+				{
+					return;
+				}
+                if (node.parentId !== null) {
+                    const parent = nodeMap[node.parentId];
+                    if (parent) {
+                        drawConnection(parent, node);
+                    }
+                }
+            });
+        }
+
+        // --- 3. BASIC DRAWING FUNCTIONS (No changes) ---
+
+        /** Draw a rounded rectangle */
+        function drawRoundedRect(x, y, w, h, r, fill) {
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.arcTo(x + w, y, x + w, y + r, r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+            ctx.lineTo(x + r, y + h);
+            ctx.arcTo(x, y + h, x, y + h - r, r);
+            ctx.lineTo(x, y + r);
+            ctx.arcTo(x, y, x + r, y, r);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        /** Draw a diamond (Decision Node) */
+        function drawDiamond(x, y, w, h, fill) {
+            const centerX = x + w / 2;
+            const centerY = y + h / 2;
+
+            ctx.fillStyle = fill;
+            ctx.beginPath();
+            ctx.moveTo(centerX, y);     // Top
+            ctx.lineTo(x + w, centerY);   // Right
+            ctx.lineTo(centerX, y + h);   // Bottom
+            ctx.lineTo(x, centerY);       // Left
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        /** Draw Text */
+        function drawText(text, x, y, w, color) {
+            ctx.fillStyle = color;
+            ctx.font = '14px Inter';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, x + w / 2, y + NODE_HEIGHT / 2, w - 10);
+        }
+
+        /** Draw connection between parent and child */
+        function drawConnection(parent, child) {
+            ctx.strokeStyle = '#9ca3af'; // Light gray color
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            // Apply offset to node positions
+            const parentX = parent.baseX + offsetX;
+            const parentY = parent.baseY + offsetY;
+            const childX = child.baseX + offsetX;
+            const childY = child.baseY + offsetY;
+
+            // Start point (center of the right edge of the parent node)
+            const startX = parentX + parent.width;
+            const startY = parentY + parent.height / 2;
+            
+            // End point (center of the left edge of the child node)
+            const endX = childX;
+            const endY = childY + child.height / 2;
+            
+            // Bend point
+            const midX = startX + H_SPACING / 2;
+
+            // Draw Z-shape connection
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(midX, startY);
+            ctx.lineTo(midX, endY);
+            ctx.lineTo(endX, endY);
+            
+            ctx.stroke();
+
+            // Draw arrowhead at the end
+            drawArrowhead(endX, endY, 10, 5);
+        }
+
+        /** Draw arrowhead */
+        function drawArrowhead(x, y, length, width) {
+            ctx.fillStyle = '#9ca3af';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - length, y - width);
+            ctx.lineTo(x - length, y + width);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // --- 4. INITIALIZATION AND EVENT HANDLING (No changes) ---
+
+        let inputTimeout;
+
+        function renderFlowchart(nodes = allNodes) {
+            // Only redraw if nodes already exist
+            if (nodes.length > 0) {
+                drawFlowchart(nodes);
+            } else {
+                 // If no nodes, re-parse from textarea
+                const text = textarea.value;
+                const newNodes = parseFlowchart(text);
+                drawFlowchart(newNodes);
+            }
+            
+        }
+
+        // Handle input event
+        textarea.addEventListener('input', () => {
+             clearTimeout(inputTimeout);
+             inputTimeout = setTimeout(() => {
+                const text = textarea.value;
+                const newNodes = parseFlowchart(text);
+                // Reset offset when content changes
+                offsetX = 0;
+                offsetY = 0;
+                drawFlowchart(newNodes);
+            }, 100); // Debounce 100ms
+        });
+
+        // Handle Panning (Drag and move)
+        canvas.addEventListener('mousedown', (e) => {
+             // Only allow dragging if content is larger than canvas
+             if (canvas.requiredHeight > canvas.clientHeight || canvas.requiredWidth > canvas.clientWidth) {
+                isDragging = true;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                canvas.style.cursor = 'grabbing';
+             }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - lastMouseX;
+            const dy = e.clientY - lastMouseY;
+
+            offsetX += dx;
+            offsetY += dy;
+
+            // --- Limit Panning ---
+
+            // Limit Offset X:
+            offsetX = Math.min(offsetX, 50); // Allow dragging right up to 50px
+            const maxOffsetX = canvas.clientWidth - canvas.requiredWidth;
+            offsetX = Math.max(offsetX, maxOffsetX > 0 ? 0 : maxOffsetX - 50); // Drag left up to end of content + 50px padding
+
+            // Limit Offset Y:
+            offsetY = Math.min(offsetY, 50); // Allow dragging down up to 50px
+            const maxOffsetY = canvas.clientHeight - canvas.requiredHeight;
+            offsetY = Math.max(offsetY, maxOffsetY > 0 ? 0 : maxOffsetY - 50); // Drag up up to end of content + 50px padding
+
+
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+
+            renderFlowchart(); // Redraw with new offset
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                canvas.style.cursor = 'grab';
+            }
+        });
+        
+        // --- Handle Touch events (Mobile devices) ---
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                if (canvas.requiredHeight > canvas.clientHeight || canvas.requiredWidth > canvas.clientWidth) {
+                    isDragging = true;
+                    lastMouseX = touch.clientX;
+                    lastMouseY = touch.clientY;
+                    e.preventDefault(); // Prevent page scrolling
+                    canvas.style.cursor = 'grabbing';
+                }
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+            
+            const touch = e.touches[0];
+            const dx = touch.clientX - lastMouseX;
+            const dy = touch.clientY - lastMouseY;
+
+            offsetX += dx;
+            offsetY += dy;
+
+            // Apply limits as per MouseMove
+            offsetX = Math.min(offsetX, 50); 
+            const maxOffsetX = canvas.clientWidth - canvas.requiredWidth;
+            offsetX = Math.max(offsetX, maxOffsetX > 0 ? 0 : maxOffsetX - 50);
+
+            offsetY = Math.min(offsetY, 50); 
+            const maxOffsetY = canvas.clientHeight - canvas.requiredHeight;
+            offsetY = Math.max(offsetY, maxOffsetY > 0 ? 0 : maxOffsetY - 50);
+            
+            lastMouseX = touch.clientX;
+            lastMouseY = touch.clientY;
+
+            renderFlowchart();
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+                canvas.style.cursor = 'grab';
+            }
+        });
+
+        // Automatically adjust Canvas when window resizes
+        window.addEventListener('resize', () => {
+            setupCanvas();
+            renderFlowchart();
+        });
+
+        // Initialization and first draw
+        window.onload = () => {
+            setupCanvas();
+            // Set sample content (longer to test scrolling)
+            textarea.value = `Initialize Process
+    1. Check Input
+        [Is input valid ?] ?
+            | NO -> Report Error & End
+            | YES -> 2. Process Data
+    2. Process Data
+        Calculate Result
+    3. Storage
+        [Save to DB successful ?] ?
+            | NO -> Log Error
+            | YES -> Complete
+    4. Add Next Step 
+        Add Detail 1
+            Add Detail 2
+            Add Detail 3
+        Add Detail 4
+            Add Detail 5
+            Add Detail 6
+            Add Detail 7
+    5. Final Step
+        Finalize Process
+End`;
+            renderFlowchart();
+        };
+
+    </script>
+</body>
+</html>
