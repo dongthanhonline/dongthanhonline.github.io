@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetCare Admin - Task Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .status-pending { background-color: #fef9c3; color: #854d0e; }
+        .status-done { background-color: #dcfce7; color: #166534; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Quản lý Công việc & Chi phí</h1>
+            <button onclick="loadData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg>
+                Làm mới
+            </button>
+        </div>
+
+        <!-- Add Form -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
+            <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Thêm mục mới</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" id="title" placeholder="Tiêu đề nội dung" class="bg-slate-50 border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+                <input type="number" id="amount" placeholder="Số tiền" class="bg-slate-50 border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+                <input type="date" id="deadline" class="bg-slate-50 border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+                <button onclick="handleAddTask()" id="btnSubmit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow-md shadow-green-100">Thêm</button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase">STT</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase">Nội dung</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase">Số tiền</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase">Deadline</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase text-center">Trạng thái</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-list" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Data rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-slate-900/60 hidden items-center justify-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl scale-up">
+            <h2 class="text-xl font-bold mb-6 text-slate-800">Cập nhật công việc</h2>
+            <input type="hidden" id="editRow">
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Tên nội dung</label>
+                    <input type="text" id="editTitle" class="w-full border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Số tiền (VNĐ)</label>
+                    <input type="number" id="editAmount" class="w-full border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-400 uppercase mb-1 block">Hạn chót</label>
+                    <input type="date" id="editDeadline" class="w-full border border-slate-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex gap-3 pt-6">
+                    <button onclick="closeEditModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 py-3 rounded-xl font-bold text-slate-600 transition">Hủy</button>
+                    <button onclick="submitEdit()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition shadow-lg shadow-blue-100">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL Apps Script của anh (giữ nguyên)
+        const API_URL = "https://script.google.com/macros/s/AKfycbzRrDQKKQxuF12OPv4jD1psB8QfOQvspwz_EE7271T8PpoTmvT8RWH8lc7y2pSr7l4u/exec";
+
+        async function loadData() {
+            const list = document.getElementById('task-list');
+            list.innerHTML = '<tr><td colspan="6" class="p-12 text-center text-slate-400 animate-pulse">Đang đồng bộ dữ liệu...</td></tr>';
+            try {
+                // Thêm timestamp để tránh cache
+                const res = await fetch(`${API_URL}?t=${Date.now()}`);
+                const data = await res.json();
+                const rows = data.slice(1);
+                list.innerHTML = '';
+
+                rows.forEach((row, index) => {
+                    if(!row[1] && index > 0) return; // Skip dòng trống
+                    const rowIndex = index + 2;
+                    const amount = Number(row[2] || 0).toLocaleString('vi-VN');
+                    
+                    // Xử lý Date từ Google Sheet
+                    let deadlineStr = '---';
+                    if (row[3]) {
+                        const d = new Date(row[3]);
+                        if (!isNaN(d)) deadlineStr = d.toISOString().split('T')[0];
+                    }
+                    
+                    const status = row[4] || 'Pending';
+
+                    list.innerHTML += `
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="p-4 text-slate-400 text-sm font-mono">${row[0] || index + 1}</td>
+                            <td class="p-4 font-semibold text-slate-800">${row[1]}</td>
+                            <td class="p-4 text-blue-600 font-bold font-mono">${amount} đ</td>
+                            <td class="p-4 text-slate-500 text-sm">${deadlineStr}</td>
+                            <td class="p-4 text-center">
+                                <button onclick="toggleStatus(${rowIndex}, '${status}')" class="px-3 py-1 rounded-lg text-[10px] font-bold uppercase transition ${status === 'Done' ? 'status-done' : 'status-pending'}">
+                                    ${status}
+                                </button>
+                            </td>
+                            <td class="p-4 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="openEditModal(${rowIndex}, '${row[1]}', ${row[2]}, '${row[3]}')" class="text-blue-500 hover:bg-blue-50 px-2 py-1 rounded-md text-sm font-medium">Sửa</button>
+                                <button onclick="deleteTask(${rowIndex})" class="text-red-500 hover:bg-red-50 px-2 py-1 rounded-md text-sm font-medium ml-1">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                list.innerHTML = '<tr><td colspan="6" class="p-12 text-center text-red-400 font-medium">Lỗi tải dữ liệu. Hãy kiểm tra URL Web App.</td></tr>';
+            }
+        }
+
+        // Fix triệt để CORS bằng cách sử dụng navigator.sendBeacon hoặc fetch với redirect xử lý tay
+        async function apiCall(payload) {
+            const btn = document.getElementById('btnSubmit');
+            const originalText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = "Đang ghi...";
+
+            try {
+                // Sử dụng phương thức gửi POST thô (bypass CORS redirect)
+                // Google Apps Script xử lý POST nhưng không trả về header CORS, 
+                // mode 'no-cors' sẽ làm request luôn ở trạng thái 'opaque' (ẩn response).
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Vì không đọc được response, ta đợi 800ms rồi reload dữ liệu
+                setTimeout(() => {
+                    loadData();
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                }, 800);
+                
+            } catch (err) {
+                console.error("API Error:", err);
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        }
+
+        function handleAddTask() {
+            const title = document.getElementById('title').value;
+            const amount = document.getElementById('amount').value;
+            const deadline = document.getElementById('deadline').value;
+            if(!title) return;
+            apiCall({ action: 'add', title, amount, deadline });
+            document.getElementById('title').value = '';
+            document.getElementById('amount').value = '';
+        }
+
+        function deleteTask(row) {
+            if(confirm("Xác nhận xóa dòng này khỏi hệ thống?")) {
+                apiCall({ action: 'delete', row: row });
+            }
+        }
+
+        function toggleStatus(row, currentStatus) {
+            const nextStatus = currentStatus === 'Done' ? 'Pending' : 'Done';
+            apiCall({ action: 'update_status', row: row, status: nextStatus });
+        }
+
+        function openEditModal(row, title, amount, deadline) {
+            document.getElementById('editRow').value = row;
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editAmount').value = amount;
+            
+            if (deadline && deadline !== 'undefined') {
+                const d = new Date(deadline);
+                if(!isNaN(d)) document.getElementById('editDeadline').value = d.toISOString().split('T')[0];
+            } else {
+                document.getElementById('editDeadline').value = '';
+            }
+            
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function submitEdit() {
+            const payload = {
+                action: 'edit',
+                row: document.getElementById('editRow').value,
+                title: document.getElementById('editTitle').value,
+                amount: document.getElementById('editAmount').value,
+                deadline: document.getElementById('editDeadline').value
+            };
+            apiCall(payload);
+            closeEditModal();
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
