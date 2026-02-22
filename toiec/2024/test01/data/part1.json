@@ -1,0 +1,100 @@
+{
+  "TestName": "TOEIC 기출 TEST 01",
+  "Parts": [
+    {
+      "PartNumber": 1,
+      "Questions": [
+        {
+          "ThuTu": 1,
+          "CauHoi": "Look at the picture marked number 1 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 1 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q1.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) She's eating in a picnic area.", "Dich": "Cô ấy đang ăn ở một khu vực dã ngoại." },
+            { "TraLoi": "(B) She's waiting in line at a food truck.", "Dich": "Cô ấy đang xếp hàng tại một xe bán đồ ăn." },
+            { "TraLoi": "(C) She's wiping off a bench.", "Dich": "Cô ấy đang lau sạch một chiếc ghế dự." },
+            { "TraLoi": "(D) She's throwing away a plate.", "Dich": "Cô ấy đang vứt một chiếc đĩa đi." }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Trong hình, một người phụ nữ đang đứng trước một xe bán đồ ăn (food truck) có bảng menu, tư thế đang đứng chờ (waiting in line) để mua hàng."
+        },
+        {
+          "ThuTu": 2,
+          "CauHoi": "Look at the picture marked number 2 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 2 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q2.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) The man is brushing snow off the roof of a car.", "Dich": "Người đàn ông đang phủi tuyết khỏi nóc xe ô tô." },
+            { "TraLoi": "(B) The man is standing in the snow beside a car.", "Dich": "Người đàn ông đang đứng trong tuyết bên cạnh một chiếc xe ô tô." },
+            { "TraLoi": "(C) The man is shoveling snow from a walkway.", "Dich": "Người đàn ông đang xúc tuyết khỏi lối đi bộ." },
+            { "TraLoi": "(D) The man is running through the snow.", "Dich": "Người đàn ông đang chạy xuyên qua tuyết." }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Người đàn ông đang cầm một chiếc xẻng và thực hiện hành động xúc tuyết (shoveling snow) trên đường đi bộ."
+        },
+        {
+          "ThuTu": 3,
+          "CauHoi": "Look at the picture marked number 3 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 3 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q3.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Some workers are hanging art in a gallery.", "Dich": "Một số công nhân đang treo các tác phẩm nghệ thuật trong phòng triển lãm." },
+            { "TraLoi": "(B) Two of the people are having a conversation.", "Dich": "Hai trong số những người đó đang trò chuyện với nhau." },
+            { "TraLoi": "(C) One of the men is rearranging cushions on a sofa.", "Dich": "Một trong những người đàn ông đang sắp xếp lại gối tựa trên ghế sofa." },
+            { "TraLoi": "(D) One of the men is painting a picture.", "Dich": "Một trong những người đàn ông đang vẽ một bức tranh." }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Bức tranh cho thấy một nhóm người trong văn phòng, trong đó có hai người đang đứng đối diện và nói chuyện trực tiếp với nhau (having a conversation)."
+        },
+        {
+          "ThuTu": 4,
+          "CauHoi": "Look at the picture marked number 4 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 4 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q4.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Vehicles are entering a parking garage.", "Dich": "Các phương tiện đang đi vào một nhà để xe." },
+            { "TraLoi": "(B) Clothes hangers are scattered on the ground.", "Dich": "Móc quần áo đang nằm rải rác trên mặt đất." },
+            { "TraLoi": "(C) Empty racks are lined up next to a building.", "Dich": "Các giá treo trống được xếp hàng bên cạnh một tòa nhà." },
+            { "TraLoi": "(D) Clothing is being displayed under a tent.", "Dich": "Quần áo đang được trưng bày bên dưới một chiếc lều." }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "Hình ảnh cho thấy các giá treo đầy quần áo được đặt dưới một mái che/lều (tent) ngoài trời để bán hoặc trưng bày."
+        },
+        {
+          "ThuTu": 5,
+          "CauHoi": "Look at the picture marked number 5 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 5 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q5.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Potted plants have been suspended from a ceiling.", "Dich": "Các chậu cây cảnh đã được treo lên từ trần nhà." },
+            { "TraLoi": "(B) Chairs have been stacked in front of an entryway.", "Dich": "Những chiếc ghế đã được xếp chồng lên nhau trước lối vào." },
+            { "TraLoi": "(C) A computer station has been set up on a desk.", "Dich": "Một trạm máy tính đã được thiết lập trên bàn làm việc." },
+            { "TraLoi": "(D) A rug has been rolled up against a wall.", "Dich": "Một tấm thảm đã được cuộn lại dựa vào tường." }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Phía trên căn phòng có nhiều chậu cây xanh được treo lơ lửng (suspended) bằng dây từ phía trần nhà xuống."
+        },
+        {
+          "ThuTu": 6,
+          "CauHoi": "Look at the picture marked number 6 in your test book.",
+          "DichCauHoi": "Nhìn vào bức tranh được đánh số 6 trong cuốn sách kiểm tra của bạn.",
+          "ImageURL": "images/q6.jpg",
+          "AudioURL": "audio/PART 1 - TEST 1.mp3",
+          "CauTraLoi": [
+            { "TraLoi": "(A) One of the men is sweeping a patio.", "Dich": "Một trong những người đàn ông đang quét sân hiên." },
+            { "TraLoi": "(B) One of the men is replacing some flooring.", "Dich": "Một trong những người đàn ông đang thay thế sàn nhà." },
+            { "TraLoi": "(C) A door has been taken off its frame.", "Dich": "Một cánh cửa đã được tháo ra khỏi khung." },
+            { "TraLoi": "(D) A light fixture has been left on the ground.", "Dich": "Một thiết bị chiếu sáng bị bỏ lại trên mặt đất." }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Bức tranh cho thấy một người đàn ông đang đứng cạnh một cánh cửa lớn đã được tháo rời (taken off its frame) và đặt dựa vào tường."
+        }
+      ]
+    }
+  ]
+}

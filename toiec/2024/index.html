@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Luyện Thi TOEIC Offline</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-nav">
+        <select id="testSelector" onchange="loadTest(this.value)">
+            <option value="">-- Chọn bài Test --</option>
+            <option value="Test01">Test 01</option>
+            <option value="Test02">Test 02</option>
+        </select>
+        <div id="loadingStatus" style="display:none; color: #2196f3; font-weight: bold; margin-left: 10px;">
+            Đang tải dữ liệu...
+        </div>
+    </div>
+
+    <div class="container" id="quizScreen" style="display: none;">
+        <div class="main-quiz">
+            <div class="audio-container">
+                <audio id="quizAudio" controls></audio>
+            </div>
+
+            <div id="imageContainer" class="image-box">
+                <img id="quizImage" src="" alt="Câu hỏi hình ảnh">
+            </div>
+
+            <div class="quiz-box">
+                <h3 id="quizInfo"></h3>
+
+                <div id="doanVanBox" class="doan-van-box" style="display: none;">
+                    <button class="toggle-btn" onclick="toggleDoanVan()">Xem đoạn văn (Transcript) ▼</button>
+                    <div id="doanVanText" class="doan-van-content"></div>
+                </div>
+
+                <p id="questionText" class="en-text"></p>
+                <p id="questionDich" class="vi-text" style="display: none;"></p>
+                
+                <ul id="options"></ul>
+
+                <div id="explanation" class="explanation-box" style="display: none;">
+                    <p id="explanationText"></p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="prevQuiz()">❮ Câu trước</button>
+                <button class="nav-btn" onclick="nextQuiz()">Câu sau ❯</button>
+            </div>
+        </div>
+
+        <button id="floatingMenuBtn" onclick="toggleMenu()">⋮</button>
+        <div id="menuOverlay" class="menu-overlay">
+            <div class="menu-header">
+                <h3>Danh sách câu hỏi</h3>
+                <button class="close-btn" onclick="toggleMenu()">✕</button>
+            </div>
+            <div class="question-grid" id="questionGrid"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

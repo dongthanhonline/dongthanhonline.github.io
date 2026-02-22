@@ -1,0 +1,535 @@
+{
+  "TestName": "TOEIC 기출 TEST 01",
+  "Parts": [
+    {
+      "PartNumber": 3,
+      "AudioURL": "audio/part3.mp3",
+      "Questions": [
+        {
+          "ThuTu": 32,
+          "DoanVan": "M-Br: Hi, Clara. Did you finish that management course you were taking last week?\nW-Am: Yes, I just finished it on Friday. It was excellent.\nM-Br: That’s good to hear. I’m thinking about signing up for the next session. Was the instructor engaging?\nW-Am: Very much so. She used a lot of real-world examples that made the concepts easy to understand.",
+          "CauHoi": "What are the speakers discussing?",
+          "DichCauHoi": "Các diễn giả đang thảo luận về điều gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) A fitness center's new hours", "Dich": "(A) Giờ hoạt động mới của một trung tâm thể hình" },
+            { "TraLoi": "(B) A staff member's retirement", "Dich": "(B) Việc nghỉ hưu của một nhân viên" },
+            { "TraLoi": "(C) A professional development course", "Dich": "(C) Một khóa học phát triển chuyên môn" },
+            { "TraLoi": "(D) An upcoming health fair", "Dich": "(D) Một hội chợ sức khỏe sắp tới" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Người đàn ông hỏi về khóa học quản lý (management course) mà người phụ nữ vừa hoàn thành."
+        },
+        {
+          "ThuTu": 33,
+          "CauHoi": "What does the woman say about a course?",
+          "DichCauHoi": "Người phụ nữ nói gì về khóa học?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) The instructor was very engaging.", "Dich": "(A) Người hướng dẫn rất lôi cuốn." },
+            { "TraLoi": "(B) It was smaller than expected.", "Dich": "(B) Nó nhỏ hơn so với dự kiến." },
+            { "TraLoi": "(C) Some information was outdated.", "Dich": "(C) Một số thông tin đã lỗi thời." },
+            { "TraLoi": "(D) The materials were expensive.", "Dich": "(D) Các tài liệu rất đắt tiền." }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Người phụ nữ xác nhận người hướng dẫn rất lôi cuốn qua cụm từ 'Very much so' khi người đàn ông hỏi 'Was the instructor engaging?'."
+        },
+        {
+          "ThuTu": 34,
+          "CauHoi": "What will the man most likely do next?",
+          "DichCauHoi": "Người đàn ông có khả năng sẽ làm gì tiếp theo?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Speak with a supervisor", "Dich": "(A) Nói chuyện với người giám sát" },
+            { "TraLoi": "(B) Update a schedule", "Dich": "(B) Cập nhật lịch trình" },
+            { "TraLoi": "(C) Look at some videos", "Dich": "(C) Xem một số video" },
+            { "TraLoi": "(D) Register for a workshop", "Dich": "(D) Đăng ký một buổi hội thảo" }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "Người đàn ông cho biết ông đang cân nhắc việc đăng ký (signing up) cho phiên học tiếp theo."
+        },
+        {
+          "ThuTu": 35,
+          "DoanVan": "W-Au: Have you seen the latest progress report for the office building project?\nM-Am: Not yet. Are we still on track to finish the foundation by the end of the month?\nW-Au: Actually, we’re ahead of schedule. Since the weather’s been so good, the crew finished the foundation yesterday.\nM-Am: That’s great news. I’ll call the structural steel supplier today to see if they can deliver the beams earlier than planned.",
+          "CauHoi": "Where do the speakers work?",
+          "DichCauHoi": "Các diễn giả làm việc ở đâu?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) At a law firm", "Dich": "(A) Tại một công ty luật" },
+            { "TraLoi": "(B) At a construction company", "Dich": "(B) Tại một công ty xây dựng" },
+            { "TraLoi": "(C) At an accounting firm", "Dich": "(C) Tại một công ty kế toán" },
+            { "TraLoi": "(D) At an advertising agency", "Dich": "(D) Tại một đại lý quảng cáo" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Cuộc hội thoại đề cập đến dự án xây dựng tòa nhà văn phòng, đổ móng (foundation) và nhà cung cấp thép."
+        },
+        {
+          "ThuTu": 36,
+          "CauHoi": "What does the woman say about a project?",
+          "DichCauHoi": "Người phụ nữ nói gì về dự án?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) It is ahead of schedule.", "Dich": "(A) Nó đang vượt tiến độ." },
+            { "TraLoi": "(B) It is over budget.", "Dich": "(B) Nó đang vượt ngân sách." },
+            { "TraLoi": "(C) A client wants to make changes.", "Dich": "(C) Khách hàng muốn thay đổi." },
+            { "TraLoi": "(D) Extra staff members are needed.", "Dich": "(D) Cần thêm nhân viên." }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Người phụ nữ nói: 'Actually, we’re ahead of schedule' (Thực ra chúng ta đang vượt tiến độ)."
+        },
+        {
+          "ThuTu": 37,
+          "CauHoi": "What will the man do next?",
+          "DichCauHoi": "Người đàn ông sẽ làm gì tiếp theo?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Give a presentation", "Dich": "(A) Thuyết trình" },
+            { "TraLoi": "(B) Contact a supplier", "Dich": "(B) Liên hệ với nhà cung cấp" },
+            { "TraLoi": "(C) Sign a contract", "Dich": "(C) Ký hợp đồng" },
+            { "TraLoi": "(D) Take some photographs", "Dich": "(D) Chụp ảnh" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Người đàn ông nói sẽ gọi cho nhà cung cấp thép (structural steel supplier) ngay hôm nay."
+        },
+        {
+          "ThuTu": 38,
+          "DoanVan": "M-Br: Welcome to the first official planning meeting for our new store opening. As you know, we’re set to open in three weeks.\nW-Am: I’m a bit concerned about our staffing, though. Two of the cashiers we hired just called to say they can’t start until a month from now.\nM-Br: That is a problem. We need a full staff for the grand opening. \nW-Am: Why don’t we call the local employment agency? They might have some temporary workers.",
+          "CauHoi": "What are the speakers mainly discussing?",
+          "DichCauHoi": "Các diễn giả chủ yếu thảo luận về vấn đề gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) An upcoming fund-raiser", "Dich": "(A) Một buổi gây quỹ sắp tới" },
+            { "TraLoi": "(B) A local festival", "Dich": "(B) Một lễ hội địa phương" },
+            { "TraLoi": "(C) A store opening", "Dich": "(C) Khai trương một cửa hàng" },
+            { "TraLoi": "(D) A change in leadership", "Dich": "(D) Thay đổi lãnh đạo" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Người đàn ông mở đầu bằng việc chào mừng mọi người đến buổi lập kế hoạch khai trương cửa hàng mới (new store opening)."
+        },
+        {
+          "ThuTu": 39,
+          "CauHoi": "Why is the man concerned?",
+          "DichCauHoi": "Tại sao người đàn ông lại lo lắng?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) A machine is not working.", "Dich": "(A) Một chiếc máy không hoạt động." },
+            { "TraLoi": "(B) Some staff are not available.", "Dich": "(B) Một số nhân viên không có mặt." },
+            { "TraLoi": "(C) A delivery is late.", "Dich": "(C) Giao hàng bị trễ." },
+            { "TraLoi": "(D) The weather will be bad.", "Dich": "(D) Thời tiết sẽ xấu." }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Người phụ nữ nhắc đến việc hai thu ngân vừa gọi báo không thể bắt đầu làm việc đúng hạn, dẫn đến thiếu nhân sự."
+        },
+        {
+          "ThuTu": 40,
+          "CauHoi": "What does the woman suggest?",
+          "DichCauHoi": "Người phụ nữ gợi ý điều gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Working a later shift", "Dich": "(A) Làm ca muộn hơn" },
+            { "TraLoi": "(B) Hiring additional help", "Dich": "(B) Thuê thêm sự trợ giúp" },
+            { "TraLoi": "(C) Calling other employees", "Dich": "(C) Gọi cho các nhân viên khác" },
+            { "TraLoi": "(D) Moving a sale to another day", "Dich": "(D) Chuyển ngày giảm giá" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Người phụ nữ gợi ý gọi cho trung tâm môi giới việc làm để tìm nhân viên tạm thời (temporary workers)."
+        },
+        {
+          "ThuTu": 41,
+          "DoanVan": "W-Au: Hello, this is Clara from City Fitness. I’m calling for Mr. Tanaka.\nM-Am: This is he. How can I help you?\nW-Au: We noticed your membership expired last month. We’re currently offering a special promotion for returning members—if you renew this week, we’ll waive the registration fee.\nM-Am: Oh, that sounds interesting. Does the promotion apply to the premium plan with yoga classes?",
+          "CauHoi": "What type of business does the woman most likely work for?",
+          "DichCauHoi": "Người phụ nữ có khả năng làm việc cho loại hình kinh doanh nào?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) A fitness center", "Dich": "(A) Một trung tâm thể hình" },
+            { "TraLoi": "(B) A clothing store", "Dich": "(B) Một cửa hàng quần áo" },
+            { "TraLoi": "(C) A marketing firm", "Dich": "(C) Một công ty tiếp thị" },
+            { "TraLoi": "(D) A travel agency", "Dich": "(D) Một đại lý du lịch" }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Người phụ nữ giới thiệu mình gọi đến từ 'City Fitness' và nhắc đến các gói thành viên gym."
+        },
+        {
+          "ThuTu": 42,
+          "CauHoi": "Why is the woman calling?",
+          "DichCauHoi": "Tại sao người phụ nữ lại gọi điện?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) To confirm a reservation", "Dich": "(A) Để xác nhận đặt chỗ" },
+            { "TraLoi": "(B) To promote a service", "Dich": "(B) Để quảng bá dịch vụ" },
+            { "TraLoi": "(C) To update an account", "Dich": "(C) Để cập nhật tài khoản" },
+            { "TraLoi": "(D) To inquire about a job", "Dich": "(D) Để hỏi về công việc" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Mục đích cuộc gọi là để thông báo về chương trình khuyến mãi đặc biệt (special promotion) dành cho thành viên quay lại."
+        },
+        {
+          "ThuTu": 43,
+          "CauHoi": "What does the man want to know?",
+          "DichCauHoi": "Người đàn ông muốn biết điều gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) When a class starts", "Dich": "(A) Khi nào lớp học bắt đầu" },
+            { "TraLoi": "(B) How much a membership costs", "Dich": "(B) Phí thành viên là bao nhiêu" },
+            { "TraLoi": "(C) Where a facility is located", "Dich": "(C) Cơ sở nằm ở đâu" },
+            { "TraLoi": "(D) How long a promotion lasts", "Dich": "(D) Khuyến mãi kéo dài bao lâu" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Người đàn ông hỏi về việc khuyến mãi có áp dụng cho gói premium không, ngụ ý quan tâm đến chi phí gói này."
+        },
+        {
+          "ThuTu": 44,
+          "DoanVan": "M-Am: Excuse me, I’m looking for the kitchenware department. I need to buy a new set of pots and pans.\nW-Br: That’s on the third floor. But actually, we’re having a huge sale on those in our basement clearance area right now.\nM-Am: Oh, really? Are the discounts significant?\nW-Br: Yes, everything in the basement is at least fifty percent off.",
+          "CauHoi": "What does the man want to do?",
+          "DichCauHoi": "Người đàn ông muốn làm gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Rent some equipment", "Dich": "(A) Thuê một số thiết bị" },
+            { "TraLoi": "(B) Order a meal", "Dich": "(B) Đặt một bữa ăn" },
+            { "TraLoi": "(C) Buy some household goods", "Dich": "(C) Mua một số đồ gia dụng" },
+            { "TraLoi": "(D) Repair a kitchen appliance", "Dich": "(D) Sửa thiết bị nhà bếp" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Người đàn ông nói ông cần mua một bộ nồi và chảo mới (pots and pans), đây là các món đồ gia dụng."
+        },
+        {
+          "ThuTu": 45,
+          "CauHoi": "According to the woman, what is happening in the basement?",
+          "DichCauHoi": "Theo người phụ nữ, chuyện gì đang xảy ra ở tầng hầm?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) A renovation project", "Dich": "(A) Một dự án cải tạo" },
+            { "TraLoi": "(B) A clearance sale", "Dich": "(B) Một đợt bán xả hàng" },
+            { "TraLoi": "(C) A cooking demonstration", "Dich": "(C) Một buổi trình diễn nấu ăn" },
+            { "TraLoi": "(D) A staff meeting", "Dich": "(D) Một cuộc họp nhân viên" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Người phụ nữ nhắc đến 'basement clearance area' (khu vực xả hàng tầng hầm) với mức giảm giá ít nhất 50%."
+        },
+        {
+          "ThuTu": 46,
+          "CauHoi": "What does the woman recommend?",
+          "DichCauHoi": "Người phụ nữ khuyên điều gì?",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Comparing prices online", "Dich": "(A) So sánh giá trực tuyến" },
+            { "TraLoi": "(B) Speaking with a manager", "Dich": "(B) Nói chuyện với quản lý" },
+            { "TraLoi": "(C) Checking a different area", "Dich": "(C) Kiểm tra một khu vực khác" },
+            { "TraLoi": "(D) Joining a rewards program", "Dich": "(D) Tham gia chương trình ưu đãi" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Người phụ nữ khuyên khách hàng nên kiểm tra khu vực tầng hầm (một khu vực khác so với tầng 3 dự định ban đầu)."
+        },
+		{
+		  "ThuTu": 47,
+		  "DoanVan": "W-Am: Hi, I’m calling about the advertisement for the office space for rent on Main Street. Is it still available?\nM-Br: Yes, it is. It’s a great location, right in the center of the business district.\nW-Am: That sounds perfect. I’m looking to open a small law firm. Could I come by and see it tomorrow morning?\nM-Br: I’m actually showing it to someone else at 10:00, but I’m free at 11:30. Would that work for you?",
+		  "CauHoi": "What is the woman calling about?",
+		  "DichCauHoi": "Người phụ nữ gọi điện về việc gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) An employment opportunity", "Dich": "(A) Một cơ hội việc làm" },
+			{ "TraLoi": "(B) A property for lease", "Dich": "(B) Một bất động sản cho thuê" },
+			{ "TraLoi": "(C) A legal consultation", "Dich": "(C) Một buổi tư vấn pháp lý" },
+			{ "TraLoi": "(D) A renovation project", "Dich": "(D) Một dự án cải tạo" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Người phụ nữ nói 'I’m calling about the advertisement for the office space for rent' (Tôi gọi về quảng cáo cho thuê văn phòng)."
+		},
+		{
+		  "ThuTu": 48,
+		  "CauHoi": "What type of business does the woman want to start?",
+		  "DichCauHoi": "Người phụ nữ muốn bắt đầu loại hình kinh doanh nào?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A law firm", "Dich": "(A) Một công ty luật" },
+			{ "TraLoi": "(B) A real estate agency", "Dich": "(B) Một đại lý bất động sản" },
+			{ "TraLoi": "(C) An accounting office", "Dich": "(C) Một văn phòng kế toán" },
+			{ "TraLoi": "(D) A medical clinic", "Dich": "(D) Một phòng khám y tế" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Cô ấy đề cập: 'I’m looking to open a small law firm' (Tôi đang muốn mở một công ty luật nhỏ)."
+		},
+		{
+		  "ThuTu": 49,
+		  "CauHoi": "What time does the man suggest meeting?",
+		  "DichCauHoi": "Người đàn ông đề nghị gặp nhau lúc mấy giờ?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) At 10:00", "Dich": "(A) Lúc 10:00" },
+			{ "TraLoi": "(B) At 10:30", "Dich": "(B) Lúc 10:30" },
+			{ "TraLoi": "(C) At 11:00", "Dich": "(C) Lúc 11:00" },
+			{ "TraLoi": "(D) At 11:30", "Dich": "(D) Lúc 11:30" }
+		  ],
+		  "DapAn": "D",
+		  "GiaiThich": "Người đàn ông nói: 'I’m free at 11:30. Would that work for you?' (Tôi rảnh lúc 11:30. Giờ đó có ổn với bạn không?)"
+		},
+		{
+		  "ThuTu": 50,
+		  "DoanVan": "M-Am: Karen, do you have a minute? I need some help with the presentation for the board meeting on Friday.\nW-Au: Sure, what’s up? Are you having trouble with the financial data?\nM-Am: No, I’ve got all the numbers. I just can’t get the charts to look right in the slide software. \nW-Au: I’m actually quite good at that. Why don’t you send me the file, and I’ll take a look at it after lunch?",
+		  "CauHoi": "What is the man working on?",
+		  "DichCauHoi": "Người đàn ông đang làm việc gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A budget report", "Dich": "(A) Một báo cáo ngân sách" },
+			{ "TraLoi": "(B) A presentation", "Dich": "(B) Một bài thuyết trình" },
+			{ "TraLoi": "(C) A job application", "Dich": "(C) Một đơn xin việc" },
+			{ "TraLoi": "(D) A training manual", "Dich": "(D) Một hướng dẫn đào tạo" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Người đàn ông nói cần giúp đỡ với 'presentation for the board meeting' (bài thuyết trình cho cuộc họp hội đồng quản trị)."
+		},
+		{
+		  "ThuTu": 51,
+		  "CauHoi": "What problem does the man describe?",
+		  "DichCauHoi": "Người đàn ông mô tả vấn đề gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) He missed a deadline.", "Dich": "(A) Anh ấy đã lỡ hạn chót." },
+			{ "TraLoi": "(B) Some data is missing.", "Dich": "(B) Một số dữ liệu bị thiếu." },
+			{ "TraLoi": "(C) He is having software difficulties.", "Dich": "(C) Anh ấy đang gặp khó khăn về phần mềm." },
+			{ "TraLoi": "(D) A meeting was canceled.", "Dich": "(D) Một cuộc họp đã bị hủy." }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Anh ấy nói: 'I just can’t get the charts to look right in the slide software' (Tôi không thể làm cho các biểu đồ trông chuẩn trong phần mềm trình chiếu)."
+		},
+		{
+		  "ThuTu": 52,
+		  "CauHoi": "What does the woman ask the man to do?",
+		  "DichCauHoi": "Người phụ nữ yêu cầu người đàn ông làm gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Email her a file", "Dich": "(A) Gửi email cho cô ấy một tệp tin" },
+			{ "TraLoi": "(B) Postpone a meeting", "Dich": "(B) Hoãn một cuộc họp" },
+			{ "TraLoi": "(C) Print some documents", "Dich": "(C) In một số tài liệu" },
+			{ "TraLoi": "(D) Contact the IT department", "Dich": "(D) Liên hệ với bộ phận CNTT" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Người phụ nữ nói: 'Why don’t you send me the file' (Tại sao anh không gửi tệp đó cho tôi)."
+		},
+		{
+		  "ThuTu": 53,
+		  "DoanVan": "W-Br: Excuse me, I’m looking for the travel section. I’m planning a trip to Japan and I need a guidebook.\nM-Am: That’s in the back corner, next to the history books. We actually just got a new shipment of international guides yesterday.\nW-Br: Oh, that’s great. Do you also have any maps of Tokyo?\nM-Am: Yes, those are right on the same shelf. If you can’t find them, just let me know.",
+		  "CauHoi": "Where most likely are the speakers?",
+		  "DichCauHoi": "Các diễn giả có khả năng nhất là đang ở đâu?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) At a library", "Dich": "(A) Tại một thư viện" },
+			{ "TraLoi": "(B) At a bookstore", "Dich": "(B) Tại một hiệu sách" },
+			{ "TraLoi": "(C) At a travel agency", "Dich": "(C) Tại một đại lý du lịch" },
+			{ "TraLoi": "(D) At an airport", "Dich": "(D) Tại một sân bay" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Người phụ nữ tìm 'guidebook' và người đàn ông nhắc đến 'history books' và 'new shipment' (lô hàng mới), đặc trưng của hiệu sách."
+		},
+		{
+		  "ThuTu": 54,
+		  "CauHoi": "What is the woman planning to do?",
+		  "DichCauHoi": "Người phụ nữ đang dự định làm gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Move to a new city", "Dich": "(A) Chuyển đến một thành phố mới" },
+			{ "TraLoi": "(B) Write a book", "Dich": "(B) Viết một cuốn sách" },
+			{ "TraLoi": "(C) Take a vacation", "Dich": "(C) Đi nghỉ mát" },
+			{ "TraLoi": "(D) Study history", "Dich": "(D) Học lịch sử" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Cô ấy nói: 'I’m planning a trip to Japan' (Tôi đang lên kế hoạch cho một chuyến đi Nhật Bản)."
+		},
+		{
+		  "ThuTu": 55,
+		  "CauHoi": "What does the man offer to do?",
+		  "DichCauHoi": "Người đàn ông đề nghị làm gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Provide further assistance", "Dich": "(A) Cung cấp thêm sự hỗ trợ" },
+			{ "TraLoi": "(B) Order a specific book", "Dich": "(B) Đặt mua một cuốn sách cụ thể" },
+			{ "TraLoi": "(C) Give a discount", "Dich": "(C) Giảm giá" },
+			{ "TraLoi": "(D) Provide a store map", "Dich": "(D) Cung cấp sơ đồ cửa hàng" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Anh ấy nói: 'If you can’t find them, just let me know' (Nếu bạn không tìm thấy chúng, hãy cho tôi biết) - thể hiện sự sẵn sàng hỗ trợ."
+		},
+		{
+		  "ThuTu": 56,
+		  "DoanVan": "M-Br: Hi, I’m calling to check on the status of my order. I bought a laptop online last Tuesday, but it hasn’t arrived yet.\nW-Am: Let me check that for you. Do you have the order number?\nM-Br: Yes, it’s 5-5-2-1-0. \nW-Am: I see here that the item was out of stock, so there was a delay. But it was shipped out yesterday, so you should receive it by Friday.",
+		  "CauHoi": "Why is the man calling?",
+		  "DichCauHoi": "Tại sao người đàn ông lại gọi điện?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) To place an order", "Dich": "(A) Để đặt hàng" },
+			{ "TraLoi": "(B) To report a broken item", "Dich": "(B) Để báo cáo một món đồ bị hỏng" },
+			{ "TraLoi": "(C) To inquire about a delivery", "Dich": "(C) Để hỏi về việc giao hàng" },
+			{ "TraLoi": "(D) To request a refund", "Dich": "(D) Để yêu cầu hoàn tiền" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Người đàn ông muốn 'check on the status of my order' vì món hàng chưa tới."
+		},
+		{
+		  "ThuTu": 57,
+		  "CauHoi": "According to the woman, what caused a delay?",
+		  "DichCauHoi": "Theo người phụ nữ, điều gì đã gây ra sự chậm trễ?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A system error", "Dich": "(A) Một lỗi hệ thống" },
+			{ "TraLoi": "(B) Incorrect address information", "Dich": "(B) Thông tin địa chỉ sai" },
+			{ "TraLoi": "(C) An item was not in stock.", "Dich": "(C) Một món đồ đã hết hàng." },
+			{ "TraLoi": "(D) Bad weather conditions", "Dich": "(D) Điều kiện thời tiết xấu" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Cô ấy giải thích: 'the item was out of stock, so there was a delay' (món hàng đã hết kho, vì vậy đã có sự chậm trễ)."
+		},
+		{
+		  "ThuTu": 58,
+		  "CauHoi": "When will the man most likely receive his item?",
+		  "DichCauHoi": "Khi nào người đàn ông có khả năng nhận được món đồ của mình?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) On Tuesday", "Dich": "(A) Vào thứ Ba" },
+			{ "TraLoi": "(B) On Wednesday", "Dich": "(B) Vào thứ Tư" },
+			{ "TraLoi": "(C) On Thursday", "Dich": "(C) Vào thứ Năm" },
+			{ "TraLoi": "(D) On Friday", "Dich": "(D) Vào thứ Sáu" }
+		  ],
+		  "DapAn": "D",
+		  "GiaiThich": "Người phụ nữ nói: 'you should receive it by Friday' (anh sẽ nhận được nó vào thứ Sáu)."
+		},
+		{
+		  "ThuTu": 59,
+		  "DoanVan": "W-Au: Have you finished the schedule for the new employees' orientation yet?\nM-Am: Almost. I’m just waiting for the HR director to confirm if she’s available to give the opening speech on Monday morning.\nW-Au: I heard she’s traveling until Sunday, so she might not have seen your email yet. \nM-Am: Oh, I didn’t know that. I’ll give her a call on Monday morning if I don’t hear back by then.",
+		  "CauHoi": "What is the man preparing?",
+		  "DichCauHoi": "Người đàn ông đang chuẩn bị cái gì?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A job interview", "Dich": "(A) Một cuộc phỏng vấn xin việc" },
+			{ "TraLoi": "(B) An orientation schedule", "Dich": "(B) Một lịch trình định hướng" },
+			{ "TraLoi": "(C) A travel itinerary", "Dich": "(C) Một lịch trình du lịch" },
+			{ "TraLoi": "(D) A budget proposal", "Dich": "(D) Một đề xuất ngân sách" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Câu hỏi đầu tiên: 'finished the schedule for the new employees' orientation yet?' xác nhận anh ấy đang làm lịch trình định hướng."
+		},
+		{
+		  "ThuTu": 60,
+		  "CauHoi": "Why is there a delay in finishing a task?",
+		  "DichCauHoi": "Tại sao lại có sự chậm trễ trong việc hoàn thành nhiệm vụ?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A director is out of the office.", "Dich": "(A) Một giám đốc đang vắng mặt ở văn phòng." },
+			{ "TraLoi": "(B) Some equipment is broken.", "Dich": "(B) Một số thiết bị bị hỏng." },
+			{ "TraLoi": "(C) A file was lost.", "Dich": "(C) Một tệp tin bị mất." },
+			{ "TraLoi": "(D) A room is being renovated.", "Dich": "(D) Một căn phòng đang được cải tạo." }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Người phụ nữ nói giám đốc nhân sự đang đi du lịch/vắng mặt (traveling) cho đến Chủ nhật."
+		},
+		{
+		  "ThuTu": 61,
+		  "CauHoi": "What will the man do on Monday morning?",
+		  "DichCauHoi": "Người đàn ông sẽ làm gì vào sáng thứ Hai?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Give a speech", "Dich": "(A) Thuyết trình" },
+			{ "TraLoi": "(B) Meet a new employee", "Dich": "(B) Gặp một nhân viên mới" },
+			{ "TraLoi": "(C) Make a phone call", "Dich": "(C) Gọi một cuộc điện thoại" },
+			{ "TraLoi": "(D) Send an email", "Dich": "(D) Gửi một email" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Anh ấy nói: 'I’ll give her a call on Monday morning' (Tôi sẽ gọi cho cô ấy vào sáng thứ Hai)."
+		},
+		{
+		  "ThuTu": 62,
+		  "DoanVan": "W-Br: Hi, I’d like to buy one ticket for the 2:00 showing of 'The Mountain Path'.\nM-Am: I’m sorry, that show is sold out. We still have seats for the 4:30 and 7:00 showings, though.\nW-Br: Hmm, 4:30 is a bit late for me. What about the other film, 'City Lights'? \nM-Am: Let me check... Yes, we have tickets for 'City Lights' at 2:15. It’s also $15, which is the same price.",
+		  "CauHoi": "Where most likely are the speakers?",
+		  "DichCauHoi": "Các diễn giả có khả năng nhất là đang ở đâu?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) At a train station", "Dich": "(A) Tại một ga tàu" },
+			{ "TraLoi": "(B) At a movie theater", "Dich": "(B) Tại một rạp chiếu phim" },
+			{ "TraLoi": "(C) At a museum", "Dich": "(C) Tại một bảo tàng" },
+			{ "TraLoi": "(D) At a concert hall", "Dich": "(D) Tại một phòng hòa nhạc" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Họ nói về 'showing' (suất chiếu) và tên các bộ phim, giá vé."
+		},
+		{
+		  "ThuTu": 63,
+		  "ImageURL": "images/q63.jpg",
+		  "CauHoi": "Look at the graphic. What is the price of the item the man recommends?",
+		  "DichCauHoi": "Nhìn vào hình ảnh. Giá của món đồ mà người đàn ông giới thiệu là bao nhiêu?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) $12", "Dich": "(A) $12" },
+			{ "TraLoi": "(B) $15", "Dich": "(B) $15" },
+			{ "TraLoi": "(C) $18", "Dich": "(C) $18" },
+			{ "TraLoi": "(D) $20", "Dich": "(D) $20" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Người đàn ông giới thiệu phim 'City Lights' và nói giá là $15."
+		},
+		{
+		  "ThuTu": 64,
+		  "CauHoi": "What will the man most likely do next?",
+		  "DichCauHoi": "Người đàn ông có khả năng nhất sẽ làm gì tiếp theo?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Print a ticket", "Dich": "(A) In một chiếc vé" },
+			{ "TraLoi": "(B) Clean a theater", "Dich": "(B) Dọn dẹp rạp" },
+			{ "TraLoi": "(C) Change a movie poster", "Dich": "(C) Thay đổi áp phích phim" },
+			{ "TraLoi": "(D) Call a manager", "Dich": "(D) Gọi cho quản lý" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Vì người phụ nữ đồng ý mua vé phim 'City Lights', người đàn ông sẽ tiến hành in vé cho khách."
+		},
+		{
+		  "ThuTu": 65,
+		  "DoanVan": "M-Am: Welcome to the gallery. We’re very excited about our new exhibit featuring So-Jin Park’s oil paintings.\nW-Au: They’re beautiful. I’ve heard so much about her work. Is she here today?\nM-Am: Yes, she’s in the back giving a small talk about her piece 'A Careful Glance'. But unfortunately, we had to remove 'Stormy Sea' from the exhibit because it was damaged during shipping.\nW-Au: Oh, that’s a shame. I was really looking forward to seeing that one.",
+		  "CauHoi": "What type of art will be displayed in an exhibit?",
+		  "DichCauHoi": "Loại hình nghệ thuật nào sẽ được trưng bày trong một cuộc triển lãm?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Clay sculptures", "Dich": "(A) Tượng điêu khắc bằng đất sét" },
+			{ "TraLoi": "(B) Oil paintings", "Dich": "(B) Tranh sơn dầu" },
+			{ "TraLoi": "(C) Black-and-white photographs", "Dich": "(C) Ảnh đen trắng" },
+			{ "TraLoi": "(D) Pencil drawings", "Dich": "(D) Tranh vẽ chì" }
+		  ],
+		  "DapAn": "B",
+		  "GiaiThich": "Người đàn ông nói: 'featuring So-Jin Park’s oil paintings' (với các bức tranh sơn dầu của So-Jin Park)."
+		},
+		{
+		  "ThuTu": 66,
+		  "ImageURL": "images/q66.jpg",
+		  "CauHoi": "Look at the graphic. Which piece of artwork will no longer be included?",
+		  "DichCauHoi": "Nhìn vào hình ảnh. Tác phẩm nghệ thuật nào sẽ không còn được bao gồm?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) A Careful Glance", "Dich": "(A) A Careful Glance" },
+			{ "TraLoi": "(B) Promises", "Dich": "(B) Promises" },
+			{ "TraLoi": "(C) Stormy Sea", "Dich": "(C) Stormy Sea" },
+			{ "TraLoi": "(D) The Moment", "Dich": "(D) The Moment" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Người đàn ông nói họ phải loại bỏ 'Stormy Sea' vì nó bị hư hỏng."
+		},
+		{
+		  "ThuTu": 67,
+		  "CauHoi": "What does the woman say she will do right away?",
+		  "DichCauHoi": "Người phụ nữ nói cô ấy sẽ làm gì ngay lập tức?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Speak with an artist", "Dich": "(A) Nói chuyện với một nghệ sĩ" },
+			{ "TraLoi": "(B) Edit a recording", "Dich": "(B) Chỉnh sửa một bản ghi âm" },
+			{ "TraLoi": "(C) Clean a gallery space", "Dich": "(C) Dọn dẹp không gian trưng bày" },
+			{ "TraLoi": "(D) Greet some visitors", "Dich": "(D) Chào đón một số khách tham quan" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Người phụ nữ muốn nghe buổi nói chuyện của họa sĩ So-Jin Park nên cô ấy sẽ đi gặp nghệ sĩ."
+		},
+		{
+		  "ThuTu": 68,
+		  "DoanVan": "W-Am: Look at this map of the proposed wind farm locations. Site A in Clarksville seems like the best spot.\nM-Br: Actually, I think Site B in Winston is better. It has 60 turbines compared to Site A's 55.\nW-Am: You’re right. But Site D in Lanchester has the most turbines—70 in total. We should focus our resources there.\nM-Br: Good point. Let’s start preparing the environmental impact report for that location.",
+		  "CauHoi": "Who most likely are the speakers?",
+		  "DichCauHoi": "Các diễn giả có khả năng nhất là ai?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Environmental engineers", "Dich": "(A) Kỹ sư môi trường" },
+			{ "TraLoi": "(B) Real estate agents", "Dich": "(B) Đại lý bất động sản" },
+			{ "TraLoi": "(C) City planners", "Dich": "(C) Nhà quy hoạch thành phố" },
+			{ "TraLoi": "(D) Park rangers", "Dich": "(D) Nhân viên kiểm lâm" }
+		  ],
+		  "DapAn": "A",
+		  "GiaiThich": "Họ bàn về việc đặt tua-bin gió và làm báo cáo tác động môi trường (environmental impact report)."
+		},
+		{
+		  "ThuTu": 69,
+		  "ImageURL": "images/q69.jpg",
+		  "CauHoi": "Look at the graphic. Which site do the speakers agree to focus on?",
+		  "DichCauHoi": "Nhìn vào hình ảnh. Các diễn giả đồng ý tập trung vào địa điểm nào?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Site A", "Dich": "(A) Site A" },
+			{ "TraLoi": "(B) Site B", "Dich": "(B) Site B" },
+			{ "TraLoi": "(C) Site C", "Dich": "(C) Site C" },
+			{ "TraLoi": "(D) Site D", "Dich": "(D) Site D" }
+		  ],
+		  "DapAn": "D",
+		  "GiaiThich": "Họ chốt chọn Site D vì nó có nhiều tua-bin nhất (70 cái)."
+		},
+		{
+		  "ThuTu": 70,
+		  "CauHoi": "What will the speakers do next?",
+		  "DichCauHoi": "Các diễn giả sẽ làm gì tiếp theo?",
+		  "CauTraLoi": [
+			{ "TraLoi": "(A) Hire more staff", "Dich": "(A) Thuê thêm nhân viên" },
+			{ "TraLoi": "(B) Buy some equipment", "Dich": "(B) Mua một số thiết bị" },
+			{ "TraLoi": "(C) Prepare a report", "Dich": "(C) Chuẩn bị một báo cáo" },
+			{ "TraLoi": "(D) Visit a construction site", "Dich": "(D) Thăm một công trường xây dựng" }
+		  ],
+		  "DapAn": "C",
+		  "GiaiThich": "Người đàn ông nói: 'Let’s start preparing the environmental impact report' (Hãy bắt đầu chuẩn bị báo cáo tác động môi trường)."
+		}
+
+      ]
+    }
+  ]
+}
