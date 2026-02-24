@@ -1,360 +1,337 @@
+
 {
-  "TestName": "TOEIC 기출 TEST 01",
-  "Parts": [
-    {
-      "PartNumber": 2,
-      "Questions": [
-        {
-          "ThuTu": 7,
-          "CauHoi": "Where can I find the printer ink?",
-          "DichCauHoi": "Tôi có thể tìm mực máy in ở đâu?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) In the supply closet.", "Dich": "(A) Trong tủ đựng đồ dùng." },
-            { "TraLoi": "(B) About twenty pages.", "Dich": "(B) Khoảng hai mươi trang." },
-            { "TraLoi": "(C) I'll print it now.", "Dich": "(C) Tôi sẽ in nó ngay bây giờ." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi 'Where' (Ở đâu) tìm câu trả lời về địa điểm. 'In the supply closet' là nơi chốn phù hợp."
-        },
-        {
-          "ThuTu": 8,
-          "CauHoi": "Who's going to lead the training session?",
-          "DichCauHoi": "Ai sẽ là người dẫn dắt buổi đào tạo?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) I've been there before.", "Dich": "(A) Tôi đã từng ở đó trước đây." },
-            { "TraLoi": "(B) It starts at ten o'clock.", "Dich": "(B) Nó bắt đầu lúc mười giờ." },
-            { "TraLoi": "(C) David from the IT department.", "Dich": "(C) David từ bộ phận IT." }
-          ],
-          "DapAn": "C",
-          "GiaiThich": "Câu hỏi 'Who' (Ai) cần một tên người hoặc chức danh. 'David' là câu trả lời trực tiếp."
-        },
-        {
-          "ThuTu": 9,
-          "CauHoi": "When are the budget reports due?",
-          "DichCauHoi": "Khi nào thì đến hạn nộp báo cáo ngân sách?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) By the end of the week.", "Dich": "(A) Trước cuối tuần này." },
-            { "TraLoi": "(B) He's a great reporter.", "Dich": "(B) Anh ấy là một phóng viên giỏi." },
-            { "TraLoi": "(C) Yes, I reported it.", "Dich": "(C) Vâng, tôi đã báo cáo nó." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi 'When' (Khi nào) yêu cầu một mốc thời gian. 'By the end of the week' trả lời cho thời hạn."
-        },
-        {
-          "ThuTu": 10,
-          "CauHoi": "Should we take the stairs or the elevator?",
-          "DichCauHoi": "Chúng ta nên đi cầu thang bộ hay thang máy?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) On the third floor.", "Dich": "(A) Ở tầng ba." },
-            { "TraLoi": "(B) Let's take the elevator.", "Dich": "(B) Hãy đi thang máy đi." },
-            { "TraLoi": "(C) It's a heavy box.", "Dich": "(C) Đó là một cái hộp nặng." }
-          ],
-          "DapAn": "B",
-          "GiaiThich": "Câu hỏi lựa chọn (A or B). Đáp án (B) đưa ra quyết định chọn một trong hai phương án."
-        },
-        {
-          "ThuTu": 11,
-          "CauHoi": "How do I get to the conference center?",
-          "DichCauHoi": "Làm thế nào để tôi đến được trung tâm hội nghị?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Take the number five bus.", "Dich": "(A) Hãy bắt xe buýt số 5." },
-            { "TraLoi": "(B) It was a long meeting.", "Dich": "(B) Đó là một cuộc họp dài." },
-            { "TraLoi": "(C) I'm centralizing the files.", "Dich": "(C) Tôi đang tập trung hóa các hồ sơ." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi 'How' hỏi về cách thức/chỉ đường. 'Take the bus' là lời hướng dẫn di chuyển."
-        },
-        {
-          "ThuTu": 12,
-          "CauHoi": "Why is the cafeteria closed?",
-          "DichCauHoi": "Tại sao nhà ăn lại đóng cửa?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Near the entrance.", "Dich": "(A) Gần lối vào." },
-            { "TraLoi": "(B) Because it's being painted.", "Dich": "(B) Vì nó đang được sơn lại." },
-            { "TraLoi": "(C) At twelve thirty.", "Dich": "(C) Lúc mười hai giờ ba mươi." }
-          ],
-          "DapAn": "B",
-          "GiaiThich": "Câu hỏi 'Why' (Tại sao) yêu cầu lý do. 'Because' mở đầu cho một lời giải thích phù hợp."
-        },
-        {
-          "ThuTu": 13,
-          "CauHoi": "You're coming to the office party, aren't you?",
-          "DichCauHoi": "Bạn sẽ đến dự tiệc của văn phòng chứ, đúng không?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Yes, I'll be there.", "Dich": "(A) Có, tôi sẽ ở đó." },
-            { "TraLoi": "(B) It's a third-party contract.", "Dich": "(B) Đó là hợp đồng của bên thứ ba." },
-            { "TraLoi": "(C) I'll have a glass of water.", "Dich": "(C) Tôi sẽ uống một ly nước." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi đuôi dùng để xác nhận. 'Yes, I'll be there' là lời khẳng định tham dự."
-        },
-        {
-          "ThuTu": 14,
-          "CauHoi": "Could you help me move this desk?",
-          "DichCauHoi": "Bạn có thể giúp tôi di chuyển cái bàn này không?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) I'll move to a new apartment.", "Dich": "(A) Tôi sẽ chuyển đến căn hộ mới." },
-            { "TraLoi": "(B) Sure, where should we put it?", "Dich": "(B) Chắc chắn rồi, chúng ta nên đặt nó ở đâu?" },
-            { "TraLoi": "(C) The receptionist's desk.", "Dich": "(C) Bàn của lễ tân." }
-          ],
-          "DapAn": "B",
-          "GiaiThich": "Đây là một lời yêu cầu giúp đỡ. 'Sure' là sự đồng ý giúp đỡ kèm theo câu hỏi tiếp theo."
-        },
-        {
-          "ThuTu": 15,
-          "CauHoi": "Has the mail been delivered yet?",
-          "DichCauHoi": "Thư đã được giao chưa?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Not yet, it usually comes later.", "Dich": "(A) Chưa đâu, thường thì nó đến muộn hơn." },
-            { "TraLoi": "(B) I'll mail it today.", "Dich": "(B) Tôi sẽ gửi thư vào hôm nay." },
-            { "TraLoi": "(C) A collection of stamps.", "Dich": "(C) Một bộ sưu tập tem." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi Yes/No xác nhận trạng thái. 'Not yet' là câu trả lời trực tiếp cho hành động giao thư."
-        },
-        {
-          "ThuTu": 16,
-          "CauHoi": "Who should I call to fix the air conditioner?",
-          "DichCauHoi": "Tôi nên gọi ai để sửa máy điều hòa?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) It's very cold in here.", "Dich": "(A) Ở đây rất lạnh." },
-            { "TraLoi": "(B) Call the maintenance office.", "Dich": "(B) Hãy gọi cho văn phòng bảo trì." },
-            { "TraLoi": "(C) I've already fixed it.", "Dich": "(C) Tôi đã sửa nó rồi." }
-          ],
-          "DapAn": "B",
-          "GiaiThich": "Câu hỏi 'Who' hỏi về đối tượng. 'Maintenance office' (văn phòng bảo trì) là đơn vị chịu trách nhiệm sửa chữa."
-        },
-        {
-          "ThuTu": 17,
-          "CauHoi": "Which color do you prefer for the brochures?",
-          "DichCauHoi": "Bạn thích màu nào hơn cho cuốn tài liệu quảng cáo?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) The blue one looks professional.", "Dich": "(A) Màu xanh dương trông chuyên nghiệp đấy." },
-            { "TraLoi": "(B) I prefer to walk.", "Dich": "(B) Tôi thích đi bộ hơn." },
-            { "TraLoi": "(C) About five hundred copies.", "Dich": "(C) Khoảng năm trăm bản sao." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi 'Which' yêu cầu lựa chọn. 'The blue one' xác định màu sắc cụ thể được chọn."
-        },
-        {
-          "ThuTu": 18,
-          "CauHoi": "The train leaves at six, doesn't it?",
-          "DichCauHoi": "Chuyến tàu rời đi lúc sáu giờ, đúng không?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) No, it's actually six thirty.", "Dich": "(A) Không, thực tế là sáu giờ ba mươi." },
-            { "TraLoi": "(B) Yes, I'll train the staff.", "Dich": "(B) Vâng, tôi sẽ đào tạo nhân viên." },
-            { "TraLoi": "(C) At the ticket counter.", "Dich": "(C) Tại quầy bán vé." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Câu hỏi xác nhận thời gian. 'No' để đính chính lại thông tin giờ giấc chính xác."
-        },
-        {
-          "ThuTu": 19,
-          "CauHoi": "How many people are attending the workshop?",
-          "DichCauHoi": "Có bao nhiêu người tham dự buổi hội thảo?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) In the main ballroom.", "Dich": "(A) Ở sảnh tiệc chính." },
-            { "TraLoi": "(B) At least fifty.", "Dich": "(B) Ít nhất là năm mươi người." },
-            { "TraLoi": "(C) She's attending a meeting.", "Dich": "(C) Cô ấy đang dự một cuộc họp." }
-          ],
-          "DapAn": "B",
-          "GiaiThich": "Câu hỏi 'How many' yêu cầu một con số. 'At least fifty' cung cấp thông tin về số lượng."
-        },
-        {
-          "ThuTu": 20,
-          "CauHoi": "Would you like me to proofread that document?",
-          "DichCauHoi": "Bạn có muốn tôi đọc soát lại tài liệu đó không?",
-          "ImageURL": "",
-          "AudioURL": "audio/PART 2 - TEST 1.mp3",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Yes, that would be helpful.", "Dich": "(A) Vâng, điều đó sẽ rất hữu ích." },
-            { "TraLoi": "(B) No, it's not a documentary.", "Dich": "(B) Không, nó không phải phim tài liệu." },
-            { "TraLoi": "(C) I read it last night.", "Dich": "(C) Tôi đã đọc nó đêm qua." }
-          ],
-          "DapAn": "A",
-          "GiaiThich": "Đây là một lời đề nghị giúp đỡ. 'Yes, that would be helpful' là cách đồng ý lịch sự."
-        },
-		{
-		  "ThuTu": 21,
-		  "CauHoi": "Why hasn't the shipment arrived yet?",
-		  "DichCauHoi": "Tại sao chuyến hàng vẫn chưa đến?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) It was delayed due to bad weather.", "Dich": "(A) Nó bị trì hoãn do thời tiết xấu." },
-			{ "TraLoi": "(B) At the shipping docks.", "Dich": "(B) Tại bến tàu vận chuyển." },
-			{ "TraLoi": "(C) Yes, it's a large ship.", "Dich": "(C) Vâng, đó là một con tàu lớn." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'Why' yêu cầu lý do. Đáp án (A) đưa ra nguyên nhân khách quan là thời tiết."
-		},
-		{
-		  "ThuTu": 22,
-		  "CauHoi": "Where should I put these extra chairs?",
-		  "DichCauHoi": "Tôi nên để những chiếc ghế thừa này ở đâu?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) Please leave them in the hallway.", "Dich": "(A) Vui lòng để chúng ở hành lang." },
-			{ "TraLoi": "(B) No, I don't need a chair.", "Dich": "(B) Không, tôi không cần ghế." },
-			{ "TraLoi": "(C) The meeting was canceled.", "Dich": "(C) Cuộc họp đã bị hủy." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'Where' yêu cầu địa điểm. 'In the hallway' là nơi chốn cụ thể để đặt đồ."
-		},
-		{
-		  "ThuTu": 23,
-		  "CauHoi": "Could you tell me how to get to the post office?",
-		  "DichCauHoi": "Bạn có thể chỉ cho tôi đường đến bưu điện không?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) It's just around the corner.", "Dich": "(A) Nó ngay ở góc phố thôi." },
-			{ "TraLoi": "(B) Ten stamps, please.", "Dich": "(B) Vui lòng cho mười con tem." },
-			{ "TraLoi": "(C) I'll post it tomorrow.", "Dich": "(C) Tôi sẽ gửi nó vào ngày mai." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi chỉ đường. 'Just around the corner' là cách nói thông dụng để chỉ một địa điểm rất gần."
-		},
-		{
-		  "ThuTu": 24,
-		  "CauHoi": "The new software is easy to use, isn't it?",
-		  "DichCauHoi": "Phần mềm mới dễ sử dụng, đúng không?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) Yes, much better than the old one.", "Dich": "(A) Đúng vậy, tốt hơn nhiều so với cái cũ." },
-			{ "TraLoi": "(B) I installed it yesterday.", "Dich": "(B) Tôi đã cài đặt nó ngày hôm qua." },
-			{ "TraLoi": "(C) No, I don't use it.", "Dich": "(C) Không, tôi không dùng nó." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi xác nhận ý kiến. Đáp án (A) đồng tình và so sánh thêm với phiên bản cũ."
-		},
-		{
-		  "ThuTu": 25,
-		  "CauHoi": "Who's in charge of organizing the staff retreat?",
-		  "DichCauHoi": "Ai chịu trách nhiệm tổ chức chuyến đi nghỉ dưỡng của nhân viên?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) I think it's Sarah from HR.", "Dich": "(A) Tôi nghĩ đó là Sarah từ phòng nhân sự." },
-			{ "TraLoi": "(B) We're going to the beach.", "Dich": "(B) Chúng tôi sẽ đi ra bãi biển." },
-			{ "TraLoi": "(C) At the beginning of June.", "Dich": "(C) Vào đầu tháng Sáu." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'Who' hỏi về người chịu trách nhiệm. Đáp án (A) nêu đích danh một nhân sự cụ thể."
-		},
-		{
-		  "ThuTu": 26,
-		  "CauHoi": "When is the deadline for the project proposal?",
-		  "DichCauHoi": "Khi nào là hạn chót cho đề xuất dự án?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) It's due by 5 PM today.", "Dich": "(A) Nó phải nộp trước 5 giờ chiều nay." },
-			{ "TraLoi": "(B) I'm still working on the proposal.", "Dich": "(B) Tôi vẫn đang thực hiện đề xuất." },
-			{ "TraLoi": "(C) Yes, it's a great project.", "Dich": "(C) Vâng, đó là một dự án tuyệt vời." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'When' yêu cầu mốc thời gian cụ thể. Đáp án (A) trả lời trực tiếp thời hạn nộp."
-		},
-		{
-		  "ThuTu": 27,
-		  "CauHoi": "Do you want to eat out or stay in for dinner?",
-		  "DichCauHoi": "Bạn muốn đi ăn ngoài hay ở nhà ăn tối?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) I'd prefer to order some pizza.", "Dich": "(A) Tôi muốn gọi một ít bánh pizza hơn (ăn ở nhà)." },
-			{ "TraLoi": "(B) The restaurant is nearby.", "Dich": "(B) Nhà hàng ở gần đây." },
-			{ "TraLoi": "(C) No, I haven't eaten yet.", "Dich": "(C) Chưa, tôi vẫn chưa ăn." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi lựa chọn. Đáp án (A) chọn phương án ở nhà bằng cách đề xuất gọi pizza."
-		},
-		{
-		  "ThuTu": 28,
-		  "CauHoi": "How was the international trade fair?",
-		  "DichCauHoi": "Hội chợ thương mại quốc tế đã như thế nào?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) It was very productive for us.", "Dich": "(A) Nó đã rất hiệu quả đối với chúng tôi." },
-			{ "TraLoi": "(B) I'll be there next year.", "Dich": "(B) Tôi sẽ ở đó vào năm tới." },
-			{ "TraLoi": "(C) By train, usually.", "Dich": "(C) Thường là bằng tàu hỏa." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'How' hỏi về cảm nhận/kết quả. 'Productive' (hiệu quả) là tính từ mô tả kết quả sự kiện."
-		},
-		{
-		  "ThuTu": 29,
-		  "CauHoi": "The manager won't be back until Monday, will she?",
-		  "DichCauHoi": "Quản lý sẽ không quay lại cho đến thứ Hai, đúng không?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) No, she's away at a conference.", "Dich": "(A) Đúng vậy (Không quay lại), cô ấy đang đi dự hội nghị." },
-			{ "TraLoi": "(B) Yes, on the desk.", "Dich": "(B) Vâng, trên bàn làm việc." },
-			{ "TraLoi": "(C) Monday morning is fine.", "Dich": "(C) Sáng thứ Hai là ổn." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi xác nhận. Đáp án (A) xác nhận việc quản lý vắng mặt và đưa ra lý do cụ thể."
-		},
-		{
-		  "ThuTu": 30,
-		  "CauHoi": "Would you mind closing the window?",
-		  "DichCauHoi": "Bạn có phiền đóng cửa sổ lại không?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) Not at all, I'll do it now.", "Dich": "(A) Không phiền chút nào, tôi sẽ làm ngay." },
-			{ "TraLoi": "(B) It's a wooden window.", "Dich": "(B) Đó là một cửa sổ bằng gỗ." },
-			{ "TraLoi": "(C) Yes, it's very windy.", "Dich": "(C) Vâng, trời rất nhiều gió." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi nhờ vả 'Would you mind'. Đáp án 'Not at all' là cách trả lời lịch sự để đồng ý giúp đỡ."
-		},
-		{
-		  "ThuTu": 31,
-		  "CauHoi": "Whose turn is it to lead the weekly meeting?",
-		  "DichCauHoi": "Đến lượt ai dẫn dắt cuộc họp hàng tuần?",
-		  "ImageURL": "",
-		  "AudioURL": "audio/PART 2 - TEST 1.mp3",
-		  "CauTraLoi": [
-			{ "TraLoi": "(A) I believe it's Mark's turn.", "Dich": "(A) Tôi tin rằng đó là lượt của Mark." },
-			{ "TraLoi": "(B) In the large boardroom.", "Dich": "(B) Trong phòng họp lớn." },
-			{ "TraLoi": "(C) Every Tuesday morning.", "Dich": "(C) Vào mỗi sáng thứ Ba." }
-		  ],
-		  "DapAn": "A",
-		  "GiaiThich": "Câu hỏi 'Whose' (Của ai) yêu cầu xác định người thực hiện. Đáp án (A) chỉ định Mark."
-		}
-      ]
-    }
-  ]
+"TestName": "TOEIC TEST 01",
+"Parts": [
+{
+"PartNumber": 2,
+"AudioURL": "audio/part2.mp3",
+"Questions": [
+{
+"ThuTu": 7,
+"DoanVan": "M: How old is this building?\nW: (A) To ship some materials. (B) About 10 years old. (C) Company offices, I think.",
+"CauHoi": "How old is this building?",
+"DichCauHoi": "Tòa nhà này bao nhiêu tuổi rồi?",
+"CauTraLoi": [
+{ "TraLoi": "(A) To ship some materials", "Dich": "(A) Để vận chuyển một số vật liệu" },
+{ "TraLoi": "(B) About 10 years old", "Dich": "(B) Khoảng 10 năm tuổi" },
+{ "TraLoi": "(C) Company offices, I think", "Dich": "(C) Tôi nghĩ là văn phòng công ty" }
+],
+"DapAn": "B",
+"GiaiThich": "Câu hỏi 'How old' dùng để hỏi tuổi thọ hoặc thời gian, đáp án (B) cung cấp số năm cụ thể."
+},
+{
+"ThuTu": 8,
+"DoanVan": "W: Can you come to my jazz performance tonight?\nM: (A) I'm sorry I was late for the meeting. (B) Mostly just local musicians. (C) Sure, I'll be there.",
+"CauHoi": "Can you come to my jazz performance tonight?",
+"DichCauHoi": "Bạn có thể đến buổi biểu diễn nhạc jazz của tôi tối nay không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) I'm sorry I was late for the meeting", "Dich": "(A) Tôi xin lỗi vì đã đến muộn cuộc họp" },
+{ "TraLoi": "(B) Mostly just local musicians", "Dich": "(B) Chủ yếu chỉ là các nhạc sĩ địa phương" },
+{ "TraLoi": "(C) Sure, I'll be there", "Dich": "(C) Chắc chắn rồi, tôi sẽ có mặt ở đó" }
+],
+"DapAn": "C",
+"GiaiThich": "Đây là một lời mời, (C) là cách trả lời chấp nhận lời mời trực tiếp."
+},
+{
+"ThuTu": 9,
+"DoanVan": "M: Which apartment submitted a work order?\nW: (A) It's what you did for a living. (B) Submit your assignment here. (C) It came from the tenants in B23.",
+"CauHoi": "Which apartment submitted a work order?",
+"DichCauHoi": "Căn hộ nào đã gửi yêu cầu sửa chữa?",
+"CauTraLoi": [
+{ "TraLoi": "(A) It's what you did for a living", "Dich": "(A) Đó là những gì bạn làm để kiếm sống" },
+{ "TraLoi": "(B) Submit your assignment here", "Dich": "(B) Nộp bài tập của bạn ở đây" },
+{ "TraLoi": "(C) It came from the tenants in B23", "Dich": "(C) Nó đến từ những người thuê nhà ở phòng B23" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'Which apartment' yêu cầu xác định căn hộ cụ thể, (C) trả lời chính xác số phòng."
+},
+{
+"ThuTu": 10,
+"DoanVan": "M: Will you contact the vendor about changing our delivery date?\nW: (A) Of course, I'll take care of it. (B) An email receipt. (C) Could I get change for $1?",
+"CauHoi": "Will you contact the vendor about changing our delivery date?",
+"DichCauHoi": "Bạn sẽ liên hệ với nhà cung cấp về việc thay đổi ngày giao hàng chứ?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Of course, I'll take care of it", "Dich": "(A) Tất nhiên rồi, tôi sẽ lo việc đó" },
+{ "TraLoi": "(B) An email receipt", "Dich": "(B) Một biên lai email" },
+{ "TraLoi": "(C) Could I get change for $1?", "Dich": "(C) Tôi có thể đổi 1 đô la tiền lẻ không?" }
+],
+"DapAn": "A",
+"GiaiThich": "Đây là lời yêu cầu giúp đỡ, (A) là câu trả lời xác nhận sẽ thực hiện công việc."
+},
+{
+"ThuTu": 11,
+"DoanVan": "M: Why was the maintenance worker here?\nW: (A) No, he didn't. (B) From three o'clock until 4. (C) Because a light needed to be fixed.",
+"CauHoi": "Why was the maintenance worker here?",
+"DichCauHoi": "Tại sao nhân viên bảo trì lại ở đây?",
+"CauTraLoi": [
+{ "TraLoi": "(A) No, he didn't", "Dich": "(A) Không, anh ấy không làm" },
+{ "TraLoi": "(B) From three o'clock until 4", "Dich": "(B) Từ 3 giờ đến 4 giờ" },
+{ "TraLoi": "(C) Because a light needed to be fixed", "Dich": "(C) Bởi vì một chiếc đèn cần được sửa" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'Why' hỏi lý do, (C) giải thích mục đích của nhân viên bảo trì."
+},
+{
+"ThuTu": 12,
+"DoanVan": "M: Did management make a hiring decision yet?\nW: (A) Put it on the highest shelf. (B) The personnel department. (C) Yes, they chose Jacob Borgman.",
+"CauHoi": "Did management make a hiring decision yet?",
+"DichCauHoi": "Ban quản lý đã đưa ra quyết định tuyển dụng chưa?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Put it on the highest shelf", "Dich": "(A) Đặt nó lên kệ cao nhất" },
+{ "TraLoi": "(B) The personnel department", "Dich": "(B) Phòng nhân sự" },
+{ "TraLoi": "(C) Yes, they chose Jacob Borgman", "Dich": "(C) Rồi, họ đã chọn Jacob Borgman" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi Yes/No, (C) xác nhận đã có quyết định và nêu tên người được chọn."
+},
+{
+"ThuTu": 13,
+"DoanVan": "M: Do you want to eat here in our cafeteria or go out?\nW: (A) He went there yesterday. (B) Well, maybe a sandwich. (C) Let's eat here.",
+"CauHoi": "Do you want to eat here in our cafeteria or go out?",
+"DichCauHoi": "Bạn muốn ăn ở căng tin hay đi ra ngoài?",
+"CauTraLoi": [
+{ "TraLoi": "(A) He went there yesterday", "Dich": "(A) Anh ấy đã đến đó hôm qua" },
+{ "TraLoi": "(B) Well, maybe a sandwich", "Dich": "(B) Chà, có lẽ là một cái bánh mì kẹp" },
+{ "TraLoi": "(C) Let's eat here", "Dich": "(C) Hãy ăn ở đây đi" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi lựa chọn, (C) đưa ra quyết định chọn ăn tại căng tin."
+},
+{
+"ThuTu": 14,
+"DoanVan": "M: Didn't you email the employment contract to Mr. Patel yesterday?\nW: (A) Yes, I would agree. (B) No, I'll send it now. (C) Check the employee manual.",
+"CauHoi": "Didn't you email the employment contract to Mr. Patel yesterday?",
+"DichCauHoi": "Bạn đã không gửi email hợp đồng lao động cho ông Patel hôm qua sao?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Yes, I would agree", "Dich": "(A) Vâng, tôi đồng ý" },
+{ "TraLoi": "(B) No, I'll send it now", "Dich": "(B) Chưa, tôi sẽ gửi nó ngay bây giờ" },
+{ "TraLoi": "(C) Check the employee manual", "Dich": "(C) Kiểm tra sổ tay nhân viên" }
+],
+"DapAn": "B",
+"GiaiThich": "Câu hỏi xác nhận hành động trong quá khứ, (B) thừa nhận chưa gửi và sẽ gửi ngay."
+},
+{
+"ThuTu": 15,
+"DoanVan": "M: Our Division's picnic is this Saturday, right?\nW: (A) There's a lot of rain in the forecast. (B) Sure I like salad. (C) At the end of this corridor.",
+"CauHoi": "Our Division's picnic is this Saturday, right?",
+"DichCauHoi": "Buổi dã ngoại của bộ phận chúng ta là vào thứ Bảy này, đúng không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) There's a lot of rain in the forecast", "Dich": "(A) Dự báo thời tiết có rất nhiều mưa" },
+{ "TraLoi": "(B) Sure I like salad", "Dich": "(B) Chắc chắn rồi, tôi thích salad" },
+{ "TraLoi": "(C) At the end of this corridor", "Dich": "(C) Ở cuối hành lang này" }
+],
+"DapAn": "A",
+"GiaiThich": "Đây là câu hỏi xác nhận thông tin, (A) đưa ra một lo ngại về thời tiết ảnh hưởng đến buổi dã ngoại."
+},
+{
+"ThuTu": 16,
+"DoanVan": "M: Would you like coffee or tea?\nW: (A) Just water, please. (B) For a few dollars more. (C) A 15 minute break.",
+"CauHoi": "Would you like coffee or tea?",
+"DichCauHoi": "Bạn muốn uống cà phê hay trà?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Just water, please", "Dich": "(A) Chỉ nước lọc thôi, làm ơn" },
+{ "TraLoi": "(B) For a few dollars more", "Dich": "(B) Thêm vài đô la nữa" },
+{ "TraLoi": "(C) A 15 minute break", "Dich": "(C) Một buổi nghỉ giải lao 15 phút" }
+],
+"DapAn": "A",
+"GiaiThich": "Câu hỏi lựa chọn đồ uống, (A) đưa ra một lựa chọn khác thay vì trà hoặc cà phê."
+},
+{
+"ThuTu": 17,
+"DoanVan": "W: We achieved our sales targets this month.\nM: (A) That's excellent news. (B) A few times a day. (C) To the end of April.",
+"CauHoi": "We achieved our sales targets this month.",
+"DichCauHoi": "Chúng ta đã đạt được mục tiêu doanh số bán hàng trong tháng này.",
+"CauTraLoi": [
+{ "TraLoi": "(A) That's excellent news", "Dich": "(A) Đó là tin tuyệt vời" },
+{ "TraLoi": "(B) A few times a day", "Dich": "(B) Một vài lần một ngày" },
+{ "TraLoi": "(C) To the end of April", "Dich": "(C) Đến cuối tháng Tư" }
+],
+"DapAn": "A",
+"GiaiThich": "Đây là một câu thông báo tích cực, (A) là câu phản hồi phù hợp để chúc mừng."
+},
+{
+"ThuTu": 18,
+"DoanVan": "M: How often do you travel for your job?\nW: (A) It turned out well. (B) Yes, I did find one. (C) About once a month.",
+"CauHoi": "How often do you travel for your job?",
+"DichCauHoi": "Bạn có thường xuyên đi công tác vì công việc không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) It turned out well", "Dich": "(A) Nó đã diễn ra tốt đẹp" },
+{ "TraLoi": "(B) Yes, I did find one", "Dich": "(B) Vâng, tôi đã tìm thấy một cái" },
+{ "TraLoi": "(C) About once a month", "Dich": "(C) Khoảng một lần một tháng" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'How often' hỏi về tần suất, (C) cung cấp tần suất cụ thể."
+},
+{
+"ThuTu": 19,
+"DoanVan": "W: We should hike the Wildflower trail today.\nM: (A) This seat is available. (B) I didn't bring boots. (C) At the visitors center.",
+"CauHoi": "We should hike the Wildflower trail today.",
+"DichCauHoi": "Chúng ta nên đi bộ đường dài trên con đường Wildflower hôm nay.",
+"CauTraLoi": [
+{ "TraLoi": "(A) This seat is available", "Dich": "(A) Ghế này còn trống" },
+{ "TraLoi": "(B) I didn't bring boots", "Dich": "(B) Tôi đã không mang theo ủng" },
+{ "TraLoi": "(C) At the visitors center", "Dich": "(C) Tại trung tâm du khách" }
+],
+"DapAn": "B",
+"GiaiThich": "Đây là một lời đề nghị, (B) đưa ra lý do tại sao không thể tham gia."
+},
+{
+"ThuTu": 20,
+"DoanVan": "M: You've booked a hotel in London, haven't you?\nW: (A) Very enjoyable thanks. (B) He usually takes the train. (C) Yes, I made a reservation last week.",
+"CauHoi": "You've booked a hotel in London, haven't you?",
+"DichCauHoi": "Bạn đã đặt khách sạn ở Luân Đôn rồi, đúng không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Very enjoyable thanks", "Dich": "(A) Rất thú vị, cảm ơn" },
+{ "TraLoi": "(B) He usually takes the train", "Dich": "(B) Anh ấy thường đi tàu hỏa" },
+{ "TraLoi": "(C) Yes, I made a reservation last week", "Dich": "(C) Vâng, tôi đã đặt chỗ vào tuần trước" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi đuôi xác nhận thông tin, (C) xác nhận việc đã đặt chỗ."
+},
+{
+"ThuTu": 21,
+"DoanVan": "W: Are there any tickets left for tonight's concert?\nM: (A) It's sold out. (B) He's a concert violinist. (C) They already left.",
+"CauHoi": "Are there any tickets left for tonight's concert?",
+"DichCauHoi": "Còn vé cho buổi hòa nhạc tối nay không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) It's sold out", "Dich": "(A) Nó đã bán hết vé" },
+{ "TraLoi": "(B) He's a concert violinist", "Dich": "(B) Anh ấy là nghệ sĩ vĩ cầm" },
+{ "TraLoi": "(C) They already left", "Dich": "(C) Họ đã đi rồi" }
+],
+"DapAn": "A",
+"GiaiThich": "Câu hỏi về sự tồn tại của vé, (A) trả lời về tình trạng vé đã hết."
+},
+{
+"ThuTu": 22,
+"DoanVan": "M: Haven't you used this software before?\nW: (A) Can I take your order? (B) I haven't had the chance. (C) About $40.",
+"CauHoi": "Haven't you used this software before?",
+"DichCauHoi": "Bạn chưa từng sử dụng phần mềm này trước đây sao?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Can I take your order?", "Dich": "(A) Tôi có thể lấy món của bạn không?" },
+{ "TraLoi": "(B) I haven't had the chance", "Dich": "(B) Tôi chưa có cơ hội đó" },
+{ "TraLoi": "(C) About $40", "Dich": "(C) Khoảng 40 đô la" }
+],
+"DapAn": "B",
+"GiaiThich": "Câu hỏi phủ định về kinh nghiệm sử dụng, (B) giải thích lý do chưa từng dùng."
+},
+{
+"ThuTu": 23,
+"DoanVan": "M: When is the new blender going to be released?\nW: (A) Only with fruits and vegetables. (B) In the kitchen cabinet. (C) The prototype is still being tested.",
+"CauHoi": "When is the new blender going to be released?",
+"DichCauHoi": "Khi nào máy xay sinh tố mới sẽ được ra mắt?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Only with fruits and vegetables", "Dich": "(A) Chỉ với trái cây và rau củ" },
+{ "TraLoi": "(B) In the kitchen cabinet", "Dich": "(B) Trong tủ bếp" },
+{ "TraLoi": "(C) The prototype is still being tested", "Dich": "(C) Nguyên mẫu vẫn đang được thử nghiệm" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'When' hỏi thời gian, (C) gián tiếp trả lời là chưa có thời gian cụ thể vì đang thử nghiệm."
+},
+{
+"ThuTu": 24,
+"DoanVan": "M: Who's picking up our clients at the airport?\nW: (A) They decided to drive. (B) At Terminal 2. (C) It's a marketing position.",
+"CauHoi": "Who's picking up our clients at the airport?",
+"DichCauHoi": "Ai sẽ đón khách hàng của chúng ta tại sân bay?",
+"CauTraLoi": [
+{ "TraLoi": "(A) They decided to drive", "Dich": "(A) Họ đã quyết định tự lái xe" },
+{ "TraLoi": "(B) At Terminal 2", "Dich": "(B) Tại nhà ga số 2" },
+{ "TraLoi": "(C) It's a marketing position", "Dich": "(C) Đó là một vị trí tiếp thị" }
+],
+"DapAn": "A",
+"GiaiThich": "Câu hỏi 'Who' hỏi về người đón, (A) giải thích rằng không cần ai đón vì khách tự đi."
+},
+{
+"ThuTu": 25,
+"DoanVan": "M: Where are the red roses that came in this morning?\nW: (A) About three liters of water. (B) No, I didn't check out the sale. (C) I needed some for a large bouquet.",
+"CauHoi": "Where are the red roses that came in this morning?",
+"DichCauHoi": "Những bông hồng đỏ về sáng nay đâu rồi?",
+"CauTraLoi": [
+{ "TraLoi": "(A) About three liters of water", "Dich": "(A) Khoảng 3 lít nước" },
+{ "TraLoi": "(B) No, I didn't check out the sale", "Dich": "(B) Không, tôi không kiểm tra đợt giảm giá" },
+{ "TraLoi": "(C) I needed some for a large bouquet", "Dich": "(C) Tôi cần một ít cho một bó hoa lớn" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'Where' hỏi vị trí, (C) gián tiếp trả lời rằng chúng đã được lấy đi để làm bó hoa."
+},
+{
+"ThuTu": 26,
+"DoanVan": "M: This film has been nominated for several awards.\nW: (A) Why don't we go see it? (B) After the announcement. (C) He made a great speech.",
+"CauHoi": "This film has been nominated for several awards.",
+"DichCauHoi": "Bộ phim này đã được đề cử cho một vài giải thưởng.",
+"CauTraLoi": [
+{ "TraLoi": "(A) Why don't we go see it?", "Dich": "(A) Tại sao chúng ta không đi xem nó nhỉ?" },
+{ "TraLoi": "(B) After the announcement", "Dich": "(B) Sau thông báo" },
+{ "TraLoi": "(C) He made a great speech", "Dich": "(C) Anh ấy đã có một bài phát biểu tuyệt vời" }
+],
+"DapAn": "A",
+"GiaiThich": "Đây là một câu thông báo, (A) đưa ra một gợi ý hợp lý dựa trên nội dung câu nói."
+},
+{
+"ThuTu": 27,
+"DoanVan": "M: Who's interested in starting a carpool program?\nW: (A) Thanks. But I can't swim. (B) Clara's already organizing one. (C) It's a very interesting article.",
+"CauHoi": "Who's interested in starting a carpool program?",
+"DichCauHoi": "Ai quan tâm đến việc bắt đầu chương trình đi chung xe?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Thanks. But I can't swim", "Dich": "(A) Cảm ơn. Nhưng tôi không biết bơi" },
+{ "TraLoi": "(B) Clara's already organizing one", "Dich": "(B) Clara đang tổ chức một cái rồi" },
+{ "TraLoi": "(C) It's a very interesting article", "Dich": "(C) Nó là một bài báo rất thú vị" }
+],
+"DapAn": "B",
+"GiaiThich": "Câu hỏi 'Who' hỏi về người, (B) chỉ ra một người cụ thể đang thực hiện việc đó."
+},
+{
+"ThuTu": 28,
+"DoanVan": "M: Where will I teach my workshop this month?\nW: (A) We just sent an email to all instructors. (B) 5 to seven months. (C) Yes, it's a beautiful building.",
+"CauHoi": "Where will I teach my workshop this month?",
+"DichCauHoi": "Tháng này tôi sẽ dạy buổi hội thảo của mình ở đâu?",
+"CauTraLoi": [
+{ "TraLoi": "(A) We just sent an email to all instructors", "Dich": "(A) Chúng tôi vừa gửi email cho tất cả các giảng viên" },
+{ "TraLoi": "(B) 5 to seven months", "Dich": "(B) 5 đến 7 tháng" },
+{ "TraLoi": "(C) Yes, it's a beautiful building", "Dich": "(C) Vâng, đó là một tòa nhà đẹp" }
+],
+"DapAn": "A",
+"GiaiThich": "Câu hỏi 'Where' hỏi địa điểm, (A) chỉ ra rằng thông tin đã được gửi qua email."
+},
+{
+"ThuTu": 29,
+"DoanVan": "M: Why are we moving these sweaters to the back of the store?\nW: (A) In the new shopping mall? (B) Yes, they come in other colors. (C) Our spring merchandise is arriving soon.",
+"CauHoi": "Why are we moving these sweaters to the back of the store?",
+"DichCauHoi": "Tại sao chúng ta lại chuyển những chiếc áo len này ra sau cửa hàng?",
+"CauTraLoi": [
+{ "TraLoi": "(A) In the new shopping mall?", "Dich": "(A) Trong trung tâm mua sắm mới?" },
+{ "TraLoi": "(B) Yes, they come in other colors", "Dich": "(B) Vâng, chúng có các màu khác" },
+{ "TraLoi": "(C) Our spring merchandise is arriving soon", "Dich": "(C) Hàng mùa xuân của chúng ta sắp về rồi" }
+],
+"DapAn": "C",
+"GiaiThich": "Câu hỏi 'Why' hỏi lý do, (C) giải thích việc dọn chỗ cho hàng hóa mới."
+},
+{
+"ThuTu": 30,
+"DoanVan": "W: Would you be interested in working on some of these contracts?\nM: (A) Thank you for meeting me. (B) A contact lens prescription. (C) I have very limited time.",
+"CauHoi": "Would you be interested in working on some of these contracts?",
+"DichCauHoi": "Bạn có hứng thú làm việc với một số hợp đồng này không?",
+"CauTraLoi": [
+{ "TraLoi": "(A) Thank you for meeting me", "Dich": "(A) Cảm ơn bạn đã gặp tôi" },
+{ "TraLoi": "(B) A contact lens prescription", "Dich": "(B) Đơn thuốc kính áp tròng" },
+{ "TraLoi": "(C) I have very limited time", "Dich": "(C) Tôi có rất ít thời gian" }
+],
+"DapAn": "C",
+"GiaiThich": "Đây là lời mời cộng tác, (C) là lời từ chối khéo léo vì lý do bận rộn."
+},
+{
+"ThuTu": 31,
+"DoanVan": "M: What type of job are you looking for?\nW: (A) No, at 10am. (B) I really like working with computers. (C) Just a resume is needed.",
+"CauHoi": "What type of job are you looking for?",
+"DichCauHoi": "Bạn đang tìm kiếm loại công việc nào?",
+"CauTraLoi": [
+{ "TraLoi": "(A) No, at 10am", "Dich": "(A) Không, lúc 10 giờ sáng" },
+{ "TraLoi": "(B) I really like working with computers", "Dich": "(B) Tôi rất thích làm việc với máy tính" },
+{ "TraLoi": "(C) Just a resume is needed", "Dich": "(C) Chỉ cần một bản sơ yếu lý lịch" }
+],
+"DapAn": "B",
+"GiaiThich": "Câu hỏi về loại công việc, (B) trả lời về sở thích lĩnh vực công việc (máy tính)."
+}
+]
+}
+]
 }
