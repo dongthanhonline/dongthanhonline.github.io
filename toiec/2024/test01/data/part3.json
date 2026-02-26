@@ -7,7 +7,7 @@
       "Questions": [
         {
           "ThuTu": 32,
-          [span_0](start_span)"DoanVan": "W-Am: Thank you so much for organizing the annual company picnic Jingdao. Everybody seemed to enjoy it.[span_0](end_span)\nM-Cn: Well, we deserved it. After working so hard this year.\nW-Am: I agree. The food was great, by the way, especially the peach pie you made. Would you mind sharing the recipe? [span_1](start_span)It was delicious.[span_1](end_span)\nM-Cn: I found the recipe online, I'll send you a link to the web page. There's a really helpful video that walks you through all the steps. [span_2](start_span)I recommend you watch it first.[span_2](end_span)[span_3](start_span)\nW-Am: All right, thanks.[span_3](end_span)",
+          "DoanVan": "W-Am: Thank you so much for organizing the annual company picnic Jingdao. Everybody seemed to enjoy it.\nM-Cn: Well, we deserved it. After working so hard this year.\nW-Am: I agree. The food was great, by the way, especially the peach pie you made. Would you mind sharing the recipe? It was delicious.\nM-Cn: I found the recipe online, I'll send you a link to the web page. There's a really helpful video that walks you through all the steps. I recommend you watch it first.\nW-Am: All right, thanks.",
           "CauHoi": "What event does the woman mention?",
           "DichCauHoi": "Người phụ nữ đề cập đến sự kiện nào?",
           "CauTraLoi": [
@@ -17,7 +17,7 @@
             { "TraLoi": "(D) An awards ceremony", "Dich": "(D) Một lễ trao giải" }
           ],
           "DapAn": "A",
-          [span_4](start_span)"GiaiThich": "Người phụ nữ cảm ơn vì đã tổ chức 'annual company picnic'[span_4](end_span)."
+          [span_2](start_span)"GiaiThich": "Người phụ nữ nhắc đến việc tổ chức 'annual company picnic' (buổi dã ngoại hàng năm của công ty)[span_2](end_span)."
         },
         {
           "ThuTu": 33,
@@ -30,7 +30,7 @@
             { "TraLoi": "(D) A ride to an event", "Dich": "(D) Đi nhờ xe đến một sự kiện" }
           ],
           "DapAn": "B",
-          [span_5](start_span)"GiaiThich": "Người phụ nữ hỏi xin công thức nấu món bánh đào: 'Would you mind sharing the recipe?'[span_5](end_span)."
+          [span_3](start_span)"GiaiThich": "Người phụ nữ hỏi xin công thức làm bánh đào: 'Would you mind sharing the recipe?'[span_3](end_span)."
         },
         {
           "ThuTu": 34,
@@ -43,11 +43,11 @@
             { "TraLoi": "(D) Watching a video", "Dich": "(D) Xem một video" }
           ],
           "DapAn": "D",
-          [span_6](start_span)"GiaiThich": "Người đàn ông khuyên người phụ nữ nên xem video hướng dẫn trước: 'I recommend you watch it first'[span_6](end_span)."
+          [span_4](start_span)"GiaiThich": "Người đàn ông khuyên người phụ nữ nên xem video hướng dẫn trên trang web trước: 'I recommend you watch it first'[span_4](end_span)."
         },
         {
           "ThuTu": 35,
-          "DoanVan": "W-Br: I'd like to finish calculating the company's expense reports for the month. [span_7](start_span)Have you finished reviewing the Travel Reimbursement forms from all the departments?[span_7](end_span)[span_8](start_span)\nM-Am: I'm almost done, but I have a question about a hotel receipt from one of our employees.[span_8](end_span)[span_9](start_span)\nW-Br: What's the problem?[span_9](end_span)\nM-Am: Well, our policy is for employees to stay at a hotel that's on our list of approved accommodations. [span_10](start_span)This one isn't on the list.[span_10](end_span)\nW-Br: Who submitted the receipt? [span_11](start_span)Morit Ziegler, one of our sales representatives.[span_11](end_span)\nM-Am: Hmm, he's a new employee, and may have forgotten the policy. [span_12](start_span)As a supervisor, I can approve the expense this one time.[span_12](end_span)",
+          "DoanVan": "W-Br: I'd like to finish calculating the company's expense reports for the month. Have you finished reviewing the Travel Reimbursement forms from all the departments?\nM-Am: I'm almost done, but I have a question about a hotel receipt from one of our employees.\nW-Br: What's the problem?\nM-Am: Well, our policy is for employees to stay at a hotel that's on our list of approved accommodations. This one isn't on the list.\nW-Br: Who submitted the receipt? Morit Ziegler, one of our sales representatives.\nM-Am: Hmm, he's a new employee, and may have forgotten the policy. As a supervisor, I can approve the expense this one time.",
           "CauHoi": "What department do the speakers most likely work in?",
           "DichCauHoi": "Các diễn giả có khả năng nhất làm việc ở bộ phận nào?",
           "CauTraLoi": [
@@ -57,7 +57,7 @@
             { "TraLoi": "(D) Marketing", "Dich": "(D) Tiếp thị" }
           ],
           "DapAn": "B",
-          [span_13](start_span)"GiaiThich": "Họ đang thảo luận về việc tính toán báo cáo chi phí ('expense reports') và xét duyệt đơn hoàn tiền đi lại ('Travel Reimbursement forms')[span_13](end_span)."
+          [span_5](start_span)"GiaiThich": "Họ đang xử lý báo cáo chi phí (expense reports) và đơn hoàn phí đi lại (Travel Reimbursement forms), những việc thuộc bộ phận kế toán[span_5](end_span)."
         },
         {
           "ThuTu": 36,
@@ -70,7 +70,7 @@
             { "TraLoi": "(D) A form was signed incorrectly", "Dich": "(D) Một biểu mẫu bị ký sai" }
           ],
           "DapAn": "C",
-          [span_14](start_span)"GiaiThich": "Nhân viên đã ở tại một khách sạn không nằm trong danh sách được phê duyệt của công ty ('This one isn't on the list')[span_14](end_span)."
+          [span_6](start_span)"GiaiThich": "Một nhân viên đã ở khách sạn không nằm trong danh sách được phê duyệt, vi phạm chính sách công ty[span_6](end_span)."
         },
         {
           "ThuTu": 37,
@@ -83,11 +83,11 @@
             { "TraLoi": "(D) Update a list", "Dich": "(D) Cập nhật một danh sách" }
           ],
           "DapAn": "A",
-          [span_15](start_span)"GiaiThich": "Người đàn ông nói ông có thể phê duyệt khoản chi phí này lần này vì nhân viên là người mới: 'I can approve the expense this one time'[span_15](end_span)."
+          [span_7](start_span)"GiaiThich": "Với tư cách là người giám sát, người đàn ông nói ông có thể phê duyệt chi phí này một lần: 'I can approve the expense this one time'[span_7](end_span)."
         },
         {
           "ThuTu": 38,
-          "DoanVan": "M-Au: Good morning. [span_16](start_span)Damalola, how's everything up here on deck?[span_16](end_span)\nW-Af: Hi. Pedro. [span_17](start_span)It was an uneventful night, and our cargo ship still hasn't moved yet.[span_17](end_span)[span_18](start_span)\nM-Au: Hmm, I hope the fog over the harbor lifts soon.[span_18](end_span)\nW-Af: Yeah, me too. [span_19](start_span)The ship won't be able to leave until the weather improves.[span_19](end_span)\nM-Au: I hope we won't get too far behind schedule. [span_20](start_span)I'll be sure to call the Port Authority soon for an update on when we'll be cleared to leave.[span_20](end_span)",
+          "DoanVan": "M-Au: Good morning, Damalola. How's everything up here on deck?\nW-Af: Hi, Pedro. It was an uneventful night, and our cargo ship still hasn't moved yet.\nM-Au: Hmm, I hope the fog over the harbor lifts soon.\nW-Af: Yeah, me too. The ship won't be able to leave until the weather improves.\nM-Au: I hope we won't get too far behind schedule. I'll be sure to call the Port Authority soon for an update on when we'll be cleared to leave.\nW-Af: Sounds good.",
           "CauHoi": "What industry do the speakers most likely work in?",
           "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong ngành nào?",
           "CauTraLoi": [
@@ -97,7 +97,7 @@
             { "TraLoi": "(D) Tourism", "Dich": "(D) Du lịch" }
           ],
           "DapAn": "B",
-          [span_21](start_span)"GiaiThich": "Họ đang ở trên boong tàu ('on deck') của một tàu chở hàng ('cargo ship')[span_21](end_span)."
+          [span_8](start_span)"GiaiThich": "Cuộc hội thoại diễn ra trên boong tàu (deck) của một tàu chở hàng (cargo ship)[span_8](end_span)."
         },
         {
           "ThuTu": 39,
@@ -110,7 +110,7 @@
             { "TraLoi": "(D) A missing document", "Dich": "(D) Thiếu tài liệu" }
           ],
           "DapAn": "C",
-          [span_22](start_span)"GiaiThich": "Nguyên nhân là do sương mù ('fog') và cần đợi thời tiết cải thiện ('weather improves')[span_22](end_span)."
+          [span_9](start_span)"GiaiThich": "Con tàu không thể rời cảng do sương mù (fog) và thời tiết chưa cải thiện[span_9](end_span)."
         },
         {
           "ThuTu": 40,
@@ -123,11 +123,11 @@
             { "TraLoi": "(D) Prepare a shipment", "Dich": "(D) Chuẩn bị một lô hàng" }
           ],
           "DapAn": "A",
-          [span_23](start_span)"GiaiThich": "Người đàn ông nói sẽ gọi cho Cảng vụ ('Port Authority')[span_23](end_span)."
+          [span_10](start_span)"GiaiThich": "Người đàn ông nói sẽ gọi cho Cảng vụ (Port Authority) để cập nhật tình hình[span_10](end_span)."
         },
         {
           "ThuTu": 41,
-          "DoanVan": "W-Am: Hi, I've made a reservation to meet with some clients for lunch today. [span_24](start_span)It's under Cohen.[span_24](end_span)\nM-Br: Oh, yes, I see your reservation. Welcome. [span_25](start_span)MS, Cohen.[span_25](end_span)[span_26](start_span)\nW-Am: I know I asked to be seated on your beautiful terrace, but it's very hot today.[span_26](end_span)\nM-Br: I can seat you at table four inside. [span_27](start_span)Do you mind waiting a few minutes?[span_27](end_span)\nW-Am: Not at all. By the way, your parking area is nearly full. [span_28](start_span)Where can I tell my clients to park?[span_28](end_span)\nM-Br: Our customers can park for free in the garage across the street. [span_29](start_span)Our cashier will stamp their parking tickets.[span_29](end_span)\nW-Am: Oh, great, thanks. [span_30](start_span)I'll call them and let them know.[span_30](end_span)",
+          "DoanVan": "W-Am: Hi, I've made a reservation to meet with some clients for lunch today. It's under Cohen.\nM-Br: Oh, yes, I see your reservation. Welcome, Ms. Cohen.\nW-Am: I know I asked to be seated on your beautiful terrace, but it's very hot today.\nM-Br: I can seat you at table four inside. Do you mind waiting a few minutes?\nW-Am: Not at all. By the way, your parking area is nearly full. Where can I tell my clients to park?\nM-Br: Our customers can park for free in the garage across the street. Our cashier will stamp their parking tickets.\nW-Am: Oh, great, thanks. I'll call them and let them know.",
           "CauHoi": "Why is the woman at the restaurant?",
           "DichCauHoi": "Tại sao người phụ nữ lại ở nhà hàng?",
           "CauTraLoi": [
@@ -137,11 +137,11 @@
             { "TraLoi": "(D) To pick up a food order", "Dich": "(D) Để lấy đồ ăn đã đặt" }
           ],
           "DapAn": "C",
-          [span_31](start_span)"GiaiThich": "Người phụ nữ nói cô ấy đặt chỗ để gặp khách hàng ăn trưa ('meet with some clients for lunch')[span_31](end_span)."
+          [span_11](start_span)"GiaiThich": "Cô ấy đặt chỗ để gặp khách hàng ăn trưa: 'meet with some clients for lunch today'[span_11](end_span)."
         },
         {
           "ThuTu": 42,
-          "CauHoi": "What does the woman mean when she says \"it's very hot today\"?",
+          "CauHoi": "What does the woman mean when she says, \"it's very hot today\"?",
           "DichCauHoi": "Người phụ nữ có ý gì khi nói \"hôm nay trời rất nóng\"?",
           "CauTraLoi": [
             { "TraLoi": "(A) She wants to change her seating location.", "Dich": "(A) Cô ấy muốn thay đổi vị trí chỗ ngồi." },
@@ -150,7 +150,7 @@
             { "TraLoi": "(D) She is worried that her clients will be late.", "Dich": "(D) Cô ấy lo lắng rằng khách hàng của mình sẽ đến muộn." }
           ],
           "DapAn": "A",
-          [span_32](start_span)"GiaiThich": "Cô ấy đề cập trời nóng để giải thích tại sao cô ấy không muốn ngồi ngoài sân thượng ('terrace') nữa mà muốn đổi vào trong[span_32](end_span)."
+          [span_12](start_span)"GiaiThich": "Mặc dù đã yêu cầu ngồi ngoài sân thượng (terrace), cô ấy đổi ý muốn ngồi trong nhà vì trời nóng[span_12](end_span)."
         },
         {
           "ThuTu": 43,
@@ -163,11 +163,11 @@
             { "TraLoi": "(D) It is only for employees.", "Dich": "(D) Nó chỉ dành cho nhân viên." }
           ],
           "DapAn": "B",
-          [span_33](start_span)"GiaiThich": "Người đàn ông nói khách hàng có thể đỗ xe tại gara 'across the street'[span_33](end_span)."
+          [span_13](start_span)"GiaiThich": "Người đàn ông thông báo có nhà để xe miễn phí cho khách hàng nằm đối diện nhà hàng: 'garage across the street'[span_13](end_span)."
         },
         {
           "ThuTu": 44,
-          "DoanVan": "W-Am: Thank you both for coming here today to demonstrate your company's new compact printer. [span_34](start_span)I know the store will be busy because we're having a big sale on laptop computers and tablets.[span_34](end_span)\nM-Am: We're happy to be here. Our printers are perfect for students or people with home offices who may have limited space. [span_35](start_span)My partner, Murat will be setting up the printer station.[span_35](end_span)[span_36](start_span)\nM-Br: Yes, where can I put our demonstration table?[span_36](end_span)\nW-Am: I'll show you the area. [span_37](start_span)Also, if you brought any brochures with you, it'll be helpful to put those out for people to take.[span_37](end_span)",
+          "DoanVan": "W-Am: Thank you both for coming here today to demonstrate your company's new compact printer. I know the store will be busy because we're having a big sale on laptop computers and tablets.\nM-Au: We're happy to be here. Our printers are perfect for students or people with home offices who may have limited space. My partner, Murat will be setting up the printer station.\nM-Cn: Yes, where can I put our demonstration table?\nW-Am: I'll show you the area. Also, if you brought any brochures with you, it'll be helpful to put those out for people to take.",
           "CauHoi": "Where does the woman most likely work?",
           "DichCauHoi": "Người phụ nữ có khả năng nhất làm việc ở đâu?",
           "CauTraLoi": [
@@ -177,7 +177,7 @@
             { "TraLoi": "(D) At a furniture warehouse", "Dich": "(D) Tại một kho đồ nội thất" }
           ],
           "DapAn": "B",
-          [span_38](start_span)"GiaiThich": "Người phụ nữ đề cập đến cửa hàng ('the store') đang giảm giá laptop và máy tính bảng[span_38](end_span)."
+          [span_14](start_span)"GiaiThich": "Cô ấy làm việc tại một cửa hàng (store) đang có đợt giảm giá laptop và máy tính bảng[span_14](end_span)."
         },
         {
           "ThuTu": 45,
@@ -190,7 +190,7 @@
             { "TraLoi": "(D) A technical specification", "Dich": "(D) Một thông số kỹ thuật" }
           ],
           "DapAn": "C",
-          [span_39](start_span)"GiaiThich": "Murat hỏi nơi để đặt bàn trình diễn ('Where can I put our demonstration table?')[span_39](end_span)."
+          [span_15](start_span)"GiaiThich": "Murat hỏi về chỗ đặt bàn trưng bày: 'where can I put our demonstration table?'[span_15](end_span)."
         },
         {
           "ThuTu": 46,
@@ -203,11 +203,11 @@
             { "TraLoi": "(D) Testing the equipment", "Dich": "(D) Kiểm tra thiết bị" }
           ],
           "DapAn": "A",
-          [span_40](start_span)"GiaiThich": "Cô ấy gợi ý đặt các tờ rơi ra cho mọi người lấy ('put those [brochures] out for people to take')[span_40](end_span)."
+          [span_16](start_span)"GiaiThich": "Cô ấy đề nghị bày tờ rơi (brochures) ra cho khách hàng lấy[span_16](end_span)."
         },
         {
           "ThuTu": 47,
-          "DoanVan": "W-Am: Gizm and Hector. I'm very pleased with the sales of our brands of cakes, pies and cookies this past holiday season. [span_41](start_span)Any thoughts on what we should be concentrating on going forward?[span_41](end_span)\nM-Af: The biggest trend right now is the reduction of sugar. [span_42](start_span)The public wants healthier products, but the same great taste that will be our biggest challenge.[span_42](end_span)[span_43](start_span)\nM-Br: One of our ingredient suppliers recently started offering a sweetener made entirely from natural ingredients.[span_43](end_span)[span_44](start_span)\nW-Am: Are there similar ones on the market, and how do they compare?[span_44](end_span)\nM-Br: I'd have to do some investigation to find out more about that. [span_45](start_span)I have some time available tomorrow afternoon.[span_45](end_span)",
+          "DoanVan": "W-Am: Gizm and Hector. I'm very pleased with the sales of our brands of cakes, pies and cookies this past holiday season. Any thoughts on what we should be concentrating on going forward?\nM-Af: The biggest trend right now is the reduction of sugar. The public wants healthier products, but the same great taste that will be our biggest challenge.\nM-Br: One of our ingredient suppliers recently started offering a sweetener made entirely from natural ingredients.\nW-Am: Are there similar ones on the market, and how do they compare?\nM-Br: I'd have to do some investigation to find out more about that. I have some time available tomorrow afternoon.",
           "CauHoi": "What type of industry do the speakers most likely work in?",
           "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong loại hình công nghiệp nào?",
           "CauTraLoi": [
@@ -217,7 +217,7 @@
             { "TraLoi": "(D) Market research", "Dich": "(D) Nghiên cứu thị trường" }
           ],
           "DapAn": "C",
-          [span_46](start_span)[span_47](start_span)"GiaiThich": "Họ nói về doanh số bán các loại bánh ngọt ('cakes, pies and cookies') và xu hướng thực phẩm lành mạnh[span_46](end_span)[span_47](end_span)."
+          [span_17](start_span)[span_18](start_span)"GiaiThich": "Họ bàn về việc bán bánh ngọt (cakes, cookies) và các nhà cung cấp nguyên liệu (ingredient suppliers)[span_17](end_span)[span_18](end_span)."
         },
         {
           "ThuTu": 48,
@@ -230,7 +230,7 @@
             { "TraLoi": "(D) Reducing production costs", "Dich": "(D) Giảm chi phí sản xuất" }
           ],
           "DapAn": "B",
-          [span_48](start_span)"GiaiThich": "Thách thức lớn nhất là tạo ra các sản phẩm ít đường ('reduction of sugar') nhưng vẫn giữ được hương vị ngon[span_48](end_span)."
+          [span_19](start_span)"GiaiThich": "Họ thảo luận về xu hướng giảm đường và yêu cầu sản phẩm tốt cho sức khỏe hơn từ công chúng[span_19](end_span)."
         },
         {
           "ThuTu": 49,
@@ -243,11 +243,11 @@
             { "TraLoi": "(D) Revise a budget", "Dich": "(D) Xem xét lại ngân sách" }
           ],
           "DapAn": "C",
-          [span_49](start_span)"GiaiThich": "Người đàn ông nói sẽ thực hiện một cuộc điều tra ('investigation') để tìm hiểu thêm thông tin[span_49](end_span)."
+          [span_20](start_span)"GiaiThich": "Anh ta nói sẽ dành thời gian nghiên cứu/điều tra thêm về các loại chất tạo ngọt tự nhiên trên thị trường[span_20](end_span)."
         },
         {
           "ThuTu": 50,
-          "DoanVan": "M-Br: Hi, Bianca, I'm calling to see if you'd have time to work on a project for my marketing firm. [span_50](start_span)We've expanded a lot in the past year, and we need some help.[span_50](end_span)\nW-Am: Thanks for thinking of me. [span_51](start_span)What type of work would I be doing?[span_51](end_span)[span_52](start_span)\nM-Br: Well, we have a new client in Brazil who's interested in creating a marketing campaign for social media sites you'd be overseeing the campaign.[span_52](end_span)\nW-Am: Oh, I have experience with that. [span_53](start_span)Why don't you send me a detailed description of the work that'll give me an idea of how much time this project will take.[span_53](end_span)",
+          "DoanVan": "M-Br: Hi, Bianca, I'm calling to see if you'd have time to work on a project for my marketing firm. We've expanded a lot in the past year, and we need some help.\nW-Am: Thanks for thinking of me. What type of work would I be doing?\nM-Br: Well, we have a new client in Brazil who's interested in creating a marketing campaign for social media sites you'd be overseeing the campaign.\nW-Am: Oh, I have experience with that. Why don't you send me a detailed description of the work that'll give me an idea of how much time this project will take.",
           "CauHoi": "Why is the man calling?",
           "DichCauHoi": "Tại sao người đàn ông lại gọi điện?",
           "CauTraLoi": [
@@ -257,7 +257,7 @@
             { "TraLoi": "(D) To confirm a meeting", "Dich": "(D) Để xác nhận một cuộc họp" }
           ],
           "DapAn": "A",
-          [span_54](start_span)"GiaiThich": "Người đàn ông gọi điện để hỏi người phụ nữ có thời gian làm một dự án cho công ty marketing của mình không[span_54](end_span)."
+          [span_21](start_span)"GiaiThich": "Anh ta gọi để mời cô ấy tham gia một dự án mới do công ty marketing của mình đang mở rộng[span_21](end_span)."
         },
         {
           "ThuTu": 51,
@@ -270,7 +270,7 @@
             { "TraLoi": "(D) Hosting an industry event", "Dich": "(D) Tổ chức một sự kiện ngành" }
           ],
           "DapAn": "C",
-          [span_55](start_span)"GiaiThich": "Khách hàng muốn tạo một chiến dịch marketing trên các trang mạng xã hội ('marketing campaign for social media sites')[span_55](end_span)."
+          [span_22](start_span)[span_23](start_span)"GiaiThich": "Khách hàng muốn tạo một chiến dịch marketing trên mạng xã hội[span_22](end_span)[span_23](end_span)."
         },
         {
           "ThuTu": 52,
@@ -283,11 +283,11 @@
             { "TraLoi": "(D) A list of references", "Dich": "(D) Một danh sách người tham chiếu" }
           ],
           "DapAn": "B",
-          [span_56](start_span)"GiaiThich": "Cô ấy yêu cầu gửi bản mô tả chi tiết công việc ('detailed description of the work')[span_56](end_span)."
+          [span_24](start_span)"GiaiThich": "Cô ấy yêu cầu gửi bản mô tả chi tiết công việc (detailed description of the work) để cân đối thời gian[span_24](end_span)."
         },
         {
           "ThuTu": 53,
-          "DoanVan": "W-Am: hey, code. [span_57](start_span)See, we were about to pack van number five for the music festival when we noticed it's got a flat tire.[span_57](end_span)\nM-Br: Oh, that's not good. We're supposed to get there by 11 to set up lunch for the performers. [span_58](start_span)Is there another van we can take?[span_58](end_span)\nW-Am: Let me see what's available. We've got a lot of catering jobs today. Ah, yes, we can use van number three. [span_59](start_span)Do you need help loading?[span_59](end_span)\nM-Br: Yes, thanks. The food's already in coolers, but everything's in the kitchen with the serving utensils and napkins. [span_60](start_span)It all needs to be brought to the parking area.[span_60](end_span)[span_61](start_span)\nW-Am: All right, I can help with that.[span_61](end_span)",
+          "DoanVan": "W-Am: hey, code. See, we were about to pack van number five for the music festival when we noticed it's got a flat tire.\nM-Br: Oh, that's not good. We're supposed to get there by 11 to set up lunch for the performers. Is there another van we can take?\nW-Am: Let me see what's available. We've got a lot of catering jobs today. Ah, yes, we can use van number three. Do you need help loading?\nM-Br: Yes, thanks. The food's already in coolers, but everything's in the kitchen with the serving utensils and napkins. It all needs to be brought to the parking area.\nW-Am: All right, I can help with that.",
           "CauHoi": "What problem does the woman mention?",
           "DichCauHoi": "Người phụ nữ đề cập đến vấn đề gì?",
           "CauTraLoi": [
@@ -297,7 +297,7 @@
             { "TraLoi": "(D) A kitchen is disorganized", "Dich": "(D) Nhà bếp không được sắp xếp ngăn nắp" }
           ],
           "DapAn": "A",
-          [span_62](start_span)"GiaiThich": "Cô ấy thông báo xe tải số 5 bị xẹp lốp ('it's got a flat tire')[span_62](end_span)."
+          [span_25](start_span)"GiaiThich": "Chiếc xe tải số 5 dự định dùng để chở đồ bị xẹp lốp: 'it's got a flat tire'[span_25](end_span)."
         },
         {
           "ThuTu": 54,
@@ -310,7 +310,7 @@
             { "TraLoi": "(D) At a hotel", "Dich": "(D) Tại một khách sạn" }
           ],
           "DapAn": "B",
-          [span_63](start_span)"GiaiThich": "Người phụ nữ nói họ có nhiều việc cung cấp suất ăn ('catering jobs') và đang chuẩn bị đồ ăn cho các nghệ sĩ biểu diễn[span_63](end_span)."
+          [span_26](start_span)[span_27](start_span)"GiaiThich": "Họ đang chuẩn bị đồ ăn cho lễ hội âm nhạc và nhắc đến nhiều việc cung cấp suất ăn (catering jobs)[span_26](end_span)[span_27](end_span)."
         },
         {
           "ThuTu": 55,
@@ -323,11 +323,11 @@
             { "TraLoi": "(D) Move items to a parking area", "Dich": "(D) Di chuyển các món đồ ra khu vực đỗ xe" }
           ],
           "DapAn": "D",
-          [span_64](start_span)"GiaiThich": "Người đàn ông nói mọi thứ cần được mang ra khu vực đỗ xe ('brought to the parking area') và người phụ nữ đồng ý giúp[span_64](end_span)."
+          [span_28](start_span)"GiaiThich": "Mọi thứ trong nhà bếp cần được mang ra bãi đỗ xe để chất lên xe[span_28](end_span)."
         },
         {
           "ThuTu": 56,
-          "DoanVan": "M-Am: Thanks for taking my call. [span_65](start_span)As I mentioned in my email, I'm interested in working in your field, but I'm talking to some professionals first so I can find out more about it.[span_65](end_span)[span_66](start_span)\nW-Br: Happy to help.\nM-Am: So how did you get your start?[span_66](end_span)[span_67](start_span)\nW-Br: Oh, my family always subscribed to three newspapers, so I always thought the news was important at my university, I joined the newspaper and eventually worked my way up to being an editor.[span_67](end_span)\nM-Am: Wow, is it true that people in the news business work very long hours. [span_68](start_span)So What's your schedule like[span_68](end_span)",
+          "DoanVan": "M-Am: Thanks for taking my call. As I mentioned in my email, I'm interested in working in your field, but I'm talking to some professionals first so I can find out more about it.\nW-Br: Happy to help.\nM-Am: So how did you get your start?\nW-Br: Oh, my family always subscribed to three newspapers, so I always thought the news was important at my university, I joined the newspaper and eventually worked my way up to being an editor.\nM-Am: Wow, is it true that people in the news business work very long hours. So What's your schedule like",
           "CauHoi": "Why is the man calling the woman?",
           "DichCauHoi": "Tại sao người đàn ông lại gọi cho người phụ nữ?",
           "CauTraLoi": [
@@ -337,7 +337,7 @@
             { "TraLoi": "(D) To cancel an appointment", "Dich": "(D) Để hủy một cuộc hẹn" }
           ],
           "DapAn": "A",
-          [span_69](start_span)"GiaiThich": "Anh ta gọi điện để tìm hiểu thêm về lĩnh vực nghề nghiệp ('find out more about it') bằng cách nói chuyện với các chuyên gia[span_69](end_span)."
+          [span_29](start_span)"GiaiThich": "Anh ta muốn tìm hiểu về lĩnh vực nghề nghiệp của cô ấy thông qua việc trao đổi với chuyên gia[span_29](end_span)."
         },
         {
           "ThuTu": 57,
@@ -350,7 +350,7 @@
             { "TraLoi": "(D) A librarian", "Dich": "(D) Một thủ thư" }
           ],
           "DapAn": "C",
-          [span_70](start_span)"GiaiThich": "Người phụ nữ nói cô ấy đã thăng tiến lên làm biên tập viên ('worked my way up to being an editor')[span_70](end_span)."
+          [span_30](start_span)"GiaiThich": "Cô ấy cho biết mình từng tham gia làm báo trường và hiện đã trở thành một biên tập viên (editor)[span_30](end_span)."
         },
         {
           "ThuTu": 58,
@@ -363,11 +363,11 @@
             { "TraLoi": "(D) Review a university application", "Dich": "(D) Xem xét một đơn xin nhập học đại học" }
           ],
           "DapAn": "B",
-          "GiaiThich": "Người đàn ông vừa hỏi 'What's your schedule like?' (Lịch trình của bạn như thế nào?)[span_71](start_span), vì vậy cô ấy sẽ trả lời câu hỏi đó[span_71](end_span)."
+          [span_31](start_span)"GiaiThich": "Người đàn ông vừa hỏi 'What's your schedule like?' nên bước tiếp theo cô ấy sẽ trả lời về lịch trình làm việc của mình[span_31](end_span)."
         },
         {
           "ThuTu": 59,
-          "DoanVan": "M-Br: Hi, Karen. I just read the article on the company website about the proposed merger with QZ Corporation. [span_72](start_span)It looks like we're going ahead with it.[span_72](end_span)[span_73](start_span)\nW-Am: There would be a lot of advantages to merging operations, although they also talked about it last year.[span_73](end_span)\nM-Br: I remember that, but there were a lot of details to work out, like whether our offices would stay in Chicago. [span_74](start_span)Now it looks like we won't be relocating.[span_74](end_span)[span_75](start_span)\nW-Am: Well, I really don't want to move, so that's a relief.[span_75](end_span)",
+          "DoanVan": "M-Br: Hi, Karen. I just read the article on the company website about the proposed merger with QZ Corporation. It looks like we're going ahead with it.\nW-Am: There would be a lot of advantages to merging operations, although they also talked about it last year.\nM-Br: I remember that, but there were a lot of details to work out, like whether our offices would stay in Chicago. Now it looks like we won't be relocating.\nW-Am: Well, I really don't want to move, so that's a relief.",
           "CauHoi": "What are the speakers mainly discussing?",
           "DichCauHoi": "Các diễn giả chủ yếu thảo luận về điều gì?",
           "CauTraLoi": [
@@ -377,11 +377,11 @@
             { "TraLoi": "(D) A retirement policy", "Dich": "(D) Một chính sách nghỉ hưu" }
           ],
           "DapAn": "A",
-          [span_76](start_span)"GiaiThich": "Họ đang nói về đề xuất sáp nhập ('proposed merger') với tập đoàn QZ[span_76](end_span)."
+          [span_32](start_span)"GiaiThich": "Họ đang bàn về bài báo nói về vụ sáp nhập sắp tới với tập đoàn QZ[span_32](end_span)."
         },
         {
           "ThuTu": 60,
-          "CauHoi": "Why does the woman say \"they also talked about it last year\"?",
+          "CauHoi": "Why does the woman say, \"they also talked about it last year\"?",
           "DichCauHoi": "Tại sao người phụ nữ lại nói \"họ cũng đã nói về điều đó vào năm ngoái\"?",
           "CauTraLoi": [
             { "TraLoi": "(A) She is excited about the news.", "Dich": "(A) Cô ấy hào hứng với tin tức." },
@@ -390,7 +390,7 @@
             { "TraLoi": "(D) She has forgotten some information.", "Dich": "(D) Cô ấy đã quên một số thông tin." }
           ],
           "DapAn": "B",
-          [span_77](start_span)"GiaiThich": "Cô ấy nhắc lại chuyện năm ngoái để ngụ ý rằng việc này đã từng được thảo luận nhưng không thành hiện thực, thể hiện sự hoài nghi[span_77](end_span)."
+          [span_33](start_span)"GiaiThich": "Cô ấy nhắc lại chuyện cũ vì lo ngại nó sẽ chỉ dừng lại ở mức bàn bạc mà không tiến triển, thể hiện sự nghi ngờ[span_33](end_span)."
         },
         {
           "ThuTu": 61,
@@ -403,11 +403,11 @@
             { "TraLoi": "(D) Changing departments", "Dich": "(D) Thay đổi bộ phận" }
           ],
           "DapAn": "C",
-          [span_78](start_span)"GiaiThich": "Cô ấy nói: 'I really don't want to move' (Tôi thực sự không muốn chuyển đi)[span_78](end_span)."
+          [span_34](start_span)"GiaiThich": "Cô ấy nói không muốn phải chuyển đi (không muốn văn phòng dời khỏi Chicago)[span_34](end_span)."
         },
         {
           "ThuTu": 62,
-          "DoanVan": "M-Br: Thanks for calling customized concepts. [span_79](start_span)How can I help you?[span_79](end_span)\nW-Am: My company wants to give every employee a gift, something useful, but not too big. [span_80](start_span)Since we're about to host our annual staff basketball tournament, I thought a water bottle might be good.[span_80](end_span)\nM-Br: We carry a few drink containers. [span_81](start_span)If you're at our website, you'll see them under the lifestyle tab.[span_81](end_span)\nW-Am: Let me pull it up now. [span_82](start_span)All right, I[span_82](end_span)\nM-Br: I recommend the metal bottle with the wide mouthed lid. [span_83](start_span)It's easier to clean than the one with the straw.[span_83](end_span)[span_84](start_span)\nW-Am: Okay, thanks, and you could put our company logo on it, right?[span_84](end_span)[span_85](start_span)\nM-Br: Yes, you'll just need to send me the graphic file.[span_85](end_span)[span_86](start_span)\nW-Am: I can do that[span_86](end_span)",
+          "DoanVan": "M-Br: Thanks for calling customized concepts. How can I help you?\nW-Am: My company wants to give every employee a gift, something useful, but not too big. Since we're about to host our annual staff basketball tournament, I thought a water bottle might be good.\nM-Br: We carry a few drink containers. If you're at our website, you'll see them under the lifestyle tab.\nW-Am: Let me pull it up now. All right, I\nM-Br: I recommend the metal bottle with the wide mouthed lid. It's easier to clean than the one with the straw.\nW-Am: Okay, thanks, and you could put our company logo on it, right?\nM-Br: Yes, you'll just need to send me the graphic file.\nW-Am: I can do that",
           "CauHoi": "Who is a gift for?",
           "DichCauHoi": "Món quà dành cho ai?",
           "CauTraLoi": [
@@ -417,7 +417,7 @@
             { "TraLoi": "(D) A sports coach", "Dich": "(D) Một huấn luyện viên thể thao" }
           ],
           "DapAn": "B",
-          [span_87](start_span)"GiaiThich": "Người phụ nữ nói công ty muốn tặng quà cho mọi nhân viên ('give every employee a gift')[span_87](end_span)."
+          [span_35](start_span)"GiaiThich": "Người phụ nữ muốn tặng quà cho mỗi nhân viên trong công ty[span_35](end_span)."
         },
         {
           "ThuTu": 63,
@@ -431,7 +431,7 @@
             { "TraLoi": "(D) $15", "Dich": "(D) 15 đô la" }
           ],
           "DapAn": "C",
-          [span_88](start_span)"GiaiThich": "Người đàn ông đề xuất bình kim loại ('metal bottle') với nắp miệng rộng[span_88](end_span). (Dựa vào bảng giá tương ứng trên website/hình ảnh, ví dụ là $12)."
+          [span_36](start_span)"GiaiThich": "Người đàn ông khuyên chọn bình kim loại có miệng rộng (metal bottle with the wide mouthed lid)[span_36](end_span). [span_37](start_span)Theo bảng giá, loại này có giá $12[span_37](end_span)."
         },
         {
           "ThuTu": 64,
@@ -444,11 +444,11 @@
             { "TraLoi": "(D) A staff list", "Dich": "(D) Một danh sách nhân viên" }
           ],
           "DapAn": "C",
-          [span_89](start_span)"GiaiThich": "Cô ấy sẽ gửi tệp đồ họa chứa logo công ty ('graphic file')[span_89](end_span)."
+          [span_38](start_span)"GiaiThich": "Người phụ nữ sẽ gửi tệp đồ họa (graphic file) chứa logo công ty để in lên bình[span_38](end_span)."
         },
         {
           "ThuTu": 65,
-          [span_90](start_span)"DoanVan": "M-Af: Yun, I just finished recording the audio guide for the pencil drawings that will be included in our modern art exhibit next week, the files will be loaded onto the audio devices tomorrow.[span_90](end_span)\nW-Br: That's great, but unfortunately, we have to make one change. [span_91](start_span)The drawing by Claudia Hoffman will no longer be in the exhibit.[span_91](end_span)[span_92](start_span)\nM-Af: There was a scheduling mix up, and it was promised to another museum starting next week.[span_92](end_span)\nW-Br: Oh, that's too bad that was one of my favorite pieces. [span_93](start_span)Will you put anything in its place?[span_93](end_span)\nM-Af: No, we'll just remove it. Okay, then I'll make that change to the audio guide recording. [span_94](start_span)I'll do that right away.[span_94](end_span)",
+          "DoanVan": "W-Am: Yun, I just finished recording the audio guide for the pencil drawings that will be included in our modern art exhibit next week, the files will be loaded onto the audio devices tomorrow.\nM-Br: That's great, but unfortunately, we have to make one change. The drawing by Claudia Hoffman will no longer be in the exhibit.\nW-Am: There was a scheduling mix up, and it was promised to another museum starting next week.\nM-Br: Oh, that's too bad that was one of my favorite pieces. Will you put anything in its place?\nW-Am: No, we'll just remove it. Okay, then I'll make that change to the audio guide recording. I'll do that right away.",
           "CauHoi": "What type of art will be displayed in an exhibit?",
           "DichCauHoi": "Loại hình nghệ thuật nào sẽ được trưng bày trong cuộc triển lãm?",
           "CauTraLoi": [
@@ -458,7 +458,7 @@
             { "TraLoi": "(D) Nature photography", "Dich": "(D) Nhiếp ảnh thiên nhiên" }
           ],
           "DapAn": "B",
-          [span_95](start_span)"GiaiThich": "Người đàn ông nói anh ta vừa ghi âm hướng dẫn cho các bức vẽ chì ('pencil drawings')[span_95](end_span)."
+          [span_39](start_span)"GiaiThich": "Triển lãm trưng bày các bức vẽ bằng bút chì: 'pencil drawings'[span_39](end_span)."
         },
         {
           "ThuTu": 66,
@@ -472,7 +472,7 @@
             { "TraLoi": "(D) Summer Fields", "Dich": "(D) Những cánh đồng mùa hè" }
           ],
           "DapAn": "A",
-          [span_96](start_span)"GiaiThich": "Người phụ nữ nói bức vẽ của Claudia Hoffman sẽ bị loại bỏ[span_96](end_span). (Tra bảng danh sách tác phẩm theo tên tác giả Claudia Hoffman sẽ ra tên bức tranh)."
+          [span_40](start_span)"GiaiThich": "Bức vẽ của Claudia Hoffman bị loại bỏ do nhầm lẫn lịch trình[span_40](end_span). [span_41](start_span)Tra bảng tương ứng sẽ là tác phẩm 'City Life'[span_41](end_span)."
         },
         {
           "ThuTu": 67,
@@ -485,11 +485,11 @@
             { "TraLoi": "(D) Print some labels", "Dich": "(D) In một số nhãn mác" }
           ],
           "DapAn": "A",
-          [span_97](start_span)"GiaiThich": "Người đàn ông (ở đây có sự nhầm lẫn vai trong transcript, nhưng người đang nói ở cuối) nói sẽ thực hiện thay đổi cho bản ghi âm hướng dẫn audio ngay lập tức ('make that change to the audio guide recording... right away')[span_97](end_span)."
+          [span_42](start_span)"GiaiThich": "Cô ấy sẽ cập nhật bản ghi âm hướng dẫn audio để loại bỏ phần giới thiệu về bức tranh vừa bị rút[span_42](end_span)."
         },
         {
           "ThuTu": 68,
-          [span_98](start_span)"DoanVan": "M-Br: I'm glad we were assigned to cover the press conference earlier today, I counted seven other major media networks there in addition to ours.[span_98](end_span)[span_99](start_span)\nW-Am: Well, the offshore wind industry is going to transform the way this region gets its power agreed.[span_99](end_span)[span_100](start_span)\nM-Br: Let's compare our facts before we start writing[span_100](end_span)[span_101](start_span)\nW-Am: so the largest cluster of wind turbines off the coast of Winston is already built.[span_101](end_span)[span_102](start_span)\nM-Br: The other sites are at different stages of construction, though, Lanchester is also close to being done, right?[span_102](end_span)[span_103](start_span)\nW-Am: And I think it's crucial for us to focus on how many new jobs related to assembling and maintaining the turbines are opening up in the area as a result of this.[span_103](end_span)",
+          "DoanVan": "M-Br: I'm glad we were assigned to cover the press conference earlier today, I counted seven other major media networks there in addition to ours.\nW-Am: Well, the offshore wind industry is going to transform the way this region gets its power agreed.\nM-Br: Let's compare our facts before we start writing\nW-Am: so the largest cluster of wind turbines off the coast of Winston is already built.\nM-Br: The other sites are at different stages of construction, though, Lanchester is also close to being done, right?\nW-Am: And I think it's crucial for us to focus on how many new jobs related to assembling and maintaining the turbines are opening up in the area as a result of this.",
           "CauHoi": "Who most likely are the speakers?",
           "DichCauHoi": "Các diễn giả có khả năng nhất là ai?",
           "CauTraLoi": [
@@ -499,7 +499,7 @@
             { "TraLoi": "(D) Investors", "Dich": "(D) Nhà đầu tư" }
           ],
           "DapAn": "A",
-          [span_104](start_span)"GiaiThich": "Họ được giao nhiệm vụ đưa tin về buổi họp báo ('cover the press conference') và thuộc về mạng lưới truyền thông ('media networks')[span_104](end_span)."
+          [span_43](start_span)"GiaiThich": "Họ được giao đưa tin về buổi họp báo và làm việc cho mạng lưới truyền thông: 'media networks'[span_43](end_span)."
         },
         {
           "ThuTu": 69,
@@ -513,7 +513,7 @@
             { "TraLoi": "(D) Site 4", "Dich": "(D) Địa điểm 4" }
           ],
           "DapAn": "A",
-          [span_105](start_span)"GiaiThich": "Địa điểm tại bờ biển Winston đã được xây xong ('already built')[span_105](end_span). (Tra trên bản đồ khu vực Winston sẽ là Site 1)."
+          [span_44](start_span)"GiaiThich": "Cụm tua bin gió ngoài khơi Winston đã được xây dựng xong[span_44](end_span). [span_45](start_span)Trên bản đồ, đó là Site 1[span_45](end_span)."
         },
         {
           "ThuTu": 70,
@@ -526,7 +526,7 @@
             { "TraLoi": "(D) Safety regulations", "Dich": "(D) Các quy định an toàn" }
           ],
           "DapAn": "B",
-          [span_106](start_span)"GiaiThich": "Người đàn ông cho rằng quan trọng nhất là tập trung vào việc có bao nhiêu công việc mới ('how many new jobs') được tạo ra trong khu vực[span_106](end_span)."
+          [span_46](start_span)"GiaiThich": "Người đàn ông đề xuất tập trung vào số lượng công việc mới được tạo ra nhờ dự án này[span_46](end_span)."
         }
       ]
     }
