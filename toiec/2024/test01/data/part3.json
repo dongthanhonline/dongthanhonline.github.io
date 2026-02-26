@@ -1,534 +1,527 @@
 {
   "TestName": "TOEIC TEST 01",
-  "Parts": [
+  "PartNumber": 3,
+  "AudioURL": "audio/part3.mp3",
+  "Questions": [
     {
-      "PartNumber": 3,
-      "AudioURL": "audio/part3.mp3",
-      "Questions": [
-        {
-          "ThuTu": 32,
-          "DoanVan": "W-Am: Thank you so much for organizing the annual company picnic Jingdao. Everybody seemed to enjoy it.\nM-Cn: Well, we deserved it. After working so hard this year.\nW-Am: I agree. The food was great, by the way, especially the peach pie you made. Would you mind sharing the recipe? It was delicious.\nM-Cn: I found the recipe online, I'll send you a link to the web page. There's a really helpful video that walks you through all the steps. I recommend you watch it first.\nW-Am: All right, thanks.",
-          "CauHoi": "What event does the woman mention?",
-          "DichCauHoi": "Người phụ nữ đề cập đến sự kiện nào?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A company picnic", "Dich": "(A) Một buổi dã ngoại của công ty" },
-            { "TraLoi": "(B) A retirement party", "Dich": "(B) Một bữa tiệc nghỉ hưu" },
-            { "TraLoi": "(C) A cooking class", "Dich": "(C) Một lớp học nấu ăn" },
-            { "TraLoi": "(D) An awards ceremony", "Dich": "(D) Một lễ trao giải" }
-          ],
-          "DapAn": "A",
-          [span_2](start_span)"GiaiThich": "Người phụ nữ nhắc đến việc tổ chức 'annual company picnic' (buổi dã ngoại hàng năm của công ty)[span_2](end_span)."
-        },
-        {
-          "ThuTu": 33,
-          "CauHoi": "What does the woman ask for?",
-          "DichCauHoi": "Người phụ nữ yêu cầu điều gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A grocery list", "Dich": "(A) Một danh sách đi chợ" },
-            { "TraLoi": "(B) A recipe", "Dich": "(B) Một công thức nấu ăn" },
-            { "TraLoi": "(C) A restaurant recommendation", "Dich": "(C) Một gợi ý nhà hàng" },
-            { "TraLoi": "(D) A ride to an event", "Dich": "(D) Đi nhờ xe đến một sự kiện" }
-          ],
-          "DapAn": "B",
-          [span_3](start_span)"GiaiThich": "Người phụ nữ hỏi xin công thức làm bánh đào: 'Would you mind sharing the recipe?'[span_3](end_span)."
-        },
-        {
-          "ThuTu": 34,
-          "CauHoi": "What does the man recommend doing?",
-          "DichCauHoi": "Người đàn ông khuyên nên làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Subscribing to a newsletter", "Dich": "(A) Đăng ký nhận bản tin" },
-            { "TraLoi": "(B) Visiting a local bakery", "Dich": "(B) Ghé thăm một tiệm bánh địa phương" },
-            { "TraLoi": "(C) Bringing a dish to a party", "Dich": "(C) Mang một món ăn đến bữa tiệc" },
-            { "TraLoi": "(D) Watching a video", "Dich": "(D) Xem một video" }
-          ],
-          "DapAn": "D",
-          [span_4](start_span)"GiaiThich": "Người đàn ông khuyên người phụ nữ nên xem video hướng dẫn trên trang web trước: 'I recommend you watch it first'[span_4](end_span)."
-        },
-        {
-          "ThuTu": 35,
-          "DoanVan": "W-Br: I'd like to finish calculating the company's expense reports for the month. Have you finished reviewing the Travel Reimbursement forms from all the departments?\nM-Am: I'm almost done, but I have a question about a hotel receipt from one of our employees.\nW-Br: What's the problem?\nM-Am: Well, our policy is for employees to stay at a hotel that's on our list of approved accommodations. This one isn't on the list.\nW-Br: Who submitted the receipt? Morit Ziegler, one of our sales representatives.\nM-Am: Hmm, he's a new employee, and may have forgotten the policy. As a supervisor, I can approve the expense this one time.",
-          "CauHoi": "What department do the speakers most likely work in?",
-          "DichCauHoi": "Các diễn giả có khả năng nhất làm việc ở bộ phận nào?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Human Resources", "Dich": "(A) Nhân sự" },
-            { "TraLoi": "(B) Accounting", "Dich": "(B) Kế toán" },
-            { "TraLoi": "(C) Sales", "Dich": "(C) Bán hàng" },
-            { "TraLoi": "(D) Marketing", "Dich": "(D) Tiếp thị" }
-          ],
-          "DapAn": "B",
-          [span_5](start_span)"GiaiThich": "Họ đang xử lý báo cáo chi phí (expense reports) và đơn hoàn phí đi lại (Travel Reimbursement forms), những việc thuộc bộ phận kế toán[span_5](end_span)."
-        },
-        {
-          "ThuTu": 36,
-          "CauHoi": "What problem does the woman mention?",
-          "DichCauHoi": "Người phụ nữ đề cập đến vấn đề gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A receipt is missing", "Dich": "(A) Thiếu hóa đơn" },
-            { "TraLoi": "(B) A deadline was missed", "Dich": "(B) Bị lỡ thời hạn" },
-            { "TraLoi": "(C) A policy was not followed", "Dich": "(C) Một chính sách không được tuân thủ" },
-            { "TraLoi": "(D) A form was signed incorrectly", "Dich": "(D) Một biểu mẫu bị ký sai" }
-          ],
-          "DapAn": "C",
-          [span_6](start_span)"GiaiThich": "Một nhân viên đã ở khách sạn không nằm trong danh sách được phê duyệt, vi phạm chính sách công ty[span_6](end_span)."
-        },
-        {
-          "ThuTu": 37,
-          "CauHoi": "What does the man say he will do?",
-          "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Approve an expense", "Dich": "(A) Phê duyệt một khoản chi phí" },
-            { "TraLoi": "(B) Contact a hotel", "Dich": "(B) Liên lạc với khách sạn" },
-            { "TraLoi": "(C) Hire a new employee", "Dich": "(C) Thuê một nhân viên mới" },
-            { "TraLoi": "(D) Update a list", "Dich": "(D) Cập nhật một danh sách" }
-          ],
-          "DapAn": "A",
-          [span_7](start_span)"GiaiThich": "Với tư cách là người giám sát, người đàn ông nói ông có thể phê duyệt chi phí này một lần: 'I can approve the expense this one time'[span_7](end_span)."
-        },
-        {
-          "ThuTu": 38,
-          "DoanVan": "M-Au: Good morning, Damalola. How's everything up here on deck?\nW-Af: Hi, Pedro. It was an uneventful night, and our cargo ship still hasn't moved yet.\nM-Au: Hmm, I hope the fog over the harbor lifts soon.\nW-Af: Yeah, me too. The ship won't be able to leave until the weather improves.\nM-Au: I hope we won't get too far behind schedule. I'll be sure to call the Port Authority soon for an update on when we'll be cleared to leave.\nW-Af: Sounds good.",
-          "CauHoi": "What industry do the speakers most likely work in?",
-          "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong ngành nào?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Construction", "Dich": "(A) Xây dựng" },
-            { "TraLoi": "(B) Shipping", "Dich": "(B) Vận tải biển" },
-            { "TraLoi": "(C) Agriculture", "Dich": "(C) Nông nghiệp" },
-            { "TraLoi": "(D) Tourism", "Dich": "(D) Du lịch" }
-          ],
-          "DapAn": "B",
-          [span_8](start_span)"GiaiThich": "Cuộc hội thoại diễn ra trên boong tàu (deck) của một tàu chở hàng (cargo ship)[span_8](end_span)."
-        },
-        {
-          "ThuTu": 39,
-          "CauHoi": "What is the reason for a delay?",
-          "DichCauHoi": "Lý do của sự chậm trễ là gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A mechanical problem", "Dich": "(A) Vấn đề cơ khí" },
-            { "TraLoi": "(B) A heavy workload", "Dich": "(B) Khối lượng công việc lớn" },
-            { "TraLoi": "(C) Poor weather conditions", "Dich": "(C) Điều kiện thời tiết xấu" },
-            { "TraLoi": "(D) A missing document", "Dich": "(D) Thiếu tài liệu" }
-          ],
-          "DapAn": "C",
-          [span_9](start_span)"GiaiThich": "Con tàu không thể rời cảng do sương mù (fog) và thời tiết chưa cải thiện[span_9](end_span)."
-        },
-        {
-          "ThuTu": 40,
-          "CauHoi": "What does the man say he will do?",
-          "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Call a government agency", "Dich": "(A) Gọi cho một cơ quan chính phủ" },
-            { "TraLoi": "(B) Sign a contract", "Dich": "(B) Ký hợp đồng" },
-            { "TraLoi": "(C) Check a maintenance log", "Dich": "(C) Kiểm tra nhật ký bảo trì" },
-            { "TraLoi": "(D) Prepare a shipment", "Dich": "(D) Chuẩn bị một lô hàng" }
-          ],
-          "DapAn": "A",
-          [span_10](start_span)"GiaiThich": "Người đàn ông nói sẽ gọi cho Cảng vụ (Port Authority) để cập nhật tình hình[span_10](end_span)."
-        },
-        {
-          "ThuTu": 41,
-          "DoanVan": "W-Am: Hi, I've made a reservation to meet with some clients for lunch today. It's under Cohen.\nM-Br: Oh, yes, I see your reservation. Welcome, Ms. Cohen.\nW-Am: I know I asked to be seated on your beautiful terrace, but it's very hot today.\nM-Br: I can seat you at table four inside. Do you mind waiting a few minutes?\nW-Am: Not at all. By the way, your parking area is nearly full. Where can I tell my clients to park?\nM-Br: Our customers can park for free in the garage across the street. Our cashier will stamp their parking tickets.\nW-Am: Oh, great, thanks. I'll call them and let them know.",
-          "CauHoi": "Why is the woman at the restaurant?",
-          "DichCauHoi": "Tại sao người phụ nữ lại ở nhà hàng?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) To interview for a job", "Dich": "(A) Để phỏng vấn xin việc" },
-            { "TraLoi": "(B) To cater an event", "Dich": "(B) Để cung cấp dịch vụ ăn uống cho sự kiện" },
-            { "TraLoi": "(C) To meet with some clients", "Dich": "(C) Để gặp gỡ một số khách hàng" },
-            { "TraLoi": "(D) To pick up a food order", "Dich": "(D) Để lấy đồ ăn đã đặt" }
-          ],
-          "DapAn": "C",
-          [span_11](start_span)"GiaiThich": "Cô ấy đặt chỗ để gặp khách hàng ăn trưa: 'meet with some clients for lunch today'[span_11](end_span)."
-        },
-        {
-          "ThuTu": 42,
-          "CauHoi": "What does the woman mean when she says, \"it's very hot today\"?",
-          "DichCauHoi": "Người phụ nữ có ý gì khi nói \"hôm nay trời rất nóng\"?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) She wants to change her seating location.", "Dich": "(A) Cô ấy muốn thay đổi vị trí chỗ ngồi." },
-            { "TraLoi": "(B) She thinks the air conditioning is broken.", "Dich": "(B) Cô ấy nghĩ máy điều hòa bị hỏng." },
-            { "TraLoi": "(C) She would like to order a cold drink.", "Dich": "(C) Cô ấy muốn gọi một thức uống lạnh." },
-            { "TraLoi": "(D) She is worried that her clients will be late.", "Dich": "(D) Cô ấy lo lắng rằng khách hàng của mình sẽ đến muộn." }
-          ],
-          "DapAn": "A",
-          [span_12](start_span)"GiaiThich": "Mặc dù đã yêu cầu ngồi ngoài sân thượng (terrace), cô ấy đổi ý muốn ngồi trong nhà vì trời nóng[span_12](end_span)."
-        },
-        {
-          "ThuTu": 43,
-          "CauHoi": "What does the man say about a parking garage?",
-          "DichCauHoi": "Người đàn ông nói gì về nhà để xe?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) It is currently closed for repairs.", "Dich": "(A) Nó hiện đang đóng cửa để sửa chữa." },
-            { "TraLoi": "(B) It is located across the street.", "Dich": "(B) Nó nằm ở bên kia đường." },
-            { "TraLoi": "(C) It is owned by the restaurant.", "Dich": "(C) Nó thuộc sở hữu của nhà hàng." },
-            { "TraLoi": "(D) It is only for employees.", "Dich": "(D) Nó chỉ dành cho nhân viên." }
-          ],
-          "DapAn": "B",
-          [span_13](start_span)"GiaiThich": "Người đàn ông thông báo có nhà để xe miễn phí cho khách hàng nằm đối diện nhà hàng: 'garage across the street'[span_13](end_span)."
-        },
-        {
-          "ThuTu": 44,
-          "DoanVan": "W-Am: Thank you both for coming here today to demonstrate your company's new compact printer. I know the store will be busy because we're having a big sale on laptop computers and tablets.\nM-Au: We're happy to be here. Our printers are perfect for students or people with home offices who may have limited space. My partner, Murat will be setting up the printer station.\nM-Cn: Yes, where can I put our demonstration table?\nW-Am: I'll show you the area. Also, if you brought any brochures with you, it'll be helpful to put those out for people to take.",
-          "CauHoi": "Where does the woman most likely work?",
-          "DichCauHoi": "Người phụ nữ có khả năng nhất làm việc ở đâu?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) At a printing company", "Dich": "(A) Tại một công ty in ấn" },
-            { "TraLoi": "(B) At an electronics store", "Dich": "(B) Tại một cửa hàng điện tử" },
-            { "TraLoi": "(C) At a school", "Dich": "(C) Tại một trường học" },
-            { "TraLoi": "(D) At a furniture warehouse", "Dich": "(D) Tại một kho đồ nội thất" }
-          ],
-          "DapAn": "B",
-          [span_14](start_span)"GiaiThich": "Cô ấy làm việc tại một cửa hàng (store) đang có đợt giảm giá laptop và máy tính bảng[span_14](end_span)."
-        },
-        {
-          "ThuTu": 45,
-          "CauHoi": "What does Murat ask about?",
-          "DichCauHoi": "Murat hỏi về điều gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A price list", "Dich": "(A) Một danh sách giá" },
-            { "TraLoi": "(B) A delivery schedule", "Dich": "(B) Một lịch trình giao hàng" },
-            { "TraLoi": "(C) A location for a display", "Dich": "(C) Một vị trí để trưng bày" },
-            { "TraLoi": "(D) A technical specification", "Dich": "(D) Một thông số kỹ thuật" }
-          ],
-          "DapAn": "C",
-          [span_15](start_span)"GiaiThich": "Murat hỏi về chỗ đặt bàn trưng bày: 'where can I put our demonstration table?'[span_15](end_span)."
-        },
-        {
-          "ThuTu": 46,
-          "CauHoi": "What does the woman suggest doing?",
-          "DichCauHoi": "Người phụ nữ đề nghị làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Handing out brochures", "Dich": "(A) Phát tờ rơi" },
-            { "TraLoi": "(B) Offering a discount", "Dich": "(B) Đưa ra mức giảm giá" },
-            { "TraLoi": "(C) Checking the inventory", "Dich": "(C) Kiểm tra hàng tồn kho" },
-            { "TraLoi": "(D) Testing the equipment", "Dich": "(D) Kiểm tra thiết bị" }
-          ],
-          "DapAn": "A",
-          [span_16](start_span)"GiaiThich": "Cô ấy đề nghị bày tờ rơi (brochures) ra cho khách hàng lấy[span_16](end_span)."
-        },
-        {
-          "ThuTu": 47,
-          "DoanVan": "W-Am: Gizm and Hector. I'm very pleased with the sales of our brands of cakes, pies and cookies this past holiday season. Any thoughts on what we should be concentrating on going forward?\nM-Af: The biggest trend right now is the reduction of sugar. The public wants healthier products, but the same great taste that will be our biggest challenge.\nM-Br: One of our ingredient suppliers recently started offering a sweetener made entirely from natural ingredients.\nW-Am: Are there similar ones on the market, and how do they compare?\nM-Br: I'd have to do some investigation to find out more about that. I have some time available tomorrow afternoon.",
-          "CauHoi": "What type of industry do the speakers most likely work in?",
-          "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong loại hình công nghiệp nào?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Advertising", "Dich": "(A) Quảng cáo" },
-            { "TraLoi": "(B) Health care", "Dich": "(B) Chăm sóc sức khỏe" },
-            { "TraLoi": "(C) Food production", "Dich": "(C) Sản xuất thực phẩm" },
-            { "TraLoi": "(D) Market research", "Dich": "(D) Nghiên cứu thị trường" }
-          ],
-          "DapAn": "C",
-          [span_17](start_span)[span_18](start_span)"GiaiThich": "Họ bàn về việc bán bánh ngọt (cakes, cookies) và các nhà cung cấp nguyên liệu (ingredient suppliers)[span_17](end_span)[span_18](end_span)."
-        },
-        {
-          "ThuTu": 48,
-          "CauHoi": "What business challenge are the speakers discussing?",
-          "DichCauHoi": "Thách thức kinh doanh nào mà các diễn giả đang thảo luận?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Improving customer service", "Dich": "(A) Cải thiện dịch vụ khách hàng" },
-            { "TraLoi": "(B) Developing healthier products", "Dich": "(B) Phát triển các sản phẩm lành mạnh hơn" },
-            { "TraLoi": "(C) Finding a new office space", "Dich": "(C) Tìm một không gian văn phòng mới" },
-            { "TraLoi": "(D) Reducing production costs", "Dich": "(D) Giảm chi phí sản xuất" }
-          ],
-          "DapAn": "B",
-          [span_19](start_span)"GiaiThich": "Họ thảo luận về xu hướng giảm đường và yêu cầu sản phẩm tốt cho sức khỏe hơn từ công chúng[span_19](end_span)."
-        },
-        {
-          "ThuTu": 49,
-          "CauHoi": "What does the man say he will do?",
-          "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Attend a trade show", "Dich": "(A) Tham dự một buổi triển lãm thương mại" },
-            { "TraLoi": "(B) Contact a supplier", "Dich": "(B) Liên lạc với nhà cung cấp" },
-            { "TraLoi": "(C) Conduct some research", "Dich": "(C) Thực hiện một số nghiên cứu" },
-            { "TraLoi": "(D) Revise a budget", "Dich": "(D) Xem xét lại ngân sách" }
-          ],
-          "DapAn": "C",
-          [span_20](start_span)"GiaiThich": "Anh ta nói sẽ dành thời gian nghiên cứu/điều tra thêm về các loại chất tạo ngọt tự nhiên trên thị trường[span_20](end_span)."
-        },
-        {
-          "ThuTu": 50,
-          "DoanVan": "M-Br: Hi, Bianca, I'm calling to see if you'd have time to work on a project for my marketing firm. We've expanded a lot in the past year, and we need some help.\nW-Am: Thanks for thinking of me. What type of work would I be doing?\nM-Br: Well, we have a new client in Brazil who's interested in creating a marketing campaign for social media sites you'd be overseeing the campaign.\nW-Am: Oh, I have experience with that. Why don't you send me a detailed description of the work that'll give me an idea of how much time this project will take.",
-          "CauHoi": "Why is the man calling?",
-          "DichCauHoi": "Tại sao người đàn ông lại gọi điện?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) To offer a job", "Dich": "(A) Để mời làm việc" },
-            { "TraLoi": "(B) To schedule an interview", "Dich": "(B) Để lên lịch phỏng vấn" },
-            { "TraLoi": "(C) To request a reference", "Dich": "(C) Để yêu cầu một tài liệu tham khảo" },
-            { "TraLoi": "(D) To confirm a meeting", "Dich": "(D) Để xác nhận một cuộc họp" }
-          ],
-          "DapAn": "A",
-          [span_21](start_span)"GiaiThich": "Anh ta gọi để mời cô ấy tham gia một dự án mới do công ty marketing của mình đang mở rộng[span_21](end_span)."
-        },
-        {
-          "ThuTu": 51,
-          "CauHoi": "What does the man say a client is interested in doing?",
-          "DichCauHoi": "Người đàn ông nói khách hàng quan tâm đến việc làm gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Opening a new branch", "Dich": "(A) Mở một chi nhánh mới" },
-            { "TraLoi": "(B) Redesigning a logo", "Dich": "(B) Thiết kế lại logo" },
-            { "TraLoi": "(C) Launching a social media campaign", "Dich": "(C) Ra mắt một chiến dịch mạng xã hội" },
-            { "TraLoi": "(D) Hosting an industry event", "Dich": "(D) Tổ chức một sự kiện ngành" }
-          ],
-          "DapAn": "C",
-          [span_22](start_span)[span_23](start_span)"GiaiThich": "Khách hàng muốn tạo một chiến dịch marketing trên mạng xã hội[span_22](end_span)[span_23](end_span)."
-        },
-        {
-          "ThuTu": 52,
-          "CauHoi": "What does the woman ask the man to send?",
-          "DichCauHoi": "Người phụ nữ yêu cầu người đàn ông gửi gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A contract", "Dich": "(A) Một bản hợp đồng" },
-            { "TraLoi": "(B) A job description", "Dich": "(B) Một bản mô tả công việc" },
-            { "TraLoi": "(C) A portfolio", "Dich": "(C) Một hồ sơ năng lực" },
-            { "TraLoi": "(D) A list of references", "Dich": "(D) Một danh sách người tham chiếu" }
-          ],
-          "DapAn": "B",
-          [span_24](start_span)"GiaiThich": "Cô ấy yêu cầu gửi bản mô tả chi tiết công việc (detailed description of the work) để cân đối thời gian[span_24](end_span)."
-        },
-        {
-          "ThuTu": 53,
-          "DoanVan": "W-Am: hey, code. See, we were about to pack van number five for the music festival when we noticed it's got a flat tire.\nM-Br: Oh, that's not good. We're supposed to get there by 11 to set up lunch for the performers. Is there another van we can take?\nW-Am: Let me see what's available. We've got a lot of catering jobs today. Ah, yes, we can use van number three. Do you need help loading?\nM-Br: Yes, thanks. The food's already in coolers, but everything's in the kitchen with the serving utensils and napkins. It all needs to be brought to the parking area.\nW-Am: All right, I can help with that.",
-          "CauHoi": "What problem does the woman mention?",
-          "DichCauHoi": "Người phụ nữ đề cập đến vấn đề gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A van has a flat tire", "Dich": "(A) Xe tải bị xẹp lốp" },
-            { "TraLoi": "(B) A delivery is late", "Dich": "(B) Giao hàng bị muộn" },
-            { "TraLoi": "(C) A piece of equipment is broken", "Dich": "(C) Một thiết bị bị hỏng" },
-            { "TraLoi": "(D) A kitchen is disorganized", "Dich": "(D) Nhà bếp không được sắp xếp ngăn nắp" }
-          ],
-          "DapAn": "A",
-          [span_25](start_span)"GiaiThich": "Chiếc xe tải số 5 dự định dùng để chở đồ bị xẹp lốp: 'it's got a flat tire'[span_25](end_span)."
-        },
-        {
-          "ThuTu": 54,
-          "CauHoi": "Where do the speakers most likely work?",
-          "DichCauHoi": "Các diễn giả có khả năng nhất làm việc ở đâu?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) At a music store", "Dich": "(A) Tại một cửa hàng âm nhạc" },
-            { "TraLoi": "(B) At a catering company", "Dich": "(B) Tại một công ty cung cấp suất ăn" },
-            { "TraLoi": "(C) At a car repair shop", "Dich": "(C) Tại một tiệm sửa xe" },
-            { "TraLoi": "(D) At a hotel", "Dich": "(D) Tại một khách sạn" }
-          ],
-          "DapAn": "B",
-          [span_26](start_span)[span_27](start_span)"GiaiThich": "Họ đang chuẩn bị đồ ăn cho lễ hội âm nhạc và nhắc đến nhiều việc cung cấp suất ăn (catering jobs)[span_26](end_span)[span_27](end_span)."
-        },
-        {
-          "ThuTu": 55,
-          "CauHoi": "What does the man say he will do next?",
-          "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì tiếp theo?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Call a repair shop", "Dich": "(A) Gọi cho tiệm sửa chữa" },
-            { "TraLoi": "(B) Pack some coolers", "Dich": "(B) Đóng gói các thùng làm lạnh" },
-            { "TraLoi": "(C) Clean the kitchen", "Dich": "(C) Dọn dẹp nhà bếp" },
-            { "TraLoi": "(D) Move items to a parking area", "Dich": "(D) Di chuyển các món đồ ra khu vực đỗ xe" }
-          ],
-          "DapAn": "D",
-          [span_28](start_span)"GiaiThich": "Mọi thứ trong nhà bếp cần được mang ra bãi đỗ xe để chất lên xe[span_28](end_span)."
-        },
-        {
-          "ThuTu": 56,
-          "DoanVan": "M-Am: Thanks for taking my call. As I mentioned in my email, I'm interested in working in your field, but I'm talking to some professionals first so I can find out more about it.\nW-Br: Happy to help.\nM-Am: So how did you get your start?\nW-Br: Oh, my family always subscribed to three newspapers, so I always thought the news was important at my university, I joined the newspaper and eventually worked my way up to being an editor.\nM-Am: Wow, is it true that people in the news business work very long hours. So What's your schedule like",
-          "CauHoi": "Why is the man calling the woman?",
-          "DichCauHoi": "Tại sao người đàn ông lại gọi cho người phụ nữ?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) To ask for professional advice", "Dich": "(A) Để hỏi xin lời khuyên chuyên môn" },
-            { "TraLoi": "(B) To conduct a survey", "Dich": "(B) Để thực hiện một cuộc khảo sát" },
-            { "TraLoi": "(C) To apply for a job", "Dich": "(C) Để nộp đơn xin việc" },
-            { "TraLoi": "(D) To cancel an appointment", "Dich": "(D) Để hủy một cuộc hẹn" }
-          ],
-          "DapAn": "A",
-          [span_29](start_span)"GiaiThich": "Anh ta muốn tìm hiểu về lĩnh vực nghề nghiệp của cô ấy thông qua việc trao đổi với chuyên gia[span_29](end_span)."
-        },
-        {
-          "ThuTu": 57,
-          "CauHoi": "Who most likely is the woman?",
-          "DichCauHoi": "Người phụ nữ có khả năng nhất là ai?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A professor", "Dich": "(A) Một giáo sư" },
-            { "TraLoi": "(B) A lawyer", "Dich": "(B) Một luật sư" },
-            { "TraLoi": "(C) An editor", "Dich": "(C) Một biên tập viên" },
-            { "TraLoi": "(D) A librarian", "Dich": "(D) Một thủ thư" }
-          ],
-          "DapAn": "C",
-          [span_30](start_span)"GiaiThich": "Cô ấy cho biết mình từng tham gia làm báo trường và hiện đã trở thành một biên tập viên (editor)[span_30](end_span)."
-        },
-        {
-          "ThuTu": 58,
-          "CauHoi": "What will the woman most likely do next?",
-          "DichCauHoi": "Người phụ nữ có khả năng nhất sẽ làm gì tiếp theo?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Write a news article", "Dich": "(A) Viết một bài báo" },
-            { "TraLoi": "(B) Describe her work schedule", "Dich": "(B) Mô tả lịch trình làm việc của mình" },
-            { "TraLoi": "(C) Update her resume", "Dich": "(C) Cập nhật sơ yếu lý lịch" },
-            { "TraLoi": "(D) Review a university application", "Dich": "(D) Xem xét một đơn xin nhập học đại học" }
-          ],
-          "DapAn": "B",
-          [span_31](start_span)"GiaiThich": "Người đàn ông vừa hỏi 'What's your schedule like?' nên bước tiếp theo cô ấy sẽ trả lời về lịch trình làm việc của mình[span_31](end_span)."
-        },
-        {
-          "ThuTu": 59,
-          "DoanVan": "M-Br: Hi, Karen. I just read the article on the company website about the proposed merger with QZ Corporation. It looks like we're going ahead with it.\nW-Am: There would be a lot of advantages to merging operations, although they also talked about it last year.\nM-Br: I remember that, but there were a lot of details to work out, like whether our offices would stay in Chicago. Now it looks like we won't be relocating.\nW-Am: Well, I really don't want to move, so that's a relief.",
-          "CauHoi": "What are the speakers mainly discussing?",
-          "DichCauHoi": "Các diễn giả chủ yếu thảo luận về điều gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A company merger", "Dich": "(A) Một vụ sáp nhập công ty" },
-            { "TraLoi": "(B) A new website design", "Dich": "(B) Một thiết kế trang web mới" },
-            { "TraLoi": "(C) An annual budget", "Dich": "(C) Một ngân sách hàng năm" },
-            { "TraLoi": "(D) A retirement policy", "Dich": "(D) Một chính sách nghỉ hưu" }
-          ],
-          "DapAn": "A",
-          [span_32](start_span)"GiaiThich": "Họ đang bàn về bài báo nói về vụ sáp nhập sắp tới với tập đoàn QZ[span_32](end_span)."
-        },
-        {
-          "ThuTu": 60,
-          "CauHoi": "Why does the woman say, \"they also talked about it last year\"?",
-          "DichCauHoi": "Tại sao người phụ nữ lại nói \"họ cũng đã nói về điều đó vào năm ngoái\"?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) She is excited about the news.", "Dich": "(A) Cô ấy hào hứng với tin tức." },
-            { "TraLoi": "(B) She is skeptical the merger will happen.", "Dich": "(B) Cô ấy hoài nghi việc sáp nhập sẽ xảy ra." },
-            { "TraLoi": "(C) She wants to postpone a meeting.", "Dich": "(C) Cô ấy muốn hoãn một cuộc họp." },
-            { "TraLoi": "(D) She has forgotten some information.", "Dich": "(D) Cô ấy đã quên một số thông tin." }
-          ],
-          "DapAn": "B",
-          [span_33](start_span)"GiaiThich": "Cô ấy nhắc lại chuyện cũ vì lo ngại nó sẽ chỉ dừng lại ở mức bàn bạc mà không tiến triển, thể hiện sự nghi ngờ[span_33](end_span)."
-        },
-        {
-          "ThuTu": 61,
-          "CauHoi": "What does the woman want to avoid?",
-          "DichCauHoi": "Người phụ nữ muốn tránh điều gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Working overtime", "Dich": "(A) Làm việc quá giờ" },
-            { "TraLoi": "(B) Hiring new staff", "Dich": "(B) Thuê nhân viên mới" },
-            { "TraLoi": "(C) Relocating to a new city", "Dich": "(C) Chuyển đến một thành phố mới" },
-            { "TraLoi": "(D) Changing departments", "Dich": "(D) Thay đổi bộ phận" }
-          ],
-          "DapAn": "C",
-          [span_34](start_span)"GiaiThich": "Cô ấy nói không muốn phải chuyển đi (không muốn văn phòng dời khỏi Chicago)[span_34](end_span)."
-        },
-        {
-          "ThuTu": 62,
-          "DoanVan": "M-Br: Thanks for calling customized concepts. How can I help you?\nW-Am: My company wants to give every employee a gift, something useful, but not too big. Since we're about to host our annual staff basketball tournament, I thought a water bottle might be good.\nM-Br: We carry a few drink containers. If you're at our website, you'll see them under the lifestyle tab.\nW-Am: Let me pull it up now. All right, I\nM-Br: I recommend the metal bottle with the wide mouthed lid. It's easier to clean than the one with the straw.\nW-Am: Okay, thanks, and you could put our company logo on it, right?\nM-Br: Yes, you'll just need to send me the graphic file.\nW-Am: I can do that",
-          "CauHoi": "Who is a gift for?",
-          "DichCauHoi": "Món quà dành cho ai?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A client", "Dich": "(A) Một khách hàng" },
-            { "TraLoi": "(B) An employee", "Dich": "(B) Một nhân viên" },
-            { "TraLoi": "(C) A supervisor", "Dich": "(C) Một người giám sát" },
-            { "TraLoi": "(D) A sports coach", "Dich": "(D) Một huấn luyện viên thể thao" }
-          ],
-          "DapAn": "B",
-          [span_35](start_span)"GiaiThich": "Người phụ nữ muốn tặng quà cho mỗi nhân viên trong công ty[span_35](end_span)."
-        },
-        {
-          "ThuTu": 63,
-          "ImageURL": "images/q63.jpg",
-          "CauHoi": "Look at the graphic. What is the price of the item the man recommends?",
-          "DichCauHoi": "Nhìn vào hình ảnh. Giá của món đồ mà người đàn ông đề xuất là bao nhiêu?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) $5", "Dich": "(A) 5 đô la" },
-            { "TraLoi": "(B) $10", "Dich": "(B) 10 đô la" },
-            { "TraLoi": "(C) $12", "Dich": "(C) 12 đô la" },
-            { "TraLoi": "(D) $15", "Dich": "(D) 15 đô la" }
-          ],
-          "DapAn": "C",
-          [span_36](start_span)"GiaiThich": "Người đàn ông khuyên chọn bình kim loại có miệng rộng (metal bottle with the wide mouthed lid)[span_36](end_span). [span_37](start_span)Theo bảng giá, loại này có giá $12[span_37](end_span)."
-        },
-        {
-          "ThuTu": 64,
-          "CauHoi": "What is the woman going to send to the man?",
-          "DichCauHoi": "Người phụ nữ định gửi gì cho người đàn ông?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) A mailing address", "Dich": "(A) Một địa chỉ gửi thư" },
-            { "TraLoi": "(B) A credit card number", "Dich": "(B) Số thẻ tín dụng" },
-            { "TraLoi": "(C) A graphic file", "Dich": "(C) Một tệp đồ họa" },
-            { "TraLoi": "(D) A staff list", "Dich": "(D) Một danh sách nhân viên" }
-          ],
-          "DapAn": "C",
-          [span_38](start_span)"GiaiThich": "Người phụ nữ sẽ gửi tệp đồ họa (graphic file) chứa logo công ty để in lên bình[span_38](end_span)."
-        },
-        {
-          "ThuTu": 65,
-          "DoanVan": "W-Am: Yun, I just finished recording the audio guide for the pencil drawings that will be included in our modern art exhibit next week, the files will be loaded onto the audio devices tomorrow.\nM-Br: That's great, but unfortunately, we have to make one change. The drawing by Claudia Hoffman will no longer be in the exhibit.\nW-Am: There was a scheduling mix up, and it was promised to another museum starting next week.\nM-Br: Oh, that's too bad that was one of my favorite pieces. Will you put anything in its place?\nW-Am: No, we'll just remove it. Okay, then I'll make that change to the audio guide recording. I'll do that right away.",
-          "CauHoi": "What type of art will be displayed in an exhibit?",
-          "DichCauHoi": "Loại hình nghệ thuật nào sẽ được trưng bày trong cuộc triển lãm?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Oil paintings", "Dich": "(A) Tranh sơn dầu" },
-            { "TraLoi": "(B) Pencil drawings", "Dich": "(B) Tranh vẽ chì" },
-            { "TraLoi": "(C) Metal sculptures", "Dich": "(C) Điêu khắc kim loại" },
-            { "TraLoi": "(D) Nature photography", "Dich": "(D) Nhiếp ảnh thiên nhiên" }
-          ],
-          "DapAn": "B",
-          [span_39](start_span)"GiaiThich": "Triển lãm trưng bày các bức vẽ bằng bút chì: 'pencil drawings'[span_39](end_span)."
-        },
-        {
-          "ThuTu": 66,
-          "ImageURL": "images/q66.jpg",
-          "CauHoi": "Look at the graphic. Which piece of artwork will no longer be included?",
-          "DichCauHoi": "Nhìn vào hình ảnh. Tác phẩm nghệ thuật nào sẽ không còn được đưa vào?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) City Life", "Dich": "(A) Cuộc sống thành phố" },
-            { "TraLoi": "(B) Quiet Street", "Dich": "(B) Con phố yên tĩnh" },
-            { "TraLoi": "(C) Mountain Stream", "Dich": "(C) Dòng suối trên núi" },
-            { "TraLoi": "(D) Summer Fields", "Dich": "(D) Những cánh đồng mùa hè" }
-          ],
-          "DapAn": "A",
-          [span_40](start_span)"GiaiThich": "Bức vẽ của Claudia Hoffman bị loại bỏ do nhầm lẫn lịch trình[span_40](end_span). [span_41](start_span)Tra bảng tương ứng sẽ là tác phẩm 'City Life'[span_41](end_span)."
-        },
-        {
-          "ThuTu": 67,
-          "CauHoi": "What does the woman say she will do right away?",
-          "DichCauHoi": "Người phụ nữ nói cô ấy sẽ làm gì ngay lập tức?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Update an audio recording", "Dich": "(A) Cập nhật bản ghi âm audio" },
-            { "TraLoi": "(B) Contact another museum", "Dich": "(B) Liên lạc với một bảo tàng khác" },
-            { "TraLoi": "(C) Change a display schedule", "Dich": "(C) Thay đổi lịch trình trưng bày" },
-            { "TraLoi": "(D) Print some labels", "Dich": "(D) In một số nhãn mác" }
-          ],
-          "DapAn": "A",
-          [span_42](start_span)"GiaiThich": "Cô ấy sẽ cập nhật bản ghi âm hướng dẫn audio để loại bỏ phần giới thiệu về bức tranh vừa bị rút[span_42](end_span)."
-        },
-        {
-          "ThuTu": 68,
-          "DoanVan": "M-Br: I'm glad we were assigned to cover the press conference earlier today, I counted seven other major media networks there in addition to ours.\nW-Am: Well, the offshore wind industry is going to transform the way this region gets its power agreed.\nM-Br: Let's compare our facts before we start writing\nW-Am: so the largest cluster of wind turbines off the coast of Winston is already built.\nM-Br: The other sites are at different stages of construction, though, Lanchester is also close to being done, right?\nW-Am: And I think it's crucial for us to focus on how many new jobs related to assembling and maintaining the turbines are opening up in the area as a result of this.",
-          "CauHoi": "Who most likely are the speakers?",
-          "DichCauHoi": "Các diễn giả có khả năng nhất là ai?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Journalists", "Dich": "(A) Nhà báo" },
-            { "TraLoi": "(B) Engineers", "Dich": "(B) Kỹ sư" },
-            { "TraLoi": "(C) Politicians", "Dich": "(C) Chính trị gia" },
-            { "TraLoi": "(D) Investors", "Dich": "(D) Nhà đầu tư" }
-          ],
-          "DapAn": "A",
-          [span_43](start_span)"GiaiThich": "Họ được giao đưa tin về buổi họp báo và làm việc cho mạng lưới truyền thông: 'media networks'[span_43](end_span)."
-        },
-        {
-          "ThuTu": 69,
-          "ImageURL": "images/q69.jpg",
-          "CauHoi": "Look at the graphic. Which site has already been completed?",
-          "DichCauHoi": "Nhìn vào hình ảnh. Địa điểm nào đã được hoàn thành?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) Site 1", "Dich": "(A) Địa điểm 1" },
-            { "TraLoi": "(B) Site 2", "Dich": "(B) Địa điểm 2" },
-            { "TraLoi": "(C) Site 3", "Dich": "(C) Địa điểm 3" },
-            { "TraLoi": "(D) Site 4", "Dich": "(D) Địa điểm 4" }
-          ],
-          "DapAn": "A",
-          [span_44](start_span)"GiaiThich": "Cụm tua bin gió ngoài khơi Winston đã được xây dựng xong[span_44](end_span). [span_45](start_span)Trên bản đồ, đó là Site 1[span_45](end_span)."
-        },
-        {
-          "ThuTu": 70,
-          "CauHoi": "What does the man suggest focusing on?",
-          "DichCauHoi": "Người đàn ông gợi ý nên tập trung vào điều gì?",
-          "CauTraLoi": [
-            { "TraLoi": "(A) The cost of electricity", "Dich": "(A) Chi phí điện năng" },
-            { "TraLoi": "(B) New job opportunities", "Dich": "(B) Các cơ hội việc làm mới" },
-            { "TraLoi": "(C) Environmental impact", "Dich": "(C) Tác động môi trường" },
-            { "TraLoi": "(D) Safety regulations", "Dich": "(D) Các quy định an toàn" }
-          ],
-          "DapAn": "B",
-          [span_46](start_span)"GiaiThich": "Người đàn ông đề xuất tập trung vào số lượng công việc mới được tạo ra nhờ dự án này[span_46](end_span)."
-        }
-      ]
+      "ThuTu": 32,
+      "DoanVan": "W-Am: Thank you so much for organizing the annual company picnic Jingdao. Everybody seemed to enjoy it.\nM-Cn: Well, we deserved it. After working so hard this year.\nW-Am: I agree. The food was great, by the way, especially the peach pie you made. Would you mind sharing the recipe? It was delicious.\nM-Cn: I found the recipe online, I'll send you a link to the web page. There's a really helpful video that walks you through all the steps. I recommend you watch it first.\nW-Am: All right, thanks.",
+      "CauHoi": "What event does the woman mention?",
+      "DichCauHoi": "Người phụ nữ đề cập đến sự kiện nào?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A company picnic", "Dich": "(A) Một buổi dã ngoại của công ty" },
+        { "TraLoi": "(B) A retirement party", "Dich": "(B) Một bữa tiệc nghỉ hưu" },
+        { "TraLoi": "(C) A cooking class", "Dich": "(C) Một lớp học nấu ăn" },
+        { "TraLoi": "(D) An awards ceremony", "Dich": "(D) Một lễ trao giải" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người phụ nữ cảm ơn vì đã tổ chức buổi dã ngoại hàng năm của công ty."
+    },
+    {
+      "ThuTu": 33,
+      "CauHoi": "What does the woman ask for?",
+      "DichCauHoi": "Người phụ nữ yêu cầu điều gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A grocery list", "Dich": "(A) Một danh sách đi chợ" },
+        { "TraLoi": "(B) A recipe", "Dich": "(B) Một công thức nấu ăn" },
+        { "TraLoi": "(C) A restaurant recommendation", "Dich": "(C) Một gợi ý nhà hàng" },
+        { "TraLoi": "(D) A ride to an event", "Dich": "(D) Đi nhờ xe đến một sự kiện" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người phụ nữ hỏi xin công thức nấu ăn: Would you mind sharing the recipe?"
+    },
+    {
+      "ThuTu": 34,
+      "CauHoi": "What does the man recommend doing?",
+      "DichCauHoi": "Người đàn ông khuyên nên làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Subscribing to a newsletter", "Dich": "(A) Đăng ký nhận bản tin" },
+        { "TraLoi": "(B) Visiting a local bakery", "Dich": "(B) Ghé thăm một tiệm bánh địa phương" },
+        { "TraLoi": "(C) Bringing a dish to a party", "Dich": "(C) Mang một món ăn đến bữa tiệc" },
+        { "TraLoi": "(D) Watching a video", "Dich": "(D) Xem một video" }
+      ],
+      "DapAn": "D",
+      "GiaiThich": "Người đàn ông khuyên người phụ nữ nên xem video hướng dẫn trước."
+    },
+    {
+      "ThuTu": 35,
+      "DoanVan": "W-Br: I'd like to finish calculating the company's expense reports for the month. Have you finished reviewing the Travel Reimbursement forms from all the departments?\nM-Am: I'm almost done, but I have a question about a hotel receipt from one of our employees.\nW-Br: What's the problem?\nM-Am: Well, our policy is for employees to stay at a hotel that's on our list of approved accommodations. This one isn't on the list.\nW-Br: Who submitted the receipt? Morit Ziegler, one of our sales representatives.\nM-Am: Hmm, he's a new employee, and may have forgotten the policy. As a supervisor, I can approve the expense this one time.",
+      "CauHoi": "What department do the speakers most likely work in?",
+      "DichCauHoi": "Các diễn giả có khả năng nhất làm việc ở bộ phận nào?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Human Resources", "Dich": "(A) Nhân sự" },
+        { "TraLoi": "(B) Accounting", "Dich": "(B) Kế toán" },
+        { "TraLoi": "(C) Sales", "Dich": "(C) Bán hàng" },
+        { "TraLoi": "(D) Marketing", "Dich": "(D) Tiếp thị" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Các nhân vật đang xử lý báo cáo chi phí và biểu mẫu hoàn trả phí đi lại, những công việc thuộc bộ phận kế toán."
+    },
+    {
+      "ThuTu": 36,
+      "CauHoi": "What problem does the woman mention?",
+      "DichCauHoi": "Người phụ nữ đề cập đến vấn đề gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A receipt is missing", "Dich": "(A) Thiếu hóa đơn" },
+        { "TraLoi": "(B) A deadline was missed", "Dich": "(B) Bị lỡ thời hạn" },
+        { "TraLoi": "(C) A policy was not followed", "Dich": "(C) Một chính sách không được tuân thủ" },
+        { "TraLoi": "(D) A form was signed incorrectly", "Dich": "(D) Một biểu mẫu bị ký sai" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Nhân viên đã ở tại một khách sạn không nằm trong danh sách được phê duyệt, vi phạm chính sách của công ty."
+    },
+    {
+      "ThuTu": 37,
+      "CauHoi": "What does the man say he will do?",
+      "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Approve an expense", "Dich": "(A) Phê duyệt một khoản chi phí" },
+        { "TraLoi": "(B) Contact a hotel", "Dich": "(B) Liên lạc với khách sạn" },
+        { "TraLoi": "(C) Hire a new employee", "Dich": "(C) Thuê một nhân viên mới" },
+        { "TraLoi": "(D) Update a list", "Dich": "(D) Cập nhật một danh sách" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người đàn ông nói rằng với tư cách là người giám sát, anh ta có thể phê duyệt khoản chi phí này một lần duy nhất."
+    },
+    {
+      "ThuTu": 38,
+      "DoanVan": "M-Au: Good morning. Damalola, how's everything up here on deck?\nW-Af: Hi. Pedro. It was an uneventful night, and our cargo ship still hasn't moved yet.\nM-Au: Hmm, I hope the fog over the harbor lifts soon.\nW-Af: Yeah, me too. The ship won't be able to leave until the weather improves.\nM-Au: I hope we won't get too far behind schedule. I'll be sure to call the Port Authority soon for an update on when we'll be cleared to leave.",
+      "CauHoi": "What industry do the speakers most likely work in?",
+      "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong ngành nào?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Construction", "Dich": "(A) Xây dựng" },
+        { "TraLoi": "(B) Shipping", "Dich": "(B) Vận tải biển" },
+        { "TraLoi": "(C) Agriculture", "Dich": "(C) Nông nghiệp" },
+        { "TraLoi": "(D) Tourism", "Dich": "(D) Du lịch" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Cuộc hội thoại diễn ra trên boong của một tàu chở hàng."
+    },
+    {
+      "ThuTu": 39,
+      "CauHoi": "What is the reason for a delay?",
+      "DichCauHoi": "Lý do của sự chậm trễ là gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A mechanical problem", "Dich": "(A) Vấn đề cơ khí" },
+        { "TraLoi": "(B) A heavy workload", "Dich": "(B) Khối lượng công việc lớn" },
+        { "TraLoi": "(C) Poor weather conditions", "Dich": "(C) Điều kiện thời tiết xấu" },
+        { "TraLoi": "(D) A missing document", "Dich": "(D) Thiếu tài liệu" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Con tàu bị chậm trễ do sương mù dày đặc và điều kiện thời tiết xấu."
+    },
+    {
+      "ThuTu": 40,
+      "CauHoi": "What does the man say he will do?",
+      "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Call a government agency", "Dich": "(A) Gọi cho một cơ quan chính phủ" },
+        { "TraLoi": "(B) Sign a contract", "Dich": "(B) Ký hợp đồng" },
+        { "TraLoi": "(C) Check a maintenance log", "Dich": "(C) Kiểm tra nhật ký bảo trì" },
+        { "TraLoi": "(D) Prepare a shipment", "Dich": "(D) Chuẩn bị một lô hàng" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người đàn ông sẽ gọi cho Cảng vụ để cập nhật tình hình khi nào tàu được phép rời đi."
+    },
+    {
+      "ThuTu": 41,
+      "DoanVan": "W-Am: Hi, I've made a reservation to meet with some clients for lunch today. It's under Cohen.\nM-Br: Oh, yes, I see your reservation. Welcome, MS. Cohen.\nW-Am: I know I asked to be seated on your beautiful terrace, but it's very hot today.\nM-Br: I can seat you at table four inside. Do you mind waiting a few minutes?\nW-Am: Not at all. By the way, your parking area is nearly full. Where can I tell my clients to park?\nM-Br: Our customers can park for free in the garage across the street. Our cashier will stamp their parking tickets.\nW-Am: Oh, great, thanks. I'll call them and let them know.",
+      "CauHoi": "Why is the woman at the restaurant?",
+      "DichCauHoi": "Tại sao người phụ nữ lại ở nhà hàng?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) To interview for a job", "Dich": "(A) Để phỏng vấn xin việc" },
+        { "TraLoi": "(B) To cater an event", "Dich": "(B) Để cung cấp dịch vụ ăn uống cho sự kiện" },
+        { "TraLoi": "(C) To meet with some clients", "Dich": "(C) Để gặp gỡ một số khách hàng" },
+        { "TraLoi": "(D) To pick up a food order", "Dich": "(D) Để lấy đồ ăn đã đặt" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người phụ nữ đến nhà hàng để gặp gỡ khách hàng ăn trưa."
+    },
+    {
+      "ThuTu": 42,
+      "CauHoi": "What does the woman mean when she says \"it's very hot today\"?",
+      "DichCauHoi": "Người phụ nữ có ý gì khi nói \"hôm nay trời rất nóng\"?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) She wants to change her seating location.", "Dich": "(A) Cô ấy muốn thay đổi vị trí chỗ ngồi." },
+        { "TraLoi": "(B) She thinks the air conditioning is broken.", "Dich": "(B) Cô ấy nghĩ máy điều hòa bị hỏng." },
+        { "TraLoi": "(C) She would like to order a cold drink.", "Dich": "(C) Cô ấy muốn gọi một thức uống lạnh." },
+        { "TraLoi": "(D) She is worried that her clients will be late.", "Dich": "(D) Cô ấy lo lắng rằng khách hàng của mình sẽ đến muộn." }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Vì trời nóng nên người phụ nữ muốn chuyển từ vị trí ngoài sân thượng vào ngồi trong nhà."
+    },
+    {
+      "ThuTu": 43,
+      "CauHoi": "What does the man say about a parking garage?",
+      "DichCauHoi": "Người đàn ông nói gì về nhà để xe?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) It is currently closed for repairs.", "Dich": "(A) Nó hiện đang đóng cửa để sửa chữa." },
+        { "TraLoi": "(B) It is located across the street.", "Dich": "(B) Nó nằm ở bên kia đường." },
+        { "TraLoi": "(C) It is owned by the restaurant.", "Dich": "(C) Nó thuộc sở hữu của nhà hàng." },
+        { "TraLoi": "(D) It is only for employees.", "Dich": "(D) Nó chỉ dành cho nhân viên." }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Nhà để xe nằm ở phía bên kia đường và khách hàng của nhà hàng có thể đỗ xe miễn phí tại đó."
+    },
+    {
+      "ThuTu": 44,
+      "DoanVan": "W-Am: Thank you both for coming here today to demonstrate your company's new compact printer. I know the store will be busy because we're having a big sale on laptop computers and tablets.\nM-Am: We're happy to be here. Our printers are perfect for students or people with home offices who may have limited space. My partner, Murat will be setting up the printer station.\nM-Br: Yes, where can I put our demonstration table?\nW-Am: I'll show you the area. Also, if you brought any brochures with you, it'll be helpful to put those out for people to take.",
+      "CauHoi": "Where does the woman most likely work?",
+      "DichCauHoi": "Người phụ nữ có khả năng nhất làm việc ở đâu?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) At a printing company", "Dich": "(A) Tại một công ty in ấn" },
+        { "TraLoi": "(B) At an electronics store", "Dich": "(B) Tại một cửa hàng điện tử" },
+        { "TraLoi": "(C) At a school", "Dich": "(C) Tại một trường học" },
+        { "TraLoi": "(D) At a furniture warehouse", "Dich": "(D) Tại một kho đồ nội thất" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người phụ nữ đề cập đến việc cửa hàng đang có đợt giảm giá lớn cho máy tính xách tay và máy tính bảng."
+    },
+    {
+      "ThuTu": 45,
+      "CauHoi": "What does Murat ask about?",
+      "DichCauHoi": "Murat hỏi về điều gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A price list", "Dich": "(A) Một danh sách giá" },
+        { "TraLoi": "(B) A delivery schedule", "Dich": "(B) Một lịch trình giao hàng" },
+        { "TraLoi": "(C) A location for a display", "Dich": "(C) Một vị trí để trưng bày" },
+        { "TraLoi": "(D) A technical specification", "Dich": "(D) Một thông số kỹ thuật" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Murat hỏi về vị trí để đặt bàn giới thiệu sản phẩm."
+    },
+    {
+      "ThuTu": 46,
+      "CauHoi": "What does the woman suggest doing?",
+      "DichCauHoi": "Người phụ nữ đề nghị làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Handing out brochures", "Dich": "(A) Phát tờ rơi" },
+        { "TraLoi": "(B) Offering a discount", "Dich": "(B) Đưa ra mức giảm giá" },
+        { "TraLoi": "(C) Checking the inventory", "Dich": "(C) Kiểm tra hàng tồn kho" },
+        { "TraLoi": "(D) Testing the equipment", "Dich": "(D) Kiểm tra thiết bị" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người phụ nữ đề nghị bày các tờ rơi ra để khách hàng có thể lấy."
+    },
+    {
+      "ThuTu": 47,
+      "DoanVan": "W-Am: Gizm and Hector. I'm very pleased with the sales of our brands of cakes, pies and cookies this past holiday season. Any thoughts on what we should be concentrating on going forward?\nM-Af: The biggest trend right now is the reduction of sugar. The public wants healthier products, but the same great taste that will be our biggest challenge.\nM-Br: One of our ingredient suppliers recently started offering a sweetener made entirely from natural ingredients.\nW-Am: Are there similar ones on the market, and how do they compare?\nM-Br: I'd have to do some investigation to find out more about that. I have some time available tomorrow afternoon.",
+      "CauHoi": "What type of industry do the speakers most likely work in?",
+      "DichCauHoi": "Các diễn giả có khả năng nhất làm việc trong loại hình công nghiệp nào?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Advertising", "Dich": "(A) Quảng cáo" },
+        { "TraLoi": "(B) Health care", "Dich": "(B) Chăm sóc sức khỏe" },
+        { "TraLoi": "(C) Food production", "Dich": "(C) Sản xuất thực phẩm" },
+        { "TraLoi": "(D) Market research", "Dich": "(D) Nghiên cứu thị trường" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Các diễn giả thảo luận về doanh số của các loại bánh và nguyên liệu tạo ngọt, cho thấy họ làm việc trong ngành sản xuất thực phẩm."
+    },
+    {
+      "ThuTu": 48,
+      "CauHoi": "What business challenge are the speakers discussing?",
+      "DichCauHoi": "Thách thức kinh doanh nào mà các diễn giả đang thảo luận?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Improving customer service", "Dich": "(A) Cải thiện dịch vụ khách hàng" },
+        { "TraLoi": "(B) Developing healthier products", "Dich": "(B) Phát triển các sản phẩm lành mạnh hơn" },
+        { "TraLoi": "(C) Finding a new office space", "Dich": "(C) Tìm một không gian văn phòng mới" },
+        { "TraLoi": "(D) Reducing production costs", "Dich": "(D) Giảm chi phí sản xuất" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Họ thảo luận về thách thức trong việc giảm lượng đường để tạo ra sản phẩm tốt cho sức khỏe hơn nhưng vẫn giữ được hương vị."
+    },
+    {
+      "ThuTu": 49,
+      "CauHoi": "What does the man say he will do?",
+      "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Attend a trade show", "Dich": "(A) Tham dự một buổi triển lãm thương mại" },
+        { "TraLoi": "(B) Contact a supplier", "Dich": "(B) Liên lạc với nhà cung cấp" },
+        { "TraLoi": "(C) Conduct some research", "Dich": "(C) Thực hiện một số nghiên cứu" },
+        { "TraLoi": "(D) Revise a budget", "Dich": "(D) Xem xét lại ngân sách" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người đàn ông nói anh ta sẽ dành thời gian để tìm hiểu và so sánh các loại chất tạo ngọt trên thị trường."
+    },
+    {
+      "ThuTu": 50,
+      "DoanVan": "M-Br: Hi, Bianca, I'm calling to see if you'd have time to work on a project for my marketing firm. We've expanded a lot in the past year, and we need some help.\nW-Am: Thanks for thinking of me. What type of work would I be doing?\nM-Br: Well, we have a new client in Brazil who's interested in creating a marketing campaign for social media sites you'd be overseeing the campaign.\nW-Am: Oh, I have experience with that. Why don't you send me a detailed description of the work that'll give me an idea of how much time this project will take.",
+      "CauHoi": "Why is the man calling?",
+      "DichCauHoi": "Tại sao người đàn ông lại gọi điện?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) To offer a job", "Dich": "(A) Để mời làm việc" },
+        { "TraLoi": "(B) To schedule an interview", "Dich": "(B) Để lên lịch phỏng vấn" },
+        { "TraLoi": "(C) To request a reference", "Dich": "(C) Để yêu cầu một tài liệu tham khảo" },
+        { "TraLoi": "(D) To confirm a meeting", "Dich": "(D) Để xác nhận một cuộc họp" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người đàn ông gọi để mời người phụ nữ tham gia vào một dự án mới của công ty marketing của anh ta."
+    },
+    {
+      "ThuTu": 51,
+      "CauHoi": "What does the man say a client is interested in doing?",
+      "DichCauHoi": "Người đàn ông nói khách hàng quan tâm đến việc làm gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Opening a new branch", "Dich": "(A) Mở một chi nhánh mới" },
+        { "TraLoi": "(B) Redesigning a logo", "Dich": "(B) Thiết kế lại logo" },
+        { "TraLoi": "(C) Launching a social media campaign", "Dich": "(C) Ra mắt một chiến dịch mạng xã hội" },
+        { "TraLoi": "(D) Hosting an industry event", "Dich": "(D) Tổ chức một sự kiện ngành" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Khách hàng muốn tạo ra một chiến dịch tiếp thị trên các trang mạng xã hội."
+    },
+    {
+      "ThuTu": 52,
+      "CauHoi": "What does the woman ask the man to send?",
+      "DichCauHoi": "Người phụ nữ yêu cầu người đàn ông gửi gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A contract", "Dich": "(A) Một bản hợp đồng" },
+        { "TraLoi": "(B) A job description", "Dich": "(B) Một bản mô tả công việc" },
+        { "TraLoi": "(C) A portfolio", "Dich": "(C) Một hồ sơ năng lực" },
+        { "TraLoi": "(D) A list of references", "Dich": "(D) Một danh sách người tham chiếu" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người phụ nữ yêu cầu gửi bản mô tả chi tiết công việc để cô ấy có thể ước tính thời gian thực hiện dự án."
+    },
+    {
+      "ThuTu": 53,
+      "DoanVan": "W-Am: hey, code. See, we were about to pack van number five for the music festival when we noticed it's got a flat tire.\nM-Br: Oh, that's not good. We're supposed to get there by 11 to set up lunch for the performers. Is there another van we can take?\nW-Am: Let me see what's available. We've got a lot of catering jobs today. Ah, yes, we can use van number three. Do you need help loading?\nM-Br: Yes, thanks. The food's already in coolers, but everything's in the kitchen with the serving utensils and napkins. It all needs to be brought to the parking area.\nW-Am: All right, I can help with that.",
+      "CauHoi": "What problem does the woman mention?",
+      "DichCauHoi": "Người phụ nữ đề cập đến vấn đề gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A van has a flat tire", "Dich": "(A) Xe tải bị xẹp lốp" },
+        { "TraLoi": "(B) A delivery is late", "Dich": "(B) Giao hàng bị muộn" },
+        { "TraLoi": "(C) A piece of equipment is broken", "Dich": "(C) Một thiết bị bị hỏng" },
+        { "TraLoi": "(D) A kitchen is disorganized", "Dich": "(D) Nhà bếp không được sắp xếp ngăn nắp" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người phụ nữ thông báo rằng chiếc xe tải số 5 dự kiến sử dụng đã bị xẹp lốp."
+    },
+    {
+      "ThuTu": 54,
+      "CauHoi": "Where do the speakers most likely work?",
+      "DichCauHoi": "Các diễn giả có khả năng nhất làm việc ở đâu?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) At a music store", "Dich": "(A) Tại một cửa hàng âm nhạc" },
+        { "TraLoi": "(B) At a catering company", "Dich": "(B) Tại một công ty cung cấp suất ăn" },
+        { "TraLoi": "(C) At a car repair shop", "Dich": "(C) Tại một tiệm sửa xe" },
+        { "TraLoi": "(D) At a hotel", "Dich": "(D) Tại một khách sạn" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Các diễn giả thảo luận về việc chuẩn bị thức ăn cho lễ hội âm nhạc và nhắc đến các công việc cung cấp suất ăn."
+    },
+    {
+      "ThuTu": 55,
+      "CauHoi": "What does the man say he will do next?",
+      "DichCauHoi": "Người đàn ông nói anh ta sẽ làm gì tiếp theo?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Call a repair shop", "Dich": "(A) Gọi cho tiệm sửa chữa" },
+        { "TraLoi": "(B) Pack some coolers", "Dich": "(B) Đóng gói các thùng làm lạnh" },
+        { "TraLoi": "(C) Clean the kitchen", "Dich": "(C) Dọn dẹp nhà bếp" },
+        { "TraLoi": "(D) Move items to a parking area", "Dich": "(D) Di chuyển các món đồ ra khu vực đỗ xe" }
+      ],
+      "DapAn": "D",
+      "GiaiThich": "Người đàn ông cần chuyển thực phẩm và dụng cụ từ bếp ra khu vực bãi đỗ xe để chất lên xe."
+    },
+    {
+      "ThuTu": 56,
+      "DoanVan": "M-Am: Thanks for taking my call. As I mentioned in my email, I'm interested in working in your field, but I'm talking to some professionals first so I can find out more about it.\nW-Br: Happy to help.\nM-Am: So how did you get your start?\nW-Br: Oh, my family always subscribed to three newspapers, so I always thought the news was important at my university, I joined the newspaper and eventually worked my way up to being an editor.\nM-Am: Wow, is it true that people in the news business work very long hours. So What's your schedule like",
+      "CauHoi": "Why is the man calling the woman?",
+      "DichCauHoi": "Tại sao người đàn ông lại gọi cho người phụ nữ?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) To ask for professional advice", "Dich": "(A) Để hỏi xin lời khuyên chuyên môn" },
+        { "TraLoi": "(B) To conduct a survey", "Dich": "(B) Để thực hiện một cuộc khảo sát" },
+        { "TraLoi": "(C) To apply for a job", "Dich": "(C) Để nộp đơn xin việc" },
+        { "TraLoi": "(D) To cancel an appointment", "Dich": "(D) Để hủy một cuộc hẹn" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người đàn ông gọi để tìm hiểu thông tin về ngành nghề của người phụ nữ từ một chuyên gia."
+    },
+    {
+      "ThuTu": 57,
+      "CauHoi": "Who most likely is the woman?",
+      "DichCauHoi": "Người phụ nữ có khả năng nhất là ai?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A professor", "Dich": "(A) Một giáo sư" },
+        { "TraLoi": "(B) A lawyer", "Dich": "(B) Một luật sư" },
+        { "TraLoi": "(C) An editor", "Dich": "(C) Một biên tập viên" },
+        { "TraLoi": "(D) A librarian", "Dich": "(D) Một thủ thư" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người phụ nữ đề cập rằng cô ấy đã nỗ lực làm việc để trở thành một biên tập viên."
+    },
+    {
+      "ThuTu": 58,
+      "CauHoi": "What will the woman most likely do next?",
+      "DichCauHoi": "Người phụ nữ có khả năng nhất sẽ làm gì tiếp theo?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Write a news article", "Dich": "(A) Viết một bài báo" },
+        { "TraLoi": "(B) Describe her work schedule", "Dich": "(B) Mô tả lịch trình làm việc của mình" },
+        { "TraLoi": "(C) Update her resume", "Dich": "(C) Cập nhật sơ yếu lý lịch" },
+        { "TraLoi": "(D) Review a university application", "Dich": "(D) Xem xét một đơn xin nhập học đại học" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người đàn ông vừa hỏi về lịch trình làm việc của cô ấy nên cô ấy sẽ trả lời câu hỏi đó."
+    },
+    {
+      "ThuTu": 59,
+      "DoanVan": "M-Br: Hi, Karen. I just read the article on the company website about the proposed merger with QZ Corporation. It looks like we're going ahead with it.\nW-Am: There would be a lot of advantages to merging operations, although they also talked about it last year.\nM-Br: I remember that, but there were a lot of details to work out, like whether our offices would stay in Chicago. Now it looks like we won't be relocating.\nW-Am: Well, I really don't want to move, so that's a relief.",
+      "CauHoi": "What are the speakers mainly discussing?",
+      "DichCauHoi": "Các diễn giả chủ yếu thảo luận về điều gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A company merger", "Dich": "(A) Một vụ sáp nhập công ty" },
+        { "TraLoi": "(B) A new website design", "Dich": "(B) Một thiết kế trang web mới" },
+        { "TraLoi": "(C) An annual budget", "Dich": "(C) Một ngân sách hàng năm" },
+        { "TraLoi": "(D) A retirement policy", "Dich": "(D) Một chính sách nghỉ hưu" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Cuộc hội thoại xoay quanh việc sáp nhập công ty với tập đoàn QZ."
+    },
+    {
+      "ThuTu": 60,
+      "CauHoi": "Why does the woman say \"they also talked about it last year\"?",
+      "DichCauHoi": "Tại sao người phụ nữ lại nói \"họ cũng đã nói về điều đó vào năm ngoái\"?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) She is excited about the news.", "Dich": "(A) Cô ấy hào hứng với tin tức." },
+        { "TraLoi": "(B) She is skeptical the merger will happen.", "Dich": "(B) Cô ấy hoài nghi việc sáp nhập sẽ xảy ra." },
+        { "TraLoi": "(C) She wants to postpone a meeting.", "Dich": "(C) Cô ấy muốn hoãn một cuộc họp." },
+        { "TraLoi": "(D) She has forgotten some information.", "Dich": "(D) Cô ấy đã quên một số thông tin." }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người phụ nữ tỏ ra hoài nghi vì kế hoạch sáp nhập này đã được nhắc đến từ năm ngoái nhưng đến nay mới có tiến triển mới."
+    },
+    {
+      "ThuTu": 61,
+      "CauHoi": "What does the woman want to avoid?",
+      "DichCauHoi": "Người phụ nữ muốn tránh điều gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Working overtime", "Dich": "(A) Làm việc quá giờ" },
+        { "TraLoi": "(B) Hiring new staff", "Dich": "(B) Thuê nhân viên mới" },
+        { "TraLoi": "(C) Relocating to a new city", "Dich": "(C) Chuyển đến một thành phố mới" },
+        { "TraLoi": "(D) Changing departments", "Dich": "(D) Thay đổi bộ phận" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người phụ nữ nói rằng cô ấy không muốn phải chuyển đi nơi khác sinh sống và làm việc."
+    },
+    {
+      "ThuTu": 62,
+      "DoanVan": "M-Br: Thanks for calling customized concepts. How can I help you?\nW-Am: My company wants to give every employee a gift, something useful, but not too big. Since we're about to host our annual staff basketball tournament, I thought a water bottle might be good.\nM-Br: We carry a few drink containers. If you're at our website, you'll see them under the lifestyle tab.\nW-Am: Let me pull it up now. All right, I\nM-Br: I recommend the metal bottle with the wide mouthed lid. It's easier to clean than the one with the straw.\nW-Am: Okay, thanks, and you could put our company logo on it, right?\nM-Br: Yes, you'll just need to send me the graphic file.\nW-Am: I can do that",
+      "CauHoi": "Who is a gift for?",
+      "DichCauHoi": "Món quà dành cho ai?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A client", "Dich": "(A) Một khách hàng" },
+        { "TraLoi": "(B) An employee", "Dich": "(B) Một nhân viên" },
+        { "TraLoi": "(C) A supervisor", "Dich": "(C) Một người giám sát" },
+        { "TraLoi": "(D) A sports coach", "Dich": "(D) Một huấn luyện viên thể thao" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Công ty muốn tặng quà cho mỗi nhân viên trong kỳ đại hội bóng rổ."
+    },
+    {
+      "ThuTu": 63,
+      "CauHoi": "Look at the graphic. What is the price of the item the man recommends?",
+      "DichCauHoi": "Nhìn vào hình ảnh. Giá của món đồ mà người đàn ông đề xuất là bao nhiêu?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) $5", "Dich": "(A) 5 đô la" },
+        { "TraLoi": "(B) $10", "Dich": "(B) 10 đô la" },
+        { "TraLoi": "(C) $12", "Dich": "(C) 12 đô la" },
+        { "TraLoi": "(D) $15", "Dich": "(D) 15 đô la" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người đàn ông đề xuất bình kim loại có miệng rộng, theo thông tin trên biểu đồ thì loại này có giá 12 đô la."
+    },
+    {
+      "ThuTu": 64,
+      "CauHoi": "What is the woman going to send to the man?",
+      "DichCauHoi": "Người phụ nữ định gửi gì cho người đàn ông?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) A mailing address", "Dich": "(A) Một địa chỉ gửi thư" },
+        { "TraLoi": "(B) A credit card number", "Dich": "(B) Số thẻ tín dụng" },
+        { "TraLoi": "(C) A graphic file", "Dich": "(C) Một tệp đồ họa" },
+        { "TraLoi": "(D) A staff list", "Dich": "(D) Một danh sách nhân viên" }
+      ],
+      "DapAn": "C",
+      "GiaiThich": "Người phụ nữ sẽ gửi tệp đồ họa chứa logo công ty để in lên món quà."
+    },
+    {
+      "ThuTu": 65,
+      "DoanVan": "W-Am: Yun, I just finished recording the audio guide for the pencil drawings that will be included in our modern art exhibit next week, the files will be loaded onto the audio devices tomorrow.\nM-Br: That's great, but unfortunately, we have to make one change. The drawing by Claudia Hoffman will no longer be in the exhibit.\nW-Am: There was a scheduling mix up, and it was promised to another museum starting next week.\nM-Br: Oh, that's too bad that was one of my favorite pieces. Will you put anything in its place?\nW-Am: No, we'll just remove it. Okay, then I'll make that change to the audio guide recording. I'll do that right away.",
+      "CauHoi": "What type of art will be displayed in an exhibit?",
+      "DichCauHoi": "Loại hình nghệ thuật nào sẽ được trưng bày trong cuộc triển lãm?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Oil paintings", "Dich": "(A) Tranh sơn dầu" },
+        { "TraLoi": "(B) Pencil drawings", "Dich": "(B) Tranh vẽ chì" },
+        { "TraLoi": "(C) Metal sculptures", "Dich": "(C) Điêu khắc kim loại" },
+        { "TraLoi": "(D) Nature photography", "Dich": "(D) Nghiên cứu nhiếp ảnh thiên nhiên" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người phụ nữ đề cập rằng triển lãm trưng bày các bức vẽ bằng bút chì."
+    },
+    {
+      "ThuTu": 66,
+      "CauHoi": "Look at the graphic. Which piece of artwork will no longer be included?",
+      "DichCauHoi": "Nhìn vào hình ảnh. Tác phẩm nghệ thuật nào sẽ không còn được đưa vào?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) City Life", "Dich": "(A) Cuộc sống thành phố" },
+        { "TraLoi": "(B) Quiet Street", "Dich": "(B) Con phố yên tĩnh" },
+        { "TraLoi": "(C) Mountain Stream", "Dich": "(C) Dòng suối trên núi" },
+        { "TraLoi": "(D) Summer Fields", "Dich": "(D) Những cánh đồng mùa hè" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Bức vẽ của Claudia Hoffman (tương ứng với tác phẩm City Life trên biểu đồ) sẽ bị loại bỏ."
+    },
+    {
+      "ThuTu": 67,
+      "CauHoi": "What does the woman say she will do right away?",
+      "DichCauHoi": "Người phụ nữ nói cô ấy sẽ làm gì ngay lập tức?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Update an audio recording", "Dich": "(A) Cập nhật bản ghi âm audio" },
+        { "TraLoi": "(B) Contact another museum", "Dich": "(B) Liên lạc với một bảo tàng khác" },
+        { "TraLoi": "(C) Change a display schedule", "Dich": "(C) Thay đổi lịch trình trưng bày" },
+        { "TraLoi": "(D) Print some labels", "Dich": "(D) In một số nhãn mác" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Người phụ nữ sẽ thực hiện thay đổi cho bản ghi âm audio hướng dẫn triển lãm ngay lập tức."
+    },
+    {
+      "ThuTu": 68,
+      "DoanVan": "M-Br: I'm glad we were assigned to cover the press conference earlier today, I counted seven other major media networks there in addition to ours.\nW-Am: Well, the offshore wind industry is going to transform the way this region gets its power agreed.\nM-Br: Let's compare our facts before we start writing\nW-Am: so the largest cluster of wind turbines off the coast of Winston is already built.\nM-Br: The other sites are at different stages of construction, though, Lanchester is also close to being done, right?\nW-Am: And I think it's crucial for us to focus on how many new jobs related to assembling and maintaining the turbines are opening up in the area as a result of this.",
+      "CauHoi": "Who most likely are the speakers?",
+      "DichCauHoi": "Các diễn giả có khả năng nhất là ai?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Journalists", "Dich": "(A) Nhà báo" },
+        { "TraLoi": "(B) Engineers", "Dich": "(B) Kỹ sư" },
+        { "TraLoi": "(C) Politicians", "Dich": "(C) Chính trị gia" },
+        { "TraLoi": "(D) Investors", "Dich": "(D) Nhà đầu tư" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Các diễn giả nhắc đến việc đưa tin về buổi họp báo và làm việc cho mạng lưới truyền thông, nên họ là các nhà báo."
+    },
+    {
+      "ThuTu": 69,
+      "CauHoi": "Look at the graphic. Which site has already been completed?",
+      "DichCauHoi": "Nhìn vào hình ảnh. Địa điểm nào đã được hoàn thành?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) Site 1", "Dich": "(A) Địa điểm 1" },
+        { "TraLoi": "(B) Site 2", "Dich": "(B) Địa điểm 2" },
+        { "TraLoi": "(C) Site 3", "Dich": "(C) Địa điểm 3" },
+        { "TraLoi": "(D) Site 4", "Dich": "(D) Địa điểm 4" }
+      ],
+      "DapAn": "A",
+      "GiaiThich": "Địa điểm ngoài khơi Winston đã được xây dựng xong, tương ứng với Site 1 trên bản đồ."
+    },
+    {
+      "ThuTu": 70,
+      "CauHoi": "What does the man suggest focusing on?",
+      "DichCauHoi": "Người đàn ông gợi ý nên tập trung vào điều gì?",
+      "CauTraLoi": [
+        { "TraLoi": "(A) The cost of electricity", "Dich": "(A) Chi phí điện năng" },
+        { "TraLoi": "(B) New job opportunities", "Dich": "(B) Các cơ hội việc làm mới" },
+        { "TraLoi": "(C) Environmental impact", "Dich": "(C) Tác động môi trường" },
+        { "TraLoi": "(D) Safety regulations", "Dich": "(D) Các quy định an toàn" }
+      ],
+      "DapAn": "B",
+      "GiaiThich": "Người đàn ông cho rằng điều quan trọng là tập trung vào số lượng công việc mới được tạo ra nhờ dự án này."
     }
   ]
 }
