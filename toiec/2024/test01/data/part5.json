@@ -1,0 +1,401 @@
+{
+"TestName": "TOEIC PRACTICE TEST 01",
+"Parts": [
+{
+"PartNumber": 5,
+"AudioURL": "audio/part5.mp3",
+"Questions": [
+{
+"ThuTu": 101,
+"CauHoi": "Former Sendai Company CEO Ken Nakata spoke about ------- career experiences.",
+"DichCauHoi": "Cựu CEO của Công ty Sendai, ông Ken Nakata, đã nói về những kinh nghiệm nghề nghiệp của -------.",
+"CauTraLoi": [
+{ "TraLoi": "(A) he", "Dich": "(A) anh ấy" },
+{ "TraLoi": "(B) his", "Dich": "(B) của anh ấy" },
+{ "TraLoi": "(C) him", "Dich": "(C) anh ấy (tân ngữ)" },
+{ "TraLoi": "(D) himself", "Dich": "(D) chính anh ấy" }
+],
+"DapAn": "B",
+"GiaiThich": "Cần tính từ sở hữu 'his' đứng trước cụm danh từ 'career experiences'."
+},
+{
+"ThuTu": 102,
+"CauHoi": "Passengers who will be taking a ------- domestic flight should go to Terminal A.",
+"DichCauHoi": "Hành khách đi chuyến bay nội địa ------- nên đi đến Nhà ga A.",
+"CauTraLoi": [
+{ "TraLoi": "(A) connectivity", "Dich": "(A) khả năng kết nối" },
+{ "TraLoi": "(B) connects", "Dich": "(B) kết nối (v)" },
+{ "TraLoi": "(C) connect", "Dich": "(C) kết nối (v)" },
+{ "TraLoi": "(D) connecting", "Dich": "(D) nối chuyến" }
+],
+"DapAn": "D",
+"GiaiThich": "'Connecting flight' là cụm danh từ cố định chỉ chuyến bay nối chuyến."
+},
+{
+"ThuTu": 103,
+"CauHoi": "Fresh and ------- apple-cider donuts are available at Oakcrest Orchard's retail shop for £6 per dozen.",
+"DichCauHoi": "Bánh donut táo tươi và ------- có sẵn tại cửa hàng bán lẻ của Oakcrest Orchard...",
+"CauTraLoi": [
+{ "TraLoi": "(A) eaten", "Dich": "(A) đã ăn" },
+{ "TraLoi": "(B) open", "Dich": "(B) mở" },
+{ "TraLoi": "(C) tasty", "Dich": "(C) ngon" },
+{ "TraLoi": "(D) free", "Dich": "(D) miễn phí" }
+],
+"DapAn": "C",
+"GiaiThich": "Tính từ 'tasty' phù hợp để mô tả chất lượng đồ ăn cùng với 'fresh'."
+},
+{
+"ThuTu": 104,
+"CauHoi": "Zahn Flooring has the widest selection of ------- in the United Kingdom.",
+"DichCauHoi": "Zahn Flooring có sự lựa chọn đa dạng nhất về ------- tại Vương quốc Anh.",
+"CauTraLoi": [
+{ "TraLoi": "(A) paints", "Dich": "(A) sơn" },
+{ "TraLoi": "(B) tiles", "Dich": "(B) gạch lát" },
+{ "TraLoi": "(C) furniture", "Dich": "(C) nội thất" },
+{ "TraLoi": "(D) curtains", "Dich": "(D) rèm cửa" }
+],
+"DapAn": "B",
+"GiaiThich": "Dựa vào tên công ty 'Flooring' (sàn nhà), 'tiles' (gạch lát) là mặt hàng phù hợp nhất."
+},
+{
+"ThuTu": 105,
+"CauHoi": "One responsibility of the IT department is to ensure that the company is using ------- software.",
+"DichCauHoi": "Một trách nhiệm của bộ phận CNTT là đảm bảo công ty đang sử dụng phần mềm -------.",
+"CauTraLoi": [
+{ "TraLoi": "(A) update", "Dich": "(A) cập nhật (v)" },
+{ "TraLoi": "(B) updating", "Dich": "(B) đang cập nhật" },
+{ "TraLoi": "(C) updates", "Dich": "(C) các bản cập nhật" },
+{ "TraLoi": "(D) updated", "Dich": "(D) đã được cập nhật" }
+],
+"DapAn": "D",
+"GiaiThich": "Cần một tính từ (quá khứ phân từ) để mô tả trạng thái của phần mềm đã được cập nhật."
+},
+{
+"ThuTu": 106,
+"CauHoi": "It is wise to check a company's dress code ------- visiting its head office.",
+"DichCauHoi": "Nên kiểm tra quy định về trang phục của công ty ------- khi đến thăm trụ sở chính.",
+"CauTraLoi": [
+{ "TraLoi": "(A) so", "Dich": "(A) vì vậy" },
+{ "TraLoi": "(B) how", "Dich": "(B) như thế nào" },
+{ "TraLoi": "(C) like", "Dich": "(C) giống như" },
+{ "TraLoi": "(D) before", "Dich": "(D) trước khi" }
+],
+"DapAn": "D",
+"GiaiThich": "Giới từ 'before' phù hợp về nghĩa để chỉ trình tự thời gian."
+},
+{
+"ThuTu": 107,
+"CauHoi": "Wexler Store's management team expects that employees will ------- support any new hires.",
+"DichCauHoi": "Ban quản lý cửa hàng Wexler mong đợi nhân viên sẽ hỗ trợ ------- bất kỳ nhân viên mới nào.",
+"CauTraLoi": [
+{ "TraLoi": "(A) enthusiastically", "Dich": "(A) một cách nhiệt tình" },
+{ "TraLoi": "(B) enthusiasm", "Dich": "(B) sự nhiệt tình" },
+{ "TraLoi": "(C) enthusiastic", "Dich": "(C) nhiệt tình (adj)" },
+{ "TraLoi": "(D) enthused", "Dich": "(D) hào hứng" }
+],
+"DapAn": "A",
+"GiaiThich": "Trạng từ 'enthusiastically' bổ nghĩa cho động từ 'support'."
+},
+{
+"ThuTu": 108,
+"CauHoi": "Wheel alignments and brake system ------- are part of our vehicle service plan.",
+"DichCauHoi": "Cân chỉnh bánh xe và ------- hệ thống phanh là một phần trong kế hoạch bảo dưỡng xe của chúng tôi.",
+"CauTraLoi": [
+{ "TraLoi": "(A) inspects", "Dich": "(A) kiểm tra (v)" },
+{ "TraLoi": "(B) inspector", "Dich": "(B) thanh tra viên" },
+{ "TraLoi": "(C) inspected", "Dich": "(C) đã kiểm tra" },
+{ "TraLoi": "(D) inspections", "Dich": "(D) việc kiểm tra" }
+],
+"DapAn": "D",
+"GiaiThich": "Cần một danh từ số nhiều 'inspections' để tạo thành cụm danh từ làm chủ ngữ."
+},
+{
+"ThuTu": 109,
+"CauHoi": "Registration for the Marketing Coalition Conference is now open ------- September 30.",
+"DichCauHoi": "Việc đăng ký Hội nghị Liên minh Tiếp thị hiện đang mở ------- ngày 30 tháng 9.",
+"CauTraLoi": [
+{ "TraLoi": "(A) until", "Dich": "(A) cho đến khi" },
+{ "TraLoi": "(B) into", "Dich": "(B) vào trong" },
+{ "TraLoi": "(C) yet", "Dich": "(C) chưa" },
+{ "TraLoi": "(D) while", "Dich": "(D) trong khi" }
+],
+"DapAn": "A",
+"GiaiThich": "'Until' dùng để chỉ một mốc thời gian kết thúc sự việc."
+},
+{
+"ThuTu": 110,
+"CauHoi": "Growth in the home entertainment industry has been ------- this quarter.",
+"DichCauHoi": "Sự tăng trưởng trong ngành giải trí tại gia đã bị ------- trong quý này.",
+"CauTraLoi": [
+{ "TraLoi": "(A) separate", "Dich": "(A) riêng biệt" },
+{ "TraLoi": "(B) limited", "Dich": "(B) hạn chế" },
+{ "TraLoi": "(C) willing", "Dich": "(C) sẵn lòng" },
+{ "TraLoi": "(D) assorted", "Dich": "(D) hỗn hợp" }
+],
+"DapAn": "B",
+"GiaiThich": "Tính từ 'limited' phù hợp nhất để mô tả mức độ tăng trưởng (tăng trưởng hạn chế)."
+},
+{
+"ThuTu": 111,
+"CauHoi": "Hawson Furniture will be making ------- on the east side of town on Thursday.",
+"DichCauHoi": "Hawson Furniture sẽ thực hiện ------- ở phía đông thị trấn vào thứ Năm.",
+"CauTraLoi": [
+{ "TraLoi": "(A) deliveries", "Dich": "(A) các chuyến giao hàng" },
+{ "TraLoi": "(B) delivered", "Dich": "(B) đã giao" },
+{ "TraLoi": "(C) deliver", "Dich": "(C) giao hàng (v)" },
+{ "TraLoi": "(D) deliverable", "Dich": "(D) có thể giao được" }
+],
+"DapAn": "A",
+"GiaiThich": "Cấu trúc 'make deliveries' có nghĩa là thực hiện việc giao hàng."
+},
+{
+"ThuTu": 112,
+"CauHoi": "The Marlton City Council does not have the authority to ------- parking on city streets.",
+"DichCauHoi": "Hội đồng Thành phố Marlton không có thẩm quyền ------- việc đỗ xe trên đường phố.",
+"CauTraLoi": [
+{ "TraLoi": "(A) drive", "Dich": "(A) lái xe" },
+{ "TraLoi": "(B) prohibit", "Dich": "(B) cấm" },
+{ "TraLoi": "(C) bother", "Dich": "(C) làm phiền" },
+{ "TraLoi": "(D) travel", "Dich": "(D) đi du lịch" }
+],
+"DapAn": "B",
+"GiaiThich": "Động từ 'prohibit' (cấm) phù hợp với thẩm quyền của hội đồng thành phố đối với việc đỗ xe."
+},
+{
+"ThuTu": 113,
+"CauHoi": "Project Earth Group is ------- for ways to reduce transport-related greenhouse gas emissions.",
+"DichCauHoi": "Project Earth Group đang ------- các cách để giảm lượng khí thải nhà kính liên quan đến giao thông.",
+"CauTraLoi": [
+{ "TraLoi": "(A) looking", "Dich": "(A) tìm kiếm" },
+{ "TraLoi": "(B) seeing", "Dich": "(B) nhìn thấy" },
+{ "TraLoi": "(C) driving", "Dich": "(C) lái xe" },
+{ "TraLoi": "(D) leaning", "Dich": "(D) dựa vào" }
+],
+"DapAn": "A",
+"GiaiThich": "Cụm động từ 'looking for' có nghĩa là tìm kiếm."
+},
+{
+"ThuTu": 114,
+"CauHoi": "Our skilled tailors are happy to design a custom-made suit that fits your style and budget -------.",
+"DichCauHoi": "Những thợ may lành nghề của chúng tôi sẵn lòng thiết kế một bộ vest may đo vừa vặn với phong cách và ngân sách của bạn -------.",
+"CauTraLoi": [
+{ "TraLoi": "(A) perfect", "Dich": "(A) hoàn hảo (adj)" },
+{ "TraLoi": "(B) perfects", "Dich": "(B) làm cho hoàn hảo (v)" },
+{ "TraLoi": "(C) perfectly", "Dich": "(C) một cách hoàn hảo (adv)" },
+{ "TraLoi": "(D) perfection", "Dich": "(D) sự hoàn hảo" }
+],
+"DapAn": "C",
+"GiaiThich": "Trạng từ 'perfectly' bổ nghĩa cho động từ 'fits'."
+},
+{
+"ThuTu": 115,
+"CauHoi": "Project manager Hannah Chung has proved to be very ------- with completing company projects.",
+"DichCauHoi": "Quản lý dự án Hannah Chung đã chứng tỏ mình rất ------- trong việc hoàn thành các dự án của công ty.",
+"CauTraLoi": [
+{ "TraLoi": "(A) helpfulness", "Dich": "(A) sự giúp ích" },
+{ "TraLoi": "(B) help", "Dich": "(B) giúp đỡ (v/n)" },
+{ "TraLoi": "(C) helpfully", "Dich": "(C) một cách hữu ích" },
+{ "TraLoi": "(D) helpful", "Dich": "(D) hữu ích/có ích" }
+],
+"DapAn": "D",
+"GiaiThich": "Sau trạng từ 'very' và động từ nối 'be' cần một tính từ 'helpful'."
+},
+{
+"ThuTu": 116,
+"CauHoi": "Lehua Vacation Club members will receive double points ------- the month of August at participating hotels.",
+"DichCauHoi": "Các thành viên của Câu lạc bộ Kỳ nghỉ Lehua sẽ nhận được gấp đôi điểm ------- tháng 8 tại các khách sạn tham gia.",
+"CauTraLoi": [
+{ "TraLoi": "(A) onto", "Dich": "(A) lên trên" },
+{ "TraLoi": "(B) above", "Dich": "(B) phía trên" },
+{ "TraLoi": "(C) during", "Dich": "(C) trong suốt" },
+{ "TraLoi": "(D) between", "Dich": "(D) giữa" }
+],
+"DapAn": "C",
+"GiaiThich": "Giới từ 'during' dùng để chỉ một khoảng thời gian."
+},
+{
+"ThuTu": 117,
+"CauHoi": "The costumes were not received ------- enough to be used in the first dress rehearsal.",
+"DichCauHoi": "Trang phục đã không được nhận ------- để kịp sử dụng trong buổi tổng duyệt đầu tiên.",
+"CauTraLoi": [
+{ "TraLoi": "(A) far", "Dich": "(A) xa" },
+{ "TraLoi": "(B) very", "Dich": "(B) rất" },
+{ "TraLoi": "(C) almost", "Dich": "(C) gần như" },
+{ "TraLoi": "(D) soon", "Dich": "(D) sớm" }
+],
+"DapAn": "D",
+"GiaiThich": "Cấu trúc 'soon enough' có nghĩa là đủ sớm."
+},
+{
+"ThuTu": 118,
+"CauHoi": "As a former publicist for several renowned orchestras, Mr. Wu would excel in the role of event -------.",
+"DichCauHoi": "Với tư cách là cựu chuyên viên quan hệ công chúng, ông Wu sẽ xuất sắc trong vai trò là người ------- sự kiện.",
+"CauTraLoi": [
+{ "TraLoi": "(A) organized", "Dich": "(A) đã tổ chức" },
+{ "TraLoi": "(B) organizer", "Dich": "(B) người tổ chức" },
+{ "TraLoi": "(C) organizes", "Dich": "(C) tổ chức (v)" },
+{ "TraLoi": "(D) organizational", "Dich": "(D) thuộc về tổ chức" }
+],
+"DapAn": "B",
+"GiaiThich": "Sau giới từ 'of' và danh từ 'event' cần một danh từ chỉ người 'organizer' để tạo thành cụm danh từ."
+},
+{
+"ThuTu": 119,
+"CauHoi": "The northbound lane on Davis Street will be ------- closed because of the city's bridge reinforcement project.",
+"DichCauHoi": "Làn đường hướng bắc trên phố Davis sẽ bị đóng cửa ------- vì dự án gia cố cầu của thành phố.",
+"CauTraLoi": [
+{ "TraLoi": "(A) temporarily", "Dich": "(A) tạm thời" },
+{ "TraLoi": "(B) competitively", "Dich": "(B) một cách cạnh tranh" },
+{ "TraLoi": "(C) recently", "Dich": "(C) gần đây" },
+{ "TraLoi": "(D) collectively", "Dich": "(D) tập thể" }
+],
+"DapAn": "A",
+"GiaiThich": "Trạng từ 'temporarily' (tạm thời) phù hợp nhất với ngữ cảnh đóng cửa đường để thi công."
+},
+{
+"ThuTu": 120,
+"CauHoi": "Airline representatives must handle a wide range of passenger issues, ------- missed connections to lost luggage.",
+"DichCauHoi": "Đại diện hãng hàng không phải xử lý nhiều vấn đề của hành khách, ------- từ việc lỡ chuyến nối cho đến mất hành lý.",
+"CauTraLoi": [
+{ "TraLoi": "(A) from", "Dich": "(A) từ" },
+{ "TraLoi": "(B) under", "Dich": "(B) dưới" },
+{ "TraLoi": "(C) on", "Dich": "(C) trên" },
+{ "TraLoi": "(D) against", "Dich": "(D) chống lại" }
+],
+"DapAn": "A",
+"GiaiThich": "Cấu trúc 'from X to Y' dùng để liệt kê phạm vi từ X đến Y."
+},
+{
+"ThuTu": 121,
+"CauHoi": "The meeting notes were ------- deleted, but Mr. Hahm was able to recreate them from memory.",
+"DichCauHoi": "Các ghi chú cuộc họp đã bị xóa -------, nhưng ông Hahm đã có thể khôi phục chúng từ trí nhớ.",
+"CauTraLoi": [
+{ "TraLoi": "(A) accident", "Dich": "(A) tai nạn" },
+{ "TraLoi": "(B) accidental", "Dich": "(B) vô tình (adj)" },
+{ "TraLoi": "(C) accidents", "Dich": "(C) các tai nạn" },
+{ "TraLoi": "(D) accidentally", "Dich": "(D) một cách vô tình" }
+],
+"DapAn": "D",
+"GiaiThich": "Trạng từ 'accidentally' bổ nghĩa cho phân từ 'deleted'."
+},
+{
+"ThuTu": 122,
+"CauHoi": "The current issue of Farming Scene magazine predicts that the price of corn will rise 5 percent over the ------- year.",
+"DichCauHoi": "Số báo hiện tại của tạp chí Farming Scene dự báo giá ngô sẽ tăng 5% trong năm -------.",
+"CauTraLoi": [
+{ "TraLoi": "(A) next", "Dich": "(A) tới/tiếp theo" },
+{ "TraLoi": "(B) with", "Dich": "(B) với" },
+{ "TraLoi": "(C) which", "Dich": "(C) cái mà" },
+{ "TraLoi": "(D) now", "Dich": "(D) bây giờ" }
+],
+"DapAn": "A",
+"GiaiThich": "Cụm 'over the next year' nghĩa là trong vòng một năm tới."
+},
+{
+"ThuTu": 123,
+"CauHoi": "Anyone who still ------- to take the fire safety training should do so before the end of the month.",
+"DichCauHoi": "Bất kỳ ai vẫn ------- tham gia khóa đào tạo an toàn cháy nổ nên thực hiện trước cuối tháng.",
+"CauTraLoi": [
+{ "TraLoi": "(A) needing", "Dich": "(A) đang cần" },
+{ "TraLoi": "(B) needs", "Dich": "(B) cần (v)" },
+{ "TraLoi": "(C) has needed", "Dich": "(C) đã cần" },
+{ "TraLoi": "(D) were needing", "Dich": "(D) đã đang cần" }
+],
+"DapAn": "B",
+"GiaiThich": "Đại từ 'Anyone' là chủ ngữ số ít, đi với động từ chia số ít 'needs'."
+},
+{
+"ThuTu": 124,
+"CauHoi": "Emerging technologies have ------- begun to transform the shipping industry in ways that were once unimaginable.",
+"DichCauHoi": "Các công nghệ mới nổi đã ------- bắt đầu thay đổi ngành vận chuyển theo những cách từng không thể tưởng tượng nổi.",
+"CauTraLoi": [
+{ "TraLoi": "(A) already", "Dich": "(A) rồi/đã" },
+{ "TraLoi": "(B) exactly", "Dich": "(B) chính xác" },
+{ "TraLoi": "(C) hardly", "Dich": "(C) hầu như không" },
+{ "TraLoi": "(D) closely", "Dich": "(D) chặt chẽ" }
+],
+"DapAn": "A",
+"GiaiThich": "Trạng từ 'already' dùng để nhấn mạnh một sự việc đã xảy ra."
+},
+{
+"ThuTu": 125,
+"CauHoi": "The company handbook outlines the high ------- that employees are expected to meet every day.",
+"DichCauHoi": "Sổ tay công ty phác thảo những ------- cao mà nhân viên được kỳ vọng phải đạt được mỗi ngày.",
+"CauTraLoi": [
+{ "TraLoi": "(A) experts", "Dich": "(A) chuyên gia" },
+{ "TraLoi": "(B) accounts", "Dich": "(B) tài khoản" },
+{ "TraLoi": "(C) recommendations", "Dich": "(C) khuyến nghị" },
+{ "TraLoi": "(D) standards", "Dich": "(D) tiêu chuẩn" }
+],
+"DapAn": "D",
+"GiaiThich": "Cụm 'meet standards' (đạt tiêu chuẩn) là một cụm từ phổ biến."
+},
+{
+"ThuTu": 126,
+"CauHoi": "Because ------- of the board members have scheduling conflicts, the board meeting will be moved to a date when all can attend.",
+"DichCauHoi": "Bởi vì ------- các thành viên hội đồng quản trị bị trùng lịch, cuộc họp sẽ được chuyển sang ngày mà tất cả có thể tham dự.",
+"CauTraLoi": [
+{ "TraLoi": "(A) any", "Dich": "(A) bất kỳ" },
+{ "TraLoi": "(B) everybody", "Dich": "(B) mọi người" },
+{ "TraLoi": "(C) those", "Dich": "(C) những cái đó" },
+{ "TraLoi": "(D) some", "Dich": "(D) một số" }
+],
+"DapAn": "D",
+"GiaiThich": "'Some of the board members' chỉ một vài thành viên trong nhóm."
+},
+{
+"ThuTu": 127,
+"CauHoi": "The project ------- the collaboration of several teams across the company.",
+"DichCauHoi": "Dự án ------- sự cộng tác của nhiều nhóm trong toàn công ty.",
+"CauTraLoi": [
+{ "TraLoi": "(A) passed", "Dich": "(A) đã thông qua" },
+{ "TraLoi": "(B) decided", "Dich": "(B) đã quyết định" },
+{ "TraLoi": "(C) required", "Dich": "(C) đã yêu cầu/đòi hỏi" },
+{ "TraLoi": "(D) performed", "Dich": "(D) đã thực hiện" }
+],
+"DapAn": "C",
+"GiaiThich": "Động từ 'required' (đòi hỏi/cần có) phù hợp nhất với ngữ cảnh sự cộng tác."
+},
+{
+"ThuTu": 128,
+"CauHoi": "We cannot send the store's coupon booklet to the printers until it ------- by Ms. Jeon.",
+"DichCauHoi": "Chúng tôi không thể gửi tập phiếu giảm giá của cửa hàng đến nhà in cho đến khi nó ------- bởi bà Jeon.",
+"CauTraLoi": [
+{ "TraLoi": "(A) is approving", "Dich": "(A) đang phê duyệt" },
+{ "TraLoi": "(B) approves", "Dich": "(B) phê duyệt" },
+{ "TraLoi": "(C) has been approved", "Dich": "(C) được phê duyệt" },
+{ "TraLoi": "(D) will be approved", "Dich": "(D) sẽ được phê duyệt" }
+],
+"DapAn": "C",
+"GiaiThich": "Cấu trúc bị động ở thì hiện tại hoàn thành trong mệnh đề trạng ngữ chỉ thời gian."
+},
+{
+"ThuTu": 129,
+"CauHoi": "------- the closure of Verdigold Transport Services, we are looking for a new shipping company.",
+"DichCauHoi": "------- việc đóng cửa của Verdigold Transport Services, chúng tôi đang tìm kiếm một công ty vận chuyển mới.",
+"CauTraLoi": [
+{ "TraLoi": "(A) In spite of", "Dich": "(A) Mặc dù" },
+{ "TraLoi": "(B) Just as", "Dich": "(B) Ngay khi" },
+{ "TraLoi": "(C) In light of", "Dich": "(C) Bởi vì/Xét đến" },
+{ "TraLoi": "(D) According to", "Dich": "(D) Theo như" }
+],
+"DapAn": "C",
+"GiaiThich": "'In light of' có nghĩa là bởi vì hoặc sau khi xem xét một sự việc nào đó."
+},
+{
+"ThuTu": 130,
+"CauHoi": "The ------- information provided by Uniss Bank's brochure helps applicants understand the terms of their loans.",
+"DichCauHoi": "Thông tin ------- được cung cấp bởi tài liệu quảng cáo của Ngân hàng Uniss giúp các ứng viên hiểu các điều khoản khoản vay của họ.",
+"CauTraLoi": [
+{ "TraLoi": "(A) arbitrary", "Dich": "(A) tùy tiện" },
+{ "TraLoi": "(B) supplemental", "Dich": "(B) bổ sung" },
+{ "TraLoi": "(C) superfluous", "Dich": "(C) thừa thãi" },
+{ "TraLoi": "(D) potential", "Dich": "(D) tiềm năng" }
+],
+"DapAn": "B",
+"GiaiThich": "'Supplemental information' có nghĩa là thông tin bổ sung, giúp làm rõ vấn đề."
+}
+]
+}
+]
+}
