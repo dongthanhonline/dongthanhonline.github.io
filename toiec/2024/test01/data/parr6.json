@@ -1,0 +1,223 @@
+{
+  "TestName": "TEST 1 RC (1)",
+  "Parts": [
+    {
+      "PartNumber": 6,
+      "AudioURL": "audio/part6.mp3",
+      "Questions": [
+        {
+          "ThuTu": 131,
+          "DoanVan": "Come to the Maxley Heights Center for Horticulture and learn how to create a beautiful, eco-friendly garden for your home or business. -------. We will teach you how to plant a rain garden, which is simply a shallow sunken garden ------- a special soil mix to filter pollutants from rainwater flowing from nearby roads and rooftops. These gardens can be landscaped with native plants and flowers. -------, rain gardens are always beneficial to the local environment. Among other things, ------- improve drainage and protect rivers and streams.\nTo register, visit www.maxley-horticulture.org.",
+          "CauHoi": "Choose the best sentence to fill in blank 131:",
+          "DichCauHoi": "Chọn câu tốt nhất để điền vào chỗ trống 131:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Children of all ages will enjoy the new exhibits.", "Dich": "(A) Trẻ em ở mọi lứa tuổi sẽ thích các triển lãm mới." },
+            { "TraLoi": "(B) Learn about rainfall patterns across the region.", "Dich": "(B) Tìm hiểu về các mô hình lượng mưa trên khắp khu vực." },
+            { "TraLoi": "(C) Build a set of simple patio furniture with easy-to-acquire materials.", "Dich": "(C) Xây dựng một bộ đồ nội thất sân vườn đơn giản với các vật liệu dễ kiếm." },
+            { "TraLoi": "(D) Next Saturday at 4 P.M., we are hosting a free workshop for the public.", "Dich": "(D) Vào thứ Bảy tới lúc 4 giờ chiều, chúng tôi sẽ tổ chức một buổi hội thảo miễn phí cho công chúng." }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "Câu tiếp theo đề cập đến việc 'We will teach you' (Chúng tôi sẽ dạy bạn), do đó câu (D) giới thiệu về một buổi hội thảo (workshop) là hợp lý nhất về mặt ngữ cảnh."
+        },
+        {
+          "ThuTu": 132,
+          "CauHoi": "Choose the best phrase to fill in blank 132:",
+          "DichCauHoi": "Chọn cụm từ tốt nhất để điền vào chỗ trống 132:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) to use", "Dich": "(A) để sử dụng" },
+            { "TraLoi": "(B) used to", "Dich": "(B) đã từng" },
+            { "TraLoi": "(C) by using", "Dich": "(C) bằng cách sử dụng" },
+            { "TraLoi": "(D) that uses", "Dich": "(D) cái mà sử dụng" }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "Chỗ trống cần một mệnh đề quan hệ để bổ nghĩa cho 'sunken garden'. 'That uses' là cấu trúc phù hợp nhất để mô tả đặc điểm của khu vườn đó."
+        },
+        {
+          "ThuTu": 133,
+          "CauHoi": "Choose the best phrase to fill in blank 133:",
+          "DichCauHoi": "Chọn cụm từ tốt nhất để điền vào chỗ trống 133:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Best of all", "Dich": "(A) Tốt nhất là" },
+            { "TraLoi": "(B) For example", "Dich": "(B) Ví dụ" },
+            { "TraLoi": "(C) In any event", "Dich": "(C) Trong bất kỳ trường hợp nào" },
+            { "TraLoi": "(D) As a matter of fact", "Dich": "(D) Thực tế là" }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "Cụm từ 'As a matter of fact' dùng để nhấn mạnh một sự thật hoặc cung cấp thêm thông tin chi tiết về lợi ích của vườn mưa."
+        },
+        {
+          "ThuTu": 134,
+          "CauHoi": "Choose the best word to fill in blank 134:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 134:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) we", "Dich": "(A) chúng tôi" },
+            { "TraLoi": "(B) they", "Dich": "(B) chúng" },
+            { "TraLoi": "(C) both", "Dich": "(C) cả hai" },
+            { "TraLoi": "(D) yours", "Dich": "(D) của bạn" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Đại từ 'they' ở đây thay thế cho 'rain gardens' đã được nhắc đến ở câu trước."
+        },
+        {
+          "ThuTu": 135,
+          "DoanVan": "31 July\nAkwasi Dombo\nFourth Avenue\nGA 105\nAccra, Ghana\n\nDear Mr. Dombo,\n\nThank you for your ------- support in helping me to plan the opening gala for Tokyo's fashion week. The event was a huge success, and I was honored to work with you. I know that our attendees follow your work closely, and they loved the designs you contributed for this event.\nYour designs received a lot of ------- on social media. Shows like this will keep Tokyo on the map as a premier fashion centre. -------. I realize that the multiple delays made the planning no easy task. The auction ------- our Young Designers Award program is coming soon and I look forward to working with you on that as well.\n\nSincerely,\nAsahi Ishioka\nDirector, Japanese Guild of Fashion Designers",
+          "CauHoi": "Choose the best word to fill in blank 135:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 135:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) amazed", "Dich": "(A) kinh ngạc (tính từ chỉ cảm xúc)" },
+            { "TraLoi": "(B) amazement", "Dich": "(B) sự kinh ngạc (danh từ)" },
+            { "TraLoi": "(C) amazing", "Dich": "(C) tuyệt vời (tính từ chỉ đặc điểm)" },
+            { "TraLoi": "(D) amazingly", "Dich": "(D) một cách tuyệt vời (trạng từ)" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Trước danh từ 'support' cần một tính từ để bổ nghĩa. 'Amazing support' (sự hỗ trợ tuyệt vời) là cách kết hợp từ tự nhiên nhất."
+        },
+        {
+          "ThuTu": 136,
+          "CauHoi": "Choose the best word to fill in blank 136:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 136:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) attention", "Dich": "(A) sự chú ý" },
+            { "TraLoi": "(B) proposals", "Dich": "(B) những đề xuất" },
+            { "TraLoi": "(C) innovation", "Dich": "(C) sự đổi mới" },
+            { "TraLoi": "(D) criticism", "Dich": "(D) sự chỉ trích" }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Cụm từ 'receive a lot of attention' (nhận được nhiều sự chú ý) phù hợp với việc các thiết kế được yêu thích trên mạng xã hội."
+        },
+        {
+          "ThuTu": 137,
+          "CauHoi": "Choose the best sentence to fill in blank 137:",
+          "DichCauHoi": "Chọn câu tốt nhất để điền vào chỗ trống 137:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Several other events have gone surprisingly well.", "Dich": "(A) Một số sự kiện khác đã diễn ra tốt đẹp một cách đáng ngạc nhiên." },
+            { "TraLoi": "(B) Thank you also for your flexibility in planning the event.", "Dich": "(B) Cũng xin cảm ơn vì sự linh hoạt của ông trong việc lập kế hoạch cho sự kiện." },
+            { "TraLoi": "(C) Please stop by our office the next time you are in the city.", "Dich": "(C) Vui lòng ghé qua văn phòng của chúng tôi vào lần tới khi ông ở trong thành phố." },
+            { "TraLoi": "(D) Tokyo is a top tourism destination for many reasons.", "Dich": "(D) Tokyo là điểm đến du lịch hàng đầu vì nhiều lý do." }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Câu sau đề cập đến 'multiple delays' (nhiều sự trì hoãn), do đó câu (B) cảm ơn về sự 'flexibility' (linh hoạt) là sự kết nối logic nhất."
+        },
+        {
+          "ThuTu": 138,
+          "CauHoi": "Choose the best phrase to fill in blank 138:",
+          "DichCauHoi": "Chọn cụm từ tốt nhất để điền vào chỗ trống 138:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) will benefit", "Dich": "(A) sẽ có lợi cho" },
+            { "TraLoi": "(B) to benefit", "Dich": "(B) để có lợi" },
+            { "TraLoi": "(C) has benefitted", "Dich": "(C) đã có lợi" },
+            { "TraLoi": "(D) benefits", "Dich": "(D) lợi ích (danh từ số nhiều/động từ)" }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Câu đang nói về một sự kiện 'is coming soon' (sắp diễn ra), vì vậy động từ chia ở thì tương lai 'will benefit' là chính xác."
+        },
+        {
+          "ThuTu": 139,
+          "DoanVan": "From: Patron Services <patronservices@menachinlibrary.org>\nTo: Edgar Hughes <hughese98@villachesta.com>\nSubject: Card expiration date approaching\nDate: December 3\n\nDear Mr. Hughes,\n\nPlease be advised that your Mena Chin Library card will expire one month from today.\n------- must be renewed if you intend to keep your membership for the coming year. -------. This can be done at the information desk at any branch location.\n------- you decide to close your account, no action is necessary. Failure to complete your renewal by the ------- date will result in the expiration of your library privileges.\nIf you have any questions about this notice, or about general library services, you may reply directly to this e-mail.\n\nSincerely,\nPatron Services",
+          "CauHoi": "Choose the best word to fill in blank 139:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 139:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) It", "Dich": "(A) Nó" },
+            { "TraLoi": "(B) You", "Dich": "(B) Bạn" },
+            { "TraLoi": "(C) Our", "Dich": "(C) Của chúng tôi" },
+            { "TraLoi": "(D) Each", "Dich": "(D) Mỗi" }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Đại từ 'It' thay thế cho 'library card' được nhắc đến ở câu trước đó."
+        },
+        {
+          "ThuTu": 140,
+          "CauHoi": "Choose the best sentence to fill in blank 140:",
+          "DichCauHoi": "Chọn câu tốt nhất để điền vào chỗ trống 140:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) To sign up for a card, visit your local library branch.", "Dich": "(A) Để đăng ký thẻ, hãy ghé thăm chi nhánh thư viện địa phương của bạn." },
+            { "TraLoi": "(B) For questions about library membership, please visit our Web site.", "Dich": "(B) Đối với các câu hỏi về tư cách thành viên thư viện, vui lòng truy cập trang web của chúng tôi." },
+            { "TraLoi": "(C) Renewal must be completed at least one week before your card expires.", "Dich": "(C) Việc gia hạn phải được hoàn thành ít nhất một tuần trước khi thẻ của bạn hết hạn." },
+            { "TraLoi": "(D) You may opt out of this program at any time.", "Dich": "(D) Bạn có thể chọn không tham gia chương trình này bất cứ lúc nào." }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Văn bản đang hướng dẫn về việc gia hạn thẻ, nên thông tin về thời hạn gia hạn ở câu (C) là phù hợp nhất."
+        },
+        {
+          "ThuTu": 141,
+          "CauHoi": "Choose the best word to fill in blank 141:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 141:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) Also", "Dich": "(A) Ngoài ra" },
+            { "TraLoi": "(B) Should", "Dich": "(B) Nếu (đảo ngữ điều kiện loại 1)" },
+            { "TraLoi": "(C) Because", "Dich": "(C) Bởi vì" },
+            { "TraLoi": "(D) Although", "Dich": "(D) Mặc dù" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "'Should' đứng đầu câu đóng vai trò là một cấu trúc điều kiện (Should you decide = If you decide)."
+        },
+        {
+          "ThuTu": 142,
+          "CauHoi": "Choose the best word to fill in blank 142:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 142:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) specifically", "Dich": "(A) một cách cụ thể (trạng từ)" },
+            { "TraLoi": "(B) specifics", "Dich": "(B) chi tiết (danh từ số nhiều)" },
+            { "TraLoi": "(C) specified", "Dich": "(C) đã được chỉ định (tính từ)" },
+            { "TraLoi": "(D) specificity", "Dich": "(D) tính cụ thể (danh từ)" }
+          ],
+          "DapAn": "C",
+          "GiaiThich": "Trước danh từ 'date' cần một tính từ. 'Specified date' có nghĩa là ngày đã được quy định/chỉ định sẵn."
+        },
+        {
+          "ThuTu": 143,
+          "DoanVan": "April 7\nNaomi Burwell\n43 Waymire Road\nSouth Portland, ME 04109\n\nDear Ms. Burwell,\n\nI am Omar Ridha, the manager of Droplight Studio. -------. We offer a full range of photography services for real estate professionals like you. We take pride in composing interior and exterior shots that make a property look its best. Droplight Studio spares no effort in ------- superior digital images. -------, our professional-grade equipment, lighting, and staging techniques allow us to highlight the best features of a property. And once the photo shoot is over, every image ------- expert editing. All these services come standard in every package.\nPlease visit our Web site to view our work as well as our pricing and scheduling information. We are happy to work with you to customize orders.\n\nSincerely,\nOmar Ridha, Droplight Studio",
+          "CauHoi": "Choose the best sentence to fill in blank 143:",
+          "DichCauHoi": "Chọn câu tốt nhất để điền vào chỗ trống 143:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) I would like to introduce you to our business.", "Dich": "(A) Tôi muốn giới thiệu với bà về doanh nghiệp của chúng tôi." },
+            { "TraLoi": "(B) Great photographs can make your property stand out.", "Dich": "(B) Những bức ảnh tuyệt vời có thể làm cho bất động sản của bà nổi bật." },
+            { "TraLoi": "(C) We are looking forward to your visit.", "Dich": "(C) Chúng tôi mong chờ chuyến thăm của bà." },
+            { "TraLoi": "(D) It was the first studio of its kind to open in this area.", "Dich": "(D) Đây là studio đầu tiên thuộc loại này mở cửa trong khu vực này." }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Sau khi giới thiệu tên và chức vụ, câu (A) là lời mở đầu giới thiệu doanh nghiệp phù hợp nhất cho một lá thư chào hàng."
+        },
+        {
+          "ThuTu": 144,
+          "CauHoi": "Choose the best word to fill in blank 144:",
+          "DichCauHoi": "Chọn từ tốt nhất để điền vào chỗ trống 144:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) researching", "Dich": "(A) nghiên cứu" },
+            { "TraLoi": "(B) creating", "Dich": "(B) tạo ra" },
+            { "TraLoi": "(C) purchasing", "Dich": "(C) mua sắm" },
+            { "TraLoi": "(D) displaying", "Dich": "(D) trưng bày" }
+          ],
+          "DapAn": "B",
+          "GiaiThich": "Droplight Studio là studio chụp ảnh, nên công việc của họ là 'creating superior digital images' (tạo ra những hình ảnh kỹ thuật số chất lượng cao)."
+        },
+        {
+          "ThuTu": 145,
+          "CauHoi": "Choose the best word or phrase to fill in blank 145:",
+          "DichCauHoi": "Chọn từ hoặc cụm từ tốt nhất để điền vào chỗ trống 145:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) If not", "Dich": "(A) Nếu không" },
+            { "TraLoi": "(B) By comparison", "Dich": "(B) Bằng cách so sánh" },
+            { "TraLoi": "(C) Otherwise", "Dich": "(C) Nếu không thì" },
+            { "TraLoi": "(D) Indeed", "Dich": "(D) Thật vậy / Thực sự" }
+          ],
+          "DapAn": "D",
+          "GiaiThich": "'Indeed' được dùng để nhấn mạnh thêm thông tin về trang thiết bị và kỹ thuật của studio nhằm khẳng định chất lượng đã nêu."
+        },
+        {
+          "ThuTu": 146,
+          "CauHoi": "Choose the best phrase to fill in blank 146:",
+          "DichCauHoi": "Chọn cụm từ tốt nhất để điền vào chỗ trống 146:",
+          "CauTraLoi": [
+            { "TraLoi": "(A) receives", "Dich": "(A) nhận được (hiện tại đơn)" },
+            { "TraLoi": "(B) is receiving", "Dich": "(B) đang nhận được (hiện tại tiếp diễn)" },
+            { "TraLoi": "(C) had received", "Dich": "(C) đã nhận được (quá khứ hoàn thành)" },
+            { "TraLoi": "(D) had to receive", "Dich": "(D) đã phải nhận (quá khứ của have to)" }
+          ],
+          "DapAn": "A",
+          "GiaiThich": "Câu mô tả một dịch vụ tiêu chuẩn luôn được thực hiện, do đó thì hiện tại đơn 'receives' là chính xác nhất."
+        }
+      ]
+    }
+  ]
+}
