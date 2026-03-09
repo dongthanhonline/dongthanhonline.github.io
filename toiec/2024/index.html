@@ -3,66 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Luyện Thi TOEIC Offline</title>
+    <title>TOEIC Practice Platform</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header-nav">
-        <select id="testSelector" onchange="loadTest(this.value)">
-            <option value="">-- Chọn bài Test --</option>
-            <option value="test01">Test 01</option>
-            <option value="test02">Test 02</option>
-        </select>
-        <div id="loadingStatus" style="display:none; color: #2196f3; font-weight: bold; margin-left: 10px;">
-            Đang tải dữ liệu...
+    <header class="header-nav">
+        <div class="nav-left">
+            <select id="testSelector" onchange="loadTest(this.value)">
+                <option value="">-- Chọn bài Test --</option>
+                <option value="test01">Test 01</option>
+                <option value="test02">Test 02</option>
+            </select>
+            <span id="loadingStatus" class="status-text">Đang tải...</span>
         </div>
-    </div>
+        <div id="progressInfo" class="nav-right" style="display: none;">
+            Hoàn thành: <span id="completedCount">0</span>/71
+        </div>
+    </header>
 
-    <div class="container" id="quizScreen" style="display: none;">
+    <main class="container" id="quizScreen" style="display: none;">
         <div class="main-quiz">
             <div class="audio-container">
                 <audio id="quizAudio" controls></audio>
             </div>
 
-            <div id="imageContainer" class="image-box">
-                <img id="quizImage" src="" alt="Câu hỏi hình ảnh">
+            <div id="imageContainer" class="image-box" style="display: none;">
+                <img id="quizImage" src="" alt="Question Graphic">
             </div>
 
-            <div class="quiz-box">
-                <h3 id="quizInfo"></h3>
-
-                <div id="doanVanBox" class="doan-van-box" style="display: none;">
-                    <button class="toggle-btn" onclick="toggleDoanVan()">Xem đoạn văn (Transcript) ▼</button>
-                    <div id="doanVanText" class="doan-van-content"></div>
+            <div class="quiz-content">
+                <div class="quiz-header">
+                    <button class="toggle-btn" onclick="toggleDoanVan()">Show Transcript ▼</button>
+                    <div id="doanVanText" class="transcript-content"></div>
                 </div>
 
-                <p id="questionText" class="en-text"></p>
-                <p id="questionDich" class="vi-text" style="display: none;"></p>
+                <div class="question-section">
+                    <p id="questionText" class="en-text"></p>
+                    <p id="questionDich" class="vi-text" style="display: none; color: #64748b; font-style: italic;"></p>
+                </div>
                 
-                <ul id="options"></ul>
+                <ul id="options" class="options-list"></ul>
 
                 <div id="explanation" class="explanation-box" style="display: none;">
+                    <strong class="exp-label">Giải thích:</strong>
                     <p id="explanationText"></p>
                 </div>
             </div>
 
-            <div class="nav-buttons">
-                <button class="nav-btn" onclick="prevQuiz()">❮ Câu trước</button>
-                <button class="nav-btn" onclick="nextQuiz()">Câu sau ❯</button>
-            </div>
+            <footer class="nav-buttons">
+                <button class="nav-btn secondary" onclick="prevQuiz()">❮ Previous</button>
+                <button class="nav-btn primary" onclick="nextQuiz()">Next ❯</button>
+            </footer>
         </div>
 
-        <button id="floatingMenuBtn" onclick="toggleMenu()">⋮</button>
-        <div id="menuOverlay" class="menu-overlay">
-            <div class="menu-header">
-                <h3>Danh sách câu hỏi</h3>
-                <button class="close-btn" onclick="toggleMenu()">✕</button>
+        <button id="floatingMenuBtn" onclick="toggleMenu()">☰</button>
+        
+        <div id="menuOverlay" class="menu-overlay" onclick="if(event.target == this) toggleMenu()">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <h3>Question Map</h3>
+                    <button class="close-btn" onclick="toggleMenu()">✕</button>
+                </div>
+                <div class="question-grid" id="questionGrid"></div>
             </div>
-            <div class="question-grid" id="questionGrid"></div>
         </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
-
 </html>
