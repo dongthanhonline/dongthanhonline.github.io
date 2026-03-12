@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Flowchart - English & Auto-Size</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #ececec;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+        #canvasContainer {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        #flowchartCanvas {
+            background-color: #0f172a;
+            cursor: grab;
+        }
+        #flowchartCanvas:active {
+            cursor: grabbing;
+        }
+        .ui-overlay {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 900px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #020617;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #94a3b8;
+            padding: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            outline: none;
+            resize: none;
+            line-height: 1.5;
+        }
+        .selection-rect {
+            position: absolute;
+            border: 1px solid #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+            pointer-events: none;
+            display: none;
+            z-index: 5;
+        }
+		/* Khi có class .collapsed, toàn bộ khối sẽ trượt sang trái */
+		.ui-overlay.collapsed {
+			transform: translateX(-100%);
+			margin-left: 10px; /* Giữ lại một chút lề nếu muốn */
+		}
+
+		/* Đảm bảo nội dung bên trong ẩn đi khi thu nhỏ để không bị vỡ layout */
+		.ui-overlay.collapsed #uiContent {
+			opacity: 0;
+			pointer-events: none;
+		}
+    </style>
+</head>
+<body>
+
+    <div id="canvasContainer" class="relative">
+		<canvas id="flowchartCanvas"></canvas>
+		
+		<button id="btnToggleUI" class="absolute bottom-2 bg-slate-800 text-white px-3 py-1 rounded text-[10px] hover:bg-indigo-600">
+			Show/Hide UI
+		</button>
+
+		<div id="uiOverlay" class="ui-overlay">
+			<div class="flex justify-between items-center mb-3">
+				<div class="flex flex-col">
+					<span class="text-[11px] font-bold text-indigo-400 uppercase tracking-widest">Architect Engine v12</span>
+				</div>
+				<div class="flex gap-2">
+					<button id="autoLayout" class="bg-indigo-600 text-white text-[11px] px-4 py-1.5 rounded-md">Reset</button>
+				</div>
+			</div>
+			<textarea id="flowchartText" placeholder="Enter structure..."></textarea>
+		</div>
+	</div>
+
+    <script>
+        const textarea = document.getElementById('flowchartText');
+        const canvas = document.getElementById('flowchartCanvas');
+        const selectionBox = document.getElementById('selectionBox');
+        const autoLayoutBtn = document.getElementById('autoLayout');
+        const ctx = canvas.getContext('2d');
+
+        let nodes = [];
+        let selectedNodeIds = new Set();
+        let isDragging = false;
+        let isPanning = false;
+        let isSelecting = false;
+        
+        let dragStart = { x: 0, y: 0 };
+        let lastMouse = { x: 0, y: 0 };
+        let selectionStart = { x: 0, y: 0 };
+        let transform = { x: 80, y: 80, scale: 0.85 };
+        
+        const customPositions = new Map();
+
+        const CONFIG = {
+            minWidth: 140,
+            paddingX: 30,
+            nodeHeight: 44,
+            hGap: 80,
+            vGap: 30,
+            radius: 8,
+            font: '600 13px Inter'
+        };
+		
+		// Đợi HTML load xong hoàn toàn mới chạy JS
+		document.addEventListener('DOMContentLoaded', () => {
+			const uiOverlay = document.getElementById('uiOverlay');
+			const btnToggle = document.getElementById('btnToggleUI');
+
+			if (uiOverlay && btnToggle) {
+				btnToggle.addEventListener('click', () => {
+					// Kiểm tra trạng thái hiển thị
+					if (uiOverlay.style.display === 'none') {
+						uiOverlay.style.display = 'block';
+						btnToggle.innerText = 'Hide UI';
+					} else {
+						uiOverlay.style.display = 'none';
+						btnToggle.innerText = 'Show UI';
+					}
+				});
+			} else {
+				console.error("Thiếu ID uiOverlay hoặc btnToggleUI trong HTML rồi bạn ơi!");
+			}
+		});
+
+        function setupCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function toWorld(x, y) {
+            return {
+                x: (x - transform.x) / transform.scale,
+                y: (y - transform.y) / transform.scale
+            };
+        }
+
+        function calculateNodeWidth(text) {
+            ctx.font = CONFIG.font;
+            const metrics = ctx.measureText(text);
+            return Math.max(CONFIG.minWidth, metrics.width + CONFIG.paddingX * 2);
+        }
+
+        function buildTree(text) {
+            const lines = text.split('\n').filter(l => l.trim() !== '');
+            const flatNodes = [];
+            const stack = [];
+
+            lines.forEach((line, i) => {
+                const leadingWhitespace = (line.match(/^\s*/) || [""])[0];
+				const totalSpaces = leadingWhitespace.replace(/\t/g, '    ').length;
+				const level = Math.floor(totalSpaces / 4);
+                const content = line.trim();
+                
+                const width = calculateNodeWidth(content);
+
+                const node = {
+                    id: `node-${i}`,
+                    text: content,
+                    level: level,
+                    children: [],
+                    parentId: null,
+                    isDecision: content.endsWith('?'),
+                    width: width,
+                    height: CONFIG.nodeHeight,
+                    x: 0, y: 0
+                };
+
+                while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+                    stack.pop();
+                }
+
+                if (stack.length > 0) {
+                    const parent = stack[stack.length - 1];
+                    node.parentId = parent.id;
+                    parent.children.push(node);
+                }
+
+                stack.push(node);
+                flatNodes.push(node);
+            });
+            return flatNodes;
+        }
+
+        function layoutSubtree(node, startX, startY) {
+            node.x = startX;
+            if (node.children.length === 0) {
+                node.y = startY;
+                return CONFIG.nodeHeight + CONFIG.vGap;
+            }
+
+            let currentY = startY;
+            let totalHeight = 0;
+            node.children.forEach((child) => {
+                // Gap includes parent's width for horizontal flow
+                const childHeight = layoutSubtree(child, startX + node.width + CONFIG.hGap, currentY);
+                totalHeight += childHeight;
+                currentY += childHeight;
+            });
+
+            const firstChild = node.children[0];
+            const lastChild = node.children[node.children.length - 1];
+            node.y = firstChild.y + (lastChild.y - firstChild.y) / 2;
+
+            return Math.max(totalHeight, CONFIG.nodeHeight + CONFIG.vGap);
+        }
+
+        function refreshNodes(preserve = true) {
+            const tree = buildTree(textarea.value);
+            const roots = tree.filter(n => !n.parentId);
+            let currentY = 50;
+            roots.forEach(root => { currentY += layoutSubtree(root, 50, currentY); });
+
+            if (preserve) {
+                tree.forEach(n => {
+                    if (customPositions.has(n.text)) {
+                        const pos = customPositions.get(n.text);
+                        n.x = pos.x; n.y = pos.y;
+                    }
+                });
+            }
+            nodes = tree;
+            render();
+        }
+
+        function getBestAnchors(p, c) {
+            const dx = (c.x + c.width / 2) - (p.x + p.width / 2);
+            const dy = (c.y + c.height / 2) - (p.y + p.height / 2);
+
+            // Vertical Logic (Top to Bottom)
+            // If child is significantly below the parent horizontally overlapping or close
+            if (Math.abs(dy) > Math.abs(dx) * 0.7 && c.y > p.y) {
+                return {
+                    start: { x: p.x + p.width / 2, y: p.y + p.height, dir: 'bottom' },
+                    end: { x: c.x + c.width / 2, y: c.y, dir: 'top' }
+                };
+            } else {
+                // Horizontal Logic (Left to Right)
+                return {
+                    start: { x: p.x + p.width, y: p.y + p.height / 2, dir: 'right' },
+                    end: { x: c.x, y: c.y + c.height / 2, dir: 'left' }
+                };
+            }
+        }
+
+        function drawConnector(p, c) {
+            const { start, end } = getBestAnchors(p, c);
+            
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            
+            ctx.beginPath();
+            ctx.moveTo(start.x, start.y);
+            
+            let cp1x = start.x;
+            let cp1y = start.y;
+            let cp2x = end.x;
+            let cp2y = end.y;
+
+            const curvature = 0.5;
+            if (start.dir === 'right') {
+                cp1x += (end.x - start.x) * curvature;
+                cp2x -= (end.x - start.x) * curvature;
+            } else if (start.dir === 'bottom') {
+                cp1y += (end.y - start.y) * curvature;
+                cp2y -= (end.y - start.y) * curvature;
+            }
+
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, end.x, end.y);
+            ctx.stroke();
+
+            // Arrow Head
+            ctx.fillStyle = '#64748b';
+            ctx.save();
+            ctx.translate(end.x, end.y);
+            if (end.dir === 'top') ctx.rotate(Math.PI / 2);
+            else if (end.dir === 'left') ctx.rotate(0);
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-8, -5);
+            ctx.lineTo(-8, 5);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawNode(n) {
+            const isSelected = selectedNodeIds.has(n.id);
+            const textLower = n.text.toLowerCase();
+            
+            let color = '#1e293b';
+            let textColor = '#f8fafc';
+            let strokeColor = isSelected ? '#818cf8' : '#334155';
+
+            if (n.isDecision) {
+                color = '#78350f'; // Dark Amber
+            } else if (textLower == 'dev') {
+                color = '#0ea5e9'; // (Sky 500) or #0284c7 (Sky 700).
+            } else if (textLower == 'sit') {
+                color = '#8b5cf6'; // (Violet 500) or #6d28d9 (Violet 700).
+            } else if (textLower == 'uat') {
+                color = '#f59e0b'; // (Amber 500) or #b45309 (Amber 700).
+            } else if (textLower == 'prd' || textLower == 'prod') {
+                color = '#be123c'; // (Rose 700) or #9f1239 (Rose 800).
+            } else if ((textLower.includes('branch hotfix') || textLower.includes('tag')) && textLower.includes('deploy uat')) {
+                color = '#ef4444'; // (Red 500).
+            } else if (textLower.includes('deploy dev') || textLower.includes('deploy sit') || textLower.includes('deploy uat')) {
+                color = '#0284c7'; // (Sky 700).
+            } else if (textLower.includes('deploy prod')) {
+                color = '#9f1239'; // (Rose 800).
+            } else if (textLower.includes('workflow') || textLower.includes('process')) {
+                color = '#4338ca'; // (Indigo 700)
+            } else if (textLower.includes('fail') || textLower.includes('error') || textLower.includes('no')) {
+                color = '#450a0a'; // Dark Red
+            } else if (textLower.includes('success') || textLower.includes('yes') || textLower.includes('ok')) {
+                color = '#064e3b'; // Dark Green
+            } else if (textLower.includes('start') || n.level === 0) {
+                color = '#1e1b4b'; // Dark Indigo
+            }
+
+            ctx.save();
+            if (isSelected) {
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = 'rgba(99, 102, 241, 0.5)';
+            }
+            ctx.fillStyle = color;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = isSelected ? 3 : 1.5;
+
+            if (n.isDecision) {
+                ctx.beginPath();
+                ctx.moveTo(n.x + n.width / 2, n.y);
+                ctx.lineTo(n.x + n.width, n.y + n.height / 2);
+                ctx.lineTo(n.x + n.width / 2, n.y + n.height);
+                ctx.lineTo(n.x, n.y + n.height / 2);
+                ctx.closePath(); 
+                ctx.fill(); ctx.stroke();
+            } else {
+                ctx.beginPath();
+                ctx.roundRect(n.x, n.y, n.width, n.height, CONFIG.radius);
+                ctx.fill(); ctx.stroke();
+            }
+
+            ctx.fillStyle = textColor;
+            ctx.font = CONFIG.font;
+            ctx.textAlign = 'center'; 
+            ctx.textBaseline = 'middle';
+            ctx.fillText(n.text, n.x + n.width / 2, n.y + n.height / 2);
+            ctx.restore();
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(transform.x, transform.y);
+            ctx.scale(transform.scale, transform.scale);
+            const nodeMap = new Map();
+            nodes.forEach(n => nodeMap.set(n.id, n));
+            nodes.forEach(n => {
+                if (n.parentId && nodeMap.has(n.parentId)) drawConnector(nodeMap.get(n.parentId), n);
+            });
+            nodes.forEach(drawNode);
+            ctx.restore();
+        }
+
+        canvas.onmousedown = (e) => {
+            const world = toWorld(e.clientX, e.clientY);
+            lastMouse = { x: e.clientX, y: e.clientY };
+            let hitNode = [...nodes].reverse().find(n => world.x >= n.x && world.x <= n.x + n.width && world.y >= n.y && world.y <= n.y + n.height);
+            if (hitNode) {
+                if (!e.shiftKey && !selectedNodeIds.has(hitNode.id)) selectedNodeIds.clear();
+                selectedNodeIds.add(hitNode.id);
+                isDragging = true; dragStart = world;
+            } else {
+                if (!e.shiftKey) { selectedNodeIds.clear(); isPanning = true; }
+                else { isSelecting = true; selectionStart = { x: e.clientX, y: e.clientY }; selectionBox.style.display = 'block'; }
+            }
+            render();
+        };
+
+        window.onmousemove = (e) => {
+            const world = toWorld(e.clientX, e.clientY);
+            if (isDragging) {
+                const dx = world.x - dragStart.x;
+                const dy = world.y - dragStart.y;
+                nodes.forEach(n => {
+                    if (selectedNodeIds.has(n.id)) {
+                        n.x += dx; n.y += dy;
+                        customPositions.set(n.text, { x: n.x, y: n.y });
+                    }
+                });
+                dragStart = world; render();
+            } else if (isPanning) {
+                transform.x += (e.clientX - lastMouse.x);
+                transform.y += (e.clientY - lastMouse.y);
+                lastMouse = { x: e.clientX, y: e.clientY }; render();
+            } else if (isSelecting) {
+                const x1 = Math.min(selectionStart.x, e.clientX);
+                const y1 = Math.min(selectionStart.y, e.clientY);
+                const w = Math.abs(selectionStart.x - e.clientX);
+                const h = Math.abs(selectionStart.y - e.clientY);
+                selectionBox.style.left = x1 + 'px'; selectionBox.style.top = y1 + 'px'; selectionBox.style.width = w + 'px'; selectionBox.style.height = h + 'px';
+                const worldBox = { left: (x1 - transform.x) / transform.scale, top: (y1 - transform.y) / transform.scale, right: (x1 + w - transform.x) / transform.scale, bottom: (y1 + h - transform.y) / transform.scale };
+                nodes.forEach(n => { if (n.x < worldBox.right && n.x + n.width > worldBox.left && n.y < worldBox.bottom && n.y + n.height > worldBox.top) selectedNodeIds.add(n.id); });
+                render();
+            }
+        };
+
+        window.onmouseup = () => { isDragging = false; isPanning = false; isSelecting = false; selectionBox.style.display = 'none'; };
+        
+        canvas.onwheel = (e) => { 
+            e.preventDefault(); 
+            const mouse = toWorld(e.clientX, e.clientY); 
+            const zoom = Math.exp(-e.deltaY * 0.001); 
+            transform.scale = Math.min(Math.max(transform.scale * zoom, 0.1), 5); 
+            transform.x = e.clientX - mouse.x * transform.scale; 
+            transform.y = e.clientY - mouse.y * transform.scale; 
+            render(); 
+        };
+
+        textarea.oninput = () => refreshNodes(true);
+        autoLayoutBtn.onclick = () => { customPositions.clear(); refreshNodes(false); };
+        
+        window.onload = () => { 
+            setupCanvas(); 
+            textarea.value = `PetCare System Flow\n    Check Subscription Status?\n        Inactive -> Redirect to Pricing\n            Payment Successful?\n                Yes -> Activate Account\n                    Start Dashboard\n                No -> Display Error\n                    Return to Home\n        Active -> Fetch User Data\n            Is Data Valid?\n                Yes -> Load pet profiles\n                    End\n                No -> Prompt profile update`; 
+            refreshNodes(false); 
+        };
+        
+        window.onresize = () => { setupCanvas(); render(); };
+    </script>
+</body>
+</html>
