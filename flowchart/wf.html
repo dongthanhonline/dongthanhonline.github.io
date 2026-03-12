@@ -320,6 +320,8 @@
 
             if (n.isDecision) {
                 color = '#78350f'; // Dark Amber
+            } else if (textLower.includes('[dev]')) {
+                color = '#0284c7'; // (Sky 700).
             } else if (textLower == 'dev') {
                 color = '#0ea5e9'; // (Sky 500) or #0284c7 (Sky 700).
             } else if (textLower == 'sit') {
