@@ -1,0 +1,3105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC Practice Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .document {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid #007BFF;
+        }
+        .question label {
+            display: block;
+            margin: 8px 0;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .question label:hover {
+            background-color: #e9f5ff;
+            border-radius: 4px;
+        }
+        .correct {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        #score {
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        /* Sidebar styles */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 200px;
+            padding: 80px 10px 20px 10px;
+            background: #ffffff;
+            border-right: 1px solid #e2e2e2;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        #sidebar h4 { margin: 0 0 10px 0; font-size: 14px; color: #555; }
+        #sidebar .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .q-pill {
+            height: 28px;
+            border-radius: 4px;
+            background: #f1f3f5;
+            color: #333;
+            border: 1px solid #d9d9d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .q-pill:hover { background: #e9ecef; }
+        .q-pill.unanswered { border-color: #bbb; background: #f8f9fa; color: #777; }
+        .q-pill.answered { border-color: #f08c00; background: #fff3bf; color: #7a4d00; font-weight: 600; box-shadow: 0 0 0 1px #f08c00 inset; }
+        .q-pill.correct { border-color: #2f9e44; background: #d3f9d8; color: #2b8a3e; font-weight: 600; }
+        .q-pill.incorrect { border-color: #e03131; background: #ffe3e3; color: #c92a2a; font-weight: 600; }
+
+        /* Layout offset for sidebar */
+        body.with-sidebar { padding-left: 220px; }
+
+        /* Post-submit marking inside questions */
+        .question.correct-selected { border-left-color: #28a745; background: #f3fff6; }
+        .question.incorrect-selected { border-left-color: #dc3545; background: #fff5f5; }
+        .question label.selected.correct { background: #e6ffed; border-radius: 4px; }
+        .question label.selected.incorrect { background: #ffe8e8; border-radius: 4px; }
+        .question .answer.show { display: block !important; }
+
+        /* Emphasize the answer value */
+        .answer .answer-value {
+            font-weight: 700;
+            color: #0b7285;
+            background: #e3fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Floating scroll up/down buttons */
+        #scroll-nav {
+            position: fixed;
+            right: 16px;
+            bottom: 90px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 200;
+        }
+        #scroll-nav button {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            background: #343a40;
+            color: #fff;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,.25);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            text-align: center;
+        }
+        #scroll-nav button:hover { background: #212529; }
+
+        /* Pre-submit selected choice highlight (more prominent than light blue) */
+        .question label.preselected {
+            background: #fff3cd; /* light amber */
+            border-radius: 4px;
+            outline: 2px solid #f59f00; /* amber outline */
+        }
+    </style>
+</head>
+<body class="with-sidebar">
+    <div id="sidebar">
+        <h4>Questions</h4>
+        <div class="grid">
+            <!-- question pills will be generated here -->
+        </div>
+    </div>
+    <h1>TOEIC Practice Questions</h1>
+    <p>This page contains TOEIC practice questions based on various business-related documents. Select the correct answer for each question, and the correct answer will be displayed upon selection. Track your score below.</p>
+    <p>This scrips will help you passed all the test</p>
+
+<!-- Gaz International Article -->
+<div class="document">
+        <h2>Gaz International Sells Its Siberian Oil Operations to Local Company</h2>
+        <p>ZURICH â€“ Yevgeni Star, a mid-sized Russian oil company, has bought the Siberian oil and gas operations of Zurich-based Gaz International. While no official figures have been released by either firm, the deal is believed to be worth in the vicinity of S$145 million.</p>
+        <p>Until recently, Gaz International had been seeking to expand its exploration and refining operations, but it has reportedly been frustrated by local regulatory bodies. Gaz International shares rose by 1% as news of the sale filtered into the media.</p>
+        <p>Yevgeni Star, which has some cross-share holdings with large industrial corporations in related and unrelated fields, notably in the energy and shipbuilding sectors, will become one of Russiaâ€™s leading players in the vital strategic area of energy supplies.</p>
+        <p>Explaining the reasons for the sale, Gaz International CEO Fritz Faschler told reporters yesterday, â€œOur board of directors believes that this is the ideal time to consolidate our operations by concentrating on less-risky investments while at the same time boosting our interests in research and development. I mean, in particular, research into alternative fuels and energy sources. I have no doubt that this deal is in the interests of both parties.â€</p>
+        <p>It is known that the deal includes significant technology transfers. A team of Gaz International engineers and administrators will train Yevgeni engineers in the operation of exploration and extraction technology developed by the international giant.</p>
+        <p>Yevgeni Star operators were also keen to acquire Gaz Internationalâ€™s license to explore and develop northern oil fields until 2015. The current production of 10,000 barrels a day is expected to at least double over the next 5 years.</p>
+        <p>Due to the complex nature of legal arrangements surrounding the transfer of licenses and technological information, the deal is not expected to be sewn up before January of next year. Approval for the license transfer must be negotiated with Russian authorities while several major Swiss banks will vet the financial arrangements and the details of technology transfer.</p>
+
+        <div class="question">
+            <h3>What is true about Gaz International?</h3>
+            <label><input type="radio" value="A"> (A) It is a Russian-owned company.</label>
+            <label><input type="radio" value="B"> (B) It took control of another company.</label>
+            <label><input type="radio" value="C"> (C) Its stock price has slipped due to a false rumor.</label>
+            <label><input type="radio" value="D"> (D) It was involved in a multi-million dollar transaction recently.</label>
+            <div class="answer">Correct Answer: (D) It was involved in a multi-million dollar transaction recently.</div>
+        </div>
+        <div class="question">
+            <h3>Which of the following will be the result of a deal mentioned in the article?</h3>
+            <label><input type="radio" value="A"> (A) Gaz International will become the leading company in its field.</label>
+            <label><input type="radio" value="B"> (B) Yevgeni Star seems to have gotten the better end of the deal.</label>
+            <label><input type="radio" value="C"> (C) Gaz International will now focus on establishing its business in new areas.</label>
+            <label><input type="radio" value="D"> (D) Yevgeni Star will distribute shares to its top management staff.</label>
+            <div class="answer">Correct Answer: (C) Gaz International will now focus on establishing its business in new areas.</div>
+        </div>
+        <div class="question">
+            <h3>Who is Mr. Fritz Faschler?</h3>
+            <label><input type="radio" value="A"> (A) A reporter for a local newspaper</label>
+            <label><input type="radio" value="B"> (B) The president of Gaz International</label>
+            <label><input type="radio" value="C"> (C) A spokesperson for Yevgeni Star</label>
+            <label><input type="radio" value="D"> (D) A Russian authority</label>
+            <div class="answer">Correct Answer: (B) The president of Gaz International</div>
+        </div>
+        <div class="question">
+            <h3>According to the article, when will the deal be finalized?</h3>
+            <label><input type="radio" value="A"> (A) In 2015</label>
+            <label><input type="radio" value="B"> (B) In five years</label>
+            <label><input type="radio" value="C"> (C) Within the following weeks</label>
+            <label><input type="radio" value="D"> (D) By early next year</label>
+            <div class="answer">Correct Answer: (D) By early next year</div>
+        </div>
+        <div class="question">
+            <h3>What is the main cause of the delay in closing the deal?</h3>
+            <label><input type="radio" value="A"> (A) Both companies want to take it slow.</label>
+            <label><input type="radio" value="B"> (B) Some complications have surfaced regarding legal issues.</label>
+            <label><input type="radio" value="C"> (C) The Russian authorities usually take a long time to process a new license.</label>
+            <label><input type="radio" value="D"> (D) There are many details to be worked out.</label>
+            <div class="answer">Correct Answer: (D) There are many details to be worked out.</div>
+        </div>
+    </div>
+<!-- Sports Today Letter -->
+<div class="document">
+        <h2>Sports Today Letter</h2>
+        <p><strong>Sports Today</strong><br>
+        365 Boulevard Avenue<br>
+        New York, NY 10032<br>
+        October 18, 2006</p>
+        <p>Jessica Parker<br>
+        555 George Street<br>
+        Los Angeles, CA 90095</p>
+        <p>Dear Ms. Parker,</p>
+        <p>We want to acknowledge receipt of and thank you for your letter dated September 28 concerning issues of Sports Today not sent to you. We have investigated the matter and found that you should have received your September and October issues, as your subscription is not up for renewal until November 1, 2006.</p>
+        <p>We would hereby like to apologize sincerely for our mistakes. I have corrected the error and raised a packing order to be sent to you tomorrow on October 19, 2006, for the two missing issues. And to make up for the mistakes we have made, we have enclosed our two other best selling magazines (Cars Today and Home Today) in a different package.</p>
+        <p>Weâ€™d also like to let you know that we value you as an important customer to Sports Today. I would like to take this opportunity to invite you to renew your subscription with us for another year. We have attached a self-addressed, postage-paid envelope and a subscription form with a special discount of 25% off our normal rates for your convenience.</p>
+        <p>Once again, please accept our sincere apology for the inconvenience we caused you. Feel free to contact us or email us if you need any further help or clarification. We will always be at your service.</p>
+        <p>Tom Bridges<br>
+        Customer Service Officer</p>
+
+        <div class="question">
+            <h3>What is Mr. Bridges' main purpose in writing this letter?</h3>
+            <label><input type="radio" value="A"> (A) To thank the customer for subscribing to their magazine</label>
+            <label><input type="radio" value="B"> (B) To make a complaint about some bad service</label>
+            <label><input type="radio" value="C"> (C) To renew the subscription for another year</label>
+            <label><input type="radio" value="D"> (D) To provide an answer to an inquiry the customer had made</label>
+            <div class="answer">Correct Answer: (D) To provide an answer to an inquiry the customer had made</div>
+        </div>
+        <div class="question">
+            <h3>When did Ms. Parker send the letter?</h3>
+            <label><input type="radio" value="A"> (A) October 18</label>
+            <label><input type="radio" value="B"> (B) September 28</label>
+            <label><input type="radio" value="C"> (C) November 1</label>
+            <label><input type="radio" value="D"> (D) October 19</label>
+            <div class="answer">Correct Answer: (B) September 28</div>
+        </div>
+        <div class="question">
+            <h3>What will Ms. Parker receive as compensation?</h3>
+            <label><input type="radio" value="A"> (A) A 25% discount on her next subscription</label>
+            <label><input type="radio" value="B"> (B) Other publications from the same company at no cost</label>
+            <label><input type="radio" value="C"> (C) A check for the missing magazines</label>
+            <label><input type="radio" value="D"> (D) An apology letter from the president of the company</label>
+            <div class="answer">Correct Answer: (B) Other publications from the same company at no cost</div>
+        </div>
+        <div class="question">
+            <h3>The phrase "up for" in paragraph 1, line 4 is closest in meaning to</h3>
+            <label><input type="radio" value="A"> (A) owed</label>
+            <label><input type="radio" value="B"> (B) appropriated</label>
+            <label><input type="radio" value="C"> (C) expected</label>
+            <label><input type="radio" value="D"> (D) suited</label>
+            <div class="answer">Correct Answer: (C) expected</div>
+        </div>
+        <div class="question">
+            <h3>What is being sent with this letter?</h3>
+            <label><input type="radio" value="A"> (A) Magazines</label>
+            <label><input type="radio" value="B"> (B) A check</label>
+            <label><input type="radio" value="C"> (C) An envelope</label>
+            <label><input type="radio" value="D"> (D) A receipt of purchase</label>
+            <div class="answer">Correct Answer: (C) An envelope</div>
+        </div>
+    </div>
+ <!-- City Hospital Announcement -->
+<div class="document">
+        <h2>City Hospital Announcement</h2>
+        <p><strong>City Hospital</strong><br>
+        123 Main Street<br>
+        Boston, MA 02114<br>
+        Phone: (617) 555-0123<br>
+        Fax: (617) 555-0124<br>
+        cityhospital@email.com</p>
+        <p><strong>Introducing Our New Doctor</strong></p>
+        <p>It is with great pleasure that I introduce Dr. Elizabeth Monroe, who will be joining the City Hospital staff on August 1 as a pediatrician. Dr. Monroe comes to us with 15 years of experience, having previously worked at General Hospital in New York, where she was recognized for her dedication to patient care. She graduated from Harvard Medical School and completed her residency at Boston Children's Hospital.</p>
+        <p>Dr. Monroe will be seeing patients aged 0-18 on Mondays, Wednesdays, and Fridays from 9:00 a.m. to 5:00 p.m. Appointments can be scheduled by calling our office or visiting our website at www.cityhospital.org. We are confident that Dr. Monroe will be a valuable addition to our team, and we look forward to her contributions to the health and well-being of our young patients.</p>
+        <p>Margaret Thompson<br>
+        Hospital Administrator<br>
+        July 15, 2015</p>
+
+        <div class="question">
+            <h3>What is the purpose of this announcement?</h3>
+            <label><input type="radio" value="A"> (A) To inform the public about a new hospital opening</label>
+            <label><input type="radio" value="B"> (B) To introduce a new pediatrician</label>
+            <label><input type="radio" value="C"> (C) To announce a change in hospital hours</label>
+            <label><input type="radio" value="D"> (D) To advertise a new website</label>
+            <div class="answer">Correct Answer: (B) To introduce a new pediatrician</div>
+        </div>
+        <div class="question">
+            <h3>How long has Dr. Monroe been working as a doctor?</h3>
+            <label><input type="radio" value="A"> (A) 5 years</label>
+            <label><input type="radio" value="B"> (B) 10 years</label>
+            <label><input type="radio" value="C"> (C) 15 years</label>
+            <label><input type="radio" value="D"> (D) 20 years</label>
+            <div class="answer">Correct Answer: (C) 15 years</div>
+        </div>
+        <div class="question">
+            <h3>Where did Dr. Monroe complete her residency?</h3>
+            <label><input type="radio" value="A"> (A) General Hospital</label>
+            <label><input type="radio" value="B"> (B) Harvard Medical School</label>
+            <label><input type="radio" value="C"> (C) Boston Children's Hospital</label>
+            <label><input type="radio" value="D"> (D) City Hospital</label>
+            <div class="answer">Correct Answer: (C) Boston Children's Hospital</div>
+        </div>
+        <div class="question">
+            <h3>On which days will Dr. Monroe see patients?</h3>
+            <label><input type="radio" value="A"> (A) Mondays, Tuesdays, and Wednesdays</label>
+            <label><input type="radio" value="B"> (B) Mondays, Wednesdays, and Fridays</label>
+            <label><input type="radio" value="C"> (C) Tuesdays, Thursdays, and Saturdays</label>
+            <label><input type="radio" value="D"> (D) Wednesdays, Fridays, and Sundays</label>
+            <div class="answer">Correct Answer: (B) Mondays, Wednesdays, and Fridays</div>
+        </div>
+        <div class="question">
+            <h3>Who wrote this announcement?</h3>
+            <label><input type="radio" value="A"> (A) Dr. Elizabeth Monroe</label>
+            <label><input type="radio" value="B"> (B) A patient at City Hospital</label>
+            <label><input type="radio" value="C"> (C) The hospital's website manager</label>
+            <label><input type="radio" value="D"> (D) Margaret Thompson</label>
+            <div class="answer">Correct Answer: (D) Margaret Thompson</div>
+        </div>
+    </div>
+<!-- Important Notice from Office of Public Records -->
+<div class="document">
+        <h2>Important Notice from Office of Public Records</h2>
+        <p><strong>Important Notice</strong><br>
+        (To be kept posted in clear view at all times)</p>
+        <p><strong>Subject:</strong> Schedule of Building Works<br>
+        <strong>Notice date:</strong> March 15th<br>
+        <strong>Written by:</strong> Mike Connor, Chairman of the Office of Public Records</p>
+        <p>The Office of Public Records has been scheduled for a series of renovation works ranging from new wiring and the changing of tiles and carpets to the installation of fire preventive panels. This will be done floor by floor beginning on April 1. Affected offices will be temporarily relocated to another allocated space within the building. The affected floors, relocation schedule, and allocated space are as follows:</p>
+        <table>
+            <tr><th>Floor</th><th>Affected Period</th><th>Allocated Space for Relocation</th></tr>
+            <tr><td>1</td><td>April 1-10</td><td>Second Floor</td></tr>
+            <tr><td>2</td><td>April 11-20</td><td>Third Floor</td></tr>
+            <tr><td>3</td><td>April 21-30</td><td>Fourth Floor</td></tr>
+            <tr><td>4</td><td>May 1-9</td><td>Fifth Floor</td></tr>
+            <tr><td>5</td><td>May 10-19</td><td>Fourth Floor</td></tr>
+        </table>
+        <p>It will be necessary to make new schedule changes as unexpected delays may occur. Departments with more staff will experience temporary overcrowding. We urge all visitors to these offices to come during normal operating hours before and after the renovations to avoid any inconveniences.</p>
+        <p>We want to express our thanks for your kind understanding and tolerance towards our staff during this unpleasant and inconvenient period.</p>
+
+        <div class="question">
+            <h3>What is the purpose of the announcement?</h3>
+            <label><input type="radio" value="A"> (A) To restrict unnecessary staff members from visiting the work area</label>
+            <label><input type="radio" value="B"> (B) To provide a timetable for some office renovation work</label>
+            <label><input type="radio" value="C"> (C) To thank employees for their support in the work</label>
+            <label><input type="radio" value="D"> (D) To prepare for an unexpected shipment delay</label>
+            <div class="answer">Correct Answer: (B) To provide a timetable for some office renovation work</div>
+        </div>
+        <div class="question">
+            <h3>Where will employees on the ground floor likely be on March 15?</h3>
+            <label><input type="radio" value="A"> (A) The first floor</label>
+            <label><input type="radio" value="B"> (B) The second floor</label>
+            <label><input type="radio" value="C"> (C) The third floor</label>
+            <label><input type="radio" value="D"> (D) The fourth floor</label>
+            <div class="answer">Correct Answer: (A) The first floor</div>
+        </div>
+        <div class="question">
+            <h3>The word "urge" in paragraph 2, line 2 is closest in meaning to</h3>
+            <label><input type="radio" value="A"> (A) influence</label>
+            <label><input type="radio" value="B"> (B) encourage</label>
+            <label><input type="radio" value="C"> (C) support</label>
+            <label><input type="radio" value="D"> (D) command</label>
+            <div class="answer">Correct Answer: (B) encourage</div>
+        </div>
+        <div class="question">
+            <h3>During which period will the employees on the fourth floor not be affected?</h3>
+            <label><input type="radio" value="A"> (A) April 11-20</label>
+            <label><input type="radio" value="B"> (B) April 21-30</label>
+            <label><input type="radio" value="C"> (C) May 1-9</label>
+            <label><input type="radio" value="D"> (D) May 10-19</label>
+            <div class="answer">Correct Answer: (A) April 11-20</div>
+        </div>
+    </div>
+<!-- GEM Computers News Report -->
+<div class="document">
+        <h2>GEM Computers News Report</h2>
+        <p>GEM Computers has topped the Wall Street headlines with its organization wide restructuring exercise. GEM Computers, a computer giant, sold its low margin competitive desktop division. In recent years, GEM Computers has spent billions of dollars investing in the desktop division, where low cost manufacturers have managed to stay at the top of the competition. However, GEM's desktop products have virtually stopped evolving and ceased making new products despite its heavy spending on R&D. This has caused the cash-stricken company to offer its loss-making division to Electronica. As one of the leading computer companies, Electronica paid $5 billion to buy the division. The market deems this as more favorable to GEM, as it received more than what it deserves for selling the division. It is expected to pay off most of its multimillion dollar loans and avoid filing for bankruptcy for some time. Economists comment that GEM will start turning a profit as long as it keeps with its core products of minicomputers and mainframe systems.</p>
+
+        <div class="question">
+            <h3>What is being reported?</h3>
+            <label><input type="radio" value="A"> (A) The slow rise of the desktop division to the top of its field</label>
+            <label><input type="radio" value="B"> (B) The listing of a computer company on the stock market</label>
+            <label><input type="radio" value="C"> (C) The new spending budget for GEM Computer's R&D Department</label>
+            <label><input type="radio" value="D"> (D) The selling of a struggling division of GEM Computers</label>
+            <div class="answer">Correct Answer: (D) The selling of a struggling division of GEM Computers</div>
+        </div>
+        <div class="question">
+            <h3>Why did GEM Computers make its decision to make the move?</h3>
+            <label><input type="radio" value="A"> (A) Electronica made an offer they couldn't refuse.</label>
+            <label><input type="radio" value="B"> (B) The company was on the verge of bankruptcy.</label>
+            <label><input type="radio" value="C"> (C) The division was not making enough profits.</label>
+            <label><input type="radio" value="D"> (D) The demand for computer desktops was low.</label>
+            <div class="answer">Correct Answer: (C) The division was not making enough profits.</div>
+        </div>
+        <div class="question">
+            <h3>How is the news being interpreted by the market?</h3>
+            <label><input type="radio" value="A"> (A) GEM will soon become obsolete.</label>
+            <label><input type="radio" value="B"> (B) GEM got the best of the deal.</label>
+            <label><input type="radio" value="C"> (C) Electronica will start making a lot of money.</label>
+            <label><input type="radio" value="D"> (D) The desktop division will receive more funds.</label>
+            <div class="answer">Correct Answer: (B) GEM got the best of the deal.</div>
+        </div>
+    </div>
+<!-- Joy-Market Returns Policy -->
+<div class="document">
+    <h2>Joy-Market Returns Policy</h2>
+    <p>With a few exceptions, anything purchased from a Joy-Market store may be exchanged or returned for a full refund of the purchase price within 30 days provided  
+    1) that the goods are unused,  
+    2) that the goods are placed in their original package, and  
+    3) that proof of purchase is provided.</p>
+    <p><strong>IMPORTANT:</strong> please note<br>
+    Food purchased from our fresh food counters must be returned no later than 24 hours after the time of purchase.</p>
+    <p>Some items must be returned unopened. These items are: toys, music CDs and DVDs, computer software and hardware, videos, glassware, kitchenware, undergarments, and packaged hardware items.</p>
+    <p>Customers, or those returning Joy-Market items received as gifts, should provide photo identification at the time of application.</p>
+    <p>Customers returning goods valued at less than $100 will be issued an exchange certificate or money order on the spot.</p>
+    <p>For returns of goods valued at $100 or more, a check will be mailed to the purchaser within 3 working days of the return.</p>
+    <p>The amount of refunds or exchange certificates will be the same as the price paid for the item returned.</p>
+    <p><strong>Joy-Market aims to satisfy its customers with high-quality items sold in good condition.</strong></p>
+    <p>A full refund will be provided for all items if returned within 24 hours.</p>
+
+    <div class="question">
+        <h3>What is NOT stated in the policy?</h3>
+        <label><input type="radio" value="A"> (A) Goods must be brought back in their original form.</label>
+        <label><input type="radio" value="B"> (B) The original receipt must accompany the returned item.</label>
+        <label><input type="radio" value="C"> (C) A time limit is placed on items being returned.</label>
+        <label><input type="radio" value="D"> (D) A full refund will be provided for all items if returned within 24 hours.</label>
+        <div class="answer">Correct Answer: (D) A full refund will be provided for all items if returned within 24 hours.</div>
+    </div>
+    <div class="question">
+        <h3>In which of the following situations would a person have to show photo identification?</h3>
+        <label><input type="radio" value="A"> (A) When returning items that are valued over $100 before tax</label>
+        <label><input type="radio" value="B"> (B) If the merchandise was originally bought by someone other than the person returning it</label>
+        <label><input type="radio" value="C"> (C) In situations where the boxes have been opened and used</label>
+        <label><input type="radio" value="D"> (D) If a credit card was used when making the purchase</label>
+        <div class="answer">Correct Answer: (B) If the merchandise was originally bought by someone other than the person returning it</div>
+    </div>
+    <div class="question">
+        <h3>According to the policy, how long will it take to get a refund for a purchase made under $100?</h3>
+        <label><input type="radio" value="A"> (A) It depends on the product purchased.</label>
+        <label><input type="radio" value="B"> (B) A refund will be provided right away.</label>
+        <label><input type="radio" value="C"> (C) At least 3 business days</label>
+        <label><input type="radio" value="D"> (D) 24 hours if receipt is provided</label>
+        <div class="answer">Correct Answer: (B) A refund will be provided right away.</div>
+    </div>
+</div>
+<!-- Express Parcel Shipper's Receipt -->
+<div class="document">
+    <h2>Express Parcel Shipper's Receipt</h2>
+    <p><strong>Date:</strong> July 15th, 2006<br>
+    <strong>Total Weight:</strong> 5.25 kg<br>
+    <strong>Total Cost:</strong> $40.11</p>
+    <p><strong>From:</strong><br>
+    Greg Mitchell<br>
+    377 St. Klida Street<br>
+    Daytona Beach, FL 32029<br>
+    United States of America</p>
+    <p><strong>To:</strong><br>
+    Lee Da Sau<br>
+    42 Qing Building<br>
+    21-33 KWAI CHUNG<br>
+    New Territory Hong Kong<br>
+    Country: Hong Kong<br>
+    Tel: (852) 6423-0829</p>
+    <table>
+        <tr><th>Contents Description</th><th>Number of Pieces</th><th>Origin</th><th>Weight</th><th>Value</th></tr>
+        <tr><td>Documents (John Mills)</td><td>10</td><td>USA</td><td>0.80 kg</td><td>$0</td></tr>
+        <tr><td>Books</td><td>2</td><td>USA</td><td>0.45 kg</td><td>$24</td></tr>
+        <tr><td>Stationery</td><td>1</td><td>USA</td><td>4.00 kg</td><td>$12</td></tr>
+        <tr><td>Samples</td><td>1</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>- <strong>Gift</strong></td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>- â˜ Commercial Product</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+    </table>
+    <p><strong>Instructions if parcel is non-delivered:</strong><br>
+    â˜ Return shipment to sender after 30 days<br>
+    â˜ Consider it abandoned<br>
+    â˜ Return immediately to sender<br>
+    - â˜ by express mail<br>
+    - â˜ by normal mail<br>
+    â˜‘ Forward to the following address:<br>
+    Mr. Jason Chow<br>
+    55 Canton Road, Suite #205<br>
+    Hong Kong (852) 6443-0498</p>
+    <p><strong>Receipt #227000123987</strong></p>
+
+    <div class="question">
+        <h3>Who is the recipient of this delivery?</h3>
+        <label><input type="radio" value="A"> (A) Mr. Mitchell</label>
+        <label><input type="radio" value="B"> (B) Mr. Lee</label>
+        <label><input type="radio" value="C"> (C) Mr. Chow</label>
+        <label><input type="radio" value="D"> (D) Mr. Mills</label>
+        <div class="answer">Correct Answer: (B) Mr. Lee</div>
+    </div>
+    <div class="question">
+        <h3>How should the delivery be handled if it does not reach the recipient?</h3>
+        <label><input type="radio" value="A"> (A) Return it to the sender right away</label>
+        <label><input type="radio" value="B"> (B) Resend it to an alternate address</label>
+        <label><input type="radio" value="C"> (C) Keep it at the post office for safekeeping</label>
+        <label><input type="radio" value="D"> (D) Dispose of it after 30 days</label>
+        <div class="answer">Correct Answer: (B) Resend it to an alternate address</div>
+    </div>
+    <div class="question">
+        <h3>Which of the following information is NOT in the document?</h3>
+        <label><input type="radio" value="A"> (A) The shipping cost</label>
+        <label><input type="radio" value="B"> (B) The delivery date</label>
+        <label><input type="radio" value="C"> (C) The number of items</label>
+        <label><input type="radio" value="D"> (D) The sender's contact number</label>
+        <div class="answer">Correct Answer: (D) The sender's contact number</div>
+    </div>
+</div>
+<!-- HOMESTEAD LANDHOLDINGS LIMITED -->
+<div class="document">
+    <h2>HOMESTEAD LANDHOLDINGS LIMITED</h2>
+    <p>
+        We currently have opportunities available for assistant superintendent couples. 
+        We offer a competitive salary as well as a two-bedroom apartment plus benefits. 
+        If you are experienced, motivated, and hardworking and wish to advance in your career, 
+        please fax your resume to 216-755-5959.
+    </p>
+
+    <div class="question">
+        <h3>What is NOT being offered with the job?</h3>
+        <label><input type="radio" value="A"> (A) Good wages</label>
+        <label><input type="radio" value="B"> (B) Housing</label>
+        <label><input type="radio" value="C"> (C) Health insurance</label>
+        <label><input type="radio" value="D"> (D) A car</label>
+        <div class="answer">Correct Answer: (D) A car</div>
+    </div>
+
+    <div class="question">
+        <h3>What will be the duties of the person being hired?</h3>
+        <label><input type="radio" value="A"> (A) Buying and leasing properties</label>
+        <label><input type="radio" value="B"> (B) Providing career counseling to other workers</label>
+        <label><input type="radio" value="C"> (C) Cleaning and maintaining an apartment complex</label>
+        <label><input type="radio" value="D"> (D) Motivating the sales staff of the company</label>
+        <div class="answer">Correct Answer: (C) Cleaning and maintaining an apartment complex</div>
+    </div>
+</div>
+<!-- Sophieâ€™s Place -->
+<div class="document">
+    <h2>Sophieâ€™s Place</h2>
+    <h3>Questionnaire</h3>
+    <p>Dear Guests,</p>
+    <p>
+        Your continuous support and patronage is our greatest source of comfort. 
+        Your heartfelt comments are our compelling drive to provide better service for you. 
+        Please kindly complete this questionnaire to let us know your thoughts. Thank you very much.
+    </p>
+    <p>
+        <strong>Name:</strong> John Williams<br>
+        <strong>Telephone:</strong> 755-2563<br>
+        <strong>Date of Visit:</strong> Nov. 28, 2006<br>
+        <strong>Time of Visit:</strong> 6:30 p.m.
+    </p>
+
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Quality of Food</th>
+            <th>Good</th><th>Fair</th><th>Poor</th><th>Very Poor</th>
+        </tr>
+        <tr>
+            <td>Taste</td><td>(âˆš)</td><td>( )</td><td>( )</td><td>( )</td>
+        </tr>
+        <tr>
+            <td>Variety</td><td>( )</td><td>( )</td><td>( )</td><td>( )</td>
+        </tr>
+        <tr>
+            <td>Price</td><td>(âˆš)</td><td>( )</td><td>( )</td><td>( )</td>
+        </tr>
+    </table>
+    <br>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Quality of Service</th>
+            <th>Good</th><th>Fair</th><th>Poor</th><th>Very Poor</th>
+        </tr>
+        <tr>
+            <td>Efficiency of Service</td><td>( )</td><td>( )</td><td>(âˆš)</td><td>( )</td>
+        </tr>
+        <tr>
+            <td>Staff Courtesy</td><td>( )</td><td>(âˆš)</td><td>( )</td><td>( )</td>
+        </tr>
+        <tr>
+            <td>Cleanliness</td><td>( )</td><td>(âˆš)</td><td>( )</td><td>( )</td>
+        </tr>
+    </table>
+
+    <p><strong>Further Comments:</strong><br>
+    We had to wait over an hour for our food to arrive. The food was very tasty, 
+    but I think the place needs more people to wait on customers.</p>
+
+    <div class="question">
+        <h3>Which of the following is NOT true about the results of the questionnaire?</h3>
+        <label><input type="radio" value="A"> (A) Mr. Williams felt that the restaurant was understaffed.</label>
+        <label><input type="radio" value="B"> (B) Mr. Williams liked the food he had today.</label>
+        <label><input type="radio" value="C"> (C) Mr. Williams felt that the price was very unreasonable.</label>
+        <label><input type="radio" value="D"> (D) Mr. Williams thought the menu selection needs were limited.</label>
+        <div class="answer">Correct Answer: (C) Mr. Williams felt that the price was very unreasonable.</div>
+    </div>
+
+    <div class="question">
+        <h3>What can be implied about Mr. Williams?</h3>
+        <label><input type="radio" value="A"> (A) He had dinner at the restaurant.</label>
+        <label><input type="radio" value="B"> (B) He came with several guests.</label>
+        <label><input type="radio" value="C"> (C) He is a regular customer.</label>
+        <label><input type="radio" value="D"> (D) He is a very picky person.</label>
+        <div class="answer">Correct Answer: (A) He had dinner at the restaurant.</div>
+    </div>
+</div>
+<!-- Office Supply & Depot -->
+<div class="document">
+    <h2>Office Supply & Depot</h2>
+    <h3>Welcome to our Grand Opening Sale!</h3>
+    <p>
+        It is our pleasure to introduce our 3rd branch store in the metropolitan city of Chicago.
+        Located in the center of the busy business district, it is our largest store yet. 
+        And, to get you familiar with our store, we are having a Grand Opening Sale that you donâ€™t want to miss.
+    </p>
+    <p>
+        So come on down, and pay us a visit to be a part of this great Sale. 
+        Starting from November 25 until December 2, everything in the store will be discounted 30%. 
+        This is going to be an excellent opportunity to get in on some of the best bargains ever:
+    </p>
+
+    <ul>
+        <li>Hewlett Packard A4 inkjet paper (400 sheets) - $15.00</li>
+        <li>Clear blue ballpoint pens (20 pens) - $4.99</li>
+        <li>Panda stationery set - $12.50</li>
+        <li>Sony CD-R (50 pieces) - $29.75</li>
+        <li>Sticky pads (76mm x 127mm) - $2.99</li>
+    </ul>
+
+    <p>
+        When you are in the store, take a moment of your time to join our Premier Discount Club. 
+        Itâ€™s free, and with it you will get an additional 5% off on all items purchased in any of our stores in the city. 
+        There are no obligations or strings attached. Just sign up when you visit us, 
+        and maximize your discounts to the fullest.
+    </p>
+
+    <div class="question">
+        <h3>What is suggested in the advertisement?</h3>
+        <label><input type="radio" value="A"> (A) The store will be celebrating its third year of business.</label>
+        <label><input type="radio" value="B"> (B) The price of items in the store will be slashed roughly by one third.</label>
+        <label><input type="radio" value="C"> (C) The sale period will last for two months.</label>
+        <label><input type="radio" value="D"> (D) The discounts will only be available to premier members.</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>How can a customer receive the largest discount?</h3>
+        <label><input type="radio" value="A"> (A) By coming in early to the store</label>
+        <label><input type="radio" value="B"> (B) By purchasing two or more items</label>
+        <label><input type="radio" value="C"> (C) By signing up for a special membership card</label>
+        <label><input type="radio" value="D"> (D) By becoming a regular customer</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+</div>
+<!-- Goodman Theater Company -->
+<div class="document">
+    <h2>Goodman Theater Company</h2>
+    <h3>CONFIDENTIAL</h3>
+    <p><strong>Date:</strong> July 11<br>
+       <strong>To:</strong> Charlie Ullman<br>
+       <strong>From:</strong> Gordon Furr<br>
+       <strong>Re:</strong> Budget Approval Concerns</p>
+
+    <p>
+        Thank you for attending Wednesday's meeting. I'm glad that after exploring several possibilities we were able 
+        to come to an agreement on ways to reduce spending in next year's equipment budget. Because of this $2,000 
+        reduction, I have no doubt that our chairperson RenÃ©e Walker will approve the new budget at Friday's meeting. 
+        See you in the conference room on Friday.
+    </p>
+
+    <div class="question">
+        <h3>What problem is mentioned in the memo?</h3>
+        <label><input type="radio" value="A"> (A) A meeting had to be rescheduled.</label>
+        <label><input type="radio" value="B"> (B) A conference room is unavailable.</label>
+        <label><input type="radio" value="C"> (C) Spending had to be reduced.</label>
+        <label><input type="radio" value="D"> (D) Some money was lost.</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>What is RenÃ©e Walker expected to do on Friday?</h3>
+        <label><input type="radio" value="A"> (A) Approve a budget</label>
+        <label><input type="radio" value="B"> (B) Order equipment</label>
+        <label><input type="radio" value="C"> (C) Attend a theater performance</label>
+        <label><input type="radio" value="D"> (D) Plan a theater schedule</label>
+        <div class="answer">Correct Answer: (A)</div>
+    </div>
+</div>
+<!-- Jamie's Kitchen Membership -->
+<div class="document">
+    <h2>Jamie's Kitchen Membership</h2>
+    <h3>Free Meal Coupon!</h3>
+    <ul>
+        <li>Free meal for 1 when 2 or more adults visit us</li>
+        <li>Coupon is valid for lunch or dinner.</li>
+        <li>Members only: Please present your membership card with this coupon</li>
+        <li>Not valid on Saturdays, Sundays, or holidays</li>
+        <li>This cannot be used as cash.</li>
+    </ul>
+    <p>This coupon is valid through December 31.</p>
+
+    <div class="question">
+        <h3>What is the coupon for?</h3>
+        <label><input type="radio" value="A"> (A) A grocery store</label>
+        <label><input type="radio" value="B"> (B) A sightseeing trip</label>
+        <label><input type="radio" value="C"> (C) A restaurant</label>
+        <label><input type="radio" value="D"> (D) A golf course</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>What restriction is placed on the coupon?</h3>
+        <label><input type="radio" value="A"> (A) It can be used only on Saturday or Sunday.</label>
+        <label><input type="radio" value="B"> (B) It can be used only at lunchtime.</label>
+        <label><input type="radio" value="C"> (C) It cannot be used before December 31.</label>
+        <label><input type="radio" value="D"> (D) It cannot be used as money.</label>
+        <div class="answer">Correct Answer: (D)</div>
+    </div>
+</div>
+<!-- Facsimile Transmission -->
+<div class="document">
+    <h2>Facsimile Transmission</h2>
+    <p><strong>Receipt Number:</strong> 3342-21-5674</p>
+    <p><strong>Date:</strong> Oct. 1</p>
+    <p><strong>To:</strong> Norton Reuben</p>
+    <p><strong>From:</strong> Gerald Franks, Manager, Information Services</p>
+    <p><strong>Numbers:</strong> fax: 310-736-9988; phone: 310-736-9898, extension: 510</p>
+    <p><strong>Pages:</strong> 5 (Including cover sheet)</p>
+    <p>
+        Dear Mr. Norton,<br>
+        My name is Gerald from Kaylot, LTD., and I am contacting you on behalf of Kaylot department store. 
+        As part of Kaylot department's commitment to continuous improvement, they have asked Kaylot, LTD. to contact shoppers such as you.<br>
+        Do you have a few minutes to fill the following pages regarding your most recent shopping experience at Kaylot department store?<br>
+        Thanks very much,<br>
+        Gerald
+    </p>
+
+    <div class="question">
+        <h3>What is the purpose of this fax?</h3>
+        <label><input type="radio" value="A"> (A) To submit a request for shopping</label>
+        <label><input type="radio" value="B"> (B) To conduct a customer satisfaction survey</label>
+        <label><input type="radio" value="C"> (C) To describe some brochure</label>
+        <label><input type="radio" value="D"> (D) To reply to a letter</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Mr. Gerald Franks request that Mr. Norton Reuben do?</h3>
+        <label><input type="radio" value="A"> (A) Visit Kaylot department store</label>
+        <label><input type="radio" value="B"> (B) Fill out the survey sheet</label>
+        <label><input type="radio" value="C"> (C) Call Kaylot department store</label>
+        <label><input type="radio" value="D"> (D) Confirm receipt of five pages</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+</div>
+<!-- Retirement Announcement -->
+<div class="document">
+    <h2>Retirement Announcement</h2>
+    <p><strong>To:</strong> All staff</p>
+    <p><strong>From:</strong> Jenny Smith</p>
+    <p><strong>Date:</strong> Nov. 28, 2007</p>
+    <p>
+        Dear Colleagues,<br>
+        I would like to inform you that I am retiring from my position with Gardner Agency, effective Jan. 1, 2008.<br><br>
+        Thank you for the opportunities for professional and personal development that you have provided me with over the years. I have enjoyed working for the agency since 1988 and appreciate the support provided me during my tenure with the company.<br><br>
+        While I look forward to enjoying my retirement, you're all invited to dinner. A casual dinner will be held at Italian Restaurant next week. Please contact my assistant, Victoria Rodriguez, if you can join me that day.<br><br>
+        I wish you every good fortune, and I would like to thank you for having me as your colleague.<br><br>
+        Jenny
+    </p>
+
+    <div class="question">
+        <h3>How long did Jenny Smith work for Gardner Agency?</h3>
+        <label><input type="radio" value="A"> (A) 5 years</label>
+        <label><input type="radio" value="B"> (B) 10 years</label>
+        <label><input type="radio" value="C"> (C) 20 years</label>
+        <label><input type="radio" value="D"> (D) 30 years</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>When will the party be held?</h3>
+        <label><input type="radio" value="A"> (A) In January</label>
+        <label><input type="radio" value="B"> (B) In October</label>
+        <label><input type="radio" value="C"> (C) In November</label>
+        <label><input type="radio" value="D"> (D) In December</label>
+        <div class="answer">Correct Answer: (D)</div>
+    </div>
+
+    <div class="question">
+        <h3>Who should employees contact if they plan to attend?</h3>
+        <label><input type="radio" value="A"> (A) Jenny Smith</label>
+        <label><input type="radio" value="B"> (B) Jenny Rodriguez</label>
+        <label><input type="radio" value="C"> (C) Gardner Agency</label>
+        <label><input type="radio" value="D"> (D) Victoria Rodriguez</label>
+        <div class="answer">Correct Answer: (D)</div>
+    </div>
+</div>
+<!-- Resignation Letter -->
+<div class="document">
+    <h2>Resignation Letter</h2>
+    <p><strong>From:</strong> Mark Weaver</p>
+    <p>712 Colorado Street #201<br>75661 Montreal, Canada</p>
+    <p><strong>To:</strong> Casa de Franches</p>
+    <p>105 Grandview Street<br>75620 Montreal, Canada</p>
+    <p><strong>Date:</strong> April 27</p>
+    <p>
+        Dear Sir/Madam,<br><br>
+        As required by my contract of employment, I hereby give you 3 weeksâ€™ notice of my intention to leave my position as an Assistant Manager.<br><br>
+        I have decided that it is time to move on, and I have accepted a position elsewhere. This was not an easy decision and took a lot of consideration. However, I am confident that my new role will help me move towards some of the goals I have for my career.<br><br>
+        I understand that my notice period is 4 weeks, but I would like to join my new employer at the earliest date. Therefore, I would like to request that you waive this notice period and relieve me of my duties immediately. Please be assured that I will do all I can to assist in the smooth transfer of my responsibilities before leaving.<br><br>
+        If I can be of any assistance during this transition, please let me know.<br><br>
+        Yours faithfully,<br>
+        Mark Weaver
+    </p>
+
+    <div class="question">
+        <h3>What is the main purpose of the letter?</h3>
+        <label><input type="radio" value="A"> (A) To inform the company that he has failed to give an advanced notice</label>
+        <label><input type="radio" value="B"> (B) To let an applicant know that the job he applied for is no longer vacant</label>
+        <label><input type="radio" value="C"> (C) To arrange an interview with an applicant</label>
+        <label><input type="radio" value="D"> (D) To inform resignation</label>
+        <div class="answer">Correct Answer: (D)</div>
+    </div>
+
+    <div class="question">
+        <h3>When did he have to give the company notice?</h3>
+        <label><input type="radio" value="A"> (A) 2 weeks</label>
+        <label><input type="radio" value="B"> (B) 3 weeks</label>
+        <label><input type="radio" value="C"> (C) 4 weeks</label>
+        <label><input type="radio" value="D"> (D) The last day</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>Why does Mr. Weaver decide to leave the Casa de Franches?</h3>
+        <label><input type="radio" value="A"> (A) To apply for one of the branch offices</label>
+        <label><input type="radio" value="B"> (B) To send in a new cover letter and resume</label>
+        <label><input type="radio" value="C"> (C) To pursue his long-term career goals</label>
+        <label><input type="radio" value="D"> (D) To move to another state</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+</div>
+<!-- FastnGo Moving Service Information -->
+<div class="document">
+    <h2>FastnGo Moving Service Information</h2>
+    <p>Greating!</p>
+    <p>
+        Thanks for choosing FastnGo for all your moving needs. We offer a competitive, low-cost moving solution. When moving with a traditional van line, you have no control over who packs, loads and transports your belongings; nor can you be sure that they are treating your things with proper care.
+    </p>
+    <h3>Business Protection Plan</h3>
+    <p>
+        Your peace of mind is important to us! Our business packs and transports valuables, fragile materials, and expensive inventory, and they are all completely covered by our plan. We encourage you to review our popular protection option below.
+    </p>
+    <h3>Protection Option Plan</h3>
+    <p>
+        Liability insurance - Protects the customer and authorized additional driver(s) up to $1 million for any bodily injury or property damage liability claims made by third parties resulting from an auto accident with the FastnGo truck. Your own liability insurance will not be called on unless the $1 million limit is exceeded.
+    </p>
+    <h3>Cancellation</h3>
+    <p>
+        If you need to cancel or modify the reservation in any way, you must contact FastnGo at least 48 hours before the pick-up date. You must contact either the FastnGo pick-up location provided on the bottom of this page and in the confirmation e-mail or call 1-080-555-4289. Failure to notify FastnGo in this time frame may result in a $50 cancellation fee being charged to your credit card.
+    </p>
+
+    <div class="question">
+        <h3>What is the purpose of this document?</h3>
+        <label><input type="radio" value="A"> (A) To explain how to make a reservation for moving</label>
+        <label><input type="radio" value="B"> (B) To outline the services of moving</label>
+        <label><input type="radio" value="C"> (C) To illustrate the problem of using a phone overseas</label>
+        <label><input type="radio" value="D"> (D) To provide a list of travel guideline</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>What is implied about FastnGo service?</h3>
+        <label><input type="radio" value="A"> (A) It is inconvenient to call.</label>
+        <label><input type="radio" value="B"> (B) It gives competitive prices.</label>
+        <label><input type="radio" value="C"> (C) It has an extended warranty.</label>
+        <label><input type="radio" value="D"> (D) It is hard to cancel.</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>How can a caller avoid the cancellation fee?</h3>
+        <label><input type="radio" value="A"> (A) By notifying 2 days before the moving date</label>
+        <label><input type="radio" value="B"> (B) By reviewing the page</label>
+        <label><input type="radio" value="C"> (C) By purchasing the insurance</label>
+        <label><input type="radio" value="D"> (D) By paying with a credit card</label>
+        <div class="answer">Correct Answer: (A)</div>
+    </div>
+
+    <div class="question">
+        <h3>For whom is the document most likely intended?</h3>
+        <label><input type="radio" value="A"> (A) A truck rental customer</label>
+        <label><input type="radio" value="B"> (B) Business movers</label>
+        <label><input type="radio" value="C"> (C) A customer service representative</label>
+        <label><input type="radio" value="D"> (D) FastnGo Marketing Department</label>
+        <div class="answer">Correct Answer: (A)</div>
+    </div>
+</div>
+<!-- Valance Center -->
+<div class="document">
+    <h2>Your answer to a healthy way of life at Valance Center</h2>
+    <p>
+        Whether you want to slim down or tone up, have more energy for work or for your family, or just look and feel better - we're here to help.<br>
+        We want you to exercise your options from basketball to racquetball, swimming to indoor cycling, free weights to personal training to group fitness and much more. We offer options in an environment that makes you feel at home, no matter what your current fitness level may be.<br>
+        Our variety of exercise options and membership plans make fitness both fun and affordable. Join us now and receive free swimming classes during your ï¬rst month. This is for monthly memberships, and payment by electronic transfer is required.<br>
+        Why not join today?<br>
+        We are now offering a free trial!<br>
+        See for yourself what makes Valance Center so different. You can use your pass for one day you choose anytime you want. Just tell us the date you would like your pass to use: ( / / ).<br>
+        7710 Turner PL<br>
+        Norwalk, OH 21723
+    </p>
+
+    <div class="question">
+        <h3>What kind of business is Valance Center?</h3>
+        <label><input type="radio" value="A"> (A) An organic food store</label>
+        <label><input type="radio" value="B"> (B) A conference room</label>
+        <label><input type="radio" value="C"> (C) A playroom</label>
+        <label><input type="radio" value="D"> (D) A fitness club</label>
+        <div class="answer">Correct Answer: (D)</div>
+    </div>
+
+    <div class="question">
+        <h3>How frequently should membership fees be paid?</h3>
+        <label><input type="radio" value="A"> (A) Once every two weeks</label>
+        <label><input type="radio" value="B"> (B) Once a month</label>
+        <label><input type="radio" value="C"> (C) Once every six months</label>
+        <label><input type="radio" value="D"> (D) Once a year</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>What can new members receive for free?</h3>
+        <label><input type="radio" value="A"> (A) Childcare service</label>
+        <label><input type="radio" value="B"> (B) Personal training</label>
+        <label><input type="radio" value="C"> (C) Swimming classes</label>
+        <label><input type="radio" value="D"> (D) Dance classes</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>How many days do they offer a free trial pass?</h3>
+        <label><input type="radio" value="A"> (A) 1 day</label>
+        <label><input type="radio" value="B"> (B) 7 days</label>
+        <label><input type="radio" value="C"> (C) 2 days</label>
+        <label><input type="radio" value="D"> (D) 5 days</label>
+        <div class="answer">Correct Answer: (A)</div>
+    </div>
+</div>
+<!-- Network Disruption Notice -->
+<div class="document">
+    <h2>Network Disruption Notice</h2>
+    <p><strong>Attn:</strong> All staff</p>
+    <p><strong>From:</strong> Alice Bergman, Vice President</p>
+    <p><strong>Subject:</strong> Network disruption</p>
+    <p>
+        All employees should be aware that the computer network will be shut down on Friday, April 6, between 1 p.m. and 4 p.m. The disruption is in addition to our monthly maintenance sessions, so I'll give a brief explanation here why we're having the shutdown.<br>
+        In recent months, employees have been complaining about delays in computer functions. It has been determined that viruses and other security breaches have created the inadequate processing capacities. In an attempt to prevent further breaches, our computer technicians will install new security software, which will require the entire network to be temporarily off-line.<br>
+        We apologize for the inconvenience this may cause. If there are any concerns regarding this procedure, or if you have any other inquiries, please get in touch with me or your supervisor.<br><br>
+        Alice Bergman<br>
+        abergman@healthbuffs.org<br>
+        865-4464
+    </p>
+
+    <hr>
+
+    <p><strong>TO:</strong> bparker@healthbuffs.org</p>
+    <p><strong>FROM:</strong> jcopland@healthbuffs.org</p>
+    <p><strong>SUBJECT:</strong> Network shutdown</p>
+    <p><strong>DATE:</strong> Wednesday, April 4</p>
+    <p>
+        Hi, Ben, I'm writing in regard to Friday's shutdown of Health Buffs' computer network. Just so you know, I've already written Ms. Bergman to express my discontent at the lack of sufficient prior notice for this disruption.<br>
+        My team will be making a presentation at the annual Health Board meeting on Monday, April 9, at which health organizations from around network. But there are two members of our team who do not have home computers, and they require the equipment on Friday to finish their presentations.<br>
+        I'm hoping you will have a solution to this difficulty. Please let me know as soon as possible how we can solve this problem.<br><br>
+        Sincerely,<br> 	
+        Janet Copland<br>
+        Health Project Coordinator
+    </p>
+
+	<div class="question">
+		<h3>What is the purpose of the memo?</h3>
+		<label><input type="radio" value="A"> (A) To warn about a recent security risk</label>
+		<label><input type="radio" value="B"> (B) To request ideas regarding a new program</label>
+		<label><input type="radio" value="C"> (C) To ask employees to explain a recent disruption</label>
+		<label><input type="radio" value="D"> (D) To inform about an interruption in computer service</label>
+		<div class="answer">Correct Answer: (D)</div>
+	</div>
+
+	<div class="question">
+		<h3>Why is the new software being installed?</h3>
+		<label><input type="radio" value="A"> (A) To make up for a failed maintenance session</label>
+		<label><input type="radio" value="B"> (B) To avoid future delays in computer processing</label>
+		<label><input type="radio" value="C"> (C) To set up a more efficient messaging system</label>
+		<label><input type="radio" value="D"> (D) To increase memory in the computer hard drives</label>
+		<div class="answer">Correct Answer: (B)</div>
+	</div>
+
+	<div class="question">
+		<h3>Who will receive the email?</h3>
+		<label><input type="radio" value="A"> (A) A project coordinator</label>
+		<label><input type="radio" value="B"> (B) A department supervisor</label>
+		<label><input type="radio" value="C"> (C) A health services worker</label>
+		<label><input type="radio" value="D"> (D) A company vice president</label>
+		<div class="answer">Correct Answer: (B)</div>
+	</div>
+
+	<div class="question">
+		<h3>What is Ms. Copland's complaint?</h3>
+		<label><input type="radio" value="A"> (A) The office will not be open on Friday.</label>
+		<label><input type="radio" value="B"> (B) There are not enough computers for her team.</label>
+		<label><input type="radio" value="C"> (C) The network shutdown was given on short notice.</label>
+		<label><input type="radio" value="D"> (D) The deadline for the presentation was made hurriedly.</label>
+		<div class="answer">Correct Answer: (C)</div>
+	</div>
+
+	<div class="question">
+		<h3>What is Ms. Copland asking in the email?</h3>
+		<label><input type="radio" value="A"> (A) Find a solution to the team's problem</label>
+		<label><input type="radio" value="B"> (B) Fix the computer system right away</label>
+		<label><input type="radio" value="C"> (C) Change the presentation schedule</label>
+		<label><input type="radio" value="D"> (D) Arrange extra members for the project</label>
+		<div class="answer">Correct Answer: (A)</div>
+	</div>
+</div>
+<!-- The Wasniak Herald -->
+<div class="document">
+    <h2>The Wasniak Herald</h2>
+    <p><em>Wednesday, August 14</em><br>From WTH Meteorological Center</p>
+    <p>
+        Meteorologists have forecasted severe thunderstorms covering most of Wasniak. Heavy rain is expected to start early on Thursday morning (64) and will continue until Sunday evening. The rain will also be accompanied by colder temperatures, hovering around 24 degrees Celsius. And while the predicted amount of rainfall should be less than 10 centimeters, some areas may see flooding.
+    </p>
+    <p>
+        The rain should let up by Sunday night, but clouds will remain until early on Tuesday.
+    </p>
+
+    <h2>The Wasniak Herald</h2>
+    <p><em>Tuesday, August 19</em><br>By Hong Tran</p>
+    <h3>Unpredictable Weather Deals Heavy Blow to Parks and Recreation Department</h3>
+    <p>
+        The Wasniak P&R Department reports that more than 30 outdoor programs and events, from family reunions to wedding ceremonies, were cancelled last weekend (65). These events were cancelled because of a severe rain and thunderstorm forecast that was issued earlier in the week. Despite the grim prediction, however, the weather was not that bad. In fact, the rain did not last very long; after a short drizzle, the sun returned. The temperature was as predicted (190), as it was somewhere very close to 24 degrees. It was altogether a pretty nice day on Saturday, and would have been an even nicer day for everyone had the scheduled events not been cancelled.
+    </p>
+    <p>
+        These cancellations caused a significant loss of revenue for the P&R Department. â€œThe money from these types of public events accounts for a very large amount of our yearly revenue (188), and supports most of the funding for the parks maintenance (189) for the whole year,â€ said Davie Wong, a financial manager at Parks and Recreation. He went on to say that he hopes they can find some time to reschedule the events, and that they can partially recover the lost funds.
+    </p>
+
+    <div class="question">
+        <h3>According to the weather forecast in the first article, what is true?</h3>
+        <label><input type="radio" value="A"> (A) The city would go through unprecedented temperatures</label>
+        <label><input type="radio" value="B"> (B) The rainstorm would begin on Thursday morning.</label>
+        <label><input type="radio" value="C"> (C) The weather would turn sunny as soon as the rain stopped</label>
+        <label><input type="radio" value="D"> (D) The rain would last for the whole month.</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>In the second article, what problem did Wasniakâ€™s Parks and Recreation Department experience?</h3>
+        <label><input type="radio" value="A"> (A) It couldnâ€™t get enough funding from the city government</label>
+        <label><input type="radio" value="B"> (B) Its regional parking lots were flooded by rain.</label>
+        <label><input type="radio" value="C"> (C) It had to cancel all of its scheduled events.</label>
+        <label><input type="radio" value="D"> (D) Its operations director was demoted.</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>Why is August an important month for the Parks and Recreation Department?</h3>
+        <label><input type="radio" value="A"> (A) It posts its yearly schedule of events.</label>
+        <label><input type="radio" value="B"> (B) It postpones and cancels many events during that month.</label>
+        <label><input type="radio" value="C"> (C) It generates a good portion of their yearly revenue</label>
+        <label><input type="radio" value="D"> (D) It provides the best weather for plant growth.</label>
+        <div class="answer">Correct Answer: (C)</div>
+    </div>
+
+    <div class="question">
+        <h3>In the second article, the word â€˜maintenanceâ€™ in paragraph 2, line 3 is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) consistency</label>
+        <label><input type="radio" value="B"> (B) upkeep</label>
+        <label><input type="radio" value="C"> (C) defense</label>
+        <label><input type="radio" value="D"> (D) declaration</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+
+    <div class="question">
+        <h3>What were the forecasters correct about?</h3>
+        <label><input type="radio" value="A"> (A) The sky was overcast.</label>
+        <label><input type="radio" value="B"> (B) The temperature</label>
+        <label><input type="radio" value="C"> (C) The rain</label>
+        <label><input type="radio" value="D"> (D) The blustery wind</label>
+        <div class="answer">Correct Answer: (B)</div>
+    </div>
+</div>
+<!-- Game Console Problem -->
+<div class="document">
+  <h2>Email Correspondence: Play Game Console Issue</h2>
+  <p><strong>From:</strong> Joan Shelton<br>
+  <strong>To:</strong> Customer Service<br>
+  <strong>Subject:</strong> Game Console Problem</p>
+  <p>Dear Sir,</p>
+  <p>
+    I'm writing to ask for help with my new Play Game console which I purchased three weeks ago. I made the purchase because one of the advertised strengths of Play Game is its ability to perform smoothly. However, games freeze while playing, and this happens very frequently.
+  </p>
+  <p>
+    I would prefer to solve the problem myself using your website, and I am perfectly competent to do so. Unfortunately, your website does not have a solution to this particular problem. I contacted the store where I purchased this game console, but the technicians there have been unable to provide me with assistance. Any information and suggestions you can offer in solving this problem would be much appreciated.
+  </p>
+  <p>Faithfully,<br>Joan Shelton</p>
+
+  <p><strong>From:</strong> Ethan Davison<br>
+  <strong>To:</strong> Joan Shelton<br>
+  <strong>Date:</strong> March 9, 2:48 p.m.<br>
+  <strong>Re:</strong> Game Console Problem</p>
+  <p>
+    Dear Ms. Shelton,
+  </p>
+  <p>
+    I have thoroughly reviewed the issue you reported with your Play Game console. Occasional lockups with video games can happen from time to time and do not necessarily indicate a need for repair or replacement. However, if you are experiencing frequent lockups, please see the information below.
+  </p>
+  <ul>
+    <li>Make sure you are using only licensed accessories. Unlicensed products and accessories do not undergo the Play Game testing and evaluation process.</li>
+    <li>If a game freezes while playing, try unplugging the AC adapter from the back of the console, then check the air vents to make sure they're not being blocked. If your problem still persists, you may ship the console to our factory in New York for diagnosis by our team of specialists. If you determine that you must send your machine to the factory, please contact us so that we can assist you with a shipping label and further instructions.</li>
+  </ul>
+  <p>Sincerely,<br>Ethan Davison<br>Technical Support Representative</p>
+
+  <div class="question">
+    <h3>When did Joan Shelton buy the Play Game console?</h3>
+    <label><input type="radio" value="A"> (A) Two days ago</label>
+    <label><input type="radio" value="B"> (B) Two months ago</label>
+    <label><input type="radio" value="C"> (C) Three weeks ago</label>
+    <label><input type="radio" value="D"> (D) One year ago</label>
+    <div class="answer">Correct Answer: (C) Three weeks ago</div>
+  </div>
+
+  <div class="question">
+    <h3>How would Joan Shelton prefer to solve the problem?</h3>
+    <label><input type="radio" value="A"> (A) By using the website</label>
+    <label><input type="radio" value="B"> (B) By calling the helpline</label>
+    <label><input type="radio" value="C"> (C) By sending the game console to the factory</label>
+    <label><input type="radio" value="D"> (D) By contacting the store</label>
+    <div class="answer">Correct Answer: (A) By using the website</div>
+  </div>
+
+  <div class="question">
+    <h3>According to the second e-mail, what should Joan Shelton do next?</h3>
+    <label><input type="radio" value="A"> (A) Take the game console back to the store</label>
+    <label><input type="radio" value="B"> (B) Contact a repair expert</label>
+    <label><input type="radio" value="C"> (C) Check the air vents</label>
+    <label><input type="radio" value="D"> (D) Refer to the website</label>
+    <div class="answer">Correct Answer: (C) Check the air vents</div>
+  </div>
+
+  <div class="question">
+    <h3>According to the first e-mail, when did Joan Shelton have a problem?</h3>
+    <label><input type="radio" value="A"> (A) When loading</label>
+    <label><input type="radio" value="B"> (B) When saving</label>
+    <label><input type="radio" value="C"> (C) When exiting</label>
+    <label><input type="radio" value="D"> (D) When playing</label>
+    <div class="answer">Correct Answer: (D) When playing</div>
+  </div>
+
+  <div class="question">
+    <h3>What is NOT a possible cause of the problem?</h3>
+    <label><input type="radio" value="A"> (A) The game console has a problem.</label>
+    <label><input type="radio" value="B"> (B) The air vents are being blocked.</label>
+    <label><input type="radio" value="C"> (C) She is using unlicensed game discs</label>
+    <label><input type="radio" value="D"> (D) The factory technicians are underqualified.</label>
+    <div class="answer">Correct Answer: (D) The factory technicians are underqualified.</div>
+  </div>
+</div>
+<!-- Daniel Metzgert Unplugged -->
+<div class="document">
+  <h2>Concert Event: Daniel Metzgert Unplugged</h2>
+  <p><strong>Location:</strong> Savoy Music (Downtown)<br>
+  <strong>Dates:</strong> Friday and Saturday, October 19â€“20<br>
+  <strong>Show Time:</strong> 8:30 PM</p>
+  <p><strong>Tickets:</strong> $22 for adults, $12 for children (12 and under). Available by mail (check or money order), phone (credit card), or at the door (cash only after October 18).</p>
+  <p><strong>Contact:</strong> Jamie Severn<br>savoyperformances@savoy.com<br>321-213-3244</p>
+
+  <p><strong>Letter from Janet Peters:</strong></p>
+  <p>Dear Ms. Severn,</p>
+  <p>
+    I am thrilled to hear that Daniel Metzgert will be making an appearance at your store this month. Metzgert has been a favorite of mine for years, and I have enjoyed many concerts of his at other venues over the years. The show at the Savoy will be my first chance to see him play acoustically. Thank you for bringing him back to Colorado! Please reserve two adult tickets and one childrenâ€™s ticket in my name. Enclosed is a check for $56. Please hold my tickets at Will Call. I will be at the Savoy early on the 19th to pick them up.
+  </p>
+  <p>Thank you,<br>Janet Peters</p>
+
+  <div class="question">
+    <h3>After October 18, how can someone pay for a ticket?</h3>
+    <label><input type="radio" value="A"> (A) In cash only</label>
+    <label><input type="radio" value="B"> (B) By credit card</label>
+    <label><input type="radio" value="C"> (C) By personal check</label>
+    <label><input type="radio" value="D"> (D) By money order</label>
+    <div class="answer">Correct Answer: (A) In cash only</div>
+  </div>
+
+  <div class="question">
+    <h3>On the flyer, what does the word "form" in line 13 refer to?</h3>
+    <label><input type="radio" value="A"> (A) credit</label>
+    <label><input type="radio" value="B"> (B) venue</label>
+    <label><input type="radio" value="C"> (C) type</label>
+    <label><input type="radio" value="D"> (D) check</label>
+    <div class="answer">Correct Answer: (C) type</div>
+  </div>
+
+  <div class="question">
+    <h3>What does the flyer mention?</h3>
+    <label><input type="radio" value="A"> (A) Tickets are sold out.</label>
+    <label><input type="radio" value="B"> (B) The performer will play acoustic music</label>
+    <label><input type="radio" value="C"> (C) There will be a performance on Sunday.</label>
+    <label><input type="radio" value="D"> (D) The show will be held next to Savoy Music</label>
+    <div class="answer">Correct Answer: (B) The performer will play acoustic music</div>
+  </div>
+
+  <div class="question">
+    <h3>When will Ms. Peters attend the performance?</h3>
+    <label><input type="radio" value="A"> (A) Thursday</label>
+    <label><input type="radio" value="B"> (B) Friday</label>
+    <label><input type="radio" value="C"> (C) Saturday</label>
+    <label><input type="radio" value="D"> (D) Sunday</label>
+    <div class="answer">Correct Answer:(B) Friday</div>
+  </div>
+
+  <div class="question">
+    <h3>What does the letter indicate about Ms. Peters?</h3>
+    <label><input type="radio" value="A"> (A) This is her first time to see Mr. Metzgert in concert.</label>
+    <label><input type="radio" value="B"> (B) She plans to pay for the tickets by credit card.</label>
+    <label><input type="radio" value="C"> (C) She would like the tickets mailed to her.</label>
+    <label><input type="radio" value="D"> (D) She will attend the concert with other people.</label>
+    <div class="answer">Correct Answer: (D) She will attend the concert with other people.</div>
+  </div>
+</div>
+<!-- Lakeshore -->
+<div class="document">
+  <p><strong>Lakeshore</strong><br>
+  305 Jefferson Avenue<br>
+  Denver, CO 81 I62</p>
+  
+  <p><strong>Dear Mr. Leerberg,</strong></p>
+  <p>
+    Your advertisement for an HR assistant ï¬ts my qualiï¬cations perfectly, and I am writing to express my interest in and enthusiasm for the position.
+  </p>
+  <p>
+    After completing a business degree from Colorado University in June, I enrolled in a Human Resources Development program to further enhance my credentials in the ï¬eld.
+  </p>
+  <p>Based on your description of the ideal candidate, I also offer:</p>
+  <ul>
+    <li>A track record of excellent performance as a part-time/summer employee concurrent with full-time college enrollment</li>
+    <li>Technical proï¬ciency in database programs and MS Office</li>
+  </ul>
+  <p>
+    If you agree that my services would be valuable to Lakeshore, I would very much like to meet in person to learn more about your HR support needs.
+  </p>
+  <p>Sincerely yours,<br>Rebecca Platt</p>
+  
+  <p><strong>Rebecca Platt</strong><br>
+  3 Harbor Blvd.<br>
+  Bridgeport, CT 06604<br>
+  January 14</p>
+
+  <p><strong>Dear Ms. Platt,</strong></p>
+  <p>
+    Thank you for your interest in our company. We received your letter and your rÃ©sumÃ©, and we are always interested in providing opportunities to recent graduates with experience and qualifications like you.
+  </p>
+  <p>
+    Unfortunately, the position has been already filled by another applicant, and there is no other job opening that matches your speciï¬c interest at the present time. On a more positive note, however, we are looking for a trainee to help conduct employment labor relations polls.
+  </p>
+  <p>
+    It is a temporary position that could lead to an offer of permanent employment. If this type of work interests you, I suggest you contact Legg Mason, the head of our Human Resources Department, to discuss the responsibilities of the position.
+  </p>
+  <p>Yours truly,<br>Will Leerberg<br>Lakeshore</p>
+
+  <div class="question">
+    <h3>What position is Ms. Platt interested in?</h3>
+    <label><input type="radio" value="A"> (A) Assistant manager</label>
+    <label><input type="radio" value="B"> (B) Trainee</label>
+    <label><input type="radio" value="C"> (C) HR assistant</label>
+    <label><input type="radio" value="D"> (D) Director</label>
+    <div class="answer">Correct Answer: (C) HR assistant</div>
+  </div>
+
+  <div class="question">
+    <h3>What qualification does Ms. Platt mention?</h3>
+    <label><input type="radio" value="A"> (A) She enrolled in a Human Resources Development program.</label>
+    <label><input type="radio" value="B"> (B) She taught a labor relations course.</label>
+    <label><input type="radio" value="C"> (C) She worked as an HR assistant.</label>
+    <label><input type="radio" value="D"> (D) She was a telephone marketer.</label>
+    <div class="answer">Correct Answer: (A) She enrolled in a Human Resources Development program.</div>
+  </div>
+
+  <div class="question">
+    <h3>What news does Mr. Leerberg give Ms. Platt?</h3>
+    <label><input type="radio" value="A"> (A) She does not have sufficient work experience.</label>
+    <label><input type="radio" value="B"> (B) The position has been filled.</label>
+    <label><input type="radio" value="C"> (C) She needs more education to qualify for the job.</label>
+    <label><input type="radio" value="D"> (D) The company is not offering any job openings at present.</label>
+    <div class="answer">Correct Answer: (B) The position has been filled.</div>
+  </div>
+
+  <div class="question">
+    <h3>Why should Ms. Platt contact Legg Mason?</h3>
+    <label><input type="radio" value="A"> (A) To set up a training session</label>
+    <label><input type="radio" value="B"> (B) To obtain work documents</label>
+    <label><input type="radio" value="C"> (C) To be included in a poll</label>
+    <label><input type="radio" value="D"> (D) To learn more about an opportunity</label>
+    <div class="answer">Correct Answer: (D) To learn more about an opportunity</div>
+  </div>
+
+  <div class="question">
+    <h3>In the second letter, the word "positive" in paragraph 2, line 3 is closest in meaning to</h3>
+    <label><input type="radio" value="A"> (A) convinced</label>
+    <label><input type="radio" value="B"> (B) plausible</label>
+    <label><input type="radio" value="C"> (C) optimistic</label>
+    <label><input type="radio" value="D"> (D) absolute</label>
+    <div class="answer">Correct Answer: (C) optimistic</div>
+  </div>
+</div>
+<!-- Crystal Ski Resorts -->
+<div class="document">
+  <p><strong>Sarah<br>March 29</strong><br>
+  Mr. and Mrs. Sachs<br>
+  12 Mountain View Road,<br>
+  Denver, Colorado</p>
+
+  <p><strong>Dear Mr. and Mrs. Sachs,</strong></p>
+  <p>
+    I'm very sorry that your stay with us was not satisfactory. On the week that you visited, we had three school groups also visiting, which has never happened before. Unfortunately, our staff were not prepared, and this resulted in the deficiencies of cleanliness and service that you experienced.
+  </p>
+  <p>
+    In order to change your opinion of us, we would like to invite you to stay with us again, at no charge. I've enclosed a coupon in the letter for a week's accommodation redeemable at any of our lodges.
+  </p>
+  <p>
+    I hope you will take up our offer to experience our usual, phenomenal service.
+  </p>
+  <p>Sincerely,<br>Jose Campbell<br>Customer Services<br>Crystal Ski Resorts</p>
+
+  <p><strong>Crystal Ski Resorts</strong></p>
+  <p>
+    Invites you to enjoy free accommodation at the USA's number one winter holiday destination.
+  </p>
+  <p>
+    <strong>The offer includes:</strong><br>
+    One week bed and breakfast at any of our ski lodges. Lifts and equipment rental not included.
+  </p>
+  <p>
+    To be claimed by March 30th, next year.<br>
+    To claim this coupon, present it at the admission desk at the time of admission. Prior reservation required.
+  </p>
+  <p><strong>Offer code:</strong> 75934-AR-8003</p>
+
+  <div class="question">
+    <h3>Why did Jose Campbell write to the Sachs?</h3>
+    <label><input type="radio" value="A"> (A) To make a complaint</label>
+    <label><input type="radio" value="B"> (B) To advertise the Crystal Ski Resort</label>
+    <label><input type="radio" value="C"> (C) To respond to their enquiry</label>
+    <label><input type="radio" value="D"> (D) To answer their complaint</label>
+    <div class="answer">Correct Answer: (D) To answer their complaint</div>
+  </div>
+
+  <div class="question">
+    <h3>What did the Sachs most likely complain about?</h3>
+    <label><input type="radio" value="A"> (A) Noise carried on all night</label>
+    <label><input type="radio" value="B"> (B) Room service didn't clean their room</label>
+    <label><input type="radio" value="C"> (C) There was no snow and the skiing was poor</label>
+    <label><input type="radio" value="D"> (D) Their room was too small and too dark</label>
+    <div class="answer">Correct Answer: (B) Room service didn't clean their room</div>
+  </div>
+
+  <div class="question">
+    <h3>What is Mr. Campbell offering?</h3>
+    <label><input type="radio" value="A"> (A) A free holiday</label>
+    <label><input type="radio" value="B"> (B) Reduced price accommodation</label>
+    <label><input type="radio" value="C"> (C) Free accommodation</label>
+    <label><input type="radio" value="D"> (D) A refund</label>
+    <div class="answer">Correct Answer: (C) Free accommodation</div>
+  </div>
+
+  <div class="question">
+    <h3>How long do the Sachs have to use their coupon?</h3>
+    <label><input type="radio" value="A"> (A) They must use it immediately</label>
+    <label><input type="radio" value="B"> (B) They have about a month</label>
+    <label><input type="radio" value="C"> (C) They have about a year</label>
+    <label><input type="radio" value="D"> (D) They may use it whenever they want</label>
+    <div class="answer">Correct Answer: (C) They have about a year</div>
+  </div>
+
+  <div class="question">
+    <h3>The word "deficiencies" in paragraph 1, line 6, of the letter is closest in meaning to what?</h3>
+    <label><input type="radio" value="A"> (A) Lack</label>
+    <label><input type="radio" value="B"> (B) Errors</label>
+    <label><input type="radio" value="C"> (C) Misinterpretation</label>
+    <label><input type="radio" value="D"> (D) Glut</label>
+    <div class="answer">Correct Answer: (A) Lack</div>
+  </div>
+</div>
+<!-- Absolute Interior Design -->
+<div class="document">
+    <h2>Absolute Interior Design</h2>
+    <p>Our work ranges from a single, small detail to complete residential projects.  
+    Each job begins with either a brief telephone or email conversation at which time the basics of the client's needs are discussed. 
+    There is no fee for this preliminary service. This is followed by an Initial Consultation where more in-depth information about the client's requirements, wishes and budget details are discussed.</p>
+
+    <p>Over the past twenty years we've found access to unique sources, both national and international, that include craftspeople with special talents which are not available in the general marketplace. 
+    Experience also allows us to carry out efficient projects which eliminate virtually all of the negative aspects and fears usually associated with larger scale renovations.</p>
+
+    <p>While we are effective with project supervision, we also are realistic when describing the dusty, messy and unpleasant times which are part and parcel of a major renovation project. 
+    We prepare the client, with as much information as possible, for the process their home is about to undergo as it changes from a group of poorly functioning spaces into a dream home.</p>
+
+    <hr>
+
+    <p><strong>Date:</strong> 16 March</p>
+    <p><strong>To:</strong> Alyssa Jamison</p>
+    <p><strong>From:</strong> Bob Brown</p>
+    <p><strong>Subject:</strong> Consultation</p>
+
+    <p>Good Morning Ms. Jamison,</p>
+    <p>Following our telephone conversation of Friday the 12th March, and much discussion with my wife, I'm delighted to tell you we wish to proceed with the proposed project.</p>
+    <p>If you recall, we wish to alter our small kitchen into an open-plan kitchen and living area.</p>
+    <p>I believe the next step is for you to come to our home and begin discussion of the details.</p>
+    <p>We would like to get this project underway as soon as possible with an aim of finishing by early July.</p>
+    <p>Please let me know when you are available for the Initial Consultation.</p>
+    <p>Sincerely,<br>Bob Brown</p>
+
+    <div class="question">
+        <h3>What was the purpose of Bob Brown's e-mail?</h3>
+        <label><input type="radio" value="A"> (A) to ask what to expect from the renovation</label>
+        <label><input type="radio" value="B"> (B) to accept Ms. Jamison's job offer</label>
+        <label><input type="radio" value="C"> (C) to complain about the work being slow</label>
+        <label><input type="radio" value="D"> (D) to hire Absolute Interior Design</label>
+        <div class="answer">Correct Answer: (D) to hire Absolute Interior Design</div>
+    </div>
+
+    <div class="question">
+        <h3>The word "brief" in paragraph 2, line 1, of the advertisement is closest in meaning to what?</h3>
+        <label><input type="radio" value="A"> (A) short</label>
+        <label><input type="radio" value="B"> (B) free</label>
+        <label><input type="radio" value="C"> (C) factual</label>
+        <label><input type="radio" value="D"> (D) inadequate</label>
+        <div class="answer">Correct Answer: (A) short</div>
+    </div>
+
+    <div class="question">
+        <h3>What can Absolute offer their clients?</h3>
+        <label><input type="radio" value="A"> (A) help only with very large projects</label>
+        <label><input type="radio" value="B"> (B) the complete absence of dust</label>
+        <label><input type="radio" value="C"> (C) exceptional craftspeople</label>
+        <label><input type="radio" value="D"> (D) quality work at budget prices</label>
+        <div class="answer">Correct Answer: (C) exceptional craftspeople</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Absolute feel must be treated realistically?</h3>
+        <label><input type="radio" value="A"> (A) the supervision of the project</label>
+        <label><input type="radio" value="B"> (B) the client's dream</label>
+        <label><input type="radio" value="C"> (C) the mess that will be caused</label>
+        <label><input type="radio" value="D"> (D) the client's budget</label>
+        <div class="answer">Correct Answer: (C) the mess that will be caused</div>
+    </div>
+
+    <div class="question">
+        <h3>What will most likely happen next?</h3>
+        <label><input type="radio" value="A"> (A) They will discuss the project on the phone.</label>
+        <label><input type="radio" value="B"> (B) They will begin the renovation.</label>
+        <label><input type="radio" value="C"> (C) They will arrange the Initial Consultation.</label>
+        <label><input type="radio" value="D"> (D) Ms. Jamison will decline the invitation.</label>
+        <div class="answer">Correct Answer: (C) They will arrange the Initial Consultation.</div>
+    </div>
+</div>
+<!-- Panacea Pharmaceuticals -->
+<div class="document">
+    <h2>Panacea Pharmaceuticals</h2>
+    <p>Panacea Pharmaceuticals is organizing its annual training session and is seeking a suitable venue to accommodate its employees. With numerous favorable reviews about SleepWell Innâ€™s conference facilities, the company has decided to hold the session at this hotel.</p>
+
+    <p>The training session is planned from April 17 to April 19 and will include both morning and afternoon sessions for 45 participants. The requirements include a conference room, lunch for all attendees, a podium, a microphone, and a sound system.</p>
+
+    <p>Jennifer Romero, the Director of Sales, has reached out to SleepWell Inn to inquire about the availability and cost of these services.</p>
+
+    <hr>
+
+    <p><strong>Date:</strong> March 22, 2007</p>
+    <p><strong>To:</strong> SleepWell Inn</p>
+    <p><strong>From:</strong> Jennifer Romero</p>
+    <p><strong>Subject:</strong> Conference Room Reservation</p>
+
+    <p>To the Management,</p>
+    <p>We at Panacea Pharmaceuticals have received many positive reviews of your hotelâ€™s conference rooms and business services. Therefore, our executives have decided to hold our annual training session at SleepWell Inn.</p>
+    <p>We would like to reserve a conference room from Tuesday, April 17 to Thursday, April 19 for sessions from 9 a.m. to 4 p.m. We need a room for 45 people, along with lunch, a podium, microphone, and sound system.</p>
+    <p>Please confirm availability and send us the menu and total cost estimate at your earliest convenience.</p>
+    <p>Sincerely,<br>Jennifer Romero, Director of Sales</p>
+
+    <div class="question">
+        <h3>What is the purpose of this letter?</h3>
+        <label><input type="radio" value="A"> (A) To reserve a large meeting space</label>
+        <label><input type="radio" value="B"> (B) To arrange a yearly company banquet</label>
+        <label><input type="radio" value="C"> (C) To inquire about the hotel's location</label>
+        <label><input type="radio" value="D"> (D) To request an instructor for a training session</label>
+        <div class="answer">Correct Answer: (A) To reserve a large meeting space</div>
+    </div>
+
+    <div class="question">
+        <h3>What will Panacea Pharmaceuticals do in April?</h3>
+        <label><input type="radio" value="A"> (A) Update a product line</label>
+        <label><input type="radio" value="B"> (B) Teach employees new skills</label>
+        <label><input type="radio" value="C"> (C) Have an executive lunch meeting</label>
+        <label><input type="radio" value="D"> (D) Write a review of the SleepWell Inn</label>
+        <div class="answer">Correct Answer: (B) Teach employees new skills</div>
+    </div>
+
+    <div class="question">
+        <h3>How much will it cost to rent the equipment?</h3>
+        <label><input type="radio" value="A"> (A) $8 a day</label>
+        <label><input type="radio" value="B"> (B) $30 a day</label>
+        <label><input type="radio" value="C"> (C) $45 a day</label>
+        <label><input type="radio" value="D"> (D) $50 a day</label>
+        <div class="answer">Correct Answer: (B) $30 a day</div>
+    </div>
+
+    <div class="question">
+        <h3>What will Mr. Martin most likely do next?</h3>
+        <label><input type="radio" value="A"> (A) Order lunch</label>
+        <label><input type="radio" value="B"> (B) Book a room</label>
+        <label><input type="radio" value="C"> (C) Wait for a reply</label>
+        <label><input type="radio" value="D"> (D) Send an invoice</label>
+        <div class="answer">Correct Answer: (C) Wait for a reply</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Mr. Martin NOT mention in his email?</h3>
+        <label><input type="radio" value="A"> (A) The total price</label>
+        <label><input type="radio" value="B"> (B) The cost of a meal</label>
+        <label><input type="radio" value="C"> (C) An appropriate-sized room</label>
+        <label><input type="radio" value="D"> (D) A raised platform for instructors</label>
+        <div class="answer">Correct Answer: (D) A raised platform for instructors</div>
+    </div>
+</div>
+<!-- EcoSystems Ltd. Proposal to Good Day, Inc. -->
+<div class="document">
+    <h2>EcoSystems Ltd. Proposal to Good Day, Inc.</h2>
+
+    <p>This document includes a proposal from Mr. Sanjay Singh of EcoSystems Ltd., a recycled paper supplier based in India, responding to Good Day Inc.â€™s Request for Proposals published in the *Journal of Commerce*. EcoSystems Ltd. specializes in affordable, high-quality recycled paper and is currently a supplier for multiple North American companies.</p>
+
+    <p>Mr. Singh highlights the competitive pricing of $2 per ream and mentions the companyâ€™s international experience and ability to ship quickly. He expresses his interest in supplying paper for Good Day, Inc.'s eco-friendly greeting card product line.</p>
+
+    <p>Ms. Elsa Lawrence, Procurement Coordinator at Good Day, Inc., replies on March 2, 2007, confirming receipt of the proposal and informing Mr. Singh that a decision will be made by the end of the month.</p>
+
+    <hr>
+
+    <p><strong>Date:</strong> March 2, 2007</p>
+    <p><strong>To:</strong> Good Day, Inc. &lt;goodday@co.us&gt;</p>
+    <p><strong>From:</strong> Sanjay Singh &lt;singhyaho@ecosys.net&gt;</p>
+    <p><strong>Subject:</strong> Request for Proposals #34b</p>
+
+    <p>Dear Ms. Lawrence,</p>
+    <p>This is in response to your recent request for proposals for recycled paper. EcoSystems Ltd. has a longstanding tradition of producing and exporting recycled paper globally, with pricing highly competitive due to low production costs and bulk export strategies.</p>
+    <p>We propose high-quality recycled paper at $2 per ream. Please find the attached report detailing our pricing and paper specifications. We can deliver within 20 days upon confirmation.</p>
+    <p>I look forward to your response.</p>
+    <p>Sincerely,<br>Sanjay Singh<br>President and CEO<br>EcoSystems Ltd.</p>
+
+    <hr>
+
+    <p><strong>From:</strong> Elsa Lawrence<br>Procurement Coordinator<br>Good Day, Inc.</p>
+    <p><strong>To:</strong> Sanjay Singh<br>EcoSystems Ltd.</p>
+
+    <p>Dear Mr. Singh,</p>
+    <p>This is to confirm receipt of your proposal. Due to the volume of responses, we will announce our selection at the end of the month. We appreciate your patience and interest.</p>
+    <p>Sincerely,<br>Elsa Lawrence</p>
+
+    <div class="question">
+        <h3>What is the purpose of Mr. Singhâ€™s proposal?</h3>
+        <label><input type="radio" value="A"> (A) To become the supplier of paper products for a company</label>
+        <label><input type="radio" value="B"> (B) To purchase a large amount of recycled paper from India</label>
+        <label><input type="radio" value="C"> (C) To develop a new form of high-quality recycled paper</label>
+        <label><input type="radio" value="D"> (D) To form a partnership with a North American company</label>
+        <div class="answer">Correct Answer: (A) To become the supplier of paper products for a company</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Mr. Singh NOT mention as a competitive edge of his company?</h3>
+        <label><input type="radio" value="A"> (A) Years of experience</label>
+        <label><input type="radio" value="B"> (B) A network of partners</label>
+        <label><input type="radio" value="C"> (C) State-of-the-art technology</label>
+        <label><input type="radio" value="D"> (D) Relatively affordable pricing</label>
+        <div class="answer">Correct Answer: (C) State-of-the-art technology</div>
+    </div>
+
+    <div class="question">
+        <h3>What kind of company does Ms. Lawrence work for?</h3>
+        <label><input type="radio" value="A"> (A) A producer of recycled products</label>
+        <label><input type="radio" value="B"> (B) An import/export business</label>
+        <label><input type="radio" value="C"> (C) A manufacturer of greeting cards</label>
+        <label><input type="radio" value="D"> (D) A paper design company</label>
+        <div class="answer">Correct Answer: (C) A manufacturer of greeting cards</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the purpose of Ms. Lawrenceâ€™s reply?</h3>
+        <label><input type="radio" value="A"> (A) To confirm receipt of a proposal</label>
+        <label><input type="radio" value="B"> (B) To announce a winning proposal</label>
+        <label><input type="radio" value="C"> (C) To reject an incomplete proposal</label>
+        <label><input type="radio" value="D"> (D) To request submission of a proposal</label>
+        <div class="answer">Correct Answer: (A) To confirm receipt of a proposal</div>
+    </div>
+
+    <div class="question">
+        <h3>The word â€œexclusiveâ€ in paragraph 4, line 1 of the email is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) former</label>
+        <label><input type="radio" value="B"> (B) only</label>
+        <label><input type="radio" value="C"> (C) first</label>
+        <label><input type="radio" value="D"> (D) best</label>
+        <div class="answer">Correct Answer: (B) only</div>
+    </div>
+</div>
+<!-- Customer Inquiry from Sarah Hardy -->
+<div class="document">
+    <h2>Customer Inquiry from Sarah Hardy</h2>
+
+    <p>Sarah Hardy contacted Furniture World regarding an order placed on March 13. While she was satisfied with the quality of the furniture and shipping, she noted that the assembly instructions for the bookshelf were missing, making it difficult to complete setup. She requested that the instructions be sent via email to <strong>shardy@mail.com</strong> or by regular mail. Additionally, she pointed out a possible error in the invoice total.</p>
+
+    <p>She provided her order number (442) and confirmation number (AXT921), attached a copy of her invoice, and asked for a prompt reply. She also provided a contact phone number for further questions: (901) 840-0982.</p>
+
+    <hr>
+
+    <p><strong>Order Date:</strong> March 13<br>
+    <strong>Order ID:</strong> 442<br>
+    <strong>Client Name:</strong> Sarah Hardy<br>
+    <strong>Address:</strong> 342 Alpine St. #2, Chicago, IL 65422, USA</p>
+
+    <h4>Products Purchased</h4>
+    <ul>
+        <li>Office Desk â€“ 1 Ã— $150 = $150</li>
+        <li>Office Chair â€“ 1 Ã— $75 = $75</li>
+        <li>Floor Lamp â€“ 2 Ã— $30 = $60</li>
+        <li>Bookshelf â€“ 1 Ã— $175 = $175</li>
+    </ul>
+    <p><strong>Total:</strong> $460</p>
+
+    <div class="question">
+        <h3>What was the actual total cost?</h3>
+        <label><input type="radio" value="A"> (A) $10</label>
+        <label><input type="radio" value="B"> (B) $450</label>
+        <label><input type="radio" value="C"> (C) $559</label>
+        <label><input type="radio" value="D"> (D) $569</label>
+        <div class="answer">Correct Answer: (B) $450</div>
+    </div>
+
+    <div class="question">
+        <h3>Which item does Ms. Hardy refer to in the letter?</h3>
+        <label><input type="radio" value="A"> (A) The desk</label>
+        <label><input type="radio" value="B"> (B) The chair</label>
+        <label><input type="radio" value="C"> (C) The floor lamp</label>
+        <label><input type="radio" value="D"> (D) The bookshelf</label>
+        <div class="answer">Correct Answer: (D) The bookshelf</div>
+    </div>
+
+    <div class="question">
+        <h3>The word â€œassemblingâ€ in paragraph 2, line 2, in the letter is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) gathering</label>
+        <label><input type="radio" value="B"> (B) meeting</label>
+        <label><input type="radio" value="C"> (C) building</label>
+        <label><input type="radio" value="D"> (D) changing</label>
+        <div class="answer">Correct Answer: (C) building</div>
+    </div>
+
+    <div class="question">
+        <h3>What would Ms. Hardy like to do soon?</h3>
+        <label><input type="radio" value="A"> (A) Put her bookshelf together</label>
+        <label><input type="radio" value="B"> (B) Have a sofa delivered</label>
+        <label><input type="radio" value="C"> (C) Receive a refund in the mail</label>
+        <label><input type="radio" value="D"> (D) Get a new order number</label>
+        <div class="answer">Correct Answer: (A) Put her bookshelf together</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the purpose of this letter?</h3>
+        <label><input type="radio" value="A"> (A) To ask for a replacement part for the bookshelf</label>
+        <label><input type="radio" value="B"> (B) To request missing information</label>
+        <label><input type="radio" value="C"> (C) To arrange for the shipping of more items</label>
+        <label><input type="radio" value="D"> (D) To ask for a refund</label>
+        <div class="answer">Correct Answer: (B) To request missing information</div>
+    </div>
+</div>
+<!-- Woodbury Gas & Electric Company -->
+<div class="document">
+    <h2>Woodbury Gas & Electric Company</h2>
+
+    <p><strong>Customer name:</strong> Carol Wyse<br>
+    <strong>Customer ID:</strong> 3569-F9J3-5704<br>
+    <strong>Customer address:</strong> 3590 Main St., Woodbury, VA<br>
+    <strong>Date of Invoice:</strong> April 16, 2008</p>
+
+    <h4>Billing Details</h4>
+    <ul>
+        <li><strong>Billing period:</strong> March 1 - March 31</li>
+        <li><strong>Previous balance:</strong> $0.00</li>
+        <li><strong>New balance:</strong> $84.79</li>
+        <li><strong>Total amount due:</strong> $84.79</li>
+    </ul>
+
+    <h4>Breakdown of Charges</h4>
+    <ul>
+        <li>Gas Heat: $23.88</li>
+        <li>Cooking Gas: $14.07</li>
+        <li>Power: $44.21</li>
+        <li>Taxes: $2.63</li>
+    </ul>
+
+    <p>Invoice prepared by: Charles Holmes, Accounting Assistant</p>
+
+    <hr>
+
+    <h4>Follow-up Letter</h4>
+    <p><strong>Date:</strong> May 8, 2008</p>
+    <p>Dear Ms. Wyse,</p>
+    <p>An error in your invoice of April 16, 2008, has come to the attention of our accounting office. You were overcharged for the electricity you consumed in March. The correct charge should have been <strong>$34.21</strong>.</p>
+
+    <p>We received your payment of $84.79 on May 2, 2008. The overcharge will be credited to your account and subtracted from your next bill. In appreciation of your loyalty, we will also apply a <strong>$5.00 discount</strong> to your next bill.</p>
+
+    <p>For questions, contact Marc Baldwin at <strong>markbaldwin@woodbury.com</strong> or call Barbara Cameron at <strong>1-800-398-6334</strong>.</p>
+
+    <p>Sincerely,<br>
+    Andreas Hardin, Customer Service Director<br>
+    Woodbury Gas & Electric Company</p>
+
+    <div class="question">
+        <h3>When was the invoice created?</h3>
+        <label><input type="radio" value="A"> (A) March 1</label>
+        <label><input type="radio" value="B"> (B) March 31</label>
+        <label><input type="radio" value="C"> (C) April 16</label>
+        <label><input type="radio" value="D"> (D) May 8</label>
+        <div class="answer">Correct Answer: (C) April 16</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the purpose of the letter?</h3>
+        <label><input type="radio" value="A"> (A) To report a possible price increase</label>
+        <label><input type="radio" value="B"> (B) To request an overdue payment</label>
+        <label><input type="radio" value="C"> (C) To explain a recent billing mistake</label>
+        <label><input type="radio" value="D"> (D) To ask a customer for information</label>
+        <div class="answer">Correct Answer: (C) To explain a recent billing mistake</div>
+    </div>
+
+    <div class="question">
+        <h3>How much was the fee for the overcharged utility?</h3>
+        <label><input type="radio" value="A"> (A) $23.88</label>
+        <label><input type="radio" value="B"> (B) $14.07</label>
+        <label><input type="radio" value="C"> (C) $44.21</label>
+        <label><input type="radio" value="D"> (D) $2.63</label>
+        <div class="answer">Correct Answer: (C) $44.21</div>
+    </div>
+
+    <div class="question">
+        <h3>What will happen with Ms. Wyse's next bill?</h3>
+        <label><input type="radio" value="A"> (A) It will be discounted.</label>
+        <label><input type="radio" value="B"> (B) It will include a penalty payment.</label>
+        <label><input type="radio" value="C"> (C) It will be completely waived.</label>
+        <label><input type="radio" value="D"> (D) It will contain a surplus charge.</label>
+        <div class="answer">Correct Answer: (A) It will be discounted.</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Marc Baldwin do in the company?</h3>
+        <label><input type="radio" value="A"> (A) He handles customer complaints.</label>
+        <label><input type="radio" value="B"> (B) He introduces products and services to customers.</label>
+        <label><input type="radio" value="C"> (C) He prepares invoices.</label>
+        <label><input type="radio" value="D"> (D) He is the head of the customer service department.</label>
+        <div class="answer">Correct Answer: (A) He handles customer complaints.</div>
+    </div>
+</div>
+<!-- Clarity Telecom -->
+<div class="document">
+    <h2>Clarity Telecom</h2>
+
+    <h4>Advertisement</h4>
+    <p><strong>Clarity Telecom</strong><br>
+    Unlimited Incoming Local Calls<br>
+    On Canus, Hawk, and Mothius mobile phones<br>
+    Offer ends Dec. 31. Order now by calling <strong>1-800-266-3654</strong>.</p>
+
+    <p>The Unlimited Incoming Calls package cannot be received concurrently with the Priority Number service. If you are a subscriber to the Priority Number service, you can cancel this deal and begin receiving the Unlimited Incoming Calls package with no start-up fee.</p>
+
+    <p><em>*Priority Number service</em> - unlimited calls to any two pre-chosen numbers for a discounted monthly charge.</p>
+
+    <hr>
+
+    <h4>Customer Letter</h4>
+    <p><strong>Gaven McGuinty</strong><br>
+    422 Rosemont Ave.<br>
+    Newcastle NSW<br>
+    November 13, 2008</p>
+
+    <p><strong>Clarity Telecom</strong><br>
+    1290 Young Ave.<br>
+    Southport NSW B3J6F5</p>
+
+    <p>To the management at Clarity Telecom,</p>
+
+    <p>I'm sending this letter in advance of filing a complaint to the Department of Consumer Affairs, to give your company a chance to explain the following matter.</p>
+
+    <p>I called last week to subscribe to the new Unlimited Incoming Calls package, and your sales operator informed me that I had to enter into a three-year agreement with Clarity in order to receive this service. Your advertisement did not specify that a customer must sign up for a three-year contract before being eligible to receive this deal.</p>
+
+    <p>I decided to enter into the agreement anyway and drop my Priority Number service. When I received my first bill, I noticed that I had been charged with what you called a "change of service fee" for requesting the new package. In your advertisement, it specifically states that when switching from the Priority Number service to the Unlimited Incoming Calls, no start up fee would be applied.</p>
+
+    <p>It is obvious to me that your advertisement campaign is intentionally misleading. In the first instance, your advertisement fails to mention - even in small print - the three-year stipulation. And in the second instance, the language is deceiving, and I believe, in violation of advertising laws.</p>
+
+    <p>If I have misunderstood something that you feel you can clarify, I am willing to consider an explanation. If I do not hear anything from you, I will be filing a complaint.</p>
+
+    <p>Sincerely,<br>
+    Gaven McGuinty</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>What is being advertised?</h3>
+        <label><input type="radio" value="A"> (A) A new kind of Internet protocol</label>
+        <label><input type="radio" value="B"> (B) A cellular phone plan</label>
+        <label><input type="radio" value="C"> (C) A home wireless phone connection</label>
+        <label><input type="radio" value="D"> (D) A sale on PDAs</label>
+        <div class="answer">Correct Answer: (B) A cellular phone plan</div>
+    </div>
+
+    <div class="question">
+        <h3>What can a customer do under the Priority Number service?</h3>
+        <label><input type="radio" value="A"> (A) Receive limitless long-distance calls</label>
+        <label><input type="radio" value="B"> (B) Make unrestricted calls to two numbers</label>
+        <label><input type="radio" value="C"> (C) Receive unlimited calls from two numbers</label>
+        <label><input type="radio" value="D"> (D) Make unrestricted long-distance calls to two numbers</label>
+        <div class="answer">Correct Answer: (B) Make unrestricted calls to two numbers</div>
+    </div>
+
+    <div class="question">
+        <h3>The word "drop" in paragraph 3, line 1 of the letter is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) deliver</label>
+        <label><input type="radio" value="B"> (B) stop</label>
+        <label><input type="radio" value="C"> (C) fall</label>
+        <label><input type="radio" value="D"> (D) lower</label>
+        <div class="answer">Correct Answer: (B) stop</div>
+    </div>
+
+    <div class="question">
+        <h3>What is Mr. McGuinty giving the company a chance to do?</h3>
+        <label><input type="radio" value="A"> (A) Explain its actions</label>
+        <label><input type="radio" value="B"> (B) Remove an extra charge</label>
+        <label><input type="radio" value="C"> (C) Offer him a special deal</label>
+        <label><input type="radio" value="D"> (D) Change its advertisement</label>
+        <div class="answer">Correct Answer: (A) Explain its actions</div>
+    </div>
+
+    <div class="question">
+        <h3>What did Clarity Telecom do that contradicted its advertisement?</h3>
+        <label><input type="radio" value="A"> (A) They imposed a limit on incoming calls.</label>
+        <label><input type="radio" value="B"> (B) They charged a fee for switching services.</label>
+        <label><input type="radio" value="C"> (C) They ignored a minimum age requirement.</label>
+        <label><input type="radio" value="D"> (D) They permitted two services simultaneously.</label>
+        <div class="answer">Correct Answer: (B) They charged a fee for switching services.</div>
+    </div>
+</div>
+<!-- Ms. Lawrence -->
+<div class="document">
+    <h2>Ms. Lawrence</h2>
+
+    <h4>Letter from Travelways Magazine</h4>
+    <p>Dear Ms. Lawrence,</p>
+
+    <p>Your subscription to Travelways Magazine is up for renewal in just a few issues. Please fill out the attached renewal form, and mail back the pre-paid card in order to prevent any disruption in your service.</p>
+
+    <p>Again, we would be delighted to offer you the 40% savings off the newsstand prices, and, if you submit your renewal within the next 30 days, we will add on another 6 weeks of issues for free.</p>
+
+    <p>We know that you are an avid reader, and we really appreciate your continued support of our publication. Our annual package of travel coupons, along with a weekend stay at the Grand Hotel, which is offered to customers who have subscribed with us for 5 or more years, will arrive shortly after you sign up for another year.</p>
+
+    <p>As always, please contact us with any questions or suggestions at (516) 228-6777 to speak with me directly, or write to me at <a href="mailto:jkl@travelways.com">jkl@travelways.com</a>.</p>
+
+    <p>Thank you!</p>
+
+    <p>Sincerely,<br>
+    Jane K. Lee<br>
+    Travelways Magazine</p>
+
+    <hr>
+
+    <h4>Reply from Ms. Lawrence</h4>
+    <p>Dear Ms. Lee,</p>
+
+    <p>I am writing to confirm that I will not be renewing my subscription to Travelways Magazine when my subscription period is up at the end of this month.</p>
+
+    <p>Thank you for your generous offer of the 40% savings along with 6 weeks of free issues.</p>
+
+    <p>I have thoroughly enjoyed receiving the magazines over the last 7 years and would definitely be continuing my subscription if I were remaining in this country.</p>
+
+    <p>I am transferring within my company to another country's office and will no longer be working in the travel industry sector in my new position. As much as I have enjoyed the information in your magazine, I will need to focus on my future responsibilities and will not have much time outside of them.</p>
+
+    <p>Your magazine is outstanding, and I will strongly recommend it to my colleagues and friends.</p>
+
+    <p>Yours truly,<br>
+    Lin Lawrence</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>Why was the first letter written?</h3>
+        <label><input type="radio" value="A"> (A) To inform an existing customer about a new kind of magazine</label>
+        <label><input type="radio" value="B"> (B) To remind someone of an upcoming subscription renewal</label>
+        <label><input type="radio" value="C"> (C) To notify a customer of a payment made</label>
+        <label><input type="radio" value="D"> (D) To solicit the magazine to get a new customer</label>
+        <div class="answer">Correct Answer: (B) To remind someone of an upcoming subscription renewal</div>
+    </div>
+
+    <div class="question">
+        <h3>According to the first letter, what is an added advantage of responding within the next month?</h3>
+        <label><input type="radio" value="A"> (A) A savings of 80% off the cover price will be provided.</label>
+        <label><input type="radio" value="B"> (B) A surprise gift will be sent along with the first issue.</label>
+        <label><input type="radio" value="C"> (C) A number of issues will be given away at no cost.</label>
+        <label><input type="radio" value="D"> (D) An annual package of travel coupons will be mailed.</label>
+        <div class="answer">Correct Answer: (C) A number of issues will be given away at no cost</div>
+    </div>
+
+    <div class="question">
+        <h3>How does Ms. Lawrence respond?</h3>
+        <label><input type="radio" value="A"> (A) She wants a little time to think about renewing.</label>
+        <label><input type="radio" value="B"> (B) She wishes to cancel her subscription.</label>
+        <label><input type="radio" value="C"> (C) She will only renew if she gets additional discounts.</label>
+        <label><input type="radio" value="D"> (D) She will renew her subscription for another year.</label>
+        <div class="answer">Correct Answer: (B) She wishes to cancel her subscription</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Ms. Lawrence mention about the magazine?</h3>
+        <label><input type="radio" value="A"> (A) She is not very happy with the stories.</label>
+        <label><input type="radio" value="B"> (B) She thinks there are too many ads.</label>
+        <label><input type="radio" value="C"> (C) She wants it sent to another office.</label>
+        <label><input type="radio" value="D"> (D) She will refer it to her co-workers.</label>
+        <div class="answer">Correct Answer: (D) She will refer it to her co-workers</div>
+    </div>
+
+    <div class="question">
+        <h3>What would Ms. Lawrence have received for subscribing to the magazine if she had renewed her subscription?</h3>
+        <label><input type="radio" value="A"> (A) Free flight tickets</label>
+        <label><input type="radio" value="B"> (B) A free stay at a hotel</label>
+        <label><input type="radio" value="C"> (C) A free subscription for a year</label>
+        <label><input type="radio" value="D"> (D) A gold pendant</label>
+        <div class="answer">Correct Answer: (B) A free stay at a hotel</div>
+    </div>
+</div>
+<!-- Mr. Leerberg -->
+<div class="document">
+    <h2>Mr. Leerberg</h2>
+
+    <h4>Application Letter from Ms. Rebecca Platt</h4>
+    <p>
+        Lakeshore<br>
+        305 Jefferson Avenue<br>
+        Denver, CO 8162
+    </p>
+
+    <p>Dear Mr. Leerberg,</p>
+
+    <p>Your advertisement for an HR assistant fits my qualifications perfectly, and I am writing to express my interest in and enthusiasm for the position.</p>
+
+    <p>After completing a business degree from Colorado University in June, I enrolled in a Human Resources Development program to further enhance my credentials in the field.</p>
+
+    <p>Based on your description of the ideal candidate, I also offer:</p>
+    <ul>
+        <li>A track record of excellent performance as a part-time/summer employee concurrent with full-time college enrollment</li>
+        <li>Technical proficiency in database programs and MS Office</li>
+    </ul>
+
+    <p>If you agree that my services would be valuable to Lakeshore, I would very much like to meet in person to learn more about your HR support needs.</p>
+
+    <p>Sincerely yours,<br>
+    Rebecca Platt<br>
+    3 Harbor Blvd.<br>
+    Bridgeport, CT 06604<br>
+    January 14</p>
+
+    <hr>
+
+    <h4>Reply Letter from Mr. Will Leerberg</h4>
+    <p>Dear Ms. Platt,</p>
+
+    <p>Thank you for your interest in our company. We received your letter and your rÃ©sumÃ©, and we are always interested in providing opportunities to recent graduates with experience and qualifications like you.</p>
+
+    <p>Unfortunately, the position has already been filled by another applicant, and there is no other job opening that matches your specific interest at the present time. On a more positive note, however, we are looking for a trainee to help conduct employment labor relations polls.</p>
+
+    <p>It is a temporary position that could lead to an offer of permanent employment. If this type of work interests you, I suggest you contact Legg Mason, the head of our Human Resources Department, to discuss the responsibilities of the position.</p>
+
+    <p>Yours truly,<br>
+    Will Leerberg<br>
+    Lakeshore</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>What position is Ms. Platt interested in?</h3>
+        <label><input type="radio" value="A"> (A) Assistant manager</label>
+        <label><input type="radio" value="B"> (B) Trainee</label>
+        <label><input type="radio" value="C"> (C) HR assistant</label>
+        <label><input type="radio" value="D"> (D) Director</label>
+        <div class="answer">Correct Answer: (C) HR assistant</div>
+    </div>
+
+    <div class="question">
+        <h3>What qualification does Ms. Platt mention?</h3>
+        <label><input type="radio" value="A"> (A) She enrolled in a Human Resources Development program.</label>
+        <label><input type="radio" value="B"> (B) She taught a labor relations course.</label>
+        <label><input type="radio" value="C"> (C) She worked as an HR assistant.</label>
+        <label><input type="radio" value="D"> (D) She was a telephone marketer.</label>
+        <div class="answer">Correct Answer: (A) She enrolled in a Human Resources Development program</div>
+    </div>
+
+    <div class="question">
+        <h3>What news does Mr. Leerberg give Ms. Platt?</h3>
+        <label><input type="radio" value="A"> (A) She does not have sufficient work experience.</label>
+        <label><input type="radio" value="B"> (B) The position has been filled.</label>
+        <label><input type="radio" value="C"> (C) She needs more education to qualify for the job.</label>
+        <label><input type="radio" value="D"> (D) The company is not offering any job openings at present.</label>
+        <div class="answer">Correct Answer: (B) The position has been filled</div>
+    </div>
+
+    <div class="question">
+        <h3>Why should Ms. Platt contact Legg Mason?</h3>
+        <label><input type="radio" value="A"> (A) To set up a training session</label>
+        <label><input type="radio" value="B"> (B) To obtain work documents</label>
+        <label><input type="radio" value="C"> (C) To be included in a poll</label>
+        <label><input type="radio" value="D"> (D) To learn more about an opportunity</label>
+        <div class="answer">Correct Answer: (D) To learn more about an opportunity</div>
+    </div>
+
+    <div class="question">
+        <h3>In the second letter, the word "positive" in paragraph 2, line 3 is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) convinced</label>
+        <label><input type="radio" value="B"> (B) plausible</label>
+        <label><input type="radio" value="C"> (C) optimistic</label>
+        <label><input type="radio" value="D"> (D) absolute</label>
+        <div class="answer">Correct Answer: (C) optimistic</div>
+    </div>
+</div>
+<!-- Tenda Electronics -->
+<div class="document">
+    <h2>Recruiting VICE PRESIDENT for Hong Kong Branch Office</h2>
+
+    <p>
+        Tenda Electronics is a medium-sized enterprise manufacturing monitor and LCD electronic parts in the southeastern Asian region. Some of the world's top monitor and LCD manufacturers buy their parts from us. Tenda Electronics is in the initial stage of setting up its sales and manufacturing operations in Asia with its Asia Pacific headquarters in Hong Kong.
+    </p>
+    <p>
+        The vice president must be able to recruit and manage the office staff, build a <strong>brand new</strong> sales team, and grow business with increasing revenue for the Asian region. Candidates must possess the language proficiency of English, Mandarin, and, if possible, Cantonese. One must have related experience in the electronics industry and at least 5 years of past managerial experience. One must also have a minimum Bachelor's Degree although a Master's degree is our preference. Interested candidates may send their resumes and apply at: <a href="mailto:MarkNelson@tenda.com">MarkNelson@tenda.com</a>
+    </p>
+
+    <h3>List of potential candidates:</h3>
+
+    <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%; background-color: #d3d3d3;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Languages</th>
+                <th>Related experience</th>
+                <th>Management experience</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Alicia Wang</strong></td>
+                <td>BA (Computer Studies); MBA</td>
+                <td>English and Mandarin (spoken and written)</td>
+                <td>Sales and Marketing at Computer Hardware company</td>
+                <td>Manager for 5 years</td>
+                <td>Lived in Singapore for 5 years</td>
+            </tr>
+            <tr>
+                <td><strong>Andrew Patterson</strong></td>
+                <td>BA (Electronic Engineering)</td>
+                <td>French (Spoken), some English</td>
+                <td>Wafer Factory Production Manager - 15 years total</td>
+                <td>Manager for 7 years</td>
+                <td>Experience in many production projects</td>
+            </tr>
+            <tr>
+                <td><strong>Hugh Lennon</strong></td>
+                <td>BA (Accounting)</td>
+                <td>Mandarin (spoken), some Japanese, and English</td>
+                <td>Experience trader of electronic supplies, raw materials for wafers, and semiconductors</td>
+                <td>10 years total</td>
+                <td>Once owned a trading company</td>
+            </tr>
+            <tr>
+                <td><strong>Bob Lo</strong></td>
+                <td>BA (Marketing)</td>
+                <td>Fluent in Mandarin, Cantonese, French, and English</td>
+                <td>Experience as a salesperson for an electronics store</td>
+                <td>Ran a marketing company for 8 years</td>
+                <td>Has many contacts in Hong Kong</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="question">
+        <h3>What can be inferred about Tenda Electronics?</h3>
+        <label><input type="radio" value="A"> (A) It is in search of the right person to replace its current vice president.</label>
+        <label><input type="radio" value="B"> (B) Its plan includes expanding to other continents, including Asia.</label>
+        <label><input type="radio" value="C"> (C) Its first office is due to have its grand opening in Hong Kong.</label>
+        <label><input type="radio" value="D"> (D) It does business with neighboring countries.</label>
+        <div class="answer">Correct Answer: (B) Its plan includes expanding to other continents, including Asia.</div>
+    </div>
+
+    <div class="question">
+        <h3>What is NOT a requirement mentioned in the ad?</h3>
+        <label><input type="radio" value="A"> (A) The ability to communicate in two or more languages</label>
+        <label><input type="radio" value="B"> (B) A post-graduate degree</label>
+        <label><input type="radio" value="C"> (C) Knowledge of the electronics industry</label>
+        <label><input type="radio" value="D"> (D) Previous managerial experience</label>
+        <div class="answer">Correct Answer: (B) A post-graduate degree</div>
+    </div>
+
+    <div class="question">
+        <h3>Which of the following duties will be a responsibility of the newly hired employee?</h3>
+        <label><input type="radio" value="A"> (A) Ensure the safe arrival of monitors and electronic parts to its headquarters</label>
+        <label><input type="radio" value="B"> (B) Traveling to different regional offices in Asia to conduct seminars</label>
+        <label><input type="radio" value="C"> (C) Personally hand-select a team of subordinates to work with</label>
+        <label><input type="radio" value="D"> (D) Prepare translation works for meeting with their Chinese clients</label>
+        <div class="answer">Correct Answer: (C) Personally hand-select a team of subordinates to work with</div>
+    </div>
+
+	<div class="question">
+		<h3>Which candidate does NOT meet all the job requirements mentioned in the ad?</h3>
+		<label><input type="radio" value="A"> (A) Alicia Wang</label>
+		<label><input type="radio" value="B"> (B) Hugh Lennon</label>
+		<label><input type="radio" value="C"> (C) Andrew Patterson</label>
+		<label><input type="radio" value="D"> (D) Bob Lo</label>
+		<div class="answer">Correct Answer: (C) Andrew Patterson</div>
+	</div>
+
+	<div class="question">
+		<h3>What makes Alicia Wang's qualifications stand out amongst the other candidates?</h3>
+		<label><input type="radio" value="A"> (A) Her experience in sales</label>
+		<label><input type="radio" value="B"> (B) Her ability to speak English</label>
+		<label><input type="radio" value="C"> (C) Her level of education</label>
+		<label><input type="radio" value="D"> (D) Her managerial experience</label>
+		<div class="answer">Correct Answer: (C) Her level of education</div>
+	</div>
+</div>
+<!-- Mr. Brown -->
+<div class="document">
+    <h2>Account Correspondence</h2>
+
+    <h4>Letter from Jason Chalmers</h4>
+    <p>
+        March 26, 2006<br>
+        Mr. Samuel Brown<br>
+        Truestar Corporation<br>
+        Finance Department Manager
+    </p>
+
+    <p>Re: Account # 2958A</p>
+
+    <p>Dear Mr. Brown,</p>
+
+    <p>
+        I want to thank you for the conversation that we had earlier today and for agreeing to a reduction in payment for my outstanding account. As discussed, I will implement a bi-weekly payment of $250, effective Friday, March 31. I will ensure that payment is in my bank account for your automatic withdrawal by 10:00 a.m. every Friday payment period until my account is paid in full.
+    </p>
+
+    <p>
+        I very much appreciate your understanding my current financial situation, and will contact you should things improve.
+    </p>
+
+    <p>
+        Please do not hesitate to contact me if you have any questions.
+    </p>
+
+    <p>Best regards,<br>Jason Chalmers</p>
+
+    <hr>
+
+    <h4>Reply Letter from Mr. Samuel Brown</h4>
+    <p>
+        September 3, 2006<br>
+        Jason Chalmers<br>
+        21 Reelster Boulevard<br>
+        Vancouver, BC
+    </p>
+
+    <p>Dear Jason,</p>
+
+    <p>
+        I am writing to update you on your account status (#2958A) with Truestar Corporation. As a result of our consolidated efforts to restructure your repayment plan in March of this year, it is with great satisfaction that I let you know that your account has now been cleared and paid in full.
+    </p>
+
+    <p>
+        With diligence and cooperation, we have successfully worked through this financial situation.
+    </p>
+
+    <p>
+        We would be pleased to offer our services should you need them again in the future. Please contact us with your request.
+    </p>
+
+    <p>Best wishes, and we look forward to working with you again soon.</p>
+
+    <p>Samuel Brown<br>Truestar Corporation<br>Finance Department Manager</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>The word "outstanding" in the first letter is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) superior</label>
+        <label><input type="radio" value="B"> (B) essential</label>
+        <label><input type="radio" value="C"> (C) noticeable</label>
+        <label><input type="radio" value="D"> (D) unpaid</label>
+        <div class="answer">Correct Answer: (D) unpaid</div>
+    </div>
+
+    <div class="question">
+        <h3>How will Mr. Chalmers remit the payment?</h3>
+        <label><input type="radio" value="A"> (A) It will be taken out of his bank account.</label>
+        <label><input type="radio" value="B"> (B) He will bring cash to the company.</label>
+        <label><input type="radio" value="C"> (C) He will send a check every month.</label>
+        <label><input type="radio" value="D"> (D) It will automatically be deleted from his paycheck</label>
+        <div class="answer">Correct Answer: (A) It will be taken out of his bank account.</div>
+    </div>
+
+    <div class="question">
+        <h3>Why did Mr. Brown write the letter?</h3>
+        <label><input type="radio" value="A"> (A) To ask for an extension on payment due</label>
+        <label><input type="radio" value="B"> (B) To notify the client that the account has been settled</label>
+        <label><input type="radio" value="C"> (C) To offer a special type of a service</label>
+        <label><input type="radio" value="D"> (D) To request an overdue payment</label>
+        <div class="answer">Correct Answer: (B) To notify the client that the account has been settled</div>
+    </div>
+
+    <div class="question">
+        <h3>According to the second letter, when should Jason contact Mr. Brown again?</h3>
+        <label><input type="radio" value="A"> (A) If he runs into further problems with payments</label>
+        <label><input type="radio" value="B"> (B) Once he finishes paying off all the money</label>
+        <label><input type="radio" value="C"> (C) If he is in need of using the service again</label>
+        <label><input type="radio" value="D"> (D) As soon as he is ready to make the payment</label>
+        <div class="answer">Correct Answer: (C) If he is in need of using the service again</div>
+    </div>
+
+    <div class="question">
+        <h3>How long did it take for the account to be cleared?</h3>
+        <label><input type="radio" value="A"> (A) Two months</label>
+        <label><input type="radio" value="B"> (B) Two years</label>
+        <label><input type="radio" value="C"> (C) One year</label>
+        <label><input type="radio" value="D"> (D) Six months</label>
+        <div class="answer">Correct Answer: (D) Six months</div>
+    </div>
+</div>
+<!-- Dear Sir or Madam -->
+<div class="document">
+    <h2>Channel Region Times</h2>
+
+    <p>
+        Subscriptions Department<br>
+        Channel Region Times<br>
+        3500 Broadway<br>
+        Vancouver, BC
+    </p>
+
+    <p>Dear Sir or Madam,</p>
+
+    <p>
+        I recently wrote and requested that you cancel my subscription to your newspaper. Due to an unexpected change in my living situation, I would like to ask you to reverse that request.
+    </p>
+
+    <p>
+        Up until last Friday, I believed that my company was transferring me to Montreal. That was the reason for my cancellation request. However, it seems that my transfer has been postponed until next year, and I will stay here in Vancouver until then. As a long-time reader of the Channel Region Times, I would very much like to continue my subscription to the paper.
+    </p>
+
+    <p>
+        You have probably already processed the cancellation of my account. In this case, I assume I will have to open a new one. I have just looked at your website and I understand that there is a $25 sign-up fee for new subscribers. Although I realize that I was at fault for prematurely terminating our agreement, would you be willing to waive the standard start-up charge for my subscription? I hope you can make this exception for me considering my unique circumstances. Please bear in mind, also, that I have been a loyal customer of yours for several years.
+    </p>
+
+    <p>Thank you for your help.<br>Sincerely,<br>Kerri Ibach</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>Why did Ms. Ibach write this letter?</h3>
+        <label><input type="radio" value="A"> (A) To share her opinion about a product</label>
+        <label><input type="radio" value="B"> (B) To apologize for an error she made</label>
+        <label><input type="radio" value="C"> (C) To inquire about a company's services</label>
+        <label><input type="radio" value="D"> (D) To correct an earlier communication</label>
+        <div class="answer">Correct Answer: (D) To correct an earlier communication</div>
+    </div>
+
+    <div class="question">
+        <h3>What will Ms. Ibach do during the coming Channel Region Times?</h3>
+        <label><input type="radio" value="A"> (A) Transfer to a different department</label>
+        <label><input type="radio" value="B"> (B) Visit Montreal for her job</label>
+        <label><input type="radio" value="C"> (C) Subscribe to a different newspaper</label>
+        <label><input type="radio" value="D"> (D) Remain living in Vancouver</label>
+        <div class="answer">Correct Answer: (D) Remain living in Vancouver</div>
+    </div>
+
+    <div class="question">
+        <h3>The word "reverse" in paragraph 1, line 2 is closest in meaning to</h3>
+        <label><input type="radio" value="A"> (A) return</label>
+        <label><input type="radio" value="B"> (B) overturn</label>
+        <label><input type="radio" value="C"> (C) oppose</label>
+        <label><input type="radio" value="D"> (D) reserve</label>
+        <div class="answer">Correct Answer: (B) overturn</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Ms. Ibach request?</h3>
+        <label><input type="radio" value="A"> (A) Exemption from an extra charge</label>
+        <label><input type="radio" value="B"> (B) A free one-month subscription</label>
+        <label><input type="radio" value="C"> (C) A discount on the yearly rate</label>
+        <label><input type="radio" value="D"> (D) A subscription application form</label>
+        <div class="answer">Correct Answer: (A) Exemption from an extra charge</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Ms. Ibach say about the paper?</h3>
+        <label><input type="radio" value="A"> (A) It is the most popular paper in Vancouver.</label>
+        <label><input type="radio" value="B"> (B) She has read it for a long time.</label>
+        <label><input type="radio" value="C"> (C) It should move its offices to Montreal.</label>
+        <label><input type="radio" value="D"> (D) The sign-up fee is too expensive.</label>
+        <div class="answer">Correct Answer: (B) She has read it for a long time.</div>
+    </div>
+</div>
+<!-- PROPERTY FOR SALE -->
+<div class="document">
+    <h2>PROPERTY FOR SALE</h2>
+
+    <p><strong>Bedrooms:</strong> 3<br>
+    <strong>Bathrooms:</strong> 2<br>
+    <strong>Price:</strong> $309,700<br>
+    <strong>Town/City:</strong> New Hartford</p>
+
+    <p><strong>Description:</strong><br>
+    Bright and cozy family home close to downtown. Within walking distance to Market Street shopping area and Schooner Lake recreational park. Large kitchen with new appliances and new paint and carpeting in all rooms. Electrical wiring replaced 5 years ago. Spacious backyard with trees and gardening area. Perfect for a young family.<br>
+    For more information, email Jackie Baxter (real estate agent) at <a href="mailto:jbax@coremail.net">jbax@coremail.net</a>.
+    </p>
+
+    <hr>
+
+    <p><strong>From:</strong> Alan Webb &lt;webbalan@lionst.edu&gt;<br>
+    <strong>To:</strong> Jackie Baxter &lt;jbax@coremail.net&gt;<br>
+    <strong>Date:</strong> 02-12-07<br>
+    <strong>Subject:</strong> New Hartford 3-bedroom ad</p>
+
+    <p>Hello, Ms. Baxter,</p>
+
+    <p>My name is Alan Webb, and I saw your advertisement for a 3-bedroom, 2-bath house in the New Hartford local newspaper. I am a professor at Lion State University in New Hartford. My family and I are searching for a new home in town. The advertised house sounds like the kind of place we're looking for, but I would like to ask you for a little more information about it.</p>
+
+    <p>First, could you specify the sizes of the three bedrooms? There are only three people in my family: my wife, my daughter, and I. Since we would only need two of the bedrooms, my wife would like to turn the third into a comfortable home office. Are the rooms big enough to be used in this way?</p>
+
+    <p>I was also wondering exactly how large the backyard is. We are planning to install a swimming pool at our new home, so the yard must be big enough to accommodate this. What are the measurements of the backyard?</p>
+
+    <p>And finally, were any of the previous residents smokers? Cigarette smoke leaves a very unpleasant smell behind. I wouldn't want to move into a house that had been smoked in.</p>
+
+    <p>It would be great to hear from you at your earliest convenience because we are hoping to move as soon as possible. You can either reply to this email or give me a call at 273-0343.</p>
+
+    <p>Thank you,<br>Alan Webb.</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>Where would the advertisement most likely be seen?</h3>
+        <label><input type="radio" value="A"> (A) In a current events publication</label>
+        <label><input type="radio" value="B"> (B) In a journal about architecture</label>
+        <label><input type="radio" value="C"> (C) In a paper's classified section</label>
+        <label><input type="radio" value="D"> (D) In a company newsletter</label>
+        <div class="answer">Correct Answer: (C) In a paper's classified section</div>
+    </div>
+
+    <div class="question">
+        <h3>What is a feature of the house?</h3>
+        <label><input type="radio" value="A"> (A) Brand-new electrical wiring</label>
+        <label><input type="radio" value="B"> (B) Freshly painted rooms</label>
+        <label><input type="radio" value="C"> (C) Location on Market Street</label>
+        <label><input type="radio" value="D"> (D) Kitchen with a lake view</label>
+        <div class="answer">Correct Answer: (B) Freshly painted rooms</div>
+    </div>
+
+    <div class="question">
+        <h3>Why does Mr. Webb contact Ms. Baxter?</h3>
+        <label><input type="radio" value="A"> (A) To request information about a town</label>
+        <label><input type="radio" value="B"> (B) To ask specific questions about a property</label>
+        <label><input type="radio" value="C"> (C) To apply for a position at the agency</label>
+        <label><input type="radio" value="D"> (D) To inquire about the size of a swimming pool</label>
+        <div class="answer">Correct Answer: (B) To ask specific questions about a property</div>
+    </div>
+
+    <div class="question">
+        <h3>How many rooms will Mr. Webb's family use as bedrooms?</h3>
+        <label><input type="radio" value="A"> (A) 1</label>
+        <label><input type="radio" value="B"> (B) 2</label>
+        <label><input type="radio" value="C"> (C) 3</label>
+        <label><input type="radio" value="D"> (D) 4</label>
+        <div class="answer">Correct Answer: (B) 2</div>
+    </div>
+
+    <div class="question">
+        <h3>What information does Mr. Webb request?</h3>
+        <label><input type="radio" value="A"> (A) If any previous inhabitants had regularly smoked inside</label>
+        <label><input type="radio" value="B"> (B) If the living room facilities are of premium quality</label>
+        <label><input type="radio" value="C"> (C) If the house's interior has ever been damaged by fire</label>
+        <label><input type="radio" value="D"> (D) If the previous residents replaced the wallpaper</label>
+        <div class="answer">Correct Answer: (A) If any previous inhabitants had regularly smoked inside</div>
+    </div>
+</div>
+
+<div class="document">
+	<h2>Mr. Batty</h2>
+
+    <p><strong>Oct. 25, 2007</strong><br>
+    Customer Service Department<br>
+    Prime Choice Telecommunications<br>
+    2901 Callagher Highway, Building 4B<br>
+    Wellsworth, VA</p>
+
+    <p>Dear customer service agent:</p>
+
+    <p>I received the enclosed bill from your company yesterday and believe there has been a mistake in the long-distance charges. I did not make any calls to Beijing, China, during the stated billing period, but I am being charged for 34 minutes' worth of call time.</p>
+
+    <p>The other long-distance charges specified in the bill are correct. My own records show that I made one long-distance call to Dublin on the date Vied and one to London. I work as a freelance reporter for a number of English-language newspapers, which is why I have to make international calls. However, I have never worked for a Chinese paper, so I have never had the need to place a call to that country.</p>
+
+    <p>I would appreciate it if you could look into this issue and let me know the revised total of my bill. You can contact me at home at (490) 555-0923 or on my mobile at 014-555-2990.</p>
+
+    <p><strong>Prime Choice Telecommunications</strong><br>
+    Customer: David Batty<br>
+    Account #: 30489000023<br>
+    Billing Period: Sept. 1-Sept. 30, 2007</p>
+
+    <p><strong>Charges.</strong><br>
+    Standard Home Phone Plan Monthly Charge: $24.99<br>
+    State Tax: $1.67<br>
+    Local Tax: $3.89<br>
+    Long-distance Charges: $40.83<br>
+    Total Owed: $71.38</p>
+
+    <p><strong>Description of Long-distance Charges:</strong><br>
+    09/18: Dublin, Ireland, 68 min. - $12.05<br>
+    09/27: Beijing, China, 34 min. - $25.60<br>
+    09/30: London, England, 12 min. - $3.18</p>
+
+    <p>Questions? Contact Customer Service at <a href="mailto:customerservice@primechoice.com">customerservice@primechoice.com</a> or write to us at:<br>
+    Customer Service Department<br>
+    Prime Choice Telecommunications<br>
+    2901 Gallagher Highway, Building 4B<br>
+    Wellsworth, VA</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>Why did Mr. Batty write the letter?</h3>
+        <label><input type="radio" value="A"> (A) To report a billing error</label>
+        <label><input type="radio" value="B"> (B) To enroll for a service</label>
+        <label><input type="radio" value="C"> (C) To apply for a discount</label>
+        <label><input type="radio" value="D"> (D) To request a refund</label>
+        <div class="answer">Correct Answer: (A) To report a billing error</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Mr. Batty confirm?</h3>
+        <label><input type="radio" value="A"> (A) He has phoned Beijing in the last month</label>
+        <label><input type="radio" value="B"> (B) He did make the billed calls to Dublin and London</label>
+        <label><input type="radio" value="C"> (C) The times listed for all 3 calls are accurate</label>
+        <label><input type="radio" value="D"> (D) The company has a history of making billing errors</label>
+        <div class="answer">Correct Answer: (B) He did make the billed calls to Dublin and London</div>
+    </div>
+
+    <div class="question">
+        <h3>What does Mr. Batty request?</h3>
+        <label><input type="radio" value="A"> (A) A description of the companyâ€™s service</label>
+        <label><input type="radio" value="B"> (B) A refund for his payment</label>
+        <label><input type="radio" value="C"> (C) An apology from the company</label>
+        <label><input type="radio" value="D"> (D) An accurate calculation of his bill</label>
+        <div class="answer">Correct Answer: (D) An accurate calculation of his bill</div>
+    </div>
+
+    <div class="question">
+        <h3>How much is the basic monthly cost of the family phone plan?</h3>
+        <label><input type="radio" value="A"> (A) $3.89</label>
+        <label><input type="radio" value="B"> (B) $24.99</label>
+        <label><input type="radio" value="C"> (C) $40.83</label>
+        <label><input type="radio" value="D"> (D) $71.38</label>
+        <div class="answer">Correct Answer: (B) $24.99</div>
+    </div>
+
+    <div class="question">
+        <h3>According to Mr. Batty, when did he NOT make a long-distance call?</h3>
+        <label><input type="radio" value="A"> (A) September 18</label>
+        <label><input type="radio" value="B"> (B) September 27</label>
+        <label><input type="radio" value="C"> (C) September 30</label>
+        <label><input type="radio" value="D"> (D) October 25</label>
+        <div class="answer">Correct Answer: (B) September 27</div>
+    </div>
+</div>
+<!-- EverMore Outlet Store Advertisement & Customer Letter -->
+<div class="document">
+    <h2>EverMore Outlet Store Advertisement & Customer Letter</h2>
+
+    <p><strong>Why shop anywhere else?</strong><br>
+    Mall fashions are here but definitely none at mall prices!<br>
+    We feature:<br>
+    - A fantastic collection of the season's hottest styles and top brand names up to 60% off department store prices.<br>
+    - A wide assortment of favorite products, guaranteed customer satisfaction, friendly service, convenient hours (24 hours, 7 days a week) and a great online shopping experience.<br>
+    - A great selection of high-quality merchandise, of course at prices so low, you can't imagine!<br>
+    - Use our EverMore outlet card - save 10% when you open a credit card account.<br>
+    - Find your store and see any special events in your area: <a href="http://www.EverMore.com" target="_blank">www.EverMore.com</a>.
+    </p>
+
+    <hr>
+
+    <p><strong>June 29</strong><br>
+    Chief Director<br>
+    Customer Service<br>
+    1067 Sienna Dr.<br>
+    Columbus, Ohio 26875
+    </p>
+
+    <p>Dear Manager,</p>
+
+    <p>I recently bought a red dotted chiffon dress for $45 through the EverMore outlet Internet shopping mall. When I tried to use this item, I discovered that the hem's backstitch was a little bit tilted. It made the length of right side shorter than the other side.</p>
+
+    <p>I visited your shop in Norton, and the shop assistant, Stanley Hood, said that complaints were dealt with by your department since I bought this through the Internet. I drove 30 minutes all the way to Norton and had to write this letter to you for an exchange. This is so inconvenient. I believe you should reform your exchange procedure in the future.</p>
+
+    <p>I have enclosed my dress and my receipt. I would like you to exchange my dress in good condition. I look forward to your reply within 14 days and hope this matter can be sorted out quickly.</p>
+
+    <p>Yours sincerely,<br>
+    Jamie Ligewith</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>What kind of business is EverMore?</h3>
+        <label><input type="radio" value="A"> (A) A designer store</label>
+        <label><input type="radio" value="B"> (B) A website designing company</label>
+        <label><input type="radio" value="C"> (C) An advertising company</label>
+        <label><input type="radio" value="D"> (D) A discount outlet store</label>
+        <div class="answer">Correct Answer: (D) A discount outlet store</div>
+    </div>
+
+    <div class="question">
+        <h3>What information is given on the website?</h3>
+        <label><input type="radio" value="A"> (A) An updated delivery schedule</label>
+        <label><input type="radio" value="B"> (B) The store location</label>
+        <label><input type="radio" value="C"> (C) Available brands</label>
+        <label><input type="radio" value="D"> (D) Product prices</label>
+        <div class="answer">Correct Answer: (B) The store location</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the main purpose of this letter?</h3>
+        <label><input type="radio" value="A"> (A) To complain about poor service</label>
+        <label><input type="radio" value="B"> (B) To cancel the visit to the EverMore store</label>
+        <label><input type="radio" value="C"> (C) To cancel an order</label>
+        <label><input type="radio" value="D"> (D) To order a new dress</label>
+        <div class="answer">Correct Answer: (A) To complain about poor service</div>
+    </div>
+
+    <div class="question">
+        <h3>What is implied about Jamie Ligewith?</h3>
+        <label><input type="radio" value="A"> (A) She purchased an item from the website.</label>
+        <label><input type="radio" value="B"> (B) She is the new customer of Work Max.</label>
+        <label><input type="radio" value="C"> (C) She has recently read an EverMore advertisement.</label>
+        <label><input type="radio" value="D"> (D) She received a new replacement item</label>
+        <div class="answer">Correct Answer: (A) She purchased an item from the website.</div>
+    </div>
+
+    <div class="question">
+        <h3>Which claim of the advertisement is disputed in the letter?</h3>
+        <label><input type="radio" value="A"> (A) The company stocks a variety of brands.</label>
+        <label><input type="radio" value="B"> (B) The company guarantees customer's satisfaction.</label>
+        <label><input type="radio" value="C"> (C) The company has trained customer service personnel.</label>
+        <label><input type="radio" value="D"> (D) The company has many different store locations.</label>
+        <div class="answer">Correct Answer: (B) The company guarantees customer's satisfaction.</div>
+    </div>
+</div>
+<!-- Rockford Daily Classified ad -->
+<div class="document">
+    <h2>Rockford Daily Classified ad</h2>
+
+    <p><strong>Company:</strong> Wilson Paper Products<br>
+    <strong>Location:</strong> New England Region<br>
+    <strong>Pay Level:</strong> 20,000 dollars per year plus commission</p>
+
+    <p><strong>Job Description:</strong><br>
+    Wilson Paper Products is hiring a sales representative for the New England Region. Our representatives are responsible for researching and contacting businesses in their area and conduct sales demonstrations. The majority of our products are office supplies. Compensation is based on your performance, but can easily exceed $80,000/per year.</p>
+
+    <p>The requirements for the job are as follows:<br>
+    â€¢ At least one year of sales experience<br>
+    â€¢ A university degree in business or a related field<br>
+    â€¢ Your own transportation for the work<br>
+    â€¢ Positive, motivated personality</p>
+
+    <p>Serious applicants should send their resume and a letter requesting an interview to:<br>
+    Wilson Paper Products<br>
+    Claudia Ingersoll, Personnel Department<br>
+    340 Cornell Blvd.<br>
+    Wilson, OH</p>
+
+    <hr>
+
+    <p><strong>Wilson Paper Products<br>
+    Claudia Ingersoll, Personnel Department<br>
+    340 Cornell Blvd.<br>
+    Wilson, OH</strong></p>
+
+    <p>Dear Ms. Ingersoll:</p>
+
+    <p>This letter is in response to your companyâ€™s employment ad listed in the Rockford Daily. I feel that I would be a great candidate for the position of sales representative.</p>
+
+    <p>I am a native of New England with six years of experience in sales. During this time, I have worked for several very different companies including a medical supplies distributor and a mail-order clothing manufacturer. In my current position as a used car salesperson, I have frequently been selected as â€œEmployee of the Monthâ€ because of my strong performance. Please consult the attached resume for more information about my work history.</p>
+
+    <p>If you contact some of my old supervisors, Iâ€™m sure they will tell you that I am a very positive and motivated person. I also own my own vehicle, so traveling around the New England region for Wilson Paper Products would not be a problem.</p>
+
+    <p>I would greatly appreciate the opportunity to have an interview for this position. You can reach me anytime at (393) 555-2929. I look forward to speaking with you.</p>
+
+    <p>Sincerely,<br>
+    Derek McDonald</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>Who is the audience for the advertisement?</h3>
+        <label><input type="radio" value="A"> (A) Jobseekers with experience in sales</label>
+        <label><input type="radio" value="B"> (B) Students in a university business course</label>
+        <label><input type="radio" value="C"> (C) Professionals in need of paper products</label>
+        <label><input type="radio" value="D"> (D) Travelers in New England</label>
+        <div class="answer" style="display:none;">Correct Answer: (A) Jobseekers with experience in sales</div>
+    </div>
+
+    <div class="question">
+        <h3>Which qualification is NOT necessary to obtain the position?</h3>
+        <label><input type="radio" value="A"> (A) A working vehicle</label>
+        <label><input type="radio" value="B"> (B) A year of managerial experience</label>
+        <label><input type="radio" value="C"> (C) An enthusiastic character</label>
+        <label><input type="radio" value="D"> (D) An appropriate educational background</label>
+        <div class="answer" style="display:none;">Correct Answer: (B) A year of managerial experience</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the purpose of Mr. McDonald's letter?</h3>
+        <label><input type="radio" value="A"> (A) To ask if a company is hiring</label>
+        <label><input type="radio" value="B"> (B) To express thanks for an award</label>
+        <label><input type="radio" value="C"> (C) To subscribe to a newspaper</label>
+        <label><input type="radio" value="D"> (D) To request an interview</label>
+        <div class="answer" style="display:none;">Correct Answer: (D) To request an interview</div>
+    </div>
+
+    <div class="question">
+        <h3>For whom is Mr. McDonald working now?</h3>
+        <label><input type="radio" value="A"> (A) A used car dealership</label>
+        <label><input type="radio" value="B"> (B) An office supply distributor</label>
+        <label><input type="radio" value="C"> (C) A clothing manufacturer</label>
+        <label><input type="radio" value="D"> (D) A medical equipment retailer</label>
+        <div class="answer" style="display:none;">Correct Answer: (A) A used car dealership</div>
+    </div>
+
+    <div class="question">
+        <h3>Who might Ms. Ingersoll consult about Mr. McDonald's personality?</h3>
+        <label><input type="radio" value="A"> (A) A Wilson Paper Products supervisor</label>
+        <label><input type="radio" value="B"> (B) Company clients</label>
+        <label><input type="radio" value="C"> (C) His current coworkers</label>
+        <label><input type="radio" value="D"> (D) His previous managers</label>
+        <div class="answer" style="display:none;">Correct Answer: (D) His previous managers</div>
+    </div>
+</div>
+<!-- Emails Correspondence -->
+<div class="document">
+    <h2>Emails Correspondence</h2>
+
+    <p><strong>Date:</strong> September 14<br>
+    <strong>From:</strong> Amy Chung &lt;a.chung@mind.com&gt;<br>
+    <strong>To:</strong> Mandy Moore &lt;mandy@odyssey.com&gt;</p>
+
+    <p>Dear Ms. Moore,</p>
+
+    <p>I am looking for a place for my daughter's wedding ceremony. Actually, I had been to your restaurant as an invitee for my friend, Martha Martinez's birthday party last year, and became very fond of the place. Since then, I have always wanted to hold my daughter's wedding ceremony in your lovely restaurant.</p>
+
+    <p>The ceremony is only one month away, on October 10. The number of guests is expected to be around one hundred, and I would like to know about availability for that many people. I'd also like to know the type of foods that will be served and the price per person as well. Lastly, I want to know if I can use a coupon that I received from my friend to get a group discount.</p>
+
+    <p>I am truly looking forward to having my daughter's wedding ceremony in your establishment. I would appreciate your prompt response, please notify me by next Tuesday so that we can discuss this matter further. Thank you.</p>
+
+    <p>Sincerely,<br>
+    Amy Chung</p>
+
+    <hr>
+
+    <p><strong>Date:</strong> September 15<br>
+    <strong>From:</strong> Mandy Moore &lt;mandy@odyssey.com&gt;<br>
+    <strong>To:</strong> Ms. Amy Chung &lt;a.chung@mind.com&gt;</p>
+
+    <p>Dear Ms. Chung,</p>
+
+    <p>Thank you for your interest in the Odyssey Restaurant. Our banquet center offers an outdoor location for ceremonies, along with crystal chandeliers, floor-to-ceiling windows and fireplaces. After considering your offer, we are very sorry to inform you that your coupon is no longer valid as it has expired. However, we can offer you a group discount for 100 or more guests at an additional 10% off the regular price.</p>
+
+    <p>In addition, I strongly recommend the gazebo area to you. It includes a gazebo with fabulous mountain and golf course views. This area provides a gorgeous backdrop for the bride and groom and accommodates anywhere from 100 to 500 guests. However, please be aware that there will be an additional fee charged for using this facility.</p>
+
+    <p>If you have any questions, please feel free to contact us by e-mail or phone call. We can also give you a chance to take a look around if you can come on Wednesday.</p>
+
+    <p>Thank you very much. I will be looking forward to seeing you soon.</p>
+
+    <p>Sincerely,<br>
+    Mandy Moore<br>
+    Odyssey Restaurant</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>How did Ms. Chung get to know about the Odyssey Restaurant?</h3>
+        <label><input type="radio" value="A"> (A) Through a friend</label>
+        <label><input type="radio" value="B"> (B) Through a brochure</label>
+        <label><input type="radio" value="C"> (C) Through a website</label>
+        <label><input type="radio" value="D"> (D) Through a mailing</label>
+        <div class="answer" style="display:none;">Correct Answer: (A) Through a friend</div>
+    </div>
+
+    <div class="question">
+        <h3>What will happen on October 10?</h3>
+        <label><input type="radio" value="A"> (A) Ms. Chung's birthday surprise party</label>
+        <label><input type="radio" value="B"> (B) Ms. Chung's daughter's restaurant opening</label>
+        <label><input type="radio" value="C"> (C) Ms. Chung's daughter's wedding ceremony</label>
+        <label><input type="radio" value="D"> (D) Ms. Chung's wedding anniversary</label>
+        <div class="answer" style="display:none;">Correct Answer: (C) Ms. Chung's daughter's wedding ceremony</div>
+    </div>
+
+    <div class="question">
+        <h3>What will Ms. Chung pay a special fee for?</h3>
+        <label><input type="radio" value="A"> (A) Overdue gift certificate</label>
+        <label><input type="radio" value="B"> (B) Special plate</label>
+        <label><input type="radio" value="C"> (C) The gazebo area</label>
+        <label><input type="radio" value="D"> (D) Surprise party</label>
+        <div class="answer" style="display:none;">Correct Answer: (C) The gazebo area</div>
+    </div>
+
+    <div class="question">
+        <h3>Why is Ms. Chung able to get an additional discount off the total price of her order?</h3>
+        <label><input type="radio" value="A"> (A) All the first clients get a discount.</label>
+        <label><input type="radio" value="B"> (B) She has a discount coupon.</label>
+        <label><input type="radio" value="C"> (C) The restaurant made a mistake on Ms. Chung's order.</label>
+        <label><input type="radio" value="D"> (D) Ms. Chung's guests are more than 100 people.</label>
+        <div class="answer" style="display:none;">Correct Answer: (D) Ms. Chung's guests are more than 100 people.</div>
+    </div>
+
+    <div class="question">
+        <h3>Why CANNOT Ms. Chung use her discount certificate?</h3>
+        <label><input type="radio" value="A"> (A) The restaurant does not offer a discount certificate.</label>
+        <label><input type="radio" value="B"> (B) It is only valid under Martha Martinez's name.</label>
+        <label><input type="radio" value="C"> (C) It has expired.</label>
+        <label><input type="radio" value="D"> (D) There are too few guests.</label>
+        <div class="answer" style="display:none;">Correct Answer: (C) It has expired.</div>
+    </div>
+</div>
+<!-- Homer's Suit Exhibition Room Annual Red Tag Sale & Customer Email -->
+<div class="document">
+    <h2>Homer's Suit Exhibition Room Annual Red Tag Sale & Customer Email</h2>
+
+    <p><strong>Annual Red Tag Sale</strong><br>
+    Up to 50% off your total purchase<br>
+    Valid from July 4th, 2007, to July 11th<br>
+    Valid online only. Limit one discount coupon per customer. This offer cannot be combined with any other discounts or applied to previous purchases or gift card transactions.<br>
+    Accessories such as bow ties, belts, cufflinks are ineligible for the offer.<br>
+    Enter Promo Code <strong>KSW1971715</strong><br>
+    Thank you for your recent purchase at Homer's Suit Exhibition Room. To join our mailing list and receive future discount coupons and news, please visit <a href="http://www.homerssuitgallery.com/mailinglist/" target="_blank">www.homerssuitgallery.com/mailinglist/</a> and sign up for free membership.
+    </p>
+
+    <hr>
+
+    <p><strong>To:</strong> customerservice@homerssuitgallery.com<br>
+    <strong>From:</strong> Mike Nguyen<br>
+    <strong>Sent:</strong> Mon., June 30<br>
+    <strong>Subject:</strong> Technical Difficulty
+    </p>
+
+    <p>Dear Sir or Madam,</p>
+
+    <p>I received a coupon when I purchased a suit at your store at Mc. Bean St. on June 11. I decided to use it to buy more suits and a couple of accessories and I went to the website yesterday. Whenever I punched in KSW1971715, I received an error message saying that it was an invalid promotional code number. I also signed up a membership at the site. Usually, when I sign up for something like this, I get an immediate confirmation or welcome message. None was forthcoming. I would still like to use this coupon. Please tell me how to proceed.</p>
+
+    <p>Thank you,<br>
+    Mike Nguyen</p>
+
+    <hr>
+
+    <div class="question">
+        <h3>What is the main purpose of the advertisement?</h3>
+        <label><input type="radio" value="A"> (A) To explain that belts cannot be discounted</label>
+        <label><input type="radio" value="B"> (B) To get people to join the mailing list</label>
+        <label><input type="radio" value="C"> (C) To give customers a discount coupon</label>
+        <label><input type="radio" value="D"> (D) To reward clients who recently made a purchase</label>
+        <div class="answer">Correct Answer: (C) To give customers a discount coupon</div>
+    </div>
+
+    <div class="question">
+        <h3>Which of the following is NOT true about the situation?</h3>
+        <label><input type="radio" value="A"> (A) Homer's Suit Gallery only sells clothing online.</label>
+        <label><input type="radio" value="B"> (B) They are offering an online discount to some clients.</label>
+        <label><input type="radio" value="C"> (C) The author of the e-mail message bought a suit recently.</label>
+        <label><input type="radio" value="D"> (D) The online discount coupon does not apply to accessories.</label>
+        <div class="answer">Correct Answer: (A) Homer's Suit Gallery only sells clothing online.</div>
+    </div>
+
+    <div class="question">
+        <h3>Where did Mr. Nguyen get the coupon?</h3>
+        <label><input type="radio" value="A"> (A) In a magazine</label>
+        <label><input type="radio" value="B"> (B) In a newspaper</label>
+        <label><input type="radio" value="C"> (C) At a store</label>
+        <label><input type="radio" value="D"> (D) On a special page on the website</label>
+        <div class="answer">Correct Answer: (C) At a store</div>
+    </div>
+
+    <div class="question">
+        <h3>What happened when Mr. Nguyen signed up for the mailing list?</h3>
+        <label><input type="radio" value="A"> (A) He received immediate notification.</label>
+        <label><input type="radio" value="B"> (B) He received nothing from Homer's Suit Gallery.</label>
+        <label><input type="radio" value="C"> (C) He got another 20% off coupon.</label>
+        <label><input type="radio" value="D"> (D) He got a different coupon for savings.</label>
+        <div class="answer">Correct Answer: (B) He received nothing from Homer's Suit Gallery.</div>
+    </div>
+
+    <div class="question">
+        <h3>What is the most logical explanation for Mr. Nguyen's trouble online?</h3>
+        <label><input type="radio" value="A"> (A) The promotional code number must be wrong.</label>
+        <label><input type="radio" value="B"> (B) He did not provide the correct personal information.</label>
+        <label><input type="radio" value="C"> (C) He wanted to buy something from the Accessory Department.</label>
+        <label><input type="radio" value="D"> (D) The promotion doesn't begin yet.</label>
+        <div class="answer">Correct Answer: (D) The promotion doesn't begin yet.</div>
+    </div>
+</div>
+
+<!-- Bottom Controls -->
+<div id="bottom-controls" style="position: sticky; bottom: 0; background: #fff; border-top: 1px solid #e2e2e2; padding: 12px 10px; margin-top: 20px; z-index: 5;">
+  <div id="progress" style="margin-bottom:6px;">Answered: 0/0</div>
+  <div id="score" style="margin-bottom:8px; font-weight:600;">Score: 0 Correct, 0 Incorrect</div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <button id="submitBtn" type="button">Submit Answers</button>
+    <button id="resetBtn" onclick="resetQuiz()" type="button" style="background:#dc3545;">Reset Quiz</button>
+  </div>
+</div>
+
+<!-- Floating Scroll Controls -->
+<div id="scroll-nav">
+  <button id="scrollUp" title="Scroll to top">▲</button>
+  <button id="scrollDown" title="Scroll to bottom">▼</button>
+  
+</div>
+
+<script>
+(function() {
+  const sidebar = document.getElementById('sidebar');
+  const grid = sidebar ? sidebar.querySelector('.grid') : null;
+  const scoreEl = document.getElementById('score');
+  const progressEl = document.getElementById('progress');
+  const submitBtn = document.getElementById('submitBtn');
+  const scrollUpBtn = document.getElementById('scrollUp');
+  const scrollDownBtn = document.getElementById('scrollDown');
+
+  // Option B: Normalize numbering, radio names, and answer IDs in DOM order
+  function normalizeQuestionNumbers() {
+    const qEls = Array.from(document.querySelectorAll('.question'))
+      .filter(q => q.querySelector('input[type="radio"]') && q.querySelector('.answer'));
+    qEls.forEach((qEl, idx) => {
+      const n = idx + 1;
+      const h = qEl.querySelector('h3');
+      if (h) {
+        const txt = (h.textContent || '').trim();
+        const m = txt.match(/^\s*\d+[A-Za-z]*\.\s*(.*)$/);
+        const rest = m ? m[1] : txt;
+        h.textContent = `${n}. ${rest}`;
+      }
+      // Align radio group name to qN
+      qEl.querySelectorAll('input[type="radio"]').forEach(inp => {
+        // remove legacy hardcoded names first
+        inp.removeAttribute('name');
+        inp.name = `q${n}`;
+      });
+      // Align answer id to answerN
+      const ans = qEl.querySelector('.answer');
+      if (ans) {
+        // remove legacy hardcoded id first
+        ans.removeAttribute('id');
+        ans.id = `answer${n}`;
+      }
+    });
+  }
+
+  // Run normalization BEFORE we collect and sort questions
+  normalizeQuestionNumbers();
+
+  // Helpers
+  function getQuestionNumber(qEl) {
+    const h = qEl.querySelector('h3');
+    if (!h) return null;
+    const m = (h.textContent || '').trim().match(/^(\d{1,4})\./);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  // Only include real quiz questions: must have a numeric heading, radios, and an answer
+  let questions = Array.from(document.querySelectorAll('.question'))
+    .filter(q => q.querySelector('input[type="radio"]') && q.querySelector('.answer'))
+    .map(q => ({ el: q, num: getQuestionNumber(q) }))
+    .filter(q => Number.isInteger(q.num));
+
+  // Sort by actual question number to ensure correct order
+  questions.sort((a, b) => a.num - b.num);
+  // Keep an array of just elements in the right order
+  questions = questions.map(q => q.el);
+
+  // Progress helpers
+  const total = questions.length;
+  function updateProgress() {
+    const answered = questions.reduce((acc, qEl) => acc + (qEl.querySelector('input[type="radio"]:checked') ? 1 : 0), 0);
+    if (progressEl) progressEl.textContent = `Answered: ${answered}/${total}`;
+  }
+  updateProgress();
+
+  // Bold the "Correct Answer:" prefix in each answer once
+  document.querySelectorAll('.answer').forEach(ans => {
+    if (ans.dataset.formatted === '1') return;
+    const txt = ans.textContent;
+    const idx = txt.indexOf('Correct Answer:');
+    if (idx !== -1) {
+      const before = txt.slice(0, idx);
+      const after = txt.slice(idx + 'Correct Answer:'.length);
+      const valueHtml = `<span class="answer-value">${after.trim()}</span>`;
+      ans.innerHTML = `${before}<strong>Correct Answer:</strong> ${valueHtml}`;
+      ans.dataset.formatted = '1';
+    }
+  });
+
+  // Build sidebar items if container exists
+  const sidebarItems = [];
+  if (grid && questions.length) {
+    questions.forEach((qEl, idx) => {
+      const qNum = getQuestionNumber(qEl) || (idx + 1);
+      const pill = document.createElement('div');
+      pill.className = 'q-pill unanswered';
+      pill.textContent = String(qNum);
+      pill.title = 'Go to question ' + qNum;
+      pill.setAttribute('role', 'button');
+      pill.addEventListener('click', () => {
+        qEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      grid.appendChild(pill);
+      sidebarItems.push(pill);
+    });
+    // Ensure sidebar is visible
+    sidebar.style.display = 'block';
+  }
+
+  // Helper: parse correct letter like (A)
+  function getCorrectLetter(answerText) {
+    const m = answerText && answerText.match(/\(([A-D])\)/);
+    return m ? m[1] : null;
+  }
+
+  // Track answered state on change (no reveal yet) and highlight chosen label
+  questions.forEach((qEl, idx) => {
+    qEl.addEventListener('change', () => {
+      const chosen = qEl.querySelector('input[type="radio"]:checked');
+      updateProgress();
+      // preselect highlight
+      qEl.querySelectorAll('label').forEach(l => l.classList.remove('preselected'));
+      if (chosen) {
+        const chosenLabel = chosen.closest('label');
+        if (chosenLabel) chosenLabel.classList.add('preselected');
+      }
+      if (!grid) return;
+      const pill = sidebarItems[idx];
+      if (!pill) return;
+      pill.classList.remove('correct','incorrect');
+      if (chosen) {
+        pill.classList.remove('unanswered');
+        pill.classList.add('answered');
+      } else {
+        pill.classList.remove('answered');
+        pill.classList.add('unanswered');
+      }
+    });
+  });
+
+  // Submit evaluation: reveal answers and mark correctness
+  let submitted = false;
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      if (submitted) return;
+      submitted = true;
+      let correct = 0, incorrect = 0;
+
+      questions.forEach((qEl, idx) => {
+        qEl.classList.remove('correct-selected','incorrect-selected');
+        qEl.querySelectorAll('label').forEach(l => l.classList.remove('selected','correct','incorrect'));
+
+        const ansEl = qEl.querySelector('.answer');
+        const correctLetter = ansEl ? getCorrectLetter(ansEl.textContent) : null;
+        const chosen = qEl.querySelector('input[type="radio"]:checked');
+
+        if (!chosen) {
+          if (grid) {
+            const pill = sidebarItems[idx];
+            pill.classList.remove('answered','correct','incorrect');
+            pill.classList.add('unanswered');
+          }
+        } else {
+          const chosenLabel = chosen.closest('label');
+          const value = chosen.value;
+          if (value && correctLetter && value.toUpperCase() === correctLetter.toUpperCase()) {
+            correct++;
+            if (grid) {
+              const pill = sidebarItems[idx];
+              pill.classList.remove('unanswered','answered','incorrect');
+              pill.classList.add('correct');
+            }
+            qEl.classList.add('correct-selected');
+            if (chosenLabel) chosenLabel.classList.add('selected','correct');
+          } else {
+            incorrect++;
+            if (grid) {
+              const pill = sidebarItems[idx];
+              pill.classList.remove('unanswered','answered','correct');
+              pill.classList.add('incorrect');
+            }
+            qEl.classList.add('incorrect-selected');
+            if (chosenLabel) chosenLabel.classList.add('selected','incorrect');
+          }
+        }
+
+        if (ansEl) ansEl.classList.add('show');
+      });
+
+      // Reveal any remaining answers not covered by the filtered list (e.g., letter-suffixed headings)
+      document.querySelectorAll('.answer').forEach(a => a.classList.add('show'));
+
+      // Disable further submissions
+      if (submitBtn) submitBtn.disabled = true;
+      // Disable further submissions until reset
+      submitBtn.disabled = true;
+      scoreEl.textContent = `Score: ${correct} Correct, ${incorrect} Incorrect`;
+    });
+  }
+
+  // (Result button removed as requested)
+
+  // Floating Scroll Buttons
+  if (scrollUpBtn) {
+    scrollUpBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+  if (scrollDownBtn) {
+    scrollDownBtn.addEventListener('click', () => {
+      const h = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight
+      );
+      window.scrollTo({ top: h, behavior: 'smooth' });
+    });
+  }
+
+  // Reset function: clear selections, hide answers, reset sidebar and score
+  window.resetQuiz = function resetQuiz() {
+    submitted = false;
+    document.querySelectorAll('input[type="radio"]:checked').forEach(inp => inp.checked = false);
+    questions.forEach((qEl, idx) => {
+      qEl.classList.remove('correct-selected','incorrect-selected');
+      qEl.querySelectorAll('label').forEach(l => l.classList.remove('selected','correct','incorrect','preselected'));
+      const ansEl = qEl.querySelector('.answer');
+      if (ansEl) ansEl.classList.remove('show');
+      if (grid) {
+        const pill = sidebarItems[idx];
+        pill.className = 'q-pill unanswered';
+      }
+    });
+    // Also hide any answers that might have been revealed outside the filtered list
+    document.querySelectorAll('.answer').forEach(a => a.classList.remove('show'));
+
+    // Re-enable submit after reset
+    if (submitBtn) submitBtn.disabled = false;
+    scoreEl.textContent = 'Score: 0 Correct, 0 Incorrect';
+    updateProgress();
+  }
+})();
+</script>
+
