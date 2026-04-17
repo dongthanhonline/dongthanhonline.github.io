@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Thi TOEIC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex; /* Use flexbox for main layout */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+        .sidebar-nav {
+            width: 200px;
+            background-color: #ffffff;
+            padding: 1.5rem;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            position: sticky; /* Make sidebar sticky */
+            top: 0; /* Stick to the top */
+            height: 100vh; /* Full height */
+            overflow-y: auto; /* Scrollable if many questions */
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0 12px 12px 0; /* Rounded right corners */
+        }
+        .sidebar-nav h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .sidebar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns for question numbers */
+            gap: 0.5rem;
+        }
+        .sidebar-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: #f9fafb;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4b5563;
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-item:hover {
+            background-color: #e0e7ff;
+            border-color: #6366f1;
+            color: #4f46e5;
+        }
+        .sidebar-item.answered {
+            background-color: #d1fae5; /* Default answered: light green */
+            border-color: #10b981;
+            color: #065f46;
+        }
+        .sidebar-item.selected-current {
+            background-color: #bfdbfe; /* Highlight current question */
+            border-color: #3b82f6;
+            color: #1e40af;
+            font-weight: 700;
+        }
+        /* New styles for correct/incorrect answers in sidebar */
+        .sidebar-item.correct-answer {
+            background-color: #d1fae5; /* Green for correct */
+            border-color: #10b981;
+            color: #065f46;
+        }
+        .sidebar-item.incorrect-answer {
+            background-color: #fee2e2; /* Red for incorrect */
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+        /* Ensure selected-current still applies visual distinction */
+        .sidebar-item.correct-answer.selected-current {
+            background-color: #a7f3d0; /* Lighter green when selected */
+            border-color: #059669;
+        }
+        .sidebar-item.incorrect-answer.selected-current {
+            background-color: #fecaca; /* Lighter red when selected */
+            border-color: #dc2626;
+        }
+
+
+        .main-content {
+            flex-grow: 1; /* Take remaining width */
+            padding: 1.5rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto; /* Center the content within main-content */
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question-card {
+            background-color: #fdfdfd;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .question-card.answered {
+            border-color: #d1d5db;
+        }
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+        .answer-option {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.75rem;
+            background-color: #f9fafb;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .answer-option:hover:not(.selected):not(.correct):not(.incorrect) {
+            background-color: #edf2f7;
+            border-color: #c5d0db;
+        }
+        .answer-option input[type="radio"] {
+            margin-right: 0.8rem;
+            transform: scale(1.2);
+            accent-color: #4f46e5;
+        }
+        .answer-option.selected {
+            background-color: #e0e7ff;
+            border-color: #6366f1;
+        }
+        .answer-option.correct {
+            background-color: #d1fae5;
+            border-color: #10b981;
+            font-weight: 600;
+            color: #065f46;
+        }
+        .answer-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            font-weight: 600;
+            color: #991b1b;
+        }
+        .correct-indicator, .incorrect-indicator {
+            margin-left: auto;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .correct-indicator {
+            color: #10b981;
+        }
+        .incorrect-indicator {
+            color: #ef4444;
+        }
+        .explanation {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 8px 8px 0;
+            color: #1d4ed8;
+            font-size: 0.95rem;
+        }
+        .submit-button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 2rem;
+            box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+        }
+        .submit-button:hover {
+            background-color: #4338ca;
+        }
+        .score-card {
+            background-color: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.2);
+        }
+        .score-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 1rem;
+        }
+        .score-card p {
+            font-size: 1.4rem;
+            color: #047857;
+        }
+        .review-button {
+            background-color: #10b981;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .review-button:hover {
+            background-color: #059669;
+        }
+        .restart-button {
+            background-color: #f59e0b;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-left: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .restart-button:hover {
+            background-color: #d97706;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        .dich-toggle {
+            font-style: italic;
+            color: #6b7280;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: underline;
+            display: inline-block; /* Allows text-decoration */
+        }
+        .dich-text {
+            color: #6b7280;
+            margin-top: 0.2rem;
+            font-size: 0.95rem;
+            display: none; /* Hidden by default */
+        }
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* Stack sidebar and main content on small screens */
+            }
+            .sidebar-nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-radius: 12px 12px 0 0;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                border-bottom: 1px solid #e5e7eb;
+                border-right: none;
+            }
+            .sidebar-nav h2 {
+                margin-bottom: 1rem;
+            }
+            .sidebar-grid {
+                grid-template-columns: repeat(5, 1fr); /* More columns for compact view on mobile */
+            }
+            .main-content {
+                padding: 1rem;
+            }
+            .container {
+                margin: 0 auto;
+                padding: 1rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .answer-option {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .submit-button, .review-button, .restart-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-nav">
+        <h2>Danh sách câu hỏi</h2>
+        <div id="sidebar-grid" class="sidebar-grid">
+            <!-- Sidebar items will be loaded here -->
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h1 class="text-3xl font-bold text-center mb-8 text-indigo-700">Luyện Thi TOEIC Cùng Gemini</h1>
+            <div id="quiz-container">
+                <!-- Questions will be loaded here by JavaScript -->
+            </div>
+            <button id="submit-quiz" class="submit-button">Nộp bài và xem kết quả</button>
+            <div id="score-container" class="score-card hidden">
+                <h2>Kết Quả Của Bạn</h2>
+                <p><span id="correct-count" class="font-bold text-green-700">0</span> / <span id="total-questions" class="font-bold">0</span> câu đúng</p>
+                <button id="review-answers" class="review-button">Xem lại đáp án</button>
+                <button id="restart-quiz" class="restart-button">Làm lại bài</button>
+            </div>
+            <p class="footer-text">Chúc bạn học tốt!</p>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu câu hỏi được trích xuất từ file Word của bạn
+        const questions = [
+            {
+                id: 101,
+                question: "According to the sign posted in front of the main office, the repair center is now …………new management.",
+                translation: "Theo biển hiệu đặt trước văn phòng chính, trung tâm sửa chữa hiện đang ở dưới sự quản lý mới.",
+                options: [
+                    { text: "A. over - trên", isCorrect: false },
+                    { text: "B. around - xung quanh", isCorrect: false },
+                    { text: "C. between - giữa", isCorrect: false },
+                    { text: "D. under - dưới", isCorrect: true }
+                ]
+            },
+            {
+                id: 102,
+                question: "………….you are no doubt aware, the new security system requires the installation of a backup power source in case an emergency situation arises.",
+                translation: "Như bạn chắc chắn đã biết, hệ thống bảo mật mới đòi hỏi việc lắp đặt nguồn dự phòng trong trường hợp xảy ra tình huống khẩn cấp.",
+                options: [
+                    { text: "A. As - Như", isCorrect: true },
+                    { text: "B. For - Đối với", isCorrect: false },
+                    { text: "C. With - Với", isCorrect: false },
+                    { text: "D. So - Vì", isCorrect: false }
+                ]
+            },
+            {
+                id: 103,
+                question: "After a highly profitable first six months, the restaurant's profits for the second half of the year were a great…………..",
+                translation: "Sau sáu tháng đầu tiên có lợi nhuận cao, lợi nhuận của nhà hàng trong nửa sau năm là một sự thất vọng lớn.",
+                options: [
+                    { text: "A. disappoints - thất vọng", isCorrect: false },
+                    { text: "B. disappointed - thất vọng", isCorrect: false },
+                    { text: "C. disappointing - làm thất vọng", isCorrect: false },
+                    { text: "D. disappointment - sự thất vọng", isCorrect: true }
+                ]
+            },
+            {
+                id: 104,
+                question: "Naturally, our company utilizes the production process ……….. guarantees the most satisfactory results.",
+                translation: "Tự nhiên, công ty của chúng tôi sử dụng quy trình sản xuất đảm bảo mang lại kết quả hài lòng nhất.",
+                options: [
+                    { text: "A. that", isCorrect: true },
+                    { text: "B. who", isCorrect: false },
+                    { text: "C. what", isCorrect: false },
+                    { text: "D. how", isCorrect: false }
+                ]
+            },
+            {
+                id: 105,
+                question: "The unexpected surge in the prices of steel and other minerals will result in a dramatic increase in tax ………….. this year.",
+                translation: "Sự tăng bất ngờ giá thép và các khoáng sản khác sẽ dẫn đến một sự gia tăng đáng kể trong tỷ lệ thuế trong năm nay.",
+                options: [
+                    { text: "A. rates - tỷ lệ", isCorrect: false },
+                    { text: "B. charges - phí", isCorrect: false },
+                    { text: "C. expenses - chi phí", isCorrect: false },
+                    { text: "D. revenues - doanh thu", isCorrect: true }
+                ]
+            },
+            {
+                id: 106,
+                question: "Company strategists ……………. predicted that conditions in the Middle East would eventually stabilize and result in expanded sales.",
+                translation: "Các chiến lược gia của công ty đã dự đoán sai rằng tình hình ở Trung Đông sẽ ổn định và dẫn đến doanh số bán hàng tăng.",
+                options: [
+                    { text: "A. wrong - sai", isCorrect: false },
+                    { text: "B. wronged - làm sai", isCorrect: false },
+                    { text: "C. wrongly - một cách sai", isCorrect: true },
+                    { text: "D. wrongness - sự sai lầm", isCorrect: false }
+                ]
+            },
+            {
+                id: 107,
+                question: "The director …………….. has often been seen to take his lunch in the staff canteen along with the other workers.",
+                translation: "Giám đốc thường được nhìn thấy đến ăn trưa tại căng tin nhân viên cùng với các công nhân khác.",
+                options: [
+                    { text: "A. him - anh ấy", isCorrect: false },
+                    { text: "B. his - của anh ấy", isCorrect: false },
+                    { text: "C. himself - bản thân anh ấy", isCorrect: true },
+                    { text: "D. he - anh ấy", isCorrect: false }
+                ]
+            },
+            {
+                id: 108,
+                question: "The secretary filling in at the reception desk has been performing so well that management is considering offering her a ………….. position.",
+                translation: "Người thư ký đang làm việc tại bàn tiếp tân đã làm việc rất tốt đến nỗi ban quản lý đang xem xét cung cấp cho cô ấy một vị trí làm việc lâu dài.",
+                options: [
+                    { text: "A. durable - bền", isCorrect: false },
+                    { text: "B. periodic - định kỳ", isCorrect: false },
+                    { text: "C. binding - ràng buộc", isCorrect: false },
+                    { text: "D. permanent - lâu dài", isCorrect: true }
+                ]
+            },
+            {
+                id: 109,
+                question: "Ms. Harris was extremely ……………… to take an opportunity to thank you for all of the hard-working and dedication.",
+                translation: "Cô Harris rất hạnh phúc được có cơ hội cảm ơn bạn vì tất cả sự cố gắng và sự tận tâm.",
+                options: [
+                    { text: "A. happy - hạnh phúc", isCorrect: true },
+                    { text: "B. happily - một cách hạnh phúc", isCorrect: false },
+                    { text: "C. happier - hạnh phúc hơn", isCorrect: false },
+                    { text: "D. happiness - sự hạnh phúc", isCorrect: false }
+                ]
+            },
+            {
+                id: 110,
+                question: "………………. in computer technology have allowed technicians to perform multi-dimensional graphics far better than ever before.",
+                translation: "Những tiến bộ trong công nghệ máy tính đã cho phép các kỹ thuật viên thực hiện đồ họa đa chiều tốt hơn bao giờ hết.",
+                options: [
+                    { text: "A. Advance - Tiến bộ", isCorrect: false },
+                    { text: "B. Advancing - Đang tiến bộ", isCorrect: false },
+                    { text: "C. Advancement - Sự tiến bộ", isCorrect: false },
+                    { text: "D. Advances - Những tiến bộ", isCorrect: true }
+                ]
+            },
+            {
+                id: 111,
+                question: "To gain access to confidential company documents, employees require ………………. from the operations manager.",
+                translation: "Để truy cập vào tài liệu công ty mật, nhân viên cần sự xác nhận từ quản lý hoạt động.",
+                options: [
+                    { text: "A. clear - rõ ràng", isCorrect: false },
+                    { text: "B. clarify - làm rõ", isCorrect: false },
+                    { text: "C. clarity - sự rõ ràng", isCorrect: false },
+                    { text: "D. clearance - sự xác nhận", isCorrect: true }
+                ]
+            },
+            {
+                id: 112,
+                question: "The Department of the Environment supports the replacement of introduced plants with ……………. plants that require much less watering.",
+                translation: "Bộ Môi trường ủng hộ việc thay thế các loại thực vật được giới thiệu bằng các loại thực vật bản địa yêu cầu ít nước hơn.",
+                options: [
+                    { text: "A. native - bản địa", isCorrect: true },
+                    { text: "B. nativity - tính bản địa", isCorrect: false },
+                    { text: "C. natively - theo kiểu bản địa", isCorrect: false },
+                    { text: "D. nativeness - tính bản địa", isCorrect: false }
+                ]
+            },
+            {
+                id: 113,
+                question: "Ms. Julie Kennedy and her innovative marketing team have gained renown for creating …………………. products for struggling companies.",
+                translation: "Cô Julie Kennedy và đội ngũ tiếp thị sáng tạo của cô đã nổi tiếng với việc tạo ra các sản phẩm quảng cáo cho các công ty gặp khó khăn.",
+                options: [
+                    { text: "A. promote - quảng cáo", isCorrect: false },
+                    { text: "B. promotes - quảng cáo", isCorrect: false },
+                    { text: "C. promotion - sự quảng cáo", isCorrect: false },
+                    { text: "D. promotional - quảng cáo", isCorrect: true }
+                ]
+            },
+            {
+                id: 114,
+                question: "The Department of Social Welfare's report this year indicated that it is focusing ………….on the homeless and long-term unemployed.",
+                translation: "Báo cáo của Bộ Phúc lợi Xã hội năm nay cho thấy rằng họ đang tập trung vào người vô gia cư và người thất nghiệp dài hạn.",
+                options: [
+                    { text: "A. distinctly - rõ ràng", isCorrect: false },
+                    { text: "B. individually - cá nhân", isCorrect: false },
+                    { text: "C. exceptionally - một cách đặc biệt", isCorrect: false },
+                    { text: "D. particularly - đặc biệt", isCorrect: true }
+                ]
+            },
+            {
+                id: 115,
+                question: "ABC Shoe Store asked …………….. to make their final selections and bring them to cashiers' stations within 30 minutes.",
+                translation: "Cửa hàng giày ABC yêu cầu khách hàng chọn sản phẩm cuối cùng của họ và mang đến các quầy thu ngân trong vòng 30 phút.",
+                options: [
+                    { text: "A. shopper - người mua hàng", isCorrect: false },
+                    { text: "B. shopping - việc mua sắm", isCorrect: false },
+                    { text: "C. to shop - để mua sắm", isCorrect: false },
+                    { text: "D. shoppers - những người mua hàng", isCorrect: true }
+                ]
+            },
+            {
+                id: 116,
+                question: "In next month's issue, …………..coupons offering a steep discount for new subscriptions only.",
+                translation: "Trong số ra của tháng sau, chúng tôi sẽ chèn những phiếu giảm giá cung cấp cho đăng ký mới với mức giảm giá lớn.",
+                options: [
+                    { text: "A. were inserting - đã chèn", isCorrect: false },
+                    { text: "B. have been inserted - đã được chèn", isCorrect: false },
+                    { text: "C. had inserted - đã chèn", isCorrect: false },
+                    { text: "D. will be inserting - sẽ được chèn", isCorrect: true }
+                ]
+            },
+            {
+                id: 117,
+                question: "Under ……………. circumstances, the CEO would have approved the pay increases, but this year it was not possible.",
+                translation: "Trong hoàn cảnh thuận lợi, giám đốc điều hành sẽ đã chấp nhận việc tăng lương, nhưng năm nay không thể.",
+                options: [
+                    { text: "A. favorable - thuận lợi", isCorrect: true },
+                    { text: "B. favorably - một cách thuận lợi", isCorrect: false },
+                    { text: "C. favor - sự ưu ái", isCorrect: false },
+                    { text: "D. favorite - ưa thích", isCorrect: false }
+                ]
+            },
+            {
+                id: 118,
+                question: "Consultation with the appropriate experts is essential if we are to arrive at an ………….. decision.",
+                translation: "Việc tham khảo ý kiến của các chuyên gia phù hợp là cần thiết nếu chúng ta muốn đưa ra một quyết định có căn cứ.",
+                options: [
+                    { text: "A. informed - có căn cứ", isCorrect: true },
+                    { text: "B. obtained - đạt được", isCorrect: false },
+                    { text: "C. enlightened - thông thái", isCorrect: false },
+                    { text: "D. acquainted - quen biết", isCorrect: false }
+                ]
+            },
+            {
+                id: 119,
+                question: "As of October 1, Carla Fishermen will …………….. the company as its interface in all dealings with the local government.",
+                translation: "Từ ngày 1 tháng 10, Carla Fishermen sẽ đại diện cho công ty trong tất cả các giao dịch với chính quyền địa phương.",
+                options: [
+                    { text: "A. accommodate - đáp ứng", isCorrect: false },
+                    { text: "B. perform - thực hiện", isCorrect: false },
+                    { text: "C. attend - tham dự", isCorrect: false },
+                    { text: "D. represent - đại diện", isCorrect: true }
+                ]
+            },
+            {
+                id: 120,
+                question: "Although he did not perform ………………. well as a student, he went on to become one of the most respected scholars in his field.",
+                translation: "Mặc dù anh ta không có thành tích xuất sắc khi là sinh viên, nhưng anh ta đã trở thành một trong những học giả được tôn trọng nhất trong lĩnh vực của mình.",
+                options: [
+                    { text: "A. especially - đặc biệt", isCorrect: true },
+                    { text: "B. sufficiently - đủ", isCorrect: false },
+                    { text: "C. desperately - một cách tuyệt vọng", isCorrect: false },
+                    { text: "D. excellently - một cách xuất sắc", isCorrect: false }
+                ]
+            },
+            {
+                id: 121,
+                question: "After the earthquake, the building was ……………. unsafe since its foundation was badly damaged.",
+                translation: "Sau động đất, tòa nhà đã được tuyên bố không an toàn vì nền móng của nó bị hư hỏng nghiêm trọng.",
+                options: [
+                    { text: "A. maximized - tối đa hóa", isCorrect: false },
+                    { text: "B. erected - dựng lên", isCorrect: false },
+                    { text: "C. arranged - sắp xếp", isCorrect: false },
+                    { text: "D. declared - tuyên bố", isCorrect: true }
+                ]
+            },
+            {
+                id: 122,
+                question: "The upcoming convention invites …………….. from anyone working or having research interests in the field.",
+                translation: "Hội nghị sắp tới mời góp ý từ bất kỳ ai đang làm việc hoặc có quan tâm nghiên cứu trong lĩnh vực này.",
+                options: [
+                    { text: "A. contributions - đóng góp", isCorrect: true },
+                    { text: "B. solutions - giải pháp", isCorrect: false },
+                    { text: "C. additions - thêm vào", isCorrect: false },
+                    { text: "D. subscription - đăng ký", isCorrect: false }
+                ]
+            },
+            {
+                id: 123,
+                question: "Health inspections are conducted …………….. at restaurants throughout the province for the purpose of maintaining high standards of hygiene.",
+                translation: "Các cuộc kiểm tra sức khỏe được tiến hành thường xuyên tại các nhà hàng trên toàn tỉnh nhằm duy trì các tiêu chuẩn vệ sinh cao.",
+                options: [
+                    { text: "A. extremely - cực kỳ", isCorrect: false },
+                    { text: "B. marginally - mức độ nhỏ", isCorrect: false },
+                    { text: "C. overly - quá mức", isCorrect: false },
+                    { text: "D. routinely - theo lịch trình", isCorrect: true }
+                ]
+            },
+            {
+                id: 124,
+                question: "Several exciting new pieces of equipment ………………………. in our gymnasium, and we invite you to come and try them out at no cost during the next week.",
+                translation: "Một số thiết bị mới hấp dẫn đã được lắp đặt tại phòng tập gym của chúng tôi, và chúng tôi mời bạn đến và thử nghiệm chúng miễn phí trong tuần tới.",
+                options: [
+                    { text: "A. install - lắp đặt", isCorrect: false },
+                    { text: "B. installed - đã được lắp đặt", isCorrect: false },
+                    { text: "C. have install - đã lắp đặt", isCorrect: false },
+                    { text: "D. have been installed - đã được lắp đặt", isCorrect: true }
+                ]
+            },
+            {
+                id: 125,
+                question: "All drivers are required to maintain ……….. logbooks accurately and to hand them in to the central office before leaving on Friday night.",
+                translation: "Tất cả các tài xế phải duy trì sổ ghi chép của họ một cách chính xác và nộp chúng cho văn phòng trung tâm trước khi rời đi vào tối thứ Sáu.",
+                options: [
+                    { text: "A. its - của nó", isCorrect: false },
+                    { text: "B. his - của anh ấy", isCorrect: false },
+                    { text: "C. our - của chúng tôi", isCorrect: false },
+                    { text: "D. their - của họ", isCorrect: true }
+                ]
+            },
+            {
+                id: 126,
+                question: "As you would expect at one of the world's most reputable hotels, the ……………. is prompt, efficient, and discreet.",
+                translation: "Như bạn mong đợi tại một trong những khách sạn uy tín nhất thế giới, dịch vụ là nhanh chóng, hiệu quả và kín đáo.",
+                options: [
+                    { text: "A. exertion - sự cố gắng", isCorrect: false },
+                    { text: "B. decision - quyết định", isCorrect: false },
+                    { text: "C. challenge - thử thách", isCorrect: false },
+                    { text: "D. service - dịch vụ", isCorrect: true }
+                ]
+            },
+            {
+                id: 127,
+                question: "Rexington Engineering has recently set up an entire new research …………… because of the increasing interest in robotic technology.",
+                translation: "Rexington Engineering đã gần đây thành lập một bộ phận nghiên cứu hoàn toàn mới do sự quan tâm ngày càng tăng về công nghệ robot.",
+                options: [
+                    { text: "A. separation - sự chia cắt", isCorrect: false },
+                    { text: "B. partition - sự phân chia", isCorrect: false },
+                    { text: "C. segmentation - sự phân đoạn", isCorrect: false },
+                    { text: "D. division - bộ phận", isCorrect: true }
+                ]
+            },
+            {
+                id: 128,
+                question: "A small group of contestants has been selected following a nationwide search …………….. over the last six months.",
+                translation: "Một nhóm nhỏ thí sinh đã được chọn sau một cuộc tìm kiếm trên toàn quốc được tiến hành trong vòng sáu tháng qua.",
+                options: [
+                    { text: "A. alerted - được báo cho", isCorrect: false },
+                    { text: "B. engaged - tham gia", isCorrect: false },
+                    { text: "C. protected - bảo vệ", isCorrect: false },
+                    { text: "D. conducted - được tiến hành", isCorrect: true }
+                ]
+            },
+            {
+                id: 129,
+                question: "The chief financial officer believes that we should maintain the present course, …………. his deputy.",
+                translation: "Giám đốc tài chính cho rằng chúng ta nên duy trì hướng đi hiện tại, và cũng như phó của ông.",
+                options: [
+                    { text: "A. as to - đối với", isCorrect: false },
+                    { text: "B. whereas - trong khi", isCorrect: false },
+                    { text: "C. as does - cũng như", isCorrect: true },
+                    { text: "D. as long as - miễn là", isCorrect: false }
+                ]
+            },
+            {
+                id: 130,
+                question: "One of the leading companies, Big Star agreed to buy ………… drug company for 10 billion dollars.",
+                translation: "Một trong những công ty hàng đầu, Big Star đã đồng ý mua công ty dược cạnh tranh với giá 10 tỷ đô la.",
+                options: [
+                    { text: "A. rival - đối thủ", isCorrect: true },
+                    { text: "B. compromising - làm động lòng", isCorrect: false },
+                    { text: "C. renewed - được gia hạn", isCorrect: false },
+                    { text: "D. contrasting - tương phản", isCorrect: false }
+                ]
+            },
+            {
+                id: 131,
+                question: "Because there were too many participants at the seminar, we should ………… them into smaller groups for discussion.",
+                translation: "Vì có quá nhiều người tham dự hội thảo, chúng ta nên chia nhỏ thành các nhóm nhỏ hơn để thảo luận.",
+                options: [
+                    { text: "A. divisible - có thể chia", isCorrect: false },
+                    { text: "B. division - sự chia nhỏ", isCorrect: false },
+                    { text: "C. dividing - chia nhỏ", isCorrect: false },
+                    { text: "D. divide - chia", isCorrect: true }
+                ]
+            },
+            {
+                id: 132,
+                question: "……………. wanting to apply for maternity leave should let their immediate supervisor know about their plans at least one month in advance.",
+                translation: "Những người muốn xin nghỉ thai sản nên thông báo cho cấp trên ngay về kế hoạch của họ ít nhất là một tháng trước.",
+                options: [
+                    { text: "A. Them - họ", isCorrect: false },
+                    { text: "B. That - đó", isCorrect: false },
+                    { text: "C. One - một", isCorrect: false },
+                    { text: "D. Those - những người đó", isCorrect: true }
+                ]
+            },
+            {
+                id: 133,
+                question: "Electron Recycling has developed a profitable business by recycling metals retrieved from ……………. electronic components.",
+                translation: "Electron Recycling đã phát triển một doanh nghiệp sinh lời bằng cách tái chế các kim loại thu được từ các linh kiện điện tử đã bị vứt bỏ.",
+                options: [
+                    { text: "A. discarded - bị vứt bỏ", isCorrect: true },
+                    { text: "B. extended - mở rộng", isCorrect: false },
+                    { text: "C. unoccupied - không bị chiếm đóng", isCorrect: false },
+                    { text: "D. suppressed - bị đàn áp", isCorrect: false }
+                ]
+            },
+            {
+                id: 134,
+                question: "The new head of marketing is already making his mark on the company even though he only arrived 6 weeks ago.",
+                translation: "Giám đốc marketing mới đã để lại dấu ấn của mình trên công ty dù anh chỉ đến từ 6 tuần trước.",
+                options: [
+                    { text: "A. carried - mang", isCorrect: false },
+                    { text: "B. elapsed - trôi qua", isCorrect: false },
+                    { text: "C. deliberated - suy nghĩ kỹ lưỡng", isCorrect: false },
+                    { text: "D. arrived - đến", isCorrect: true }
+                ]
+            },
+            {
+                id: 135,
+                question: "The FM convenience store in the central park is ………….. situated and it is always busy with many customers.",
+                translation: "Cửa hàng tiện lợi FM ở công viên trung tâm được đặt ở vị trí rất thuận tiện và luôn luôn đông đúc với nhiều khách hàng.",
+                options: [
+                    { text: "A. conveniently - một cách thuận tiện", isCorrect: true },
+                    { text: "B. promptly - một cách nhanh chóng", isCorrect: false },
+                    { text: "C. greatly - rất", isCorrect: false },
+                    { text: "D. widely - rộng rãi", isCorrect: false }
+                ]
+            },
+            {
+                id: 136,
+                question: "Once you have paid the appropriate student fees, you will be able to …………. the medical, recreational, and other facilities.",
+                translation: "Sau khi bạn đã thanh toán các khoản phí sinh viên thích hợp, bạn sẽ có thể truy cập vào các cơ sở y tế, giải trí và các cơ sở khác.",
+                options: [
+                    { text: "A. access - truy cập", isCorrect: true },
+                    { text: "B. accessed - đã truy cập", isCorrect: false },
+                    { text: "C. accessory - phụ kiện", isCorrect: false },
+                    { text: "D. accessible - có thể truy cập", isCorrect: false }
+                ]
+            },
+            {
+                id: 137,
+                question: "Although the ……………… for the best design will be very fierce, Mr. Gozalas has a good chance of getting the award.",
+                translation: "Mặc dù cuộc thi cho thiết kế tốt nhất sẽ rất gay gắt, ông Gozalas có cơ hội rất tốt để giành giải thưởng.",
+                options: [
+                    { text: "A. competitively - một cách cạnh tranh", isCorrect: false },
+                    { text: "B. competitive - cạnh tranh", isCorrect: false },
+                    { text: "C. compete - cạnh tranh", isCorrect: false },
+                    { text: "D. competition - cuộc thi", isCorrect: true }
+                ]
+            },
+            {
+                id: 138,
+                question: "While we still take telephone calls, other …………….. of correspondence are encouraged to avoid tying up telephone lines unnecessarily.",
+                translation: "Trong khi chúng tôi vẫn tiếp nhận cuộc gọi điện thoại, các hình thức liên lạc khác được khuyến khích để tránh làm ùn tắc đường dây điện thoại một cách không cần thiết.",
+                options: [
+                    { text: "A. profiles - hồ sơ", isCorrect: false },
+                    { text: "B. views - quan điểm", isCorrect: false },
+                    { text: "C. outlines - đề cương", isCorrect: false },
+                    { text: "D. forms - hình thức", isCorrect: true }
+                ]
+            },
+            {
+                id: 139,
+                question: "Numerous speakers came forward to express their gratitude ………. the retiring secretary's unfailing courtesy and efficiency.",
+                translation: "Nhiều diễn giả đã đứng lên để bày tỏ lòng biết ơn đối với sự lịch sự và hiệu quả không bao giờ thay đổi của thư ký về thư ký sắp nghỉ hưu.",
+                options: [
+                    { text: "A. for - cho", isCorrect: true },
+                    { text: "B. at - tại", isCorrect: false },
+                    { text: "C. to - đến", isCorrect: false },
+                    { text: "D. with - với", isCorrect: false }
+                ]
+            },
+            {
+                id: 140,
+                question: "……………. more. factory workers are hired, we cannot meet the deadline for the products on time.",
+                translation: "Trừ khi thêm nhiều công nhân nhà máy được tuyển dụng, chúng tôi không thể hoàn thành đúng hạn cho các sản phẩm.",
+                options: [
+                    { text: "A. Unless - trừ khi", isCorrect: true },
+                    { text: "B. Also - cũng", isCorrect: false },
+                    { text: "C. Except - ngoại trừ", isCorrect: false },
+                    { text: "D. Therefore - do đó", isCorrect: false }
+                ]
+            },
+            {
+                id: 141,
+                question: "……………… the recent sales campaign was not as successful as we had expected, our new range of goods has been well reviewed by consumer groups.",
+                translation: "Mặc dù chiến dịch bán hàng gần đây không thành công như chúng tôi đã mong đợi, bộ sản phẩm mới của chúng tôi đã được các nhóm người tiêu dùng đánh giá tốt.",
+                options: [
+                    { text: "A. Instead of - thay vì", isCorrect: false },
+                    { text: "B. Notwithstanding - mặc dù", isCorrect: false },
+                    { text: "C. Although - mặc dù", isCorrect: true },
+                    { text: "D. Whereas - trong khi", isCorrect: false }
+                ]
+            },
+            {
+                id: 142,
+                question: "The giant pharmaceutical company insists that its new drug is …………….. as long as it is used under the supervision of a doctor.",
+                translation: "Công ty dược lớn khẳng định rằng thuốc mới của họ an toàn miễn là được sử dụng dưới sự giám sát của bác sĩ.",
+                options: [
+                    { text: "A. perfect - hoàn hảo", isCorrect: false },
+                    { text: "B. perfection - sự hoàn hảo", isCorrect: false },
+                    { text: "C. perfectly - hoàn hảo", isCorrect: true },
+                    { text: "D. perfecting - hoàn thiện", isCorrect: false }
+                ]
+            },
+            {
+                id: 143,
+                question: "……………. you have familiarized yourself with the basic commands, we can begin to learn some of this program's more creative features.",
+                translation: "Sau khi bạn đã làm quen với các lệnh cơ bản, chúng ta có thể bắt đầu học một số tính năng sáng tạo hơn của chương trình này.",
+                options: [
+                    { text: "A. Already - đã", isCorrect: false },
+                    { text: "B. Before - trước khi", isCorrect: false },
+                    { text: "C. Once - sau khi", isCorrect: true },
+                    { text: "D. Earlier - trước đây", isCorrect: false }
+                ]
+            },
+            {
+                id: 144,
+                question: "It is true that the number of traffic accidents involving cyclists has increased ……………… over the last 10 years.",
+                translation: "Đúng là số vụ tai nạn giao thông liên quan đến người đi xe đạp đã tăng đáng kể trong 10 năm qua.",
+                options: [
+                    { text: "A. meagerly - một cách vỏn vẹn", isCorrect: false },
+                    { text: "B. fundamentally - về cơ bản", isCorrect: false },
+                    { text: "C. significantly - đáng kể", isCorrect: true },
+                    { text: "D. adequately - đủ", isCorrect: false }
+                ]
+            },
+            {
+                id: 145,
+                question: "Students can ……………… in the university’s education program starting July 6th.",
+                translation: "Sinh viên có thể đăng ký vào chương trình giáo dục của trường đại học bắt đầu từ ngày 6 tháng 7.",
+                options: [
+                    { text: "A. Enroll - đăng ký", isCorrect: true },
+                    { text: "B. Admit - nhận vào", isCorrect: false },
+                    { text: "C. Apply - nộp đơn", isCorrect: false },
+                    { text: "D. Subscribe - đăng ký", isCorrect: false }
+                ]
+            },
+            {
+                id: 146,
+                question: "Hyssop Chemists is ………….. experienced pharmacists for the eight new locations they have opened this year.",
+                translation: "Hyssop Chemists đang tìm kiếm các nhà dược có kinh nghiệm cho tám địa điểm mới mà họ đã mở trong năm nay.",
+                options: [
+                    { text: "A. seeking - đang tìm kiếm", isCorrect: true },
+                    { text: "B. looking - tìm kiếm", isCorrect: false },
+                    { text: "C. entering - tham gia", isCorrect: false },
+                    { text: "D. requiring - yêu cầu", isCorrect: false }
+                ]
+            },
+            {
+                id: 147,
+                question: "This is an excellent time to consider changing jobs because of the large number of positions------ available in the mining sector.",
+                translation: "Đây là thời điểm tuyệt vời để xem xét việc thay đổi công việc vì số lượng vị trí ------ có sẵn trong ngành công nghiệp mỏ.",
+                options: [
+                    { text: "A. commonly - phổ biến", isCorrect: false },
+                    { text: "B. currently - hiện tại", isCorrect: true },
+                    { text: "C. actively - tích cực", isCorrect: false },
+                    { text: "D. approvingly - tán thành", isCorrect: false }
+                ]
+            },
+            {
+                id: 148,
+                question: "The waitress said there weren't any tables open, but she would call my name once one became ..............",
+                translation: "Cô phục vụ nói không có bàn trống, nhưng cô sẽ gọi tên tôi khi có bàn trống.",
+                options: [
+                    { text: "A. availability - sự có sẵn", isCorrect: false },
+                    { text: "B. availably - có sẵn", isCorrect: false },
+                    { text: "C. avail - sẵn sàng", isCorrect: false },
+                    { text: "D. available - có sẵn", isCorrect: true }
+                ]
+            },
+            {
+                id: 149,
+                question: "A light and healthy lunch followed by some exercise will make workers ------- more productive in the afternoon.",
+                translation: "Một bữa trưa nhẹ và lành mạnh kèm theo một ít tập thể dục sẽ làm cho nhân viên ------- hiệu quả hơn vào buổi chiều.",
+                options: [
+                    { text: "A. complete - hoàn chỉnh", isCorrect: false },
+                    { text: "B. much - rất nhiều", isCorrect: true },
+                    { text: "C. ample - đầy đủ", isCorrect: false },
+                    { text: "D. greatly - mạnh mẽ", isCorrect: false }
+                ]
+            },
+            {
+                id: 150,
+                question: "It is becoming.............. more difficult to find designers who are familiar with this software.",
+                translation: "Việc tìm kiếm các nhà thiết kế am hiểu về phần mềm này đang trở nên càng ngày càng khó khăn hơn.",
+                options: [
+                    { text: "A. progress - tiến trình", isCorrect: false },
+                    { text: "B. progressive - tiến bộ", isCorrect: false },
+                    { text: "C. progression - sự tiến triển", isCorrect: false },
+                    { text: "D. progressively - dần dần", isCorrect: true }
+                ]
+            },
+            {
+                id: 151,
+                question: "Of the six employees in ______ department he is the hardest working one.",
+                translation: "Trong sáu nhân viên ở phòng ______, anh ấy là người làm việc chăm chỉ nhất.",
+                options: [
+                    { text: "A. himself - chính bản thân anh", isCorrect: false },
+                    { text: "B. him - anh ấy", isCorrect: false },
+                    { text: "C. he - anh ấy", isCorrect: false },
+                    { text: "D. his - của anh ấy", isCorrect: true }
+                ]
+            },
+            {
+                id: 152,
+                question: "The Technical Department is currently formulating written guidelines ------- the use of our micro-publishing facilities.",
+                translation: "Bộ phận Kỹ thuật hiện đang lập ra hướng dẫn viết ------- về việc sử dụng các cơ sở xuất bản vi mô của chúng tôi.",
+                options: [
+                    { text: "A. in - trong", isCorrect: false },
+                    { text: "B. for - cho", isCorrect: true },
+                    { text: "C. at - tại", isCorrect: false },
+                    { text: "D. with - với", isCorrect: false }
+                ]
+            },
+            {
+                id: 153,
+                question: "Actually, the Department of Transportation is responsible .............. approving roadwork permits in the county.",
+                translation: "Thực tế, Bộ Giao thông vận tải chịu trách nhiệm ------- phê duyệt giấy phép công trình đường bộ trong hạt.",
+                options: [
+                    { text: "A. by - bởi", isCorrect: false },
+                    { text: "B. to - đến", isCorrect: false },
+                    { text: "C. at - tại", isCorrect: false },
+                    { text: "D. for - cho", isCorrect: true }
+                ]
+            },
+            {
+                id: 154,
+                question: "------- leaving school, she has worked in a variety of positions but has not yet found one which suits her talents or interests.",
+                translation: "------- sau khi tốt nghiệp trường, cô đã làm việc ở nhiều vị trí khác nhau nhưng vẫn chưa tìm được một vị trí phù hợp với tài năng hoặc sở thích của cô.",
+                options: [
+                    { text: "A. Despite - Mặc dù", isCorrect: false },
+                    { text: "B. Since - Kể từ khi", isCorrect: true },
+                    { text: "C. In spite of - Bất chấp", isCorrect: false },
+                    { text: "D. If - Nếu", isCorrect: false }
+                ]
+            },
+            {
+                id: 155,
+                question: "Analysts regarded the ..............between the construction giants a win-win situation for both companies.",
+                translation: "Các nhà phân tích xem xét ------- giữa các công ty xây dựng là một tình huống đều có lợi cho cả hai công ty.",
+                options: [
+                    { text: "A. factor - yếu tố", isCorrect: false },
+                    { text: "B. management - quản lý", isCorrect: false },
+                    { text: "C. authority - quyền lực", isCorrect: false },
+                    { text: "D. alliance - liên minh", isCorrect: true }
+                ]
+            },
+            {
+                id: 156,
+                question: "For such a large building project, you'll need to take out a massive loan to raise the necessary..............",
+                translation: "Đối với một dự án xây dựng lớn như vậy, bạn sẽ cần vay một khoản vay lớn để tăng số tiền cần thiết.",
+                options: [
+                    { text: "A. assistance - sự trợ giúp", isCorrect: false },
+                    { text: "B. timeline - lịch trình", isCorrect: false },
+                    { text: "C. institution - cơ sở", isCorrect: false },
+                    { text: "D. capital - vốn", isCorrect: true }
+                ]
+            },
+            {
+                id: 157,
+                question: "An investment ________ gradually increases in value over the years can be more profitable than more short-term alternatives.",
+                translation: "Một khoản đầu tư ________ tăng giá trị dần dần qua các năm có thể lợi nhuận hơn so với các lựa chọn ngắn hạn hơn.",
+                options: [
+                    { text: "A. that - mà", isCorrect: true },
+                    { text: "B. they - họ", isCorrect: false },
+                    { text: "C. what - cái gì", isCorrect: false },
+                    { text: "D. when – khi", isCorrect: false }
+                ]
+            },
+            {
+                id: 158,
+                question: "Maurice Robertson, _________an executive at a small company, became the CEO of Bradshaw Industries four months ago.",
+                translation: "Maurice Robertson, _________ một giám đốc tại một công ty nhỏ, đã trở thành Giám đốc điều hành của Công ty Bradshaw cách đây bốn tháng.",
+                options: [
+                    { text: "A. once - một lần", isCorrect: true },
+                    { text: "B. often - thường xuyên", isCorrect: false },
+                    { text: "C. soon - sớm", isCorrect: false },
+                    { text: "D. now - hiện tại", isCorrect: false }
+                ]
+            },
+            {
+                id: 159,
+                question: "An independent investigator ------- a report on the company's financial operations which, for some unknown reason,was never released.",
+                translation: "Một nhà điều tra độc lập đã ------- một báo cáo về hoạt động tài chính của công ty mà, vì một lý do không rõ, không bao giờ được công bố.",
+                options: [
+                    { text: "A. contracted - được thuê", isCorrect: false },
+                    { text: "B. confirmed - xác nhận", isCorrect: false },
+                    { text: "C. compiled - biên soạn", isCorrect: true },
+                    { text: "D. converted - chuyển đổi", isCorrect: false }
+                ]
+            },
+            {
+                id: 160,
+                question: "Windpower Co. is faced with financial hardship, so in order to overcome this crisis, ______ ﬁnancial support is needed.",
+                translation: "Công ty Windpower đang phải đối mặt với khó khăn về tài chính, vì vậy để vượt qua khủng hoảng này, ______ hỗ trợ tài chính cần được cung cấp.",
+                options: [
+                    { text: "A. extend - mở rộng", isCorrect: false },
+                    { text: "B. extent - phạm vi", isCorrect: false },
+                    { text: "C. extensive - mở rộng", isCorrect: true },
+                    { text: "D. extending - mở rộng", isCorrect: false }
+                ]
+            },
+            {
+                id: 161,
+                question: "Thanks to the advances in technology the state-of-the-art device is made _______ out of plastic.",
+                translation: "Nhờ vào sự tiến bộ trong công nghệ, thiết bị tiên tiến này được làm _______ hoàn toàn từ nhựa.",
+                options: [
+                    { text: "A. totaling - tổng cộng", isCorrect: false },
+                    { text: "B. total - toàn bộ", isCorrect: false },
+                    { text: "C. totally - hoàn toàn", isCorrect: true },
+                    { text: "D. totaled - tổng cộng", isCorrect: false }
+                ]
+            },
+            {
+                id: 162,
+                question: "Mr. Fukui _______ washes his hands with anti-bacterial detergent right after coming home.",
+                translation: "Ông Fukui _______ thường xuyên rửa tay với dung dịch chống khuẩn ngay sau khi về nhà.",
+                options: [
+                    { text: "A. habitual - thói quen", isCorrect: false },
+                    { text: "B. habit - thói quen", isCorrect: false },
+                    { text: "C. habitually - thường xuyên", isCorrect: true },
+                    { text: "D. habits - thói quen", isCorrect: false }
+                ]
+            },
+            {
+                id: 163,
+                question: "Please read the -- ----- passages carefully, and then answer the multiple choice questions below within the time allotted.",
+                translation: "Vui lòng đọc kỹ những đoạn văn -- ----- này, sau đó trả lời các câu hỏi trắc nghiệm dưới đây trong thời gian được quy định.",
+                options: [
+                    { text: "A. consecutive - liên tiếp", isCorrect: false },
+                    { text: "B. constant - không đổi", isCorrect: false },
+                    { text: "C. following - tiếp theo", isCorrect: true },
+                    { text: "D. subsequent - tiếp theo", isCorrect: false }
+                ]
+            },
+            {
+                id: 164,
+                question: "The sudden rainstorm arrived - -----, leaving a trail of damage which many predict will take some time to repair.",
+                translation: "Cơn mưa bất ngờ đến - -----, để lại dấu vết của sự tổn thương mà nhiều người dự đoán sẽ mất một thời gian để sửa chữa.",
+                options: [
+                    { text: "A. unexpected - bất ngờ", isCorrect: false },
+                    { text: "B. unexpectant - không ngờ đến", isCorrect: false },
+                    { text: "C. unexpectedly - bất ngờ", isCorrect: true },
+                    { text: "D. unexpectedness - tính bất ngờ", isCorrect: false }
+                ]
+            },
+            {
+                id: 165,
+                question: "Please accept our _______ apology for the mistakes that we made on the last project.",
+                translation: "Xin vui lòng chấp nhận sự xin lỗi _______ chân thành của chúng tôi vì những sai lầm mà chúng tôi đã mắc phải trong dự án cuối cùng.",
+                options: [
+                    { text: "A. accurate - chính xác", isCorrect: false },
+                    { text: "B. estimated - ước tính", isCorrect: false },
+                    { text: "C. sincere - chân thành", isCorrect: true },
+                    { text: "D. completed - hoàn thành", isCorrect: false }
+                ]
+            },
+            {
+                id: 166,
+                question: "BMC publishing company will be checking the article _______ mistakes and edit it before printing.",
+                translation: "Công ty xuất bản BMC sẽ kiểm tra bài viết _______ lỗi và chỉnh sửa trước khi in.",
+                options: [
+                    { text: "A. barring - trừ", isCorrect: false },
+                    { text: "B. over - qua lại", isCorrect: false },
+                    { text: "C. for - để", isCorrect: true },
+                    { text: "D. from - từ", isCorrect: false }
+                ]
+            },
+            {
+                id: 167,
+                question: "Please place your luggage in the overhead locker, and ensure that the locker is closed -----",
+                translation: "Xin vui lòng đặt hành lý của bạn vào tủ đồ trên đầu và đảm bảo rằng tủ đóng chặt --------.",
+                options: [
+                    { text: "A. secure - chắc chắn", isCorrect: false },
+                    { text: "B. securely - chắc chắn", isCorrect: true },
+                    { text: "C. securable - có thể bảo đảm", isCorrect: false },
+                    { text: "D. secureness - tính chắc chắn", isCorrect: false }
+                ]
+            },
+            {
+                id: 168,
+                question: "We would like to inform our employees that any complaints should be ------- to their union representative at first.",
+                translation: "Chúng tôi muốn thông báo cho nhân viên rằng mọi khiếu nại nên được ------- đến đại diện liên hiệp của họ trước tiên.",
+                options: [
+                    { text: "A. outlined - phác thảo", isCorrect: false },
+                    { text: "B. addressed - đề cập", isCorrect: true },
+                    { text: "C. focused - tập trung", isCorrect: false },
+                    { text: "D. applied - áp dụng", isCorrect: false }
+                ]
+            },
+            {
+                id: 169,
+                question: "The new tax cuts are designed ------ low-income earners and those with young families.",
+                translation: "Những khoản giảm thuế mới được thiết kế ------ những người có thu nhập thấp và những người có gia đình trẻ.",
+                options: [
+                    { text: "A. benefits - lợi ích", isCorrect: false },
+                    { text: "B. to benefit - để hưởng lợi", isCorrect: true },
+                    { text: "C. benefited - đã hưởng lợi", isCorrect: false },
+                    { text: "D. benefiting - đang hưởng lợi", isCorrect: false }
+                ]
+            },
+            {
+                id: 170,
+                question: "The budget to be released later this week will ------- reduce spending on employee facilities such as the sports center.",
+                translation: "Ngân sách sẽ được công bố vào cuối tuần này sẽ ------- giảm chi tiêu cho các cơ sở dành cho nhân viên như trung tâm thể dục.",
+                options: [
+                    { text: "A. due to - do", isCorrect: false },
+                    { text: "B. most likely - có lẽ", isCorrect: true },
+                    { text: "C. want - muốn", isCorrect: false },
+                    { text: "D. be - là", isCorrect: false }
+                ]
+            },
+            {
+                id: 171,
+                question: "Following media criticism ------- the Defense Secretary's performance, the President today spoke in his defense at a special press conference.",
+                translation: "Sau khi bị phê bình của truyền thông ------- hiệu suất của Bộ trưởng Quốc phòng, Tổng thống đã phát biểu để bảo vệ ông ta tại một cuộc họp báo đặc biệt hôm nay.",
+                options: [
+                    { text: "A. at - tại", isCorrect: false },
+                    { text: "B. of - của (of mới đúng)", isCorrect: true },
+                    { text: "C. for - cho", isCorrect: false },
+                    { text: "D. from - từ", isCorrect: false }
+                ]
+            },
+            {
+                id: 172,
+                question: "-------- good evaluations from their immediate bosses should be the main objective of those who wish to be promoted this year.",
+                translation: "Đạt được những đánh giá tốt từ cấp trên trực tiếp nên là mục tiêu chính của những người muốn được thăng chức trong năm nay.",
+                options: [
+                    { text: "A. Attain", isCorrect: false },
+                    { text: "B. Attained", isCorrect: false },
+                    { text: "C. Attaining", isCorrect: true },
+                    { text: "D. Attainable", isCorrect: false }
+                ]
+            }
+        ];
+
+        let userAnswers = {}; // Lưu trữ đáp án của người dùng
+        let currentQuestionId = null; // Theo dõi câu hỏi hiện tại đang xem
+
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz');
+        const scoreContainer = document.getElementById('score-container');
+        const correctCountSpan = document.getElementById('correct-count');
+        const totalQuestionsSpan = document.getElementById('total-questions');
+        const reviewAnswersButton = document.getElementById('review-answers');
+        const restartQuizButton = document.getElementById('restart-quiz');
+        const sidebarGrid = document.getElementById('sidebar-grid');
+
+        // Hàm để tạo và hiển thị thanh điều hướng bên trái
+        function renderSidebar() {
+            sidebarGrid.innerHTML = ''; // Xóa các mục cũ
+            questions.forEach(q => {
+                const sidebarItem = document.createElement('div');
+                sidebarItem.classList.add('sidebar-item');
+                sidebarItem.id = `sidebar-item-${q.id}`;
+                sidebarItem.textContent = q.id;
+                sidebarItem.addEventListener('click', () => scrollToQuestion(q.id));
+                sidebarGrid.appendChild(sidebarItem);
+            });
+            updateSidebarHighlight();
+        }
+
+        // Hàm để cuộn đến một câu hỏi cụ thể và làm nổi bật trên sidebar
+        function scrollToQuestion(id) {
+            const questionElement = document.getElementById(`question-${id}`);
+            if (questionElement) {
+                questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                currentQuestionId = id;
+                updateSidebarHighlight();
+            }
+        }
+
+        // Hàm cập nhật trạng thái nổi bật của câu hỏi trên sidebar
+        function updateSidebarHighlight() {
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('selected-current');
+            });
+            if (currentQuestionId) {
+                const currentSidebarItem = document.getElementById(`sidebar-item-${currentQuestionId}`);
+                if (currentSidebarItem) {
+                    currentSidebarItem.classList.add('selected-current');
+                }
+            }
+        }
+
+        // Hàm quan sát các phần tử câu hỏi để cập nhật sidebar khi cuộn
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const questionId = parseInt(entry.target.id.replace('question-', ''));
+                    if (currentQuestionId !== questionId) {
+                        currentQuestionId = questionId;
+                        updateSidebarHighlight();
+                    }
+                }
+            });
+        }, { threshold: 0.5 }); // Khi 50% câu hỏi hiển thị
+
+        function loadQuiz() {
+            quizContainer.innerHTML = ''; // Xóa các câu hỏi cũ nếu có
+            userAnswers = {}; // Reset đáp án của người dùng
+            scoreContainer.classList.add('hidden'); // Ẩn phần kết quả
+
+            questions.forEach(q => {
+                const questionCard = document.createElement('div');
+                questionCard.classList.add('question-card');
+                questionCard.id = `question-${q.id}`;
+
+                questionCard.innerHTML = `
+                    <div class="question-text">Câu ${q.id}. ${q.question}</div>
+                    <div class="dich-toggle" data-question-id="${q.id}">[Hiển thị dịch nghĩa]</div>
+                    <div id="dich-text-${q.id}" class="dich-text">Dịch: ${q.translation}</div>
+                    <div class="options mt-4">
+                        ${q.options.map((option, index) => `
+                            <label class="answer-option">
+                                <input type="radio" name="question-${q.id}" value="${index}">
+                                <span>${option.text}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div id="explanation-${q.id}" class="explanation hidden"></div>
+                `;
+                quizContainer.appendChild(questionCard);
+
+                // Thêm sự kiện lắng nghe cho các radio button để lưu đáp án và cập nhật sidebar
+                questionCard.querySelectorAll(`input[name="question-${q.id}"]`).forEach(radio => {
+                    radio.addEventListener('change', (event) => {
+                        userAnswers[q.id] = parseInt(event.target.value);
+                        // Cập nhật trạng thái 'selected' cho option
+                        questionCard.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
+                        event.target.closest('.answer-option').classList.add('selected');
+
+                        // Cập nhật trạng thái của câu hỏi trên sidebar (chỉ đánh dấu đã trả lời)
+                        const sidebarItem = document.getElementById(`sidebar-item-${q.id}`);
+                        if (sidebarItem) {
+                            sidebarItem.classList.add('answered');
+                            sidebarItem.classList.remove('correct-answer', 'incorrect-answer'); // Xóa trạng thái đúng/sai nếu có
+                        }
+                    });
+                });
+
+                // Thêm sự kiện lắng nghe cho nút hiển thị dịch nghĩa
+                questionCard.querySelector(`.dich-toggle[data-question-id="${q.id}"]`).addEventListener('click', (event) => {
+                    const translationText = document.getElementById(`dich-text-${q.id}`);
+                    translationText.style.display = translationText.style.display === 'block' ? 'none' : 'block';
+                    event.target.textContent = translationText.style.display === 'block' ? '[Ẩn dịch nghĩa]' : '[Hiển thị dịch nghĩa]';
+                });
+
+                // Gán observer cho mỗi câu hỏi
+                observer.observe(questionCard);
+            });
+            submitButton.classList.remove('hidden'); // Hiển thị nút nộp bài
+            renderSidebar(); // Tải sidebar
+            // Đặt câu hỏi đầu tiên là câu hỏi hiện tại và cuộn tới nó nếu có
+            if (questions.length > 0) {
+                currentQuestionId = questions[0].id;
+                updateSidebarHighlight();
+            }
+        }
+
+        function submitQuiz() {
+            let correctAnswers = 0;
+            questions.forEach(q => {
+                const questionCard = document.getElementById(`question-${q.id}`);
+                const explanationDiv = document.getElementById(`explanation-${q.id}`);
+                const sidebarItem = document.getElementById(`sidebar-item-${q.id}`);
+
+                questionCard.classList.add('answered'); // Đánh dấu câu hỏi đã được trả lời
+                explanationDiv.classList.remove('hidden');
+
+                // Tự động hiển thị dịch nghĩa sau khi nộp bài
+                const translationText = document.getElementById(`dich-text-${q.id}`);
+                translationText.style.display = 'block';
+                const dichToggle = questionCard.querySelector(`.dich-toggle[data-question-id="${q.id}"]`);
+                if (dichToggle) {
+                    dichToggle.textContent = '[Dịch nghĩa đã hiển thị]'; // Cập nhật text
+                    dichToggle.style.pointerEvents = 'none'; // Vô hiệu hóa nút toggle
+                    dichToggle.style.color = '#9ca3af'; // Màu xám cho biết không còn tương tác
+                    dichToggle.style.textDecoration = 'none';
+                }
+
+                const selectedOptionIndex = userAnswers[q.id];
+                let isQuestionCorrect = false;
+
+                q.options.forEach((option, index) => {
+                    const optionElement = questionCard.querySelector(`input[value="${index}"]`).closest('.answer-option');
+                    const radioInput = optionElement.querySelector('input');
+                    radioInput.disabled = true; // Vô hiệu hóa các lựa chọn sau khi nộp bài
+
+                    if (option.isCorrect) {
+                        optionElement.classList.add('correct');
+                        if (selectedOptionIndex !== index) { // Nếu chưa chọn đáp án đúng, hiển thị biểu tượng đúng
+                            optionElement.innerHTML += `<span class="correct-indicator">✔</span>`;
+                        }
+                    }
+
+                    if (selectedOptionIndex === index) { // Nếu người dùng đã chọn đáp án này
+                        if (!option.isCorrect) { // Và nó sai
+                            optionElement.classList.add('incorrect');
+                            optionElement.innerHTML += `<span class="incorrect-indicator">✖</span>`;
+                        } else { // Hoặc đúng
+                            optionElement.innerHTML += `<span class="correct-indicator">✔</span>`;
+                            isQuestionCorrect = true; // Đánh dấu câu hỏi này đúng
+                        }
+                    }
+                });
+
+                if (selectedOptionIndex !== undefined && isQuestionCorrect) {
+                    correctAnswers++;
+                }
+
+                // Cập nhật trạng thái đúng/sai lên sidebar
+                if (sidebarItem) {
+                    sidebarItem.classList.remove('answered'); // Remove generic answered class
+                    if (isQuestionCorrect) {
+                        sidebarItem.classList.add('correct-answer');
+                    } else {
+                        sidebarItem.classList.add('incorrect-answer');
+                    }
+                }
+
+
+                // Hiển thị giải thích
+                const correctAnswerText = q.options.find(opt => opt.isCorrect).text;
+                // Lấy phần text chính và phần dịch nghĩa từ đáp án đúng
+                const [correctAnswerValue, correctAnswerTranslation] = correctAnswerText.split(' - ').map(s => s.trim());
+
+                explanationDiv.innerHTML = `<strong>Đáp án đúng:</strong> ${correctAnswerValue}. <br> <strong>Giải thích:</strong> ${correctAnswerTranslation || 'Không có giải thích cụ thể.'}`;
+            });
+
+            correctCountSpan.textContent = correctAnswers;
+            totalQuestionsSpan.textContent = questions.length;
+            scoreContainer.classList.remove('hidden');
+            submitButton.classList.add('hidden'); // Ẩn nút nộp bài sau khi đã nộp
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Cuộn lên đầu trang để xem kết quả
+            observer.disconnect(); // Ngừng quan sát khi đã nộp bài
+        }
+
+        function restartQuiz() {
+            loadQuiz();
+            submitButton.classList.remove('hidden');
+            scoreContainer.classList.add('hidden');
+            // Bắt đầu lại quan sát các câu hỏi
+            questions.forEach(q => {
+                const questionCard = document.getElementById(`question-${q.id}`);
+                if (questionCard) observer.observe(questionCard);
+            });
+        }
+
+        // Sự kiện khi tải trang
+        window.onload = function() {
+            loadQuiz();
+            submitButton.addEventListener('click', submitQuiz);
+            reviewAnswersButton.addEventListener('click', () => {
+                // Cuộn về đầu trang nếu muốn
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            restartQuizButton.addEventListener('click', restartQuiz);
+        };
+    </script>
+</body>
+</html>
