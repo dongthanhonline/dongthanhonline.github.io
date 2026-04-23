@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Assistant (Gemini)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+<div class="w-full max-w-3xl glass-card rounded-2xl shadow-2xl p-6 space-y-6">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold uppercase tracking-widest">
+            AI Text Assistant
+        </h1>
+        <button onclick="toggleSettings()" class="text-xl">
+            ⚙️
+        </button>
+    </div>
+
+    <!-- SETTINGS (ẨN) -->
+    <div id="settingsPanel" class="hidden space-y-2">
+        <input id="apiKeyInput"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"
+            placeholder="Nhập Gemini API Key..." />
+
+        <div class="flex gap-2">
+            <button onclick="saveApiKey()" class="bg-blue-600 px-4 py-2 rounded-lg text-sm">
+                Save
+            </button>
+            <button onclick="clearApiKey()" class="bg-red-600 px-4 py-2 rounded-lg text-sm">
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- TEXT INPUT -->
+    <textarea id="inputText"
+        class="w-full h-40 bg-slate-900 border border-slate-700 rounded-xl p-4 text-white"
+        placeholder="Nhập văn bản..."></textarea>
+
+    <!-- ACTION BUTTONS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <button onclick="processAI('translate')" class="bg-blue-600 p-3 rounded-lg">
+            Translate
+        </button>
+        <button onclick="processAI('correct')" class="bg-indigo-600 p-3 rounded-lg">
+            Translate + Fix
+        </button>
+        <button onclick="processAI('rewrite')" class="bg-emerald-600 p-3 rounded-lg">
+            Rewrite VN
+        </button>
+    </div>
+
+    <!-- STATUS -->
+    <div id="statusMessage" class="hidden text-center text-sm">
+        Đang xử lý...
+    </div>
+
+    <!-- RESULT -->
+    <div id="resultContainer" class="hidden">
+        <div id="resultText" class="bg-slate-800 p-4 rounded-xl whitespace-pre-wrap"></div>
+        <button onclick="copyToClipboard()" class="mt-2 text-blue-400 underline text-sm">
+            Copy
+        </button>
+    </div>
+
+</div>
+
+<script>
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+
+// Toggle settings panel
+function toggleSettings() {
+    const panel = document.getElementById("settingsPanel");
+    panel.classList.toggle("hidden");
+}
+
+// Load key khi mở trang
+window.onload = () => {
+    const savedKey = localStorage.getItem("GEMINI_API_KEY");
+    if (savedKey) {
+        document.getElementById("apiKeyInput").value = savedKey;
+    }
+};
+
+// Save key
+function saveApiKey() {
+    const key = document.getElementById("apiKeyInput").value.trim();
+    if (!key) {
+        alert("Nhập API key trước!");
+        return;
+    }
+    localStorage.setItem("GEMINI_API_KEY", key);
+    alert("Đã lưu API key!");
+}
+
+// Clear key
+function clearApiKey() {
+    localStorage.removeItem("GEMINI_API_KEY");
+    document.getElementById("apiKeyInput").value = "";
+    alert("Đã xoá API key!");
+}
+
+// Main AI
+async function processAI(mode) {
+    const text = document.getElementById('inputText').value.trim();
+    const resultText = document.getElementById('resultText');
+    const resultContainer = document.getElementById('resultContainer');
+    const statusMessage = document.getElementById('statusMessage');
+
+    const apiKey = localStorage.getItem("GEMINI_API_KEY");
+
+    if (!apiKey) {
+        alert("Chưa có API key! Nhấn ⚙️ để nhập.");
+        return;
+    }
+
+    if (!text) {
+        alert("Nhập text trước!");
+        return;
+    }
+
+    statusMessage.classList.remove('hidden');
+    resultContainer.classList.add('hidden');
+
+    let prompt = "";
+
+    switch(mode) {
+        case 'translate':
+            prompt = "Only translate to English. No explanation:\n\n" + text;
+            break;
+        case 'correct':
+            prompt = "Translate to English and make it natural and professional:\n\n" + text;
+            break;
+        case 'rewrite':
+            prompt = "Viết lại đoạn văn tiếng Việt cho rõ ràng, tự nhiên hơn:\n\n" + text;
+            break;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}?key=${apiKey}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [
+                    {
+                        parts: [{ text: prompt }]
+                    }
+                ]
+            })
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        const output = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (output) {
+            resultText.innerText = output;
+        } else {
+            resultText.innerText = JSON.stringify(data, null, 2);
+        }
+
+    } catch (error) {
+        console.error(error);
+        resultText.innerText = "Lỗi gọi Gemini API.";
+    }
+
+    statusMessage.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+}
+
+// Copy
+function copyToClipboard() {
+    const text = document.getElementById('resultText').innerText;
+    navigator.clipboard.writeText(text);
+}
+</script>
+
+</body>
+</html>
