@@ -54,17 +54,16 @@
         placeholder="Nhập văn bản..."></textarea>
 
     <!-- ACTION BUTTONS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <button onclick="processAI('translate')" class="bg-blue-600 p-3 rounded-lg">
-            Translate
-        </button>
-        <button onclick="processAI('correct')" class="bg-indigo-600 p-3 rounded-lg">
-            Translate + Fix
-        </button>
-        <button onclick="processAI('rewrite')" class="bg-emerald-600 p-3 rounded-lg">
-            Rewrite VN
-        </button>
-    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+		<button onclick="processAI('translate')" class="bg-blue-600 p-3 rounded-lg text-sm font-medium hover:bg-blue-700 transition">Translate</button>
+		<button onclick="processAI('correct')" class="bg-indigo-600 p-3 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">Translate + Fix</button>
+		<button onclick="processAI('rewrite')" class="bg-emerald-600 p-3 rounded-lg text-sm font-medium hover:bg-emerald-700 transition">Rewrite VN</button>
+		
+		<button onclick="processAI('json_to_text')" class="bg-amber-600 p-3 rounded-lg text-sm font-medium hover:bg-amber-700 transition">Convert JSON/Data</button>
+		<button onclick="processAI('dev_advice')" class="bg-cyan-600 p-3 rounded-lg text-sm font-medium hover:bg-cyan-700 transition">.NET/Azure Advice</button>
+		<button onclick="processAI('leader_advice')" class="bg-rose-600 p-3 rounded-lg text-sm font-medium hover:bg-rose-700 transition">Leader Advice</button>
+		<button onclick="processAI('life_advice')" class="bg-violet-600 p-3 rounded-lg text-sm font-medium hover:bg-violet-700 transition">Life Wisdom</button>
+	</div>
 
     <!-- STATUS -->
     <div id="statusMessage" class="hidden text-center text-sm">
@@ -149,6 +148,20 @@ async function processAI(mode) {
             break;
         case 'rewrite':
             prompt = "Viết lại đoạn văn tiếng Việt cho rõ ràng, tự nhiên hơn:\n\n" + text;
+            break;
+        
+        // --- 4 CASE MỚI ---
+        case 'json_to_text':
+            prompt = "Chuyển đổi dữ liệu/văn bản thô sau đây thành một đoạn văn bản (plain text) dễ đọc, chuyên nghiệp. Loại bỏ các ký tự đặc biệt không cần thiết:\n\n" + text;
+            break;
+        case 'dev_advice':
+            prompt = "Dưới vai trò là một chuyên gia Senior .NET và Azure Solution Architect, hãy đưa ra lời khuyên hoặc giải pháp cho vấn đề sau:\n\n" + text;
+            break;
+        case 'leader_advice':
+            prompt = "Dưới vai trò là một quản lý cấp cao (Engineering Manager), hãy đưa ra lời khuyên về quản lý team, quy trình hoặc xử lý tình huống sau:\n\n" + text;
+            break;
+        case 'life_advice':
+            prompt = "Dựa trên các triết lý sống, nguyên tắc đạo đức và tư duy tích cực, hãy cho tôi lời khuyên hoặc góc nhìn về vấn đề này:\n\n" + text;
             break;
     }
 
