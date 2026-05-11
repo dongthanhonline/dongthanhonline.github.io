@@ -2,134 +2,185 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Code Dependency Tracer</title>
+    <title>CQRS Tracer Pro - Manual Hierarchy Mode</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; background: #f4f7f6; }
-        .container { max-width: 1200px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
-        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; width: 300px; }
-        #treeOutput { 
-            background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 8px; 
-            font-family: 'Consolas', 'Courier New', monospace; line-height: 1.6;
-            overflow-x: auto; white-space: pre; font-size: 13px; min-height: 500px;
+        .container { max-width: 1550px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .controls { display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        
+        textarea { width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; font-size: 13px; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; height: fit-content; }
+        button:hover { background: #219150; }
+
+        .tabs { display: flex; gap: 5px; margin-top: 20px; }
+        .tab-btn { background: #e0e0e0; color: #333; padding: 10px 20px; border: none; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: #2d2d2d; color: #fff; }
+        
+        .tab-content { 
+            display: none; background: #2d2d2d; color: #f8f8f2; padding: 25px; border-radius: 0 0 8px 8px; 
+            font-family: 'Consolas', monospace; line-height: 1.6; overflow-x: auto; 
+            min-height: 500px; border: 1px solid #333; font-size: 13px;
         }
-        .status { color: #666; font-size: 14px; }
-        .keyword { color: #66d9ef; }
+        .tab-content.active { display: block; }
+
+        .node-line { white-space: pre; display: block; margin-bottom: 2px; }
+        .node-file { color: #66d9ef; font-weight: bold; }
+        .action-row { display: block; white-space: pre; font-size: 12px; margin: 2px 0; color: #abb2bf; }
+        
+        .inventory-item { margin-bottom: 8px; padding: 10px; border-left: 4px solid; background: rgba(255,255,255,0.05); border-radius: 0 4px 4px 0; }
+        .item-db { border-left-color: #ce9178; }
+        .item-recurly { border-left-color: #4ec9b0; }
+        .item-vetspire { border-left-color: #c586c0; }
+        .origin-file { font-size: 11px; color: #7f8c8d; display: block; margin-top: 4px; }
+        .tag-label { font-weight: bold; text-transform: uppercase; margin-right: 10px; }
+        .warning { color: #f44747; font-size: 11px; margin-left: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Tracer Dependency Tree (CQRS)</h2>
-    <p class="status">Bước 1: Chọn folder project để nạp dữ liệu. Bước 2: Nhập tên file gốc để vẽ cây.</p>
+    <h2>CQRS Tracer - Manual Hierarchy Detection</h2>
     
     <div class="controls">
-        <button onclick="loadProject()">📁 1. Nạp Project</button>
-        <input type="text" id="rootFileName" placeholder="VD: EnrollSubscriptionCommand">
-        <button onclick="traceDependency()" style="background: #2980b9;">🚀 2. Vẽ Cây Dependency</button>
+        <div>
+            <button onclick="loadProject()" style="width:100%; margin-bottom:10px">📁 1. Nạp Folder Project</button>
+            <p style="font-size:12px; color:#666">Nạp code để hệ thống tự lấy Action (DB/API) từ file tương ứng.</p>
+        </div>
+        <div>
+            <textarea id="manualInput" placeholder="Dán cấu trúc file name (có thụt lề tab hoặc space) vào đây..."></textarea>
+            <button onclick="traceManual()" style="background: #2980b9; margin-top:10px">🚀 2. Phân Tích Theo Cấu Trúc Dán</button>
+        </div>
     </div>
 
-    <div id="treeOutput">Chưa có dữ liệu. Hãy nạp project trước.</div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(event, 'treeView')">🌳 Cây Tự Định Nghĩa</button>
+        <button class="tab-btn" onclick="switchTab(event, 'dbInv')">🗄️ Database</button>
+        <button class="tab-btn" onclick="switchTab(event, 'recurlyInv')">💳 Recurly</button>
+        <button class="tab-btn" onclick="switchTab(event, 'vetspireInv')">🏥 Vetspire</button>
+    </div>
+
+    <div id="treeView" class="tab-content active">Chưa có dữ liệu.</div>
+    <div id="dbInv" class="tab-content">Danh sách Table...</div>
+    <div id="recurlyInv" class="tab-content">Danh sách Recurly API...</div>
+    <div id="vetspireInv" class="tab-content">Danh sách Vetspire Action...</div>
 </div>
 
 <script>
-    let projectFiles = new Map(); // Lưu trữ: TênFile (không đuôi) -> Nội dung đã format
+    let projectFiles = new Map();
+    let globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map() };
 
     async function loadProject() {
         try {
             const dirHandle = await window.showDirectoryPicker();
             projectFiles.clear();
-            document.getElementById('treeOutput').innerText = "Đang nạp và format code... vui lòng đợi.";
-            
             await scanFiles(dirHandle);
-            
-            document.getElementById('treeOutput').innerText = `Đã nạp ${projectFiles.size} file .cs. Hãy nhập tên file gốc và nhấn Vẽ Cây.`;
-        } catch (err) {
-            console.error(err);
-        }
+            alert(`Đã nạp ${projectFiles.size} file.`);
+        } catch (e) { console.error(e); }
     }
 
     async function scanFiles(dirHandle) {
-		for await (const entry of dirHandle.values()) {
-			if (entry.kind === 'directory') {
-				// Bỏ qua các thư mục rác để tối ưu tốc độ quét
-				if (!['bin', 'obj', '.git', 'Migrations'].includes(entry.name)) {
-					await scanFiles(entry);
-				}
-			} 
-			else if (entry.kind === 'file' && entry.name.endsWith('.cs')) {
-				const file = await entry.getFile();
-				const content = await file.text();
-				
-				// 1. Tách thành mảng các dòng
-				// 2. Trim() từng dòng để dọn sạch khoảng trắng/tabs ở hai đầu
-				// 3. Loại bỏ các dòng trắng hoàn toàn
-				// 4. Nối lại bằng 1 khoảng trắng duy nhất để tránh dính chữ (ví dụ: publicclass)
-				let formatted = content.split(/\r?\n/)
-									   .map(line => line.trim())
-									   .filter(line => line.length > 0)
-									   .join("");
+        for await (const entry of dirHandle.values()) {
+            if (entry.kind === 'directory') {
+                if (!['bin', 'obj', '.git', 'Migrations'].includes(entry.name)) await scanFiles(entry);
+            } else if (entry.name.endsWith('.cs')) {
+                const file = await entry.getFile();
+                let content = (await file.text()).replace(/[\u00a0\u1680\u180e\u2000-\u200b\u202f\u205f\u3000\ufeff]/g, " ");
+                content = content.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0).join(" ");
+                content = content.replace(/\s\s+/g, " ").replace(/\s*\.\s*/g, ".");
+                projectFiles.set(entry.name.replace('.cs', ''), content);
+            }
+        }
+    }
 
-				// 5. Xử lý các khoảng trắng thừa trước dấu chấm (ví dụ: "_mediator . Send" thành "_mediator.Send")
-				formatted = formatted.replace(/\s+\./g, ".");
+    function extractActions(fileName, storage) {
+        const content = projectFiles.get(fileName);
+        if (!content) return { html: "", foundAny: false };
 
-				// Lưu vào Map với key là tên file (không có đuôi .cs)
-				const fileNameOnly = entry.name.replace('.cs', '');
-				projectFiles.set(fileNameOnly, formatted);
-			}
-		}
-	}
+        let res = { db: new Set(), recurly: new Set(), vetspire: new Set() };
+        const systemEx = ["Any", "AnyAsync", "Where", "FirstOrDefault", "FirstOrDefaultAsync", "ToListAsync", "ToList", "Select", "Count", "Include", "Database", "Set", "SaveChangesAsync"];
 
-    function traceDependency() {
-        const rootName = document.getElementById('rootFileName').value.trim().replace('.cs', '');
-        if (!projectFiles.has(rootName)) {
-            alert("Không tìm thấy file này trong project đã nạp!");
-            return;
+        // DB
+        let m;
+        const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
+        while ((m = dbRegex.exec(content)) !== null) {
+            if (!systemEx.includes(m[1])) {
+                res.db.add(m[1]);
+                if (!storage.db.has(m[1])) storage.db.set(m[1], new Set());
+                storage.db.get(m[1]).add(fileName);
+            }
+        }
+        // Recurly
+        const recRegex = /_recurlyClient\.([\w]+)/g;
+        while ((m = recRegex.exec(content)) !== null) {
+            res.recurly.add(m[1]);
+            if (!storage.recurly.has(m[1])) storage.recurly.set(m[1], new Set());
+            storage.recurly.get(m[1]).add(fileName);
+        }
+        // Vetspire
+        const vetRegex = /_vetspireService\.([\w]+)/g;
+        while ((m = vetRegex.exec(content)) !== null) {
+            res.vetspire.add(m[1]);
+            if (!storage.vetspire.has(m[1])) storage.vetspire.set(m[1], new Set());
+            storage.vetspire.get(m[1]).add(fileName);
         }
 
-        let treeStr = "";
-        let visited = new Set(); // Chống loop vô tận nếu code gọi vòng quanh
+        return res;
+    }
 
-        function buildTree(name, level) {
-            const indent = "    ".repeat(level);
-            treeStr += indent + name + "\n";
+    function traceManual() {
+        const input = document.getElementById('manualInput').value;
+        if (!input) return;
+
+        globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map() };
+        const lines = input.split('\n').filter(l => l.trim() !== "");
+        let treeHtml = "";
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            // Lấy tên file (loại bỏ comment hoặc note nếu có)
+            const fileName = trimmed.split(' ')[0].replace('.cs', '');
+            const isMissing = !projectFiles.has(fileName);
             
-            if (visited.has(name)) {
-                treeStr += indent + "    (loop...)\n";
-                return;
-            }
-            visited.add(name);
+            // Tính toán thụt lề để vẽ cây
+            const indentMatch = line.match(/^[\s\t]*/);
+            const indentStr = indentMatch ? indentMatch[0] : "";
+            const actions = extractActions(fileName, globalResources);
 
-            const content = projectFiles.get(name);
-            if (!content) return;
+            // Vẽ node file
+            treeHtml += `<div class="node-line">${indentStr}└── <span class="node-file">${fileName}</span>${isMissing ? '<span class="warning">[NOT FOUND IN PROJECT]</span>' : ''}</div>`;
+            
+            // Vẽ các dòng action thụt lề
+            const subIndent = indentStr + "        ";
+            if (actions.db && actions.db.size > 0) 
+                treeHtml += `<span class="action-row">${subIndent}<span style="color:#ce9178">DB:</span> ${Array.from(actions.db).join(", ")}</span>`;
+            if (actions.recurly && actions.recurly.size > 0) 
+                treeHtml += `<span class="action-row">${subIndent}<span style="color:#4ec9b0">Recurly:</span> ${Array.from(actions.recurly).join(", ")}</span>`;
+            if (actions.vetspire && actions.vetspire.size > 0) 
+                treeHtml += `<span class="action-row">${subIndent}<span style="color:#c586c0">Vetspire:</span> ${Array.from(actions.vetspire).join(", ")}</span>`;
+        });
 
-            // Regex tìm các Command, Query hoặc các Class được gọi
-            // Pattern: tìm XXXX.Command hoặc XXXX.Query hoặc new XXXX(
-            const regex = /([\w]+)\.(Command|Query)\s*\(/g;
-            let match;
-            let children = new Set();
+        document.getElementById('treeView').innerHTML = treeHtml;
+        renderInventories();
+    }
 
-            while ((match = regex.exec(content)) !== null) {
-                const childName = match[1] || match[3];
-                // Chỉ lấy nếu nó tồn tại trong project và không phải chính nó
-                if (projectFiles.has(childName) && childName !== name) {
-                    children.add(childName);
-                } else {
-                    children.add(childName + " NEEDTOCHECKAGAIN");
-                }
-            }
-
-            // Đệ quy xuống các con
-            children.forEach(child => {
-                buildTree(child, level + 1);
+    function renderInventories() {
+        const render = (map, id, css, label) => {
+            let h = "";
+            Array.from(map.keys()).sort().forEach(k => {
+                h += `<div class="inventory-item ${css}"><span class="tag-label">${label}:</span><strong>${k}</strong><span class="origin-file">Called by: ${Array.from(map.get(k)).join(", ")}</span></div>`;
             });
-            
-            visited.delete(name); // Reset để nhánh khác vẫn vào được
-        }
+            document.getElementById(id).innerHTML = h || "Trống.";
+        };
+        render(globalResources.db, 'dbInv', 'item-db', 'Table');
+        render(globalResources.recurly, 'recurlyInv', 'item-recurly', 'Recurly');
+        render(globalResources.vetspire, 'vetspireInv', 'item-vetspire', 'Vetspire');
+    }
 
-        buildTree(rootName, 0);
-        document.getElementById('treeOutput').innerText = treeStr || "Không tìm thấy dependency nào.";
+    function switchTab(evt, tabId) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
     }
 </script>
 
