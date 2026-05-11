@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Dependency Tracer</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; background: #f4f7f6; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; width: 300px; }
+        #treeOutput { 
+            background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 8px; 
+            font-family: 'Consolas', 'Courier New', monospace; line-height: 1.6;
+            overflow-x: auto; white-space: pre; font-size: 13px; min-height: 500px;
+        }
+        .status { color: #666; font-size: 14px; }
+        .keyword { color: #66d9ef; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Tracer Dependency Tree (CQRS)</h2>
+    <p class="status">Bước 1: Chọn folder project để nạp dữ liệu. Bước 2: Nhập tên file gốc để vẽ cây.</p>
+    
+    <div class="controls">
+        <button onclick="loadProject()">📁 1. Nạp Project</button>
+        <input type="text" id="rootFileName" placeholder="VD: EnrollSubscriptionCommand">
+        <button onclick="traceDependency()" style="background: #2980b9;">🚀 2. Vẽ Cây Dependency</button>
+    </div>
+
+    <div id="treeOutput">Chưa có dữ liệu. Hãy nạp project trước.</div>
+</div>
+
+<script>
+    let projectFiles = new Map(); // Lưu trữ: TênFile (không đuôi) -> Nội dung đã format
+
+    async function loadProject() {
+        try {
+            const dirHandle = await window.showDirectoryPicker();
+            projectFiles.clear();
+            document.getElementById('treeOutput').innerText = "Đang nạp và format code... vui lòng đợi.";
+            
+            await scanFiles(dirHandle);
+            
+            document.getElementById('treeOutput').innerText = `Đã nạp ${projectFiles.size} file .cs. Hãy nhập tên file gốc và nhấn Vẽ Cây.`;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async function scanFiles(dirHandle) {
+		for await (const entry of dirHandle.values()) {
+			if (entry.kind === 'directory') {
+				// Bỏ qua các thư mục rác để tối ưu tốc độ quét
+				if (!['bin', 'obj', '.git', 'Migrations'].includes(entry.name)) {
+					await scanFiles(entry);
+				}
+			} 
+			else if (entry.kind === 'file' && entry.name.endsWith('.cs')) {
+				const file = await entry.getFile();
+				const content = await file.text();
+				
+				// 1. Tách thành mảng các dòng
+				// 2. Trim() từng dòng để dọn sạch khoảng trắng/tabs ở hai đầu
+				// 3. Loại bỏ các dòng trắng hoàn toàn
+				// 4. Nối lại bằng 1 khoảng trắng duy nhất để tránh dính chữ (ví dụ: publicclass)
+				let formatted = content.split(/\r?\n/)
+									   .map(line => line.trim())
+									   .filter(line => line.length > 0)
+									   .join("");
+
+				// 5. Xử lý các khoảng trắng thừa trước dấu chấm (ví dụ: "_mediator . Send" thành "_mediator.Send")
+				formatted = formatted.replace(/\s+\./g, ".");
+
+				// Lưu vào Map với key là tên file (không có đuôi .cs)
+				const fileNameOnly = entry.name.replace('.cs', '');
+				projectFiles.set(fileNameOnly, formatted);
+			}
+		}
+	}
+
+    function traceDependency() {
+        const rootName = document.getElementById('rootFileName').value.trim().replace('.cs', '');
+        if (!projectFiles.has(rootName)) {
+            alert("Không tìm thấy file này trong project đã nạp!");
+            return;
+        }
+
+        let treeStr = "";
+        let visited = new Set(); // Chống loop vô tận nếu code gọi vòng quanh
+
+        function buildTree(name, level) {
+            const indent = "    ".repeat(level);
+            treeStr += indent + name + "\n";
+            
+            if (visited.has(name)) {
+                treeStr += indent + "    (loop...)\n";
+                return;
+            }
+            visited.add(name);
+
+            const content = projectFiles.get(name);
+            if (!content) return;
+
+            // Regex tìm các Command, Query hoặc các Class được gọi
+            // Pattern: tìm XXXX.Command hoặc XXXX.Query hoặc new XXXX(
+            const regex = /([\w]+)\.(Command|Query)\s*\(/g;
+            let match;
+            let children = new Set();
+
+            while ((match = regex.exec(content)) !== null) {
+                const childName = match[1] || match[3];
+                // Chỉ lấy nếu nó tồn tại trong project và không phải chính nó
+                if (projectFiles.has(childName) && childName !== name) {
+                    children.add(childName);
+                } else {
+                    children.add(childName + " NEEDTOCHECKAGAIN");
+                }
+            }
+
+            // Đệ quy xuống các con
+            children.forEach(child => {
+                buildTree(child, level + 1);
+            });
+            
+            visited.delete(name); // Reset để nhánh khác vẫn vào được
+        }
+
+        buildTree(rootName, 0);
+        document.getElementById('treeOutput').innerText = treeStr || "Không tìm thấy dependency nào.";
+    }
+</script>
+
+</body>
+</html>
