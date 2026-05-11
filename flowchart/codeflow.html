@@ -2,14 +2,14 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>CQRS Tracer Pro - Manual Hierarchy Mode</title>
+    <title>CQRS Tracer Pro - Table Inventory Mode</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; background: #f4f7f6; }
-        .container { max-width: 1550px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .container { max-width: 1600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .controls { display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
         
-        textarea { width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; font-size: 13px; }
-        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; height: fit-content; }
+        textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; font-size: 13px; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         button:hover { background: #219150; }
 
         .tabs { display: flex; gap: 5px; margin-top: 20px; }
@@ -18,51 +18,58 @@
         
         .tab-content { 
             display: none; background: #2d2d2d; color: #f8f8f2; padding: 25px; border-radius: 0 0 8px 8px; 
-            font-family: 'Consolas', monospace; line-height: 1.6; overflow-x: auto; 
-            min-height: 500px; border: 1px solid #333; font-size: 13px;
+            font-family: 'Consolas', monospace; line-height: 1.6; min-height: 500px; border: 1px solid #333; 
         }
         .tab-content.active { display: block; }
 
-        .node-line { white-space: pre; display: block; margin-bottom: 2px; }
+        /* Tree Styling */
+        .node-line { white-space: pre; display: block; margin-bottom: 2px; font-size: 13px; }
         .node-file { color: #66d9ef; font-weight: bold; }
         .action-row { display: block; white-space: pre; font-size: 12px; margin: 2px 0; color: #abb2bf; }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #333; color: #fff; font-size: 13px; }
+        th, td { border: 1px solid #444; padding: 12px; text-align: left; vertical-align: top; }
+        th { background: #444; color: #66d9ef; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        tr:hover { background: #3a3a3a; }
+        .col-stt { width: 50px; text-align: center; color: #7f8c8d; }
+        .col-name { width: 300px; font-weight: bold; color: #e6db74; }
+        .called-by-list { display: flex; flex-wrap: wrap; gap: 5px; }
+        .called-item { background: rgba(102, 217, 239, 0.1); color: #66d9ef; padding: 2px 8px; border-radius: 4px; font-size: 11px; border: 1px solid rgba(102, 217, 239, 0.2); }
         
-        .inventory-item { margin-bottom: 8px; padding: 10px; border-left: 4px solid; background: rgba(255,255,255,0.05); border-radius: 0 4px 4px 0; }
-        .item-db { border-left-color: #ce9178; }
-        .item-recurly { border-left-color: #4ec9b0; }
-        .item-vetspire { border-left-color: #c586c0; }
-        .origin-file { font-size: 11px; color: #7f8c8d; display: block; margin-top: 4px; }
-        .tag-label { font-weight: bold; text-transform: uppercase; margin-right: 10px; }
-        .warning { color: #f44747; font-size: 11px; margin-left: 5px; }
+        .warning { color: #f44747; font-size: 11px; margin-left: 5px; font-weight: normal; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>CQRS Tracer - Manual Hierarchy Detection</h2>
+    <h2>CQRS Tracer Pro - Table View Mode</h2>
     
     <div class="controls">
         <div>
             <button onclick="loadProject()" style="width:100%; margin-bottom:10px">📁 1. Nạp Folder Project</button>
-            <p style="font-size:12px; color:#666">Nạp code để hệ thống tự lấy Action (DB/API) từ file tương ứng.</p>
+            <textarea id="manualInput" placeholder="Dán cấu trúc Command/Query thụt lề vào đây..."></textarea>
+            <button onclick="traceManual()" style="background: #2980b9; margin-top:10px; width:100%">🚀 2. Phân Tích Tổng Thể</button>
         </div>
-        <div>
-            <textarea id="manualInput" placeholder="Dán cấu trúc file name (có thụt lề tab hoặc space) vào đây..."></textarea>
-            <button onclick="traceManual()" style="background: #2980b9; margin-top:10px">🚀 2. Phân Tích Theo Cấu Trúc Dán</button>
+        <div style="background: #fff; border: 1px dashed #ccc; border-radius: 8px; padding: 15px; font-size: 12px; color: #666;">
+            <strong>Hướng dẫn:</strong><br>
+            1. Chọn folder source code backend (.NET).<br>
+            2. Dán cấu trúc flow (dạng thụt lề) vào ô text.<br>
+            3. Hệ thống sẽ tự động bóc tách các thao tác Database/API và tổng hợp vào các bảng kê khai.
         </div>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'treeView')">🌳 Cây Tự Định Nghĩa</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'treeView')">🌳 Cây Dependency</button>
         <button class="tab-btn" onclick="switchTab(event, 'dbInv')">🗄️ Database</button>
         <button class="tab-btn" onclick="switchTab(event, 'recurlyInv')">💳 Recurly</button>
         <button class="tab-btn" onclick="switchTab(event, 'vetspireInv')">🏥 Vetspire</button>
     </div>
 
     <div id="treeView" class="tab-content active">Chưa có dữ liệu.</div>
-    <div id="dbInv" class="tab-content">Danh sách Table...</div>
-    <div id="recurlyInv" class="tab-content">Danh sách Recurly API...</div>
-    <div id="vetspireInv" class="tab-content">Danh sách Vetspire Action...</div>
+    <div id="dbInv" class="tab-content"></div>
+    <div id="recurlyInv" class="tab-content"></div>
+    <div id="vetspireInv" class="tab-content"></div>
 </div>
 
 <script>
@@ -74,7 +81,7 @@
             const dirHandle = await window.showDirectoryPicker();
             projectFiles.clear();
             await scanFiles(dirHandle);
-            alert(`Đã nạp ${projectFiles.size} file.`);
+            alert(`✅ Đã nạp thành công ${projectFiles.size} file .cs`);
         } catch (e) { console.error(e); }
     }
 
@@ -94,13 +101,13 @@
 
     function extractActions(fileName, storage) {
         const content = projectFiles.get(fileName);
-        if (!content) return { html: "", foundAny: false };
+        if (!content) return null;
 
         let res = { db: new Set(), recurly: new Set(), vetspire: new Set() };
-        const systemEx = ["Any", "AnyAsync", "Where", "FirstOrDefault", "FirstOrDefaultAsync", "ToListAsync", "ToList", "Select", "Count", "Include", "Database", "Set", "SaveChangesAsync"];
+        const systemEx = ["Any", "AnyAsync", "Where", "FirstOrDefault", "FirstOrDefaultAsync", "ToListAsync", "ToList", "Select", "Count", "Include", "Database", "Set", "SaveChangesAsync", "Update", "Add", "Remove"];
 
-        // DB
         let m;
+        // DB Tables
         const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
         while ((m = dbRegex.exec(content)) !== null) {
             if (!systemEx.includes(m[1])) {
@@ -109,21 +116,20 @@
                 storage.db.get(m[1]).add(fileName);
             }
         }
-        // Recurly
+        // Recurly API
         const recRegex = /_recurlyClient\.([\w]+)/g;
         while ((m = recRegex.exec(content)) !== null) {
             res.recurly.add(m[1]);
             if (!storage.recurly.has(m[1])) storage.recurly.set(m[1], new Set());
             storage.recurly.get(m[1]).add(fileName);
         }
-        // Vetspire
+        // Vetspire Services
         const vetRegex = /_vetspireService\.([\w]+)/g;
         while ((m = vetRegex.exec(content)) !== null) {
             res.vetspire.add(m[1]);
             if (!storage.vetspire.has(m[1])) storage.vetspire.set(m[1], new Set());
             storage.vetspire.get(m[1]).add(fileName);
         }
-
         return res;
     }
 
@@ -136,44 +142,63 @@
         let treeHtml = "";
 
         lines.forEach(line => {
-            const trimmed = line.trim();
-            // Lấy tên file (loại bỏ comment hoặc note nếu có)
-            const fileName = trimmed.split(' ')[0].replace('.cs', '');
-            const isMissing = !projectFiles.has(fileName);
-            
-            // Tính toán thụt lề để vẽ cây
             const indentMatch = line.match(/^[\s\t]*/);
             const indentStr = indentMatch ? indentMatch[0] : "";
+            const fileName = line.trim().split(' ')[0].replace('.cs', '');
+            const isMissing = !projectFiles.has(fileName);
+            
             const actions = extractActions(fileName, globalResources);
 
-            // Vẽ node file
-            treeHtml += `<div class="node-line">${indentStr}└── <span class="node-file">${fileName}</span>${isMissing ? '<span class="warning">[NOT FOUND IN PROJECT]</span>' : ''}</div>`;
+            treeHtml += `<div class="node-line">${indentStr}└── <span class="node-file">${fileName}</span>${isMissing ? '<span class="warning">[NOT FOUND]</span>' : ''}</div>`;
             
-            // Vẽ các dòng action thụt lề
-            const subIndent = indentStr + "        ";
-            if (actions.db && actions.db.size > 0) 
-                treeHtml += `<span class="action-row">${subIndent}<span style="color:#ce9178">DB:</span> ${Array.from(actions.db).join(", ")}</span>`;
-            if (actions.recurly && actions.recurly.size > 0) 
-                treeHtml += `<span class="action-row">${subIndent}<span style="color:#4ec9b0">Recurly:</span> ${Array.from(actions.recurly).join(", ")}</span>`;
-            if (actions.vetspire && actions.vetspire.size > 0) 
-                treeHtml += `<span class="action-row">${subIndent}<span style="color:#c586c0">Vetspire:</span> ${Array.from(actions.vetspire).join(", ")}</span>`;
+            if (actions) {
+                const subIndent = indentStr + "        ";
+                if (actions.db.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#ce9178">DB:</span> ${Array.from(actions.db).join(", ")}</span>`;
+                if (actions.recurly.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#4ec9b0">Recurly:</span> ${Array.from(actions.recurly).join(", ")}</span>`;
+                if (actions.vetspire.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#c586c0">Vetspire:</span> ${Array.from(actions.vetspire).join(", ")}</span>`;
+            }
         });
 
         document.getElementById('treeView').innerHTML = treeHtml;
-        renderInventories();
+        renderTableInventories();
     }
 
-    function renderInventories() {
-        const render = (map, id, css, label) => {
-            let h = "";
-            Array.from(map.keys()).sort().forEach(k => {
-                h += `<div class="inventory-item ${css}"><span class="tag-label">${label}:</span><strong>${k}</strong><span class="origin-file">Called by: ${Array.from(map.get(k)).join(", ")}</span></div>`;
+    function renderTableInventories() {
+        const renderTable = (map, containerId, nameLabel) => {
+            if (map.size === 0) {
+                document.getElementById(containerId).innerHTML = "Không tìm thấy dữ liệu tác động.";
+                return;
+            }
+
+            let html = `<table>
+                <thead>
+                    <tr>
+                        <th class="col-stt">STT</th>
+                        <th class="col-name">${nameLabel} Name</th>
+                        <th>Called by</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            let stt = 1;
+            const sortedKeys = Array.from(map.keys()).sort();
+            
+            sortedKeys.forEach(name => {
+                const callers = Array.from(map.get(name)).map(c => `<span class="called-item">${c}</span>`).join("");
+                html += `<tr>
+                    <td class="col-stt">${stt++}</td>
+                    <td class="col-name">${name}</td>
+                    <td><div class="called-by-list">${callers}</div></td>
+                </tr>`;
             });
-            document.getElementById(id).innerHTML = h || "Trống.";
+
+            html += `</tbody></table>`;
+            document.getElementById(containerId).innerHTML = html;
         };
-        render(globalResources.db, 'dbInv', 'item-db', 'Table');
-        render(globalResources.recurly, 'recurlyInv', 'item-recurly', 'Recurly');
-        render(globalResources.vetspire, 'vetspireInv', 'item-vetspire', 'Vetspire');
+
+        renderTable(globalResources.db, 'dbInv', 'Table');
+        renderTable(globalResources.recurly, 'recurlyInv', 'Recurly API');
+        renderTable(globalResources.vetspire, 'vetspireInv', 'Vetspire Service');
     }
 
     function switchTab(evt, tabId) {
