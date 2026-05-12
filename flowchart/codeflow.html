@@ -1,87 +1,108 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CQRS Tracer Pro - Table Inventory Mode</title>
+    <title>CQRS Ultimate Analyzer</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; background: #f4f7f6; }
-        .container { max-width: 1600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .controls { display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        :root { --primary: #27ae60; --secondary: #2980b9; --dark: #1e1e1e; --bg: #f4f7f6; --text: #d4d4d4; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); height: 100vh; display: flex; flex-direction: column; }
+        header { background: #2c3e50; color: white; padding: 10px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
-        textarea { width: 100%; height: 120px; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; font-size: 13px; }
-        button { background: #27ae60; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #219150; }
+        .main-layout { display: grid; grid-template-columns: 400px 1fr; gap: 20px; padding: 20px; flex: 1; overflow: hidden; }
+        
+        /* LEFT COLUMN - CONTROLS */
+        .sidebar { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 15px; }
+        .sidebar h3 { margin-top: 0; color: #333; border-bottom: 2px solid var(--primary); padding-bottom: 5px; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: 'Consolas', monospace; }
+        textarea { flex: 1; min-height: 300px; font-size: 12px; }
+        button { cursor: pointer; border: none; border-radius: 6px; padding: 12px; font-weight: bold; color: white; transition: 0.3s; }
+        .btn-load { background: var(--primary); }
+        .btn-trace { background: var(--secondary); }
+        .btn-detail { background: #8e44ad; }
+        button:hover { opacity: 0.8; }
 
-        .tabs { display: flex; gap: 5px; margin-top: 20px; }
-        .tab-btn { background: #e0e0e0; color: #333; padding: 10px 20px; border: none; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: bold; }
-        .tab-btn.active { background: #2d2d2d; color: #fff; }
+        /* RIGHT COLUMN - RESULTS */
+        .content-area { display: flex; flex-direction: column; background: var(--dark); border-radius: 12px; overflow: hidden; }
+        .tabs { display: flex; background: #333; padding: 5px 5px 0 5px; }
+        .tab-btn { background: transparent; color: #888; border: none; padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; }
+        .tab-btn.active { background: var(--dark); color: var(--primary); font-weight: bold; }
         
-        .tab-content { 
-            display: none; background: #2d2d2d; color: #f8f8f2; padding: 25px; border-radius: 0 0 8px 8px; 
-            font-family: 'Consolas', monospace; line-height: 1.6; min-height: 500px; border: 1px solid #333; 
-        }
+        .tab-content { display: none; padding: 20px; flex: 1; overflow-y: auto; color: var(--text); font-family: 'Consolas', monospace; }
         .tab-content.active { display: block; }
 
-        /* Tree Styling */
-        .node-line { white-space: pre; display: block; margin-bottom: 2px; font-size: 13px; }
+        /* TAB DETAIL STYLING */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #444; padding: 10px; text-align: left; }
+        th { background: #333; color: var(--primary); font-size: 12px; }
         .node-file { color: #66d9ef; font-weight: bold; }
-        .action-row { display: block; white-space: pre; font-size: 12px; margin: 2px 0; color: #abb2bf; }
-
-        /* Table Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #333; color: #fff; font-size: 13px; }
-        th, td { border: 1px solid #444; padding: 12px; text-align: left; vertical-align: top; }
-        th { background: #444; color: #66d9ef; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-        tr:hover { background: #3a3a3a; }
-        .col-stt { width: 50px; text-align: center; color: #7f8c8d; }
-        .col-name { width: 300px; font-weight: bold; color: #e6db74; }
-        .called-by-list { display: flex; flex-wrap: wrap; gap: 5px; }
-        .called-item { background: rgba(102, 217, 239, 0.1); color: #66d9ef; padding: 2px 8px; border-radius: 4px; font-size: 11px; border: 1px solid rgba(102, 217, 239, 0.2); }
-        
-        .warning { color: #f44747; font-size: 11px; margin-left: 5px; font-weight: normal; }
+        .tag { display: inline-block; background: rgba(39, 174, 96, 0.2); color: #2ecc71; padding: 2px 8px; border-radius: 4px; margin: 2px; font-size: 11px; }
+        .warning { color: #e74c3c; font-size: 11px; }
+		
+		.action-line { 
+			display: block; 
+			padding-left: 40px; 
+			font-size: 12px; 
+			line-height: 1.5;
+			margin: 2px 0;
+		}
+		.act-db { color: #ce9178; }
+		.act-rec { color: #4ec9b0; }
+		.act-vet { color: #c586c0; }
+		.act-int { color: #dcdcaa; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>CQRS Tracer Pro - Table View Mode</h2>
-    
-    <div class="controls">
+<header>
+    <strong>CQRS Tracer Pro v2.0</strong> | Backend Lead Code Review Tool
+</header>
+
+<div class="main-layout">
+    <div class="sidebar">
+        <h3>Control Panel</h3>
+        <button class="btn-load" onclick="loadProject()">📁 1. Load Project Folder</button>
+        
         <div>
-            <button onclick="loadProject()" style="width:100%; margin-bottom:10px">📁 1. Nạp Folder Project</button>
-            <textarea id="manualInput" placeholder="Dán cấu trúc Command/Query thụt lề vào đây..."></textarea>
-            <button onclick="traceManual()" style="background: #2980b9; margin-top:10px; width:100%">🚀 2. Phân Tích Tổng Thể</button>
+            <label style="font-size: 12px; font-weight: bold;">2. API Root Name:</label>
+            <input type="text" id="rootFileName" placeholder="e.g., CreateOrderCommand">
         </div>
-        <div style="background: #fff; border: 1px dashed #ccc; border-radius: 8px; padding: 15px; font-size: 12px; color: #666;">
-            <strong>Hướng dẫn:</strong><br>
-            1. Chọn folder source code backend (.NET).<br>
-            2. Dán cấu trúc flow (dạng thụt lề) vào ô text.<br>
-            3. Hệ thống sẽ tự động bóc tách các thao tác Database/API và tổng hợp vào các bảng kê khai.
-        </div>
+        
+        <button class="btn-trace" onclick="traceDependency()">🚀 3. Trace Tree</button>
+        
+        <label style="font-size: 12px; font-weight: bold;">4. Dependency Structure:</label>
+        <textarea id="treeResult" placeholder="Dependency tree will appear here..."></textarea>
+        
+        <button class="btn-detail" onclick="analyzeDetail()">🔍 5. Deep Analysis (Impact)</button>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'treeView')">🌳 Cây Dependency</button>
-        <button class="tab-btn" onclick="switchTab(event, 'dbInv')">🗄️ Database</button>
-        <button class="tab-btn" onclick="switchTab(event, 'recurlyInv')">💳 Recurly</button>
-        <button class="tab-btn" onclick="switchTab(event, 'vetspireInv')">🏥 Vetspire</button>
-    </div>
+    <div class="content-area">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(event, 'tabTree')">🌳 Analysis Tree</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabDB')">🗄️ DB Impact</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabRecurly')">💳 Recurly</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabVetspire')">🏥 Vetspire</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabInternal')">⚙️ Internal Logic</button>
+        </div>
 
-    <div id="treeView" class="tab-content active">Chưa có dữ liệu.</div>
-    <div id="dbInv" class="tab-content"></div>
-    <div id="recurlyInv" class="tab-content"></div>
-    <div id="vetspireInv" class="tab-content"></div>
+        <div id="tabTree" class="tab-content active">No tree data available.</div>
+        <div id="tabDB" class="tab-content"></div>
+        <div id="tabRecurly" class="tab-content"></div>
+        <div id="tabVetspire" class="tab-content"></div>
+        <div id="tabInternal" class="tab-content"></div>
+    </div>
 </div>
 
 <script>
     let projectFiles = new Map();
-    let globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map() };
+    let globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map(), internal: new Map() };
 
+    // 1. LOAD PROJECT
     async function loadProject() {
         try {
             const dirHandle = await window.showDirectoryPicker();
             projectFiles.clear();
             await scanFiles(dirHandle);
-            alert(`✅ Đã nạp thành công ${projectFiles.size} file .cs`);
+            alert(`Success! Loaded ${projectFiles.size} .cs files`);
         } catch (e) { console.error(e); }
     }
 
@@ -91,114 +112,140 @@
                 if (!['bin', 'obj', '.git', 'Migrations'].includes(entry.name)) await scanFiles(entry);
             } else if (entry.name.endsWith('.cs')) {
                 const file = await entry.getFile();
-                let content = (await file.text()).replace(/[\u00a0\u1680\u180e\u2000-\u200b\u202f\u205f\u3000\ufeff]/g, " ");
-                content = content.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0).join(" ");
-                content = content.replace(/\s\s+/g, " ").replace(/\s*\.\s*/g, ".");
-                projectFiles.set(entry.name.replace('.cs', ''), content);
+                let content = await file.text();
+                let formatted = content.replace(/[\u00a0\ufeff]/g, " ")
+                                       .split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0).join(" ");
+                formatted = formatted.replace(/\s*\.\s*/g, ".");
+                projectFiles.set(entry.name.replace('.cs', ''), formatted);
             }
         }
     }
 
-    function extractActions(fileName, storage) {
-        const content = projectFiles.get(fileName);
-        if (!content) return null;
+    // 2. TRACE DEPENDENCY TREE
+    function traceDependency() {
+        const rootName = document.getElementById('rootFileName').value.trim().replace('.cs', '');
+        if (!projectFiles.has(rootName)) { alert("Root file not found!"); return; }
 
-        let res = { db: new Set(), recurly: new Set(), vetspire: new Set() };
-        const systemEx = ["Any", "AnyAsync", "Where", "FirstOrDefault", "FirstOrDefaultAsync", "ToListAsync", "ToList", "Select", "Count", "Include", "Database", "Set", "SaveChangesAsync", "Update", "Add", "Remove"];
+        let treeStr = "";
+        let visited = new Set();
 
-        let m;
-        // DB Tables
-        const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
-        while ((m = dbRegex.exec(content)) !== null) {
-            if (!systemEx.includes(m[1])) {
-                res.db.add(m[1]);
-                if (!storage.db.has(m[1])) storage.db.set(m[1], new Set());
-                storage.db.get(m[1]).add(fileName);
+        function build(name, level) {
+            const indent = "\t".repeat(level);
+            treeStr += indent + name + "\n";
+            if (visited.has(name)) return;
+            visited.add(name);
+
+            const content = projectFiles.get(name);
+            const regex = /([\w]+)\.(Command|Query)\s*\(/g;
+            let match;
+            while ((match = regex.exec(content)) !== null) {
+                if (projectFiles.has(match[1]) && match[1] !== name) build(match[1], level + 1);
             }
         }
-        // Recurly API
-        const recRegex = /_recurlyClient\.([\w]+)/g;
-        while ((m = recRegex.exec(content)) !== null) {
-            res.recurly.add(m[1]);
-            if (!storage.recurly.has(m[1])) storage.recurly.set(m[1], new Set());
-            storage.recurly.get(m[1]).add(fileName);
-        }
-        // Vetspire Services
-        const vetRegex = /_vetspireService\.([\w]+)/g;
-        while ((m = vetRegex.exec(content)) !== null) {
-            res.vetspire.add(m[1]);
-            if (!storage.vetspire.has(m[1])) storage.vetspire.set(m[1], new Set());
-            storage.vetspire.get(m[1]).add(fileName);
-        }
-        return res;
+        build(rootName, 0);
+        document.getElementById('treeResult').value = treeStr;
+        document.getElementById('tabTree').innerHTML = `<pre>${treeStr}</pre>`;
     }
 
-    function traceManual() {
-        const input = document.getElementById('manualInput').value;
-        if (!input) return;
+    // 3. DEEP ANALYSIS
+    function analyzeDetail() {
+		const treeInput = document.getElementById('treeResult').value;
+		if (!treeInput) return;
 
-        globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map() };
-        const lines = input.split('\n').filter(l => l.trim() !== "");
-        let treeHtml = "";
+		globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map(), internal: new Map() };
+		const lines = treeInput.split('\n').filter(l => l.trim() !== "");
+		
+		let richTreeHtml = "";
 
-        lines.forEach(line => {
-            const indentMatch = line.match(/^[\s\t]*/);
-            const indentStr = indentMatch ? indentMatch[0] : "";
-            const fileName = line.trim().split(' ')[0].replace('.cs', '');
-            const isMissing = !projectFiles.has(fileName);
+		lines.forEach(line => {
+			const match = line.match(/^(\t*)(.*)$/);
+			const indentStr = match[1];
+			const fileName = match[2].trim();
+			
+			const content = projectFiles.get(fileName);
+
+			richTreeHtml += `<div style="margin-top: 8px; white-space: pre;">${indentStr}<span class="node-file">${fileName}</span>`;
+
+			if (content) {
+				const actions = extractActions(fileName, content);
+				const actionIndent = indentStr + "\t"; 
+
+				if (actions.db.size > 0) {
+					richTreeHtml += `<div class="action-line act-db" style="white-space: pre;">${actionIndent}DB: ${Array.from(actions.db).join(", ")}</div>`;
+				}
+				if (actions.recurly.size > 0) {
+					richTreeHtml += `<div class="action-line act-rec" style="white-space: pre;">${actionIndent}Recurly: ${Array.from(actions.recurly).join(", ")}</div>`;
+				}
+				if (actions.vetspire.size > 0) {
+					richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}Vetspire: ${Array.from(actions.vetspire).join(", ")}</div>`;
+				}
+				if (actions.internal.size > 0) {
+					richTreeHtml += `<div class="action-line act-int" style="white-space: pre;">${actionIndent}Internal: ${Array.from(actions.internal).join(", ")}</div>`;
+				}
+			} else {
+				richTreeHtml += ` <span class="warning">[NOT FOUND]</span>`;
+			}
+			richTreeHtml += `</div>`;
+		});
+
+		document.getElementById('tabTree').innerHTML = richTreeHtml;
+		renderImpactTables();
+	}
+
+	function extractActions(fileName, content) {
+		let res = { db: new Set(), recurly: new Set(), vetspire: new Set(), internal: new Set() };
+		
+		const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
+		const recRegex = /_recurlyClient\.([\w]+)/g;
+		const vetRegex = /_vetspireService\.([\w]+)/g;
+		const intRegex = /_matchingLogic\.([\w]+)/g;
+
+		const sys = ["Where", "Any", "First", "Select", "Count", "Include", "Add", "Update", "Remove", "Save", "Set", "Entry", "ToList"];
+
+		let m;
+		while ((m = dbRegex.exec(content))) {
+			if(!sys.some(s => m[1].includes(s))) {
+				addRes('db', m[1], fileName);
+				res.db.add(m[1]);
+			}
+		}
+		while ((m = recRegex.exec(content))) {
+			addRes('recurly', m[1], fileName);
+			res.recurly.add(m[1]);
+		}
+		while ((m = vetRegex.exec(content))) {
+			addRes('vetspire', m[1], fileName);
+			res.vetspire.add(m[1]);
+		}
+		while ((m = intRegex.exec(content))) {
+			addRes('internal', m[1], fileName);
+			res.internal.add(m[1]);
+		}
+
+		function addRes(type, method, file) {
+			if (!globalResources[type].has(method)) globalResources[type].set(method, new Set());
+			globalResources[type].get(method).add(file);
+		}
+		return res;
+	}
+
+    function renderImpactTables() {
+        const render = (map, id, label) => {
+            let html = `<h3>${label} Inventory</h3><table><thead><tr><th>#</th><th>Resource Name</th><th>Callers (Files)</th></tr></thead><tbody>`;
+            let i = 1;
+            if (map.size === 0) { document.getElementById(id).innerHTML = "No impact found."; return; }
             
-            const actions = extractActions(fileName, globalResources);
-
-            treeHtml += `<div class="node-line">${indentStr}└── <span class="node-file">${fileName}</span>${isMissing ? '<span class="warning">[NOT FOUND]</span>' : ''}</div>`;
-            
-            if (actions) {
-                const subIndent = indentStr + "        ";
-                if (actions.db.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#ce9178">DB:</span> ${Array.from(actions.db).join(", ")}</span>`;
-                if (actions.recurly.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#4ec9b0">Recurly:</span> ${Array.from(actions.recurly).join(", ")}</span>`;
-                if (actions.vetspire.size > 0) treeHtml += `<span class="action-row">${subIndent}<span style="color:#c586c0">Vetspire:</span> ${Array.from(actions.vetspire).join(", ")}</span>`;
-            }
-        });
-
-        document.getElementById('treeView').innerHTML = treeHtml;
-        renderTableInventories();
-    }
-
-    function renderTableInventories() {
-        const renderTable = (map, containerId, nameLabel) => {
-            if (map.size === 0) {
-                document.getElementById(containerId).innerHTML = "Không tìm thấy dữ liệu tác động.";
-                return;
-            }
-
-            let html = `<table>
-                <thead>
-                    <tr>
-                        <th class="col-stt">STT</th>
-                        <th class="col-name">${nameLabel} Name</th>
-                        <th>Called by</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-            
-            let stt = 1;
-            const sortedKeys = Array.from(map.keys()).sort();
-            
-            sortedKeys.forEach(name => {
-                const callers = Array.from(map.get(name)).map(c => `<span class="called-item">${c}</span>`).join("");
-                html += `<tr>
-                    <td class="col-stt">${stt++}</td>
-                    <td class="col-name">${name}</td>
-                    <td><div class="called-by-list">${callers}</div></td>
-                </tr>`;
+            map.forEach((files, resource) => {
+                const tags = Array.from(files).map(f => `<span class="tag">${f}</span>`).join("");
+                html += `<tr><td>${i++}</td><td style="color:#e6db74">${resource}</td><td>${tags}</td></tr>`;
             });
-
-            html += `</tbody></table>`;
-            document.getElementById(containerId).innerHTML = html;
+            document.getElementById(id).innerHTML = html + "</tbody></table>";
         };
 
-        renderTable(globalResources.db, 'dbInv', 'Table');
-        renderTable(globalResources.recurly, 'recurlyInv', 'Recurly API');
-        renderTable(globalResources.vetspire, 'vetspireInv', 'Vetspire Service');
+        render(globalResources.db, 'tabDB', 'Database Table');
+        render(globalResources.recurly, 'tabRecurly', 'Recurly API');
+        render(globalResources.vetspire, 'tabVetspire', 'Vetspire Service');
+        render(globalResources.internal, 'tabInternal', 'Internal Function');
     }
 
     function switchTab(evt, tabId) {
@@ -208,6 +255,5 @@
         evt.currentTarget.classList.add('active');
     }
 </script>
-
 </body>
 </html>
