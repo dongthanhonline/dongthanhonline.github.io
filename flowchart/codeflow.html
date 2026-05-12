@@ -154,7 +154,13 @@
             const regex = /([\w]+)\.(Command|Query)\s*\(/g;
             let match;
             while ((match = regex.exec(content)) !== null) {
-                if (projectFiles.has(match[1]) && match[1] !== name) build(match[1], level + 1);
+                if (projectFiles.has(match[1]) && match[1] !== name)
+				{				
+					build(match[1], level + 1);
+				} else 
+				{
+					build(match[1] + "\tNEEDTOCHECK", level + 1);
+				}
             }
         }
         build(rootName, 0);
