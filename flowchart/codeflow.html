@@ -252,8 +252,8 @@
 		}
 		
 		while ((m = intRegex.exec(content))) {
-			addRes('internal', m[1], fileName);
-			res.internal.add(m[1]);
+			addRes('internal', m[0], fileName);
+			res.internal.add(m[0]);
 		}
 
 		function addRes(type, method, file) {
