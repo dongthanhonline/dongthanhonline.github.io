@@ -86,7 +86,8 @@
             <button class="tab-btn active" onclick="switchTab(event, 'tabTree')">🌳 Analysis Tree</button>
             <button class="tab-btn" onclick="switchTab(event, 'tabDB')">🗄️ DB Impact</button>
             <button class="tab-btn" onclick="switchTab(event, 'tabRecurly')">💳 Recurly</button>
-            <button class="tab-btn" onclick="switchTab(event, 'tabVetspire')">🏥 Vetspire</button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabVetspire')">🏥 Vetspire</button>			
+            <button class="tab-btn" onclick="switchTab(event, 'tabEZ')">🏥 EZ</button>
             <button class="tab-btn" onclick="switchTab(event, 'tabInternal')">⚙️ Internal Logic</button>
         </div>
 
@@ -94,6 +95,7 @@
         <div id="tabDB" class="tab-content"></div>
         <div id="tabRecurly" class="tab-content"></div>
         <div id="tabVetspire" class="tab-content"></div>
+        <div id="tabEZ" class="tab-content"></div>
         <div id="tabInternal" class="tab-content"></div>
     </div>
 </div>
@@ -151,7 +153,7 @@
             visited.add(name);
 
             const content = projectFiles.get(name);
-            const regex = /([\w]+)\.(Command|Query)\s*\(/g;
+            const regex = /([\w]+)\.(Command|Query|GetSendEndpoint)\s*\(/g;
             let match;
             while ((match = regex.exec(content)) !== null) {
                 if (projectFiles.has(match[1]) && match[1] !== name)
@@ -173,7 +175,7 @@
 		const treeInput = document.getElementById('treeResult').value;
 		if (!treeInput) return;
 
-		globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map(), internal: new Map() };
+		globalResources = { db: new Map(), recurly: new Map(), vetspire: new Map(), ez: new Map(), internal: new Map() };
 		const lines = treeInput.split('\n').filter(l => l.trim() !== "");
 		
 		let richTreeHtml = "";
@@ -200,6 +202,9 @@
 				if (actions.vetspire.size > 0) {
 					richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}Vetspire: ${Array.from(actions.vetspire).join(", ")}</div>`;
 				}
+				if (actions.ez.size > 0) {
+					richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}EZ: ${Array.from(actions.ez).join(", ")}</div>`;
+				}
 				if (actions.internal.size > 0) {
 					richTreeHtml += `<div class="action-line act-int" style="white-space: pre;">${actionIndent}Internal: ${Array.from(actions.internal).join(", ")}</div>`;
 				}
@@ -214,12 +219,13 @@
 	}
 
 	function extractActions(fileName, content) {
-		let res = { db: new Set(), recurly: new Set(), vetspire: new Set(), internal: new Set() };
-		
+		let res = { db: new Set(), recurly: new Set(), vetspire: new Set(), ez: new Set(), internal: new Set() };
+
 		const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
-		const recRegex = /_recurlyClient\.([\w]+)/g;
-		const vetRegex = /_vetspireService\.([\w]+)/g;
-		const intRegex = /_matchingLogic\.([\w]+)/g;
+		const recRegex = /_(?:recurlyClient|client|recurlyMatchingLogic)\.([\w]+)/g;
+		const vetRegex = /_vetspireService\.([\w]+)/g;	
+		const ezRegex = /_(?:ezyVetMatchingLogic|ezyVetClient)\.([\w]+)/g;
+		const intRegex = /(?:_matchingLogic|_fraudDetectionConfig\.Value|_contentfulClient|_sendEmailService)\.([\w]+)/g;
 
 		const sys = ["Where", "Any", "First", "Select", "Count", "Include", "Add", "Update", "Remove", "Save", "Set", "Entry", "ToList"];
 
@@ -234,10 +240,17 @@
 			addRes('recurly', m[1], fileName);
 			res.recurly.add(m[1]);
 		}
+		
 		while ((m = vetRegex.exec(content))) {
 			addRes('vetspire', m[1], fileName);
 			res.vetspire.add(m[1]);
 		}
+		
+		while ((m = ezRegex.exec(content))) {
+			addRes('ez', m[1], fileName);
+			res.ez.add(m[1]);
+		}
+		
 		while ((m = intRegex.exec(content))) {
 			addRes('internal', m[1], fileName);
 			res.internal.add(m[1]);
@@ -265,7 +278,8 @@
 
         render(globalResources.db, 'tabDB', 'Database Table');
         render(globalResources.recurly, 'tabRecurly', 'Recurly API');
-        render(globalResources.vetspire, 'tabVetspire', 'Vetspire Service');
+        render(globalResources.vetspire, 'tabVetspire', 'Vetspire Service');		
+        render(globalResources.ez, 'tabEZ', 'EZ Service');
         render(globalResources.internal, 'tabInternal', 'Internal Function');
     }
 
