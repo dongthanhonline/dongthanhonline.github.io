@@ -49,6 +49,12 @@
 		.act-rec { color: #4ec9b0; }
 		.act-vet { color: #c586c0; }
 		.act-int { color: #dcdcaa; }
+		
+		button:disabled {
+			background-color: #95a5a6 !important;
+			cursor: not-allowed;
+			opacity: 0.6;
+		}
     </style>
 </head>
 <body>
@@ -67,12 +73,12 @@
             <input type="text" id="rootFileName" placeholder="e.g., CreateOrderCommand">
         </div>
         
-        <button class="btn-trace" onclick="traceDependency()">🚀 3. Trace Tree</button>
+        <button class="btn-trace" id="btnTrace" onclick="traceDependency()" disabled>🚀 3. Trace Tree</button>
         
         <label style="font-size: 12px; font-weight: bold;">4. Dependency Structure:</label>
         <textarea id="treeResult" placeholder="Dependency tree will appear here..."></textarea>
         
-        <button class="btn-detail" onclick="analyzeDetail()">🔍 5. Deep Analysis (Impact)</button>
+        <button class="btn-detail" id="btnDetail" onclick="analyzeDetail()" disabled>🔍 5. Deep Analysis (Impact)</button>
     </div>
 
     <div class="content-area">
@@ -99,10 +105,19 @@
     // 1. LOAD PROJECT
     async function loadProject() {
         try {
-            const dirHandle = await window.showDirectoryPicker();
-            projectFiles.clear();
-            await scanFiles(dirHandle);
-            alert(`Success! Loaded ${projectFiles.size} .cs files`);
+           const dirHandle = await window.showDirectoryPicker();
+			projectFiles.clear();
+			await scanFiles(dirHandle);
+			
+			// Sau khi nạp xong, enable các nút bấm
+			document.getElementById('btnTrace').disabled = false;
+			document.getElementById('btnDetail').disabled = false;
+
+			// Thay đổi style một chút để user biết đã sẵn sàng (tùy chọn)
+			document.getElementById('btnTrace').style.opacity = "1";
+			document.getElementById('btnDetail').style.opacity = "1";
+			
+			console.log(`Loaded ${projectFiles.size} .cs files`);
         } catch (e) { console.error(e); }
     }
 
