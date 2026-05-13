@@ -161,7 +161,7 @@
 					build(match[1], level + 1);
 				} else 
 				{
-					build(match[1] + "\tNEEDTOCHECK", level + 1);
+					build(match[1] + " NEEDTOCHECK", level + 1);
 				}
             }
         }
@@ -221,13 +221,13 @@
 	function extractActions(fileName, content) {
 		let res = { db: new Set(), recurly: new Set(), vetspire: new Set(), ez: new Set(), internal: new Set() };
 
-		const dbRegex = /_(?:[\w]*Context|context|db|dbContext)\.([\w]+)/g;
+		const dbRegex = /_(?:[\w]*Context|context|contextV1|db|dbContext|dboContext)\.([\w]+)/g;
 		const recRegex = /_(?:recurlyClient|client|recurlyMatchingLogic)\.([\w]+)/g;
 		const vetRegex = /_vetspireService\.([\w]+)/g;	
 		const ezRegex = /_(?:ezyVetMatchingLogic|ezyVetClient)\.([\w]+)/g;
-		const intRegex = /(?:_matchingLogic|_fraudDetectionConfig\.Value|_contentfulClient|_sendEmailService)\.([\w]+)/g;
+		const intRegex = /(?:_matchingLogic|_fraudDetectionConfig\.Value|_service|_contentfulClient|_sendEmailService|_locationApiClient|_locationClient|_customerClient)\.([\w]+)/g;
 
-		const sys = ["Where", "Any", "First", "Select", "Count", "Include", "Add", "Update", "Remove", "Save", "Set", "Entry", "ToList"];
+		const sys = ["Where", "Any", "First", "Select", "Count", "Include", "Add(", "AddRange(", "AddAsync(", "Update", "Remove", "Save", "Set", "Entry", "ToList", "OrderBy", "GetUser", "ChangeTracker"];
 
 		let m;
 		while ((m = dbRegex.exec(content))) {
@@ -265,22 +265,78 @@
 
     function renderImpactTables() {
         const render = (map, id, label) => {
-            let html = `<h3>${label} Inventory</h3><table><thead><tr><th>#</th><th>Resource Name</th><th>Callers (Files)</th></tr></thead><tbody>`;
-            let i = 1;
-            if (map.size === 0) { document.getElementById(id).innerHTML = "No impact found."; return; }
+            if (map.size === 0) { 
+                document.getElementById(id).innerHTML = `<p style="padding: 20px; color: #888;">No ${label} impact detected.</p>`; 
+                return; 
+            }
+
+            // Create Header with Copy Button
+            let html = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0; color: var(--primary);">${label} Inventory</h3>
+                    <button onclick="copyToClipboard('${id}')" style="background: #34495e; padding: 6px 12px; font-size: 11px; display: flex; align-items: center; gap: 5px;">
+                        <span>📋</span> Copy Resource List
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>Resource Name</th>
+                            <th>Callers / Dependencies</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
             
-            map.forEach((files, resource) => {
+            let i = 1;
+            // Sorting resources alphabetically for better readability
+            const sortedResources = new Map([...map.entries()].sort());
+
+            sortedResources.forEach((files, resource) => {
                 const tags = Array.from(files).map(f => `<span class="tag">${f}</span>`).join("");
-                html += `<tr><td>${i++}</td><td style="color:#e6db74">${resource}</td><td>${tags}</td></tr>`;
+                html += `<tr>
+                    <td>${i++}</td>
+                    <td class="resource-name" style="color:#e6db74; font-weight: bold;">${resource}</td>
+                    <td>${tags}</td>
+                </tr>`;
             });
+            
             document.getElementById(id).innerHTML = html + "</tbody></table>";
         };
 
-        render(globalResources.db, 'tabDB', 'Database Table');
+        // Categorized Rendering
+        render(globalResources.db, 'tabDB', 'Database');
         render(globalResources.recurly, 'tabRecurly', 'Recurly API');
         render(globalResources.vetspire, 'tabVetspire', 'Vetspire Service');		
-        render(globalResources.ez, 'tabEZ', 'EZ Service');
-        render(globalResources.internal, 'tabInternal', 'Internal Function');
+        render(globalResources.ez, 'tabEZ', 'ezyVet Service');
+        render(globalResources.internal, 'tabInternal', 'Internal Logic');
+    }
+
+    function copyToClipboard(containerId) {
+        const container = document.getElementById(containerId);
+        const names = Array.from(container.querySelectorAll('.resource-name'))
+                           .map(el => el.innerText);
+        
+        if (names.length === 0) return;
+
+        const textToCopy = names.join('\n');
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            // Success Feedback
+            const btn = container.querySelector('button');
+            const oldContent = btn.innerHTML;
+            
+            btn.innerHTML = "✅ Copied to Clipboard!";
+            btn.style.background = "#27ae60";
+            
+            setTimeout(() => {
+                btn.innerHTML = oldContent;
+                btn.style.background = "#34495e";
+            }, 2000);
+        }).catch(err => {
+            console.error('Copy failed: ', err);
+            alert('Failed to copy to clipboard.');
+        });
     }
 
     function switchTab(evt, tabId) {
