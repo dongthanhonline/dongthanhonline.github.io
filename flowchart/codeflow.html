@@ -89,6 +89,8 @@
             <button class="tab-btn" onclick="switchTab(event, 'tabVetspire')">🏥 Vetspire</button>			
             <button class="tab-btn" onclick="switchTab(event, 'tabEZ')">🏥 EZ</button>
             <button class="tab-btn" onclick="switchTab(event, 'tabInternal')">⚙️ Internal Logic</button>
+			<button class="tab-btn" onclick="switchTab(event, 'tabAllCode')">📝 All Code</button>
+			<button class="tab-btn" onclick="switchTab(event, 'tabReview')">⚖️ Review Rule</button>
         </div>
 
         <div id="tabTree" class="tab-content active">No tree data available.</div>
@@ -97,6 +99,8 @@
         <div id="tabVetspire" class="tab-content"></div>
         <div id="tabEZ" class="tab-content"></div>
         <div id="tabInternal" class="tab-content"></div>
+		<div id="tabAllCode" class="tab-content"></div>
+		<div id="tabReview" class="tab-content"></div>
     </div>
 </div>
 
@@ -179,34 +183,37 @@
 		const lines = treeInput.split('\n').filter(l => l.trim() !== "");
 		
 		let richTreeHtml = "";
+		let combinedCode = ""; // Biến lưu trữ toàn bộ code
+		let processedFiles = new Set(); // Để tránh trùng lặp nếu tree có vòng lặp
 
 		lines.forEach(line => {
 			const match = line.match(/^(\t*)(.*)$/);
 			const indentStr = match[1];
-			const fileName = match[2].trim();
+			const fileName = match[2].trim().replace(" NEEDTOCHECK", ""); // Clean tên file
 			
 			const content = projectFiles.get(fileName);
 
 			richTreeHtml += `<div style="margin-top: 8px; white-space: pre;">${indentStr}<span class="node-file">${fileName}</span>`;
 
 			if (content) {
+				// Logic cũ: Extract actions cho các tab impact
 				const actions = extractActions(fileName, content);
 				const actionIndent = indentStr + "\t"; 
 
-				if (actions.db.size > 0) {
-					richTreeHtml += `<div class="action-line act-db" style="white-space: pre;">${actionIndent}DB: ${Array.from(actions.db).join(", ")}</div>`;
-				}
-				if (actions.recurly.size > 0) {
-					richTreeHtml += `<div class="action-line act-rec" style="white-space: pre;">${actionIndent}Recurly: ${Array.from(actions.recurly).join(", ")}</div>`;
-				}
-				if (actions.vetspire.size > 0) {
-					richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}Vetspire: ${Array.from(actions.vetspire).join(", ")}</div>`;
-				}
-				if (actions.ez.size > 0) {
-					richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}EZ: ${Array.from(actions.ez).join(", ")}</div>`;
-				}
-				if (actions.internal.size > 0) {
-					richTreeHtml += `<div class="action-line act-int" style="white-space: pre;">${actionIndent}Internal: ${Array.from(actions.internal).join(", ")}</div>`;
+				// ... (giữ nguyên phần tạo richTreeHtml cho DB, Recurly, Vetspire, EZ, Internal) ...
+				if (actions.db.size > 0) richTreeHtml += `<div class="action-line act-db" style="white-space: pre;">${actionIndent}DB: ${Array.from(actions.db).join(", ")}</div>`;
+				if (actions.recurly.size > 0) richTreeHtml += `<div class="action-line act-rec" style="white-space: pre;">${actionIndent}Recurly: ${Array.from(actions.recurly).join(", ")}</div>`;
+				if (actions.vetspire.size > 0) richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}Vetspire: ${Array.from(actions.vetspire).join(", ")}</div>`;
+				if (actions.ez.size > 0) richTreeHtml += `<div class="action-line act-vet" style="white-space: pre;">${actionIndent}EZ: ${Array.from(actions.ez).join(", ")}</div>`;
+				if (actions.internal.size > 0) richTreeHtml += `<div class="action-line act-int" style="white-space: pre;">${actionIndent}Internal: ${Array.from(actions.internal).join(", ")}</div>`;
+
+				// Logic mới: Gom code
+				if (!processedFiles.has(fileName)) {
+					combinedCode += `// ==========================================\n`;
+					combinedCode += `// FILE: ${fileName}.cs\n`;
+					combinedCode += `// ==========================================\n\n`;
+					combinedCode += content + "\n\n";
+					processedFiles.add(fileName);
 				}
 			} else {
 				richTreeHtml += ` <span class="warning">[NOT FOUND]</span>`;
@@ -215,7 +222,134 @@
 		});
 
 		document.getElementById('tabTree').innerHTML = richTreeHtml;
+		
+		// Render Tab All Code
+		renderAllCodeTab(combinedCode);
+		
 		renderImpactTables();
+		
+		renderReviewTab(processedFiles);
+	}
+
+	// Hàm helper để format lại code phẳng thành có xuống dòng
+	function formatCode(code) {
+		if (!code) return "";
+		return code
+			.replace(/\s*;\s*/g, ";\n")       // Xuống dòng sau ;
+			.split('\n')
+			.map(line => line.trim())
+			.filter(line => line.length > 0)
+			.join('\n');
+	}
+	
+	function renderReviewTab(fileSet) {
+		const container = document.getElementById('tabReview');
+		let reviewHtml = `<h3>Code Quality Review</h3>`;
+		let issuesFound = 0;
+
+		fileSet.forEach(fileName => {
+			// Chỉ check các file là Command hoặc Query
+			if (fileName.endsWith("Command") || fileName.endsWith("Query")) {
+				const content = projectFiles.get(fileName);
+				let fileIssues = [];
+
+				// Rule 1: Check log trace format
+				const logPattern = /\$"{request\.EventId}\s*-\s*{request\.FromEvent}\s*-\s*{nameof\(/;
+				if (!logPattern.test(content)) {
+					fileIssues.push(`<span class="warning">❌ Missing or incorrect traceLog format</span>`);
+				}
+
+				// Rule 2: Check logic complexity (==, !=, &&, ||)
+				// Tìm các đoạn trong ngoặc if/while hoặc gán biến logic
+				const logicOperators = /[&|!=]{2}/g; 
+				const lines = content.split(';'); // Tách theo câu lệnh để check
+				lines.forEach(line => {
+					const matches = line.match(/[&|!=]{2}/g);
+					if (matches && matches.length > 3) {
+						fileIssues.push(`<span class="warning">⚠️ Logic quá phức tạp (>3 toán tử): </span> <code>${escapeHtml(line.substring(0, 50))}...</code>`);
+					}
+					
+					// 1. Regex cũ: Check theo từ khóa (Phone, Email...)
+					const sensitiveKeywords = ["Email", "@", "Name", "Address", "FullName"];
+					const piiKeyRegex = new RegExp(`\\.(?:Information|Warning|Error|Debug|Log\\w*)\\([^)]*(?:${sensitiveKeywords.join('|')})[^)]*\\)`, 'i');
+
+					// 2. Regex mới: Check chuỗi số (từ 9-11 chữ số liên tiếp) trong Log
+					// Nó tìm các cụm số như 0901234567 hoặc 84901234567 bên trong tham số của Log
+					const phoneNumRegex = /\.(?:Information|Warning|Error|Debug|Log\w*)\([^)]*\d{9,11}[^)]*\)/;
+
+					if (piiKeyRegex.test(line) || phoneNumRegex.test(line)) {
+						fileIssues.push(`<span class="warning" style="color: #ff4757;">🚫 Security: Nghi vấn Log PII (Từ khóa hoặc Số điện thoại):</span> <code>${escapeHtml(line.trim())}</code>`);
+					}
+				});
+
+				if (fileIssues.length > 0) {
+					issuesFound++;
+					reviewHtml += `
+						<div style="border: 1px solid #444; padding: 10px; margin-bottom: 10px; border-radius: 6px;">
+							<strong style="color: var(--secondary);">${fileName}.cs</strong>
+							<ul style="margin: 5px 0; font-size: 12px; color: #f1c40f;">
+								${fileIssues.map(iss => `<li style="margin-bottom:4px;">${iss}</li>`).join('')}
+							</ul>
+						</div>`;
+				}
+			}
+		});
+
+		if (issuesFound === 0) {
+			reviewHtml += `<p style="color: var(--primary);">✅ Tất cả Command/Query đều tuân thủ rule!</p>`;
+		}
+
+		container.innerHTML = reviewHtml;
+	}
+
+	function renderAllCodeTab(code) {
+		const container = document.getElementById('tabAllCode');
+		if (!code) {
+			container.innerHTML = `<p style="padding: 20px; color: #888;">No code to display.</p>`;
+			return;
+		}
+
+		// Chỉ thực hiện format tại đây để copy
+		const formattedCode = formatCode(code);
+
+		container.innerHTML = `
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+				<h3 style="margin: 0; color: var(--primary);">Combined Source Code</h3>
+				<button id="btnCopyAll" style="background: #34495e; padding: 8px 16px; font-size: 12px; cursor: pointer; border-radius: 4px; color: white; border: none;">
+					📋 Copy All Code
+				</button>
+			</div>
+			<pre id="combinedCodeArea" style="
+				background: #1e1e1e; 
+				padding: 20px; 
+				border-radius: 8px; 
+				border: 1px solid #444; 
+				color: #d4d4d4; 
+				line-height: 1.6; 
+				font-size: 13px;
+				white-space: pre-wrap; 
+				word-wrap: break-word;
+				font-family: 'Consolas', 'Monaco', monospace;
+			">${escapeHtml(formattedCode)}</pre>
+		`;
+
+		document.getElementById('btnCopyAll').onclick = function() {
+			// Copy bản đã format
+			navigator.clipboard.writeText(formattedCode).then(() => {
+				const btn = this;
+				btn.innerText = "✅ Copied!";
+				btn.style.background = "#27ae60";
+				setTimeout(() => {
+					btn.innerText = "📋 Copy All Code";
+					btn.style.background = "#34495e";
+				}, 2000);
+			});
+		};
+	}
+
+	// Helper để tránh lỗi hiển thị HTML tag trong code
+	function escapeHtml(text) {
+		return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	}
 
 	function extractActions(fileName, content) {
