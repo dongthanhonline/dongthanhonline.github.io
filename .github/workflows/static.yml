@@ -3,9 +3,8 @@ name: Deploy static content to Pages
 on:
   push:
     branches: ["main"]
-  workflow_dispatch: # Thêm duy nhất dòng này vào để kích hoạt nút chạy bằng tay
+  workflow_dispatch:
 
-# Đảm bảo có cụm permissions này trong file của bạn
 permissions:
   contents: read
   pages: write
@@ -19,7 +18,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps: deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
