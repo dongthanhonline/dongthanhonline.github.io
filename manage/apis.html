@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OpenAPI Management & Analysis System (Optimized Dashboard)</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: #f4f6f8; color: #333; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* Control Panel */
+        .admin-panel { background: #1b1b1b; color: white; padding: 15px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s ease; flex-shrink: 0; }
+        .admin-panel.collapsed { display: none; }
+        .input-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        input, textarea { padding: 10px; border-radius: 4px; border: 1px solid #444; background: #2d2d2d; color: white; font-size: 14px; }
+        input { width: 250px; }
+        textarea { flex-grow: 1; height: 42px; resize: none; }
+        
+        button { cursor: pointer; padding: 10px 20px; border: none; border-radius: 4px; background: #49cc90; color: white; font-weight: bold; font-size: 14px; transition: background 0.2s; }
+        button:hover { background: #3ca677; }
+        button.secondary { background: #555; }
+        button.secondary:hover { background: #666; }
+        button.toggle-panel-btn { background: #ff9800; color: white; margin-left: 10px; }
+        button.toggle-panel-btn:hover { background: #e68a00; }
+        .backup-controls { margin-left: auto; display: flex; gap: 10px; }
+
+        /* Navigation Tabs System */
+        .navigation-bar { background: #2d2d2d; display: flex; border-bottom: 3px solid #49cc90; overflow-x: auto; align-items: center; justify-content: space-between; padding-right: 15px; flex-shrink: 0; }
+        .tabs-wrapper { display: flex; overflow-x: auto; }
+        .tab-btn { padding: 14px 24px; cursor: pointer; color: #bbb; border-right: 1px solid #444; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.2s; user-select: none; }
+        .tab-btn:hover { background: #3d3d3d; color: white; }
+        .tab-btn.active { background: #49cc90; color: white; font-weight: bold; }
+        .tab-btn.dashboard-btn { background: #007acc; color: white; font-weight: bold; }
+        .tab-btn.dashboard-btn.active { background: #005999; }
+        .close-btn { opacity: 0.5; font-size: 12px; padding: 2px 5px; border-radius: 50%; margin-left: 5px; }
+        .close-btn:hover { background: #f93e3e; color: white; opacity: 1; }
+
+        /* Filter Checkbox Row */
+        .filter-checkbox-container { display: flex; flex-wrap: wrap; gap: 15px; padding: 10px 15px; background: #fff; border-bottom: 1px solid #ddd; align-items: center; flex-shrink: 0; font-size: 13px; }
+        .filter-label { font-weight: bold; color: #555; }
+        .checkbox-item { display: flex; align-items: center; gap: 5px; cursor: pointer; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; user-select: none; transition: background 0.2s; }
+        .checkbox-item:hover { background: #e4e6eb; }
+        .checkbox-item input { margin: 0; cursor: pointer; width: auto; }
+
+        /* Main Workspace */
+        .main-content { flex-grow: 1; display: flex; width: 100%; overflow: hidden; background: #ebedf0; padding: 10px; gap: 10px; position: relative; }
+        
+        /* Dashboard Layout: 50% - 50% */
+        .dashboard-view { display: flex; width: 100%; height: 100%; gap: 10px; }
+        .dashboard-column { width: 50%; background: white; border-radius: 6px; box-shadow: 0 1px 5px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* Tab view: Fullscreen Swagger UI */
+        .swagger-view { display: none; width: 100%; height: 100%; background: white; border-radius: 6px; box-shadow: 0 1px 5px rgba(0,0,0,0.05); padding: 15px; overflow-y: auto; }
+        .swagger-view.active { display: block; }
+
+        /* Tables Architecture */
+        .table-header-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; flex-shrink: 0; }
+        .table-header-box h2 { font-size: 14px; color: #222; text-transform: uppercase; letter-spacing: 0.3px; }
+        .search-box { padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: white; color: #333; width: 180px; font-size: 12px; }
+        
+        .api-table-wrapper { overflow-y: auto; flex-grow: 1; border: 1px solid #eee; border-radius: 4px; }
+        .api-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; table-layout: fixed; }
+        .api-table th, .api-table td { padding: 10px 12px; border-bottom: 1px solid #e0e0e0; word-wrap: break-word; vertical-align: top; }
+        .api-table th { background-color: #f8f9fa; color: #555; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 10; }
+        .api-table tr:hover { background-color: #fdfdfd; }
+        
+        /* Method Badges */
+        .method-badge { display: inline-block; padding: 3px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; text-align: center; min-width: 58px; text-transform: uppercase; }
+        .method-get { background: #61afff; }
+        .method-post { background: #49cc90; }
+        .method-put { background: #fca130; }
+        .method-delete { background: #f93e3e; }
+        .method-patch { background: #50e3c2; }
+        .method-other { background: #9012fe; }
+
+        .tag-badge { background: #e1f5fe; color: #0288d1; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; white-space: nowrap; display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+        .endpoint-text { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace; font-weight: 600; color: #333; word-break: break-all; font-size: 12px; }
+        .desc-text { color: #555; line-height: 1.4; font-size: 12.5px; }
+
+        .empty-state { text-align: center; padding: 20px; color: #888; font-size: 13px; background: #fafafa; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<!-- Input Panel -->
+<div class="admin-panel" id="adminPanel">
+    <div class="input-group">
+        <input type="text" id="apiName" placeholder="API Group Name (e.g., Customer, Booking)">
+        <textarea id="apiContent" placeholder="Paste openapi.json raw content here..."></textarea>
+        <button onclick="saveAPI()">SAVE & ADD TAB</button>
+        
+        <div class="backup-controls">
+            <button class="secondary" onclick="exportData()">EXPORT BACKUP</button>
+            <button class="secondary" onclick="document.getElementById('importFile').click()">IMPORT BACKUP</button>
+            <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
+        </div>
+    </div>
+</div>
+
+<!-- Navigation Tabs Bar -->
+<div class="navigation-bar">
+    <div class="tabs-wrapper">
+        <div class="tab-btn dashboard-btn active" id="tab-dashboard" onclick="switchView('dashboard')">
+            📊 DASHBOARD
+        </div>
+        <div id="dynamic-tabs" style="display: flex;">
+            <!-- Generated tabs go here -->
+        </div>
+    </div>
+    <button class="toggle-panel-btn" id="togglePanelBtn" onclick="toggleAdminPanel()">🛠️ HIDE INPUT PANEL</button>
+</div>
+
+<!-- Tab Filter Checkboxes (Only shows on Dashboard) -->
+<div class="filter-checkbox-container" id="filterCheckboxContainer">
+    <span class="filter-label">Display Groups:</span>
+    <div id="checkbox-list" style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <!-- Generated checkboxes go here -->
+    </div>
+</div>
+
+<!-- Main Split Workspace -->
+<div class="main-content">
+    
+    <!-- DASHBOARD VIEW: SPLIT GET AND MUTATION -->
+    <div id="view-dashboard" class="dashboard-view">
+        
+        <!-- LEFT COLUMN: GET METHODS -->
+        <div class="dashboard-column">
+            <div class="table-header-box">
+                <h2>🔍 API LIST - METHOD GET</h2>
+                <input type="text" id="getSearch" class="search-box" placeholder="Quick search GET..." oninput="filterTables()">
+            </div>
+            <div class="api-table-wrapper">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Group (Tab)</th>
+                            <th style="width: 45%;">Endpoint</th>
+                            <th style="width: 30%;">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="get-table-body">
+                        <!-- GET Table rows -->
+                    </tbody>
+                </table>
+                <div id="get-empty" class="empty-state" style="display: none;">No matching GET data found.</div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: MUTATION METHODS -->
+        <div class="dashboard-column">
+            <div class="table-header-box">
+                <h2>⚡ API LIST - MUTATION</h2>
+                <input type="text" id="mutationSearch" class="search-box" placeholder="Quick search Mutation..." oninput="filterTables()">
+            </div>
+            <div class="api-table-wrapper">
+                <table class="api-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 22%;">Group (Tab)</th>
+                            <th style="width: 18%;">Method</th>
+                            <th style="width: 35%;">Endpoint</th>
+                            <th style="width: 25%;">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="other-table-body">
+                        <!-- Mutation Table rows -->
+                    </tbody>
+                </table>
+                <div id="other-empty" class="empty-state" style="display: none;">No matching Mutation data found.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SWAGGER VIEW: FULLSCREEN ON INDIVIDUAL TAB CLICK -->
+    <div id="view-swagger" class="swagger-view">
+        <div id="swagger-ui"></div>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.js"></script>
+
+<script>
+    let apiCollections = {};
+    let checkedTabs = {}; // Stores toggle state { tabName: true/false }
+    
+    try {
+        apiCollections = JSON.parse(localStorage.getItem('api_collections_v6') || '{}');
+        Object.keys(apiCollections).forEach(name => {
+            checkedTabs[name] = true;
+        });
+    } catch(e) {
+        apiCollections = {};
+    }
+    
+    let currentViewMode = 'dashboard'; 
+    let currentActiveTabName = null;
+    let isPanelVisible = true;
+
+    // Toggle Input Panel visibility
+    function toggleAdminPanel() {
+        const panel = document.getElementById('adminPanel');
+        const btn = document.getElementById('togglePanelBtn');
+        isPanelVisible = !isPanelVisible;
+        
+        if (isPanelVisible) {
+            panel.classList.remove('collapsed');
+            btn.innerHTML = "🛠️ HIDE INPUT PANEL";
+            btn.style.background = "#ff9800";
+        } else {
+            panel.classList.add('collapsed');
+            btn.innerHTML = "🛠️ SHOW INPUT PANEL";
+            btn.style.background = "#4caf50";
+        }
+    }
+
+    // Save OpenAPI specifications
+    function saveAPI() {
+        const name = document.getElementById('apiName').value.trim();
+        const content = document.getElementById('apiContent').value.trim();
+
+        if (!name || !content) return alert("Please enter both the API Group Name and the JSON content.");
+
+        try {
+            const jsonContent = JSON.parse(content);
+            apiCollections[name] = jsonContent;
+            checkedTabs[name] = true; // Default new group to checked/visible
+            localStorage.setItem('api_collections_v6', JSON.stringify(apiCollections));
+            
+            document.getElementById('apiName').value = '';
+            document.getElementById('apiContent').value = '';
+            
+            refreshUI();
+            switchView('dashboard');
+        } catch (e) {
+            alert("Error: Invalid JSON format. Please paste valid OpenAPI schema JSON.");
+        }
+    }
+
+    // Delete API group
+    function deleteAPI(name, event) {
+        event.stopPropagation();
+        if(confirm(`Remove "${name}" from cache memory?`)) {
+            delete apiCollections[name];
+            delete checkedTabs[name];
+            localStorage.setItem('api_collections_v6', JSON.stringify(apiCollections));
+            refreshUI();
+            switchView('dashboard');
+        }
+    }
+
+    // Router/View switching handler
+    function switchView(type, tabName = null) {
+        document.getElementById('tab-dashboard').classList.remove('active');
+        const dynamicTabs = document.querySelectorAll('#dynamic-tabs .tab-btn');
+        dynamicTabs.forEach(t => t.classList.remove('active'));
+
+        if (type === 'dashboard') {
+            currentViewMode = 'dashboard';
+            currentActiveTabName = null;
+            document.getElementById('tab-dashboard').classList.add('active');
+            
+            document.getElementById('view-swagger').classList.remove('active');
+            document.getElementById('view-dashboard').style.display = 'flex';
+            document.getElementById('filterCheckboxContainer').style.display = 'flex';
+            
+            buildSplitTables(); 
+        } else {
+            currentViewMode = 'tab';
+            currentActiveTabName = tabName;
+            
+            const targetTab = Array.from(dynamicTabs).find(t => t.getAttribute('data-name') === tabName);
+            if (targetTab) targetTab.classList.add('active');
+            
+            document.getElementById('view-dashboard').style.display = 'none';
+            document.getElementById('filterCheckboxContainer').style.display = 'none';
+            document.getElementById('view-swagger').classList.add('active');
+            
+            renderSwagger(tabName);
+        }
+    }
+
+    // Dynamically generate Top Menu tabs
+    function renderTabs() {
+        const tabsDiv = document.getElementById('dynamic-tabs');
+        tabsDiv.innerHTML = '';
+        
+        Object.keys(apiCollections).forEach(name => {
+            const tab = document.createElement('div');
+            tab.className = `tab-btn ${currentActiveTabName === name && currentViewMode === 'tab' ? 'active' : ''}`;
+            tab.setAttribute('data-name', name);
+            tab.innerHTML = `<span>📂 ${name}</span> <span class="close-btn" onclick="deleteAPI('${name}', event)">✕</span>`;
+            tab.onclick = () => switchView('tab', name);
+            tabsDiv.appendChild(tab);
+        });
+    }
+
+    // Dynamically generate individual checkboxes to show/hide API tags in dashboard tables
+    function renderFilterCheckboxes() {
+        const container = document.getElementById('checkbox-list');
+        container.innerHTML = '';
+        
+        const tabs = Object.keys(apiCollections);
+        if(tabs.length === 0) {
+            container.innerHTML = '<span style="color:#999; font-style:italic;">No data groups available to filter.</span>';
+            return;
+        }
+
+        tabs.forEach(name => {
+            if(checkedTabs[name] === undefined) checkedTabs[name] = true;
+
+            const label = document.createElement('label');
+            label.className = 'checkbox-item';
+            label.innerHTML = `
+                <input type="checkbox" id="chk-${name}" ${checkedTabs[name] ? 'checked' : ''} onchange="toggleTabFilter('${name}')">
+                <span>${name}</span>
+            `;
+            container.appendChild(label);
+        });
+    }
+
+    // Handle check state transitions and re-render dashboard
+    function toggleTabFilter(name) {
+        const checkbox = document.getElementById(`chk-${name}`);
+        checkedTabs[name] = checkbox.checked;
+        buildSplitTables();
+    }
+
+    // Parse JSON collection and inject clean data into explicit individual columns
+    function buildSplitTables() {
+        const getTbody = document.getElementById('get-table-body');
+        const otherTbody = document.getElementById('other-table-body');
+        
+        getTbody.innerHTML = '';
+        otherTbody.innerHTML = '';
+        
+        let hasGet = false;
+        let otherRowsList = []; 
+
+        const methodPriority = { 'post': 1, 'put': 2, 'patch': 3, 'delete': 4 };
+
+        Object.keys(apiCollections).forEach(tabName => {
+            // Check box filter validation: If un-checked, ignore group content entirely
+            if (!checkedTabs[tabName]) return;
+
+            const spec = apiCollections[tabName];
+            if (!spec || !spec.paths) return;
+
+            Object.keys(spec.paths).forEach(pathUrl => {
+                const methods = spec.paths[pathUrl];
+                
+                Object.keys(methods).forEach(methodName => {
+                    const normMethod = methodName.toLowerCase();
+                    const validMethods = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'];
+                    if (!validMethods.includes(normMethod)) return;
+
+                    const details = methods[methodName];
+                    let description = details.summary || details.description || 'No description available';
+                    let methodClass = `method-${normMethod}`;
+
+                    if (normMethod === 'get') {
+                        hasGet = true;
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><span class="tag-badge" title="${tabName}">${tabName}</span></td>
+                            <td><div class="endpoint-text">${pathUrl}</div></td>
+                            <td><div class="desc-text">${description}</div></td>
+                        `;
+                        getTbody.appendChild(tr);
+                    } else {
+                        const priority = methodPriority[normMethod] || 5;
+                        const innerHTML = `
+                            <td><span class="tag-badge" title="${tabName}">${tabName}</span></td>
+                            <td><span class="method-badge ${methodClass}">${normMethod}</span></td>
+                            <td><div class="endpoint-text">${pathUrl}</div></td>
+                            <td><div class="desc-text">${description}</div></td>
+                        `;
+                        otherRowsList.push({ priority: priority, html: innerHTML });
+                    }
+                });
+            });
+        });
+
+        // Sort Mutation actions chronologically: POST -> PUT -> PATCH -> DELETE
+        otherRowsList.sort((a, b) => a.priority - b.priority);
+        otherRowsList.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = item.html;
+            otherTbody.appendChild(tr);
+        });
+
+        if (!hasGet) {
+            getTbody.innerHTML = `<tr><td colspan="3" class="empty-state">No GET endpoints available, or selected groups have been unchecked.</td></tr>`;
+        }
+        if (otherRowsList.length === 0) {
+            otherTbody.innerHTML = `<tr><td colspan="4" class="empty-state">No Mutation endpoints available, or selected groups have been unchecked.</td></tr>`;
+        }
+
+        filterTables(); 
+    }
+
+    // Text queries tracking filter matches
+    function filterTables() {
+        const getQuery = document.getElementById('getSearch').value.toLowerCase().trim();
+        const mutQuery = document.getElementById('mutationSearch').value.toLowerCase().trim();
+        
+        // Filter Left Side (GET)
+        const getRows = document.querySelectorAll('#get-table-body tr');
+        let getMatch = 0;
+        getRows.forEach(row => {
+            if (row.cells.length < 3) return;
+            if(row.textContent.toLowerCase().includes(getQuery)) { row.style.display = ''; getMatch++; } else { row.style.display = 'none'; }
+        });
+        document.getElementById('get-empty').style.display = (getRows.length > 0 && getMatch === 0 && getQuery !== '') ? 'block' : 'none';
+
+        // Filter Right Side (Mutations)
+        const otherRows = document.querySelectorAll('#other-table-body tr');
+        let otherMatch = 0;
+        otherRows.forEach(row => {
+            if (row.cells.length < 4) return;
+            if(row.textContent.toLowerCase().includes(mutQuery)) { row.style.display = ''; otherMatch++; } else { row.style.display = 'none'; }
+        });
+        document.getElementById('other-empty').style.display = (otherRows.length > 0 && otherMatch === 0 && mutQuery !== '') ? 'block' : 'none';
+    }
+
+    // Launch standalone instance of SwaggerUI
+    function renderSwagger(name) {
+        const spec = apiCollections[name];
+        if (!spec) return;
+
+        SwaggerUIBundle({
+            spec: spec,
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+            layout: "BaseLayout",
+            tagsSorter: "alpha",          
+            operationsSorter: "alpha",    
+            docExpansion: "list",         
+            defaultModelsExpandDepth: 1
+        });
+    }
+
+    function refreshUI() {
+        renderTabs();
+        renderFilterCheckboxes();
+        buildSplitTables();
+    }
+
+    // Export raw JSON structure backup
+    function exportData() {
+        if (Object.keys(apiCollections).length === 0) return alert("No data available to export.");
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(apiCollections));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "openapi_optimized_backup.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    // Parse configuration backups
+    function importData(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                if (typeof importedData === 'object' && importedData !== null) {
+                    apiCollections = { ...apiCollections, ...importedData };
+                    Object.keys(importedData).forEach(name => {
+                        checkedTabs[name] = true;
+                    });
+                    localStorage.setItem('api_collections_v6', JSON.stringify(apiCollections));
+                    refreshUI();
+                    switchView('dashboard');
+                    alert("Backup configurations loaded successfully!");
+                }
+            } catch (err) {
+                alert("Error: Uploaded file isn't valid JSON structure.");
+            }
+        };
+        reader.readAsText(file);
+        input.value = '';
+    }
+
+    // Active lifecycle initialization hooks
+    refreshUI();
+</script>
+</body>
+</html>
