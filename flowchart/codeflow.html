@@ -130,7 +130,7 @@
     async function scanFiles(dirHandle) {
         for await (const entry of dirHandle.values()) {
             if (entry.kind === 'directory') {
-                if (!['bin', 'obj', '.git', 'Migrations'].includes(entry.name)) await scanFiles(entry);
+                if (!['tests','bin', 'obj', '.git', 'Migrations'].includes(entry.name)) await scanFiles(entry);
             } else if (entry.name.endsWith('.cs')) {
                 const file = await entry.getFile();
                 let content = await file.text();
