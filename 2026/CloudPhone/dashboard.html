@@ -189,7 +189,7 @@
             // 4. Sử dụng API test của httpbin để giả lập phản hồi dữ liệu trong iframe công khai
             // Khi có server RustDesk thật (Ví dụ chạy docker local), bạn chỉ cần thay cụm url này thành:
             // `http://localhost:5000/#/connect?id=${id}&pw=${password}`
-            const targetUrl = `https://web.rustdesk.com/#/connect?id=${id}&pw=${password}`;
+            const targetUrl = `https://rustdesk.com/web/#/connect?id=${id}&pw=${password}`;
 			
 			let iframe = document.getElementById('rustdesk-iframe');
 			if (!iframe) {
