@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Tách & Dịch Chuỗi Email</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 15px; background-color: #f4f6f8; color: #333; }
+        /* Mở rộng không gian hiển thị tối đa */
+        .container { width: 98%; max-width: 1800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); box-sizing: border-box; }
+        textarea { width: 100%; height: 150px; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-family: monospace; }
+        .btn { background-color: #007bff; color: white; border: none; padding: 8px 16px; font-size: 14px; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { background-color: #0056b3; }
+        .btn-toggle { background-color: #6c757d; font-size: 12px; padding: 4px 8px; margin-top: 6px; }
+        .btn-toggle:hover { background-color: #5a6268; }
+        
+        .header-summary { margin-top: 20px; padding: 15px; background: #eef2f5; border-radius: 6px; border-left: 4px solid #007bff; }
+        .header-summary h3 { margin: 0 0 10px 0; color: #007bff; }
+        .header-summary ul { margin: 0; padding-left: 20px; }
+
+        .table-actions { margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; font-size: 13px; }
+        th { background-color: #f8f9fa; }
+        .content-box { max-height: 250px; overflow-y: auto; white-space: pre-wrap; word-break: break-word; line-height: 1.4; }
+        .is-translated { background-color: #f0f7ff; color: #1a4971; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Công Cụ Tách Chuỗi Email</h2>
+    <label for="emailInput"><b>Dán nội dung email vào đây:</b></label>
+    <textarea id="emailInput" placeholder="Dán chuỗi email vào đây..."></textarea>
+    <button class="btn" onclick="parseEmail()">Phân Tích Email</button>
+
+    <!-- Summary rời ở phía trên -->
+    <div id="summarySection" class="header-summary" style="display:none;">
+        <h3 id="summarySubject">Subject: </h3>
+        <div><b>Danh sách người tham gia (bao gồm Email):</b></div>
+        <ul id="summaryParticipants"></ul>
+    </div>
+
+    <!-- Bảng thông tin chi tiết -->
+    <div id="tableContainer" style="display:none;">
+        <div class="table-actions">
+            <b id="totalRowsCount">Chi tiết từng Email (Xếp từ dưới lên):</b>
+            <button class="btn btn-toggle" style="margin-top:0;" onclick="toggleAllTranslations()">Dịch tất cả / Bản gốc tất cả</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 3%;">#</th>
+                    <th style="width: 14%;">Từ ai (From)</th>
+                    <th style="width: 16%;">Tới ai (To / Cc)</th>
+                    <th style="width: 12%;">Thời gian</th>
+                    <!-- Cột nội dung mở rộng rộng gấp đôi -->
+                    <th style="width: 55%;">Nội dung</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+let globalEmailData = [];
+let allTranslated = false;
+
+function parseEmail() {
+    const text = document.getElementById('emailInput').value;
+    const resultBody = document.getElementById('resultBody');
+    const tableContainer = document.getElementById('tableContainer');
+    const summarySection = document.getElementById('summarySection');
+    const summarySubject = document.getElementById('summarySubject');
+    const summaryParticipants = document.getElementById('summaryParticipants');
+
+    resultBody.innerHTML = '';
+    summaryParticipants.innerHTML = '';
+    globalEmailData = [];
+    allTranslated = false;
+
+    if (!text.trim()) {
+        alert('Vui lòng dán nội dung email!');
+        return;
+    }
+
+    const blocks = text.split(/(?=From:\s*)/i).filter(b => b.trim().length > 0);
+    let participants = new Set();
+    let mainSubject = '';
+
+    blocks.forEach((block) => {
+        const fromMatch = block.match(/From:\s*(.+)/i);
+        const sentMatch = block.match(/Sent:\s*(.+)/i);
+        const toMatch = block.match(/To:\s*(.+)/i);
+        const ccMatch = block.match(/Cc:\s*(.+)/i);
+        const subjectMatch = block.match(/Subject:\s*(.+)/i);
+
+        if (fromMatch || sentMatch || subjectMatch) {
+            const rawFrom = fromMatch ? fromMatch[1].trim() : 'N/A';
+            const rawSent = sentMatch ? sentMatch[1].trim() : 'N/A';
+            const rawTo = toMatch ? toMatch[1].trim() : 'N/A';
+            const rawCc = ccMatch ? ccMatch[1].trim() : '';
+            const subject = subjectMatch ? subjectMatch[1].trim() : '';
+
+            if (subject && !mainSubject) {
+                mainSubject = subject;
+            }
+
+            // Danh sách tham gia giữ nguyên tên + email
+            if (rawFrom && rawFrom !== 'N/A') {
+                participants.add(rawFrom);
+            }
+
+            // Làm sạch tên trong bảng (loại bỏ <email>)
+            const cleanFrom = cleanNamesList(rawFrom);
+            const cleanTo = cleanNamesList(rawTo);
+            const cleanCc = cleanNamesList(rawCc);
+
+            const dateObj = parseDateObject(rawSent);
+            const formattedSent = formatDate(dateObj, rawSent);
+
+            let bodyContent = '';
+            const subjectIndex = block.indexOf(subjectMatch ? subjectMatch[0] : '');
+            if (subjectIndex !== -1) {
+                bodyContent = block.substring(subjectIndex + (subjectMatch ? subjectMatch[0].length : 0)).trim();
+            } else {
+                bodyContent = block.trim();
+            }
+
+            globalEmailData.push({
+                from: cleanFrom,
+                sent: formattedSent,
+                to: cleanTo,
+                cc: cleanCc,
+                bodyOriginal: bodyContent,
+                bodyTranslated: null,
+                isTranslated: false
+            });
+        }
+    });
+
+    if (globalEmailData.length === 0) {
+        alert('Không tìm thấy định dạng header email (From:, Sent:, Subject:)!');
+        return;
+    }
+
+    // Đảo ngược thứ tự theo chuỗi text (từ dưới lên trên)
+    globalEmailData.reverse();
+
+    // Render Summary
+    summarySubject.innerText = `Subject: ${mainSubject || 'Không có tiêu đề'}`;
+    let pIndex = 1;
+    participants.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `<b>Email ${pIndex++}:</b> ${escapeHtml(p)}`;
+        summaryParticipants.appendChild(li);
+    });
+    summarySection.style.display = 'block';
+
+    // Render Table
+    renderTable();
+    tableContainer.style.display = 'block';
+}
+
+function renderTable() {
+    const resultBody = document.getElementById('resultBody');
+    resultBody.innerHTML = '';
+
+    globalEmailData.forEach((item, index) => {
+        let recipientInfo = `<b>To:</b> ${escapeHtml(item.to)}`;
+        if (item.cc) {
+            recipientInfo += `<br><b>Cc:</b> ${escapeHtml(item.cc)}`;
+        }
+
+        const displayContent = item.isTranslated ? item.bodyTranslated : item.bodyOriginal;
+        const btnText = item.isTranslated ? 'Original (Anh)' : 'Dịch (Việt)';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td><b>${escapeHtml(item.from)}</b></td>
+            <td>${recipientInfo}</td>
+            <td>
+                <div><b>${escapeHtml(item.sent)}</b></div>
+                <button class="btn btn-toggle" onclick="toggleTranslation(${index})">${btnText}</button>
+            </td>
+            <td>
+                <div class="content-box ${item.isTranslated ? 'is-translated' : ''}" id="content-${index}">${escapeHtml(displayContent)}</div>
+            </td>
+        `;
+        resultBody.appendChild(row);
+    });
+}
+
+async function toggleTranslation(index) {
+    const item = globalEmailData[index];
+    const contentBox = document.getElementById(`content-${index}`);
+
+    if (item.isTranslated) {
+        item.isTranslated = false;
+        renderTable();
+    } else {
+        if (!item.bodyTranslated) {
+            contentBox.innerHTML = '<i>Đang dịch...</i>';
+            item.bodyTranslated = await fetchTranslation(item.bodyOriginal);
+        }
+        item.isTranslated = true;
+        renderTable();
+    }
+}
+
+async function toggleAllTranslations() {
+    allTranslated = !allTranslated;
+    for (let i = 0; i < globalEmailData.length; i++) {
+        const item = globalEmailData[i];
+        if (allTranslated) {
+            if (!item.bodyTranslated) {
+                item.bodyTranslated = await fetchTranslation(item.bodyOriginal);
+            }
+            item.isTranslated = true;
+        } else {
+            item.isTranslated = false;
+        }
+    }
+    renderTable();
+}
+
+async function fetchTranslation(text) {
+    if (!text.trim()) return '(Không có nội dung)';
+    try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&q=${encodeURIComponent(text)}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        let translatedText = '';
+        if (data && data[0]) {
+            data[0].forEach(segment => {
+                if (segment[0]) translatedText += segment[0];
+            });
+        }
+        return translatedText || text;
+    } catch (error) {
+        return '[Lỗi dịch thuật] ' + text;
+    }
+}
+
+function cleanNamesList(rawStr) {
+    if (!rawStr || rawStr === 'N/A') return 'N/A';
+    
+    const parts = rawStr.split(';');
+    const cleanParts = parts.map(part => {
+        let clean = part.replace(/<[^>]*>/g, '').replace(/\([^)]*\)/g, '').trim();
+        return clean;
+    }).filter(p => p.length > 0);
+
+    return cleanParts.join('; ') || rawStr;
+}
+
+function parseDateObject(dateStr) {
+    if (!dateStr || dateStr === 'N/A') return null;
+    const cleanedStr = dateStr.replace(/^[A-Za-z]+,\s*/, '').trim();
+    const parsedDate = new Date(cleanedStr);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
+
+function formatDate(parsedDate, fallbackStr) {
+    if (!parsedDate) return fallbackStr || 'N/A';
+
+    const year = parsedDate.getFullYear();
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+    const hours = String(parsedDate.getHours()).padStart(2, '0');
+    const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
+
+</body>
+</html>
