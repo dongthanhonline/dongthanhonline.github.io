@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robust DB Log Extractor</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 20px; background: #f4f5f7; color: #333; }
+    h2 { color: #0052cc; margin-bottom: 8px; }
+    textarea { width: 100%; height: 180px; font-family: monospace; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    button { background: #0052cc; color: white; border: none; padding: 10px 20px; font-size: 14px; border-radius: 4px; cursor: pointer; margin-top: 10px; margin-bottom: 20px; }
+    button:hover { background: #0065ff; }
+    .section { background: white; padding: 15px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #dfe1e6; padding: 8px 12px; text-align: left; vertical-align: top; }
+    th { background: #f4f5f7; }
+    .action-SELECT { color: #0052cc; font-weight: bold; }
+    .action-INSERT { color: #00875a; font-weight: bold; }
+    .action-UPDATE { color: #ffab00; font-weight: bold; }
+    .action-DELETE { color: #de350b; font-weight: bold; }
+    pre { background: #f4f5f7; padding: 8px; border-radius: 4px; white-space: pre-wrap; word-break: break-all; margin: 0; font-size: 12px; }
+    .badge { display: inline-block; background: #ebecf0; padding: 2px 6px; border-radius: 3px; margin: 2px; font-family: monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <h2>1. Input Log (JSON or Raw Text Log)</h2>
+  <textarea id="logInput" placeholder="Paste your raw log or JSON here..."></textarea>
+  <br>
+  <button onclick="processLogs()">Parse DB Log</button>
+
+  <div class="section">
+    <h2>2. Summary: Action | Table | Condition</h2>
+    <table id="summaryResult">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Action</th>
+          <th>Table(s)</th>
+          <th>Condition / Target Fields</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4">No data available</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>3. Extracted SQL Queries Detail</h2>
+    <table id="queriesResult">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Action</th>
+          <th>Clean SQL Query</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="3">No data available</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function processLogs() {
+      const rawInput = document.getElementById('logInput').value.trim();
+      if (!rawInput) {
+        alert('Please paste the log content!');
+        return;
+      }
+
+      let logTextArray = [];
+
+      // Try parsing as JSON first
+      try {
+        const parsed = JSON.parse(rawInput);
+        const entries = Array.isArray(parsed) ? parsed : [parsed];
+        entries.forEach(e => {
+          const msg = e["db.statement"] || e["db.statement.text"] || e.message || "";
+          if (msg) logTextArray.push(msg);
+        });
+      } catch (e) {
+        // Fallback for plain text logs: Split by SQL statements
+        logTextArray = rawInput.split(/(?=\b(?:SELECT|INSERT INTO|UPDATE|DELETE FROM)\b)/i);
+      }
+
+      const parsedResults = [];
+      let queryCounter = 1;
+
+      logTextArray.forEach((textBlock) => {
+        // Extract actual SQL block
+        const sqlMatch = textBlock.match(/\b(SELECT|INSERT|UPDATE|DELETE)\b[\s\S]+/i);
+        if (!sqlMatch) return;
+
+        let cleanSql = sqlMatch[0].trim();
+
+        // Clean up auxiliary EF Core / SQL Server commands
+        cleanSql = cleanSql.replace(/SET\s+IMPLICIT_TRANSACTIONS\s+(ON|OFF);?/gi, '')
+                           .replace(/SET\s+NOCOUNT\s+(ON|OFF);?/gi, '')
+                           .trim();
+
+        if (!cleanSql) return;
+
+        // 1. Identify primary Action
+        let action = 'QUERY';
+        if (/^SELECT/i.test(cleanSql)) action = 'SELECT';
+        else if (/^INSERT/i.test(cleanSql)) action = 'INSERT';
+        else if (/^UPDATE/i.test(cleanSql)) action = 'UPDATE';
+        else if (/^DELETE/i.test(cleanSql)) action = 'DELETE';
+
+        // 2. Extract Table names (Handles JOINs and Sub-queries)
+        const tables = extractTables(cleanSql, action);
+
+        // 3. Extract Conditions / Field names
+        const conditions = extractConditions(cleanSql, action);
+
+        parsedResults.push({
+          id: queryCounter++,
+          action: action,
+          tables: tables.length > 0 ? tables : ['Unknown'],
+          condition: conditions.length > 0 ? conditions : ['None'],
+          sql: cleanSql
+        });
+      });
+
+      // RENDER SUMMARY TABLE
+      const summaryTbody = document.getElementById('summaryResult').querySelector('tbody');
+      summaryTbody.innerHTML = '';
+      if (parsedResults.length === 0) {
+        summaryTbody.innerHTML = '<tr><td colspan="4">No valid SQL queries found in the provided log.</td></tr>';
+      } else {
+        parsedResults.forEach(item => {
+          const tableBadges = item.tables.map(t => `<strong>${escapeHtml(t)}</strong>`).join('<br>');
+          const condBadges = item.condition[0] !== 'None' 
+            ? item.condition.map(c => `<span class="badge">${escapeHtml(c)}</span>`).join('') 
+            : '<em>None</em>';
+
+          summaryTbody.innerHTML += `
+            <tr>
+              <td>${item.id}</td>
+              <td><span class="action-${item.action}">${item.action}</span></td>
+              <td>${tableBadges}</td>
+              <td>${condBadges}</td>
+            </tr>
+          `;
+        });
+      }
+
+      // RENDER ALL QUERIES DETAIL TABLE
+      const queriesTbody = document.getElementById('queriesResult').querySelector('tbody');
+      queriesTbody.innerHTML = '';
+      parsedResults.forEach(item => {
+        queriesTbody.innerHTML += `
+          <tr>
+            <td>${item.id}</td>
+            <td><span class="action-${item.action}">${item.action}</span></td>
+            <td><pre>${escapeHtml(item.sql)}</pre></td>
+          </tr>
+        `;
+      });
+    }
+
+    // Extract Table names including schema (e.g., [dbo].[Table] or [Membership].[Table])
+    function extractTables(sql, action) {
+      const tables = new Set();
+      const tableRegex = /(?:FROM|JOIN|INSERT\s+INTO|UPDATE)\s+([\[\]a-zA-Z0-9_.]+)/gi;
+      let match;
+
+      while ((match = tableRegex.exec(sql)) !== null) {
+        let tbl = match[1].trim();
+        if (!['(', 'SELECT'].includes(tbl.toUpperCase())) {
+          tables.add(tbl);
+        }
+      }
+      return Array.from(tables);
+    }
+
+    // Extract Condition / Target fields
+    function extractConditions(sql, action) {
+      let fields = new Set();
+
+      if (action === 'SELECT' || action === 'DELETE') {
+        const whereMatches = sql.matchAll(/WHERE\s+([\s\S]+?)(?:ORDER\b|GROUP\b|HAVING\b|OPTION\b|$)/gi);
+        for (const match of whereMatches) {
+          parseFieldsFromExpr(match[1], fields);
+        }
+      } else if (action === 'UPDATE') {
+        const setMatch = sql.match(/SET\s+([\s\S]+?)(?:WHERE\b|$)/i);
+        const whereMatch = sql.match(/WHERE\s+([\s\S]+?)$/i);
+        if (setMatch) parseFieldsFromExpr(setMatch[1], fields);
+        if (whereMatch) parseFieldsFromExpr(whereMatch[1], fields);
+      } else if (action === 'INSERT') {
+        const colMatch = sql.match(/\(([^)]+)\)\s*(?:OUTPUT|VALUES)/i);
+        if (colMatch) {
+          colMatch[1].split(',').forEach(c => {
+            const clean = cleanColumnName(c);
+            if (clean) fields.add(clean);
+          });
+        }
+      }
+
+      return Array.from(fields);
+    }
+
+    // Parse column names from expressions
+    function parseFieldsFromExpr(expr, fieldsSet) {
+      const matches = expr.matchAll(/(?:\[[a-zA-Z0-9_]+\]\.)?\[([a-zA-Z0-9_]+)\]/g);
+      for (const m of matches) {
+        const col = m[1].trim();
+        if (col && !['a', 'b', 'c', 's', 't', 'l', 'c0', 'c1', 'c2'].includes(col)) {
+          fieldsSet.add(col);
+        }
+      }
+    }
+
+    function cleanColumnName(str) {
+      return str.replace(/[\[\]\s]/g, '').split('.').pop();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
