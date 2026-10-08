@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Manager</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-6 shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-wide"><i class="fa-solid fa-terminal text-indigo-400 mr-2"></i> Prompt Manager</h1>
+                <p class="text-slate-400 text-sm mt-1">Tự động đọc danh sách prompt từ file trong cùng thư mục</p>
+            </div>
+            <div>
+                <button onclick="loadPromptsFromManifest()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition shadow flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Làm Mới (Reload)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        
+        <!-- Table List Prompts -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <h2 class="font-bold text-slate-700 flex items-center gap-2">
+                    <i class="fa-solid fa-list"></i> Danh Sách Prompt
+                </h2>
+                <span id="promptCount" class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-full">0 Prompts</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                            <th class="py-3 px-6">Tên Prompt</th>
+                            <th class="py-3 px-6">Tóm Tắt (Summary)</th>
+                            <th class="py-3 px-6 text-center">Bản Tiếng Việt (VN)</th>
+                            <th class="py-3 px-6 text-center">Bản Tiếng Anh (EN)</th>
+                            <th class="py-3 px-6 text-center">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="promptTableBody" class="divide-y divide-slate-100 text-sm">
+                        <!-- Render dynamic rows -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Prompt Viewer (Detail Section) -->
+        <section id="detailSection" class="hidden bg-white rounded-xl shadow-lg border border-slate-200 p-6 transition-all">
+            <div class="flex justify-between items-start border-b border-slate-200 pb-4 mb-6">
+                <div>
+                    <h3 id="detailTitle" class="text-xl font-bold text-slate-800"></h3>
+                    <p id="detailSummary" class="text-slate-500 text-sm mt-1"></p>
+                </div>
+                <button onclick="closeDetail()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Grid 2 Languages -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Tiếng Việt -->
+                <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
+                    <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-semibold text-slate-700 flex items-center gap-2">
+                            <span>🇻🇳</span> Tiếng Việt (prompt_vn)
+                        </span>
+                        <button onclick="copyToClipboard('promptVnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
+                            <i class="fa-regular fa-copy"></i> <span>Copy</span>
+                        </button>
+                    </div>
+                    <pre id="promptVnText" class="p-4 text-xs font-mono text-slate-800 whitespace-pre-wrap overflow-y-auto max-h-[550px] custom-scrollbar bg-white"></pre>
+                </div>
+
+                <!-- Tiếng Anh -->
+                <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
+                    <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-semibold text-slate-700 flex items-center gap-2">
+                            <span>🇺🇸</span> Tiếng Anh (prompt_en)
+                        </span>
+                        <button onclick="copyToClipboard('promptEnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
+                            <i class="fa-regular fa-copy"></i> <span>Copy</span>
+                        </button>
+                    </div>
+                    <pre id="promptEnText" class="p-4 text-xs font-mono text-slate-800 whitespace-pre-wrap overflow-y-auto max-h-[550px] custom-scrollbar bg-white"></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let loadedPromptsData = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadPromptsFromManifest();
+        });
+
+        async function loadPromptsFromManifest() {
+            loadedPromptsData = [];
+            const tbody = document.getElementById("promptTableBody");
+            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Đang đọc dữ liệu từ thư mục...</td></tr>`;
+
+            try {
+                // Đọc file manifest.json
+                const manifestRes = await fetch('manifest.json');
+                if (!manifestRes.ok) throw new Error("Không tìm thấy file manifest.json");
+                
+                const promptKeys = await manifestRes.json();
+
+                for (const key of promptKeys) {
+                    const vnFileName = `${key}_vn.md`;
+                    const enFileName = `${key}_en.md`;
+
+                    let vnContent = "";
+                    let enContent = "";
+
+                    // Fetch file VN
+                    try {
+                        const resVn = await fetch(vnFileName);
+                        if (resVn.ok) vnContent = await resVn.text();
+                    } catch (e) {
+                        vnContent = "Không tải được file " + vnFileName;
+                    }
+
+                    // Fetch file EN
+                    try {
+                        const resEn = await fetch(enFileName);
+                        if (resEn.ok) enContent = await resEn.text();
+                    } catch (e) {
+                        enContent = "Không tải được file " + enFileName;
+                    }
+
+                    loadedPromptsData.push({
+                        id: key,
+                        name: key.replace(/[-_]/g, ' ').toUpperCase(),
+                        summary: extractSummary(vnContent || enContent),
+                        vn_file: vnFileName,
+                        en_file: enFileName,
+                        vn_content: vnContent,
+                        en_content: enContent
+                    });
+                }
+
+                renderTable();
+
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Vui lòng tạo file <b>manifest.json</b> nằm cùng thư mục để tự động đọc file!
+                </td></tr>`;
+            }
+        }
+
+        // Tự động lấy tóm tắt từ nội dung MD
+        function extractSummary(content) {
+            if (!content) return "File Prompt";
+            const lines = content.split('\n');
+            for (let line of lines) {
+                if (line.includes('1.') || line.toLowerCase().includes('tóm tắt') || line.toLowerCase().includes('executive summary')) {
+                    return line.replace(/[#*1-9.]/g, '').trim();
+                }
+            }
+            return lines[0]?.substring(0, 90) + '...' || 'File Prompt';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById("promptTableBody");
+            document.getElementById("promptCount").innerText = `${loadedPromptsData.length} Prompts`;
+            tbody.innerHTML = "";
+
+            if (loadedPromptsData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Chưa có prompt nào trong danh sách.</td></tr>`;
+                return;
+            }
+
+            loadedPromptsData.forEach((item, index) => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50/80 transition";
+
+                tr.innerHTML = `
+                    <td class="py-4 px-6 font-semibold text-slate-800">${item.name}</td>
+                    <td class="py-4 px-6 text-slate-600 max-w-md truncate" title="${item.summary}">${item.summary}</td>
+                    <td class="py-4 px-6 text-center">
+                        <span class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 font-mono border border-emerald-200">
+                            <i class="fa-solid fa-file-code"></i> ${item.vn_file}
+                        </span>
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <span class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-mono border border-blue-200">
+                            <i class="fa-solid fa-file-code"></i> ${item.en_file}
+                        </span>
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                        <button onclick="viewPrompt(${index})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-medium text-xs py-1.5 px-3 rounded border border-indigo-200 transition">
+                            <i class="fa-solid fa-eye mr-1"></i> Xem Chi Tiết
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function viewPrompt(index) {
+            const data = loadedPromptsData[index];
+            document.getElementById("detailTitle").innerText = data.name;
+            document.getElementById("detailSummary").innerText = data.summary;
+            document.getElementById("promptVnText").innerText = data.vn_content;
+            document.getElementById("promptEnText").innerText = data.en_content;
+
+            const detailSection = document.getElementById("detailSection");
+            detailSection.classList.remove("hidden");
+            detailSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeDetail() {
+            document.getElementById("detailSection").classList.add("hidden");
+        }
+
+        function copyToClipboard(elementId, btnElement) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = `<i class="fa-solid fa-check text-emerald-600"></i> <span class="text-emerald-600">Copied!</span>`;
+                btnElement.classList.add("border-emerald-300", "bg-emerald-50");
+
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.remove("border-emerald-300", "bg-emerald-50");
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
