@@ -1,30 +1,24 @@
-I am acting as a Technical Lead / Solution Architect. Based on the provided information, documentation, or conversation below, please help me summarize the problem statement and solution using the following standardized structure:
+I am acting as a Technical Lead / Solution Architect. Based on the provided information, documentation, or conversation below, please summarize the problem statement and solution.
 
-1. EXECUTIVE SUMMARY:
-   - What is the main problem statement or objective?
-   - Key stakeholders/teams involved and their respective roles.
+MANDATORY REQUIREMENT: Present ALL sections below entirely using Markdown Tables for maximum readability and structure.
+
+1. EXECUTIVE SUMMARY TABLES:
+   - Table 1 (Objectives): [Core Context / Objective | Technical Solution Details]
+   - Table 2 (Stakeholders): [Stakeholder / Team | Key Representatives | Roles & Responsibilities]
 
 2. TERMINOLOGY & CONCEPTS TABLE:
-   - A table with 4 columns: [Term Name | Concise Definition | Official Reference / Documentation | Purpose / Usage in System].
+   - A 4-column table: [Term Name | Concise Definition | Official Reference / Documentation | Purpose / Usage in System]
 
-3. WORKFLOW DIAGRAM (Indented Outline Flowchart):
-   - Present the processing flow using a hierarchical tab/indentation format, clearly illustrating the sequence across layers (User -> App -> Services -> DB/Third-party).
-   - DO NOT use the word "Step" or numerical step prefixes.
-   - MANDATORY: Wrap the entire Workflow Diagram inside a code block (\`\`\`text ... \`\`\`) to preserve line indentation and spacing.
+3. WORKFLOW TABLE:
+   - A 3-column table: [Processing Layer | Action / Task | Branch Logic & Conditions]
+   - Clearly depict the flow across system layers (User/App -> Services -> DB/Third-party).
 
-   Sample format:
-   PROCESSING LAYER / MAIN CONTEXT
-       Sub-action / Sub-task
-       Sub-action / Sub-task
-           Branch logic / Condition detail
-           Branch logic / Condition detail
+4. RESPONSIBILITY MATRIX (Action Items Tables):
+   - Table 1 (Technical Tasks for Dev/BE/FE): [No. | Technical Task | Assignee/Role | Specific Requirements]
+   - Table 2 (Non-Technical Tasks for Marketing/QA/Agency/Vendor): [Stakeholder | Detailed Task | Expected Deliverables]
 
-4. RESPONSIBILITY MATRIX (RACI / Action Items):
-   - Development Team (Backend/FE/Devs): Key technical tasks and deliverables.
-   - External & Partner Teams (Marketing/QA/Agency/Vendor): Required action items.
-
-5. KEY CONSIDERATIONS FOR LEADERSHIP (Risks & Technical Debts):
-   - Technical risks, bottlenecks, or technical debts that need to be prioritized in the backlog.
+5. KEY CONSIDERATIONS FOR LEADERSHIP (Risks & Technical Debts Table):
+   - A 5-column table: [No. | Category (Risk / Bottleneck / Tech Debt) | Issue Name | Description & Impact | Mitigation / Recommendation]
 
 Below is the context/information to analyze:
 ---------------------------------------------
