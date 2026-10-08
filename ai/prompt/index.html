@@ -117,15 +117,21 @@
             tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Loading prompt data...</td></tr>`;
 
             try {
-                // Fetch manifest.json using relative path
                 const manifestRes = await fetch('./manifest.json');
                 if (!manifestRes.ok) throw new Error("Failed to load manifest.json");
                 
                 const promptItems = await manifestRes.json();
 
                 for (const item of promptItems) {
-                    const vnFileName = `./${item.id}_vn.md`;
-                    const enFileName = `./${item.id}_en.md`;
+                    // Safe parsing for both string array and object array in manifest.json
+                    const promptId = typeof item === 'string' ? item : item.id;
+                    const promptName = typeof item === 'object' && item.name ? item.name : (promptId ? promptId.replace(/[-_]/g, ' ').toUpperCase() : 'UNKNOWN PROMPT');
+                    const promptSummary = typeof item === 'object' && item.summary ? item.summary : 'No summary provided';
+
+                    if (!promptId) continue;
+
+                    const vnFileName = `./${promptId}_vn.md`;
+                    const enFileName = `./${promptId}_en.md`;
 
                     let vnContent = "";
                     let enContent = "";
@@ -134,25 +140,25 @@
                     try {
                         const resVn = await fetch(vnFileName);
                         if (resVn.ok) vnContent = await resVn.text();
-                        else vnContent = `File not found: ${item.id}_vn.md`;
+                        else vnContent = `File not found: ${promptId}_vn.md`;
                     } catch (e) {
-                        vnContent = `Failed to fetch file: ${item.id}_vn.md`;
+                        vnContent = `Failed to fetch file: ${promptId}_vn.md`;
                     }
 
                     // Load English file
                     try {
                         const resEn = await fetch(enFileName);
                         if (resEn.ok) enContent = await resEn.text();
-                        else enContent = `File not found: ${item.id}_en.md`;
+                        else enContent = `File not found: ${promptId}_en.md`;
                     } catch (e) {
-                        enContent = `Failed to fetch file: ${item.id}_en.md`;
+                        enContent = `Failed to fetch file: ${promptId}_en.md`;
                     }
 
                     loadedPromptsData.push({
-                        name: item.name || item.id.replace(/[-_]/g, ' ').toUpperCase(),
-                        summary: item.summary || "No summary provided",
-                        vn_file: `${item.id}_vn.md`,
-                        en_file: `${item.id}_en.md`,
+                        name: promptName,
+                        summary: promptSummary,
+                        vn_file: `${promptId}_vn.md`,
+                        en_file: `${promptId}_en.md`,
                         vn_content: vnContent,
                         en_content: enContent
                     });
