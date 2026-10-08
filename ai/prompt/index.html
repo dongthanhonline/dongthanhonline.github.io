@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +20,11 @@
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold tracking-wide"><i class="fa-solid fa-terminal text-indigo-400 mr-2"></i> Prompt Manager</h1>
-                <p class="text-slate-400 text-sm mt-1">Quản lý và tra cứu Prompt đa ngôn ngữ</p>
+                <p class="text-slate-400 text-sm mt-1">Manage and lookup multi-language AI prompts</p>
             </div>
             <div>
                 <button onclick="loadPromptsFromManifest()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition shadow flex items-center gap-2">
-                    <i class="fa-solid fa-rotate-right"></i> Làm Mới (Reload)
+                    <i class="fa-solid fa-rotate-right"></i> Reload
                 </button>
             </div>
         </div>
@@ -37,7 +37,7 @@
         <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
             <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
                 <h2 class="font-bold text-slate-700 flex items-center gap-2">
-                    <i class="fa-solid fa-list"></i> Danh Sách Prompt
+                    <i class="fa-solid fa-list"></i> Prompt List
                 </h2>
                 <span id="promptCount" class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2.5 py-1 rounded-full">0 Prompts</span>
             </div>
@@ -46,11 +46,11 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
-                            <th class="py-3 px-6">Tên Prompt</th>
-                            <th class="py-3 px-6">Tóm Tắt (Summary)</th>
-                            <th class="py-3 px-6 text-center">Bản Tiếng Việt (VN)</th>
-                            <th class="py-3 px-6 text-center">Bản Tiếng Anh (EN)</th>
-                            <th class="py-3 px-6 text-center">Thao Tác</th>
+                            <th class="py-3 px-6">Prompt Name</th>
+                            <th class="py-3 px-6">Summary</th>
+                            <th class="py-3 px-6 text-center">Vietnamese File</th>
+                            <th class="py-3 px-6 text-center">English File</th>
+                            <th class="py-3 px-6 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="promptTableBody" class="divide-y divide-slate-100 text-sm">
@@ -74,11 +74,11 @@
 
             <!-- Grid 2 Languages -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Tiếng Việt -->
+                <!-- Vietnamese -->
                 <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
                     <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-semibold text-slate-700 flex items-center gap-2">
-                            <span>🇻🇳</span> Tiếng Việt
+                            <span>🇻🇳</span> Vietnamese
                         </span>
                         <button onclick="copyToClipboard('promptVnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
                             <i class="fa-regular fa-copy"></i> <span>Copy</span>
@@ -87,11 +87,11 @@
                     <pre id="promptVnText" class="p-4 text-xs font-mono text-slate-800 whitespace-pre-wrap overflow-y-auto max-h-[550px] custom-scrollbar bg-white"></pre>
                 </div>
 
-                <!-- Tiếng Anh -->
+                <!-- English -->
                 <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
                     <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-semibold text-slate-700 flex items-center gap-2">
-                            <span>🇺🇸</span> Tiếng Anh
+                            <span>🇺🇸</span> English
                         </span>
                         <button onclick="copyToClipboard('promptEnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
                             <i class="fa-regular fa-copy"></i> <span>Copy</span>
@@ -114,42 +114,45 @@
         async function loadPromptsFromManifest() {
             loadedPromptsData = [];
             const tbody = document.getElementById("promptTableBody");
-            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Đang tải dữ liệu...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Loading prompt data...</td></tr>`;
 
             try {
-                const manifestRes = await fetch('manifest.json');
-                if (!manifestRes.ok) throw new Error("Không thể tải manifest.json");
+                // Fetch manifest.json using relative path
+                const manifestRes = await fetch('./manifest.json');
+                if (!manifestRes.ok) throw new Error("Failed to load manifest.json");
                 
                 const promptItems = await manifestRes.json();
 
                 for (const item of promptItems) {
-                    const vnFileName = `${item.id}_vn.md`;
-                    const enFileName = `${item.id}_en.md`;
+                    const vnFileName = `./${item.id}_vn.md`;
+                    const enFileName = `./${item.id}_en.md`;
 
                     let vnContent = "";
                     let enContent = "";
 
-                    // Tải file Tiếng Việt
+                    // Load Vietnamese file
                     try {
                         const resVn = await fetch(vnFileName);
                         if (resVn.ok) vnContent = await resVn.text();
+                        else vnContent = `File not found: ${item.id}_vn.md`;
                     } catch (e) {
-                        vnContent = "Không tải được file " + vnFileName;
+                        vnContent = `Failed to fetch file: ${item.id}_vn.md`;
                     }
 
-                    // Tải file Tiếng Anh
+                    // Load English file
                     try {
                         const resEn = await fetch(enFileName);
                         if (resEn.ok) enContent = await resEn.text();
+                        else enContent = `File not found: ${item.id}_en.md`;
                     } catch (e) {
-                        enContent = "Không tải được file " + enFileName;
+                        enContent = `Failed to fetch file: ${item.id}_en.md`;
                     }
 
                     loadedPromptsData.push({
                         name: item.name || item.id.replace(/[-_]/g, ' ').toUpperCase(),
-                        summary: item.summary || "Không có tóm tắt",
-                        vn_file: vnFileName,
-                        en_file: enFileName,
+                        summary: item.summary || "No summary provided",
+                        vn_file: `${item.id}_vn.md`,
+                        en_file: `${item.id}_en.md`,
                         vn_content: vnContent,
                         en_content: enContent
                     });
@@ -160,7 +163,7 @@
             } catch (err) {
                 console.error(err);
                 tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-medium">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Lỗi đọc file manifest.json. Hãy đảm bảo bạn đã mở web qua Python Server (http://localhost:8000).
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Failed to load <b>manifest.json</b>. Please ensure <b>manifest.json</b> exists in the same directory and is pushed to your repo.
                 </td></tr>`;
             }
         }
@@ -171,7 +174,7 @@
             tbody.innerHTML = "";
 
             if (loadedPromptsData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Danh sách trống.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">No prompts found.</td></tr>`;
                 return;
             }
 
@@ -194,7 +197,7 @@
                     </td>
                     <td class="py-4 px-6 text-center">
                         <button onclick="viewPrompt(${index})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-medium text-xs py-1.5 px-3 rounded border border-indigo-200 transition">
-                            <i class="fa-solid fa-eye mr-1"></i> Xem Chi Tiết
+                            <i class="fa-solid fa-eye mr-1"></i> View Details
                         </button>
                     </td>
                 `;
