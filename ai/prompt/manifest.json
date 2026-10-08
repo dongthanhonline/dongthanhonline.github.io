@@ -1,3 +1,7 @@
 [
-  "doc_analysis_prompt"
+  {
+    "id": "doc_analysis_prompt",
+    "name": "DOCUMENT ANALYSIS PROMPT",
+    "summary": "Tổng hợp thông tin kỹ thuật, luồng xử lý (Indented Workflow), bảng thuật ngữ và phân định trách nhiệm cho Tech Lead/Architect."
+  }
 ]
