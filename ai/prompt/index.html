@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold tracking-wide"><i class="fa-solid fa-terminal text-indigo-400 mr-2"></i> Prompt Manager</h1>
-                <p class="text-slate-400 text-sm mt-1">Tự động đọc danh sách prompt từ file trong cùng thư mục</p>
+                <p class="text-slate-400 text-sm mt-1">Quản lý và tra cứu Prompt đa ngôn ngữ</p>
             </div>
             <div>
                 <button onclick="loadPromptsFromManifest()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition shadow flex items-center gap-2">
@@ -54,13 +54,13 @@
                         </tr>
                     </thead>
                     <tbody id="promptTableBody" class="divide-y divide-slate-100 text-sm">
-                        <!-- Render dynamic rows -->
+                        <!-- Dynamic Content -->
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Prompt Viewer (Detail Section) -->
+        <!-- Prompt Detail Viewer -->
         <section id="detailSection" class="hidden bg-white rounded-xl shadow-lg border border-slate-200 p-6 transition-all">
             <div class="flex justify-between items-start border-b border-slate-200 pb-4 mb-6">
                 <div>
@@ -78,7 +78,7 @@
                 <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
                     <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-semibold text-slate-700 flex items-center gap-2">
-                            <span>🇻🇳</span> Tiếng Việt (prompt_vn)
+                            <span>🇻🇳</span> Tiếng Việt
                         </span>
                         <button onclick="copyToClipboard('promptVnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
                             <i class="fa-regular fa-copy"></i> <span>Copy</span>
@@ -91,7 +91,7 @@
                 <div class="flex flex-col bg-slate-50 rounded-lg border border-slate-200 overflow-hidden">
                     <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-semibold text-slate-700 flex items-center gap-2">
-                            <span>🇺🇸</span> Tiếng Anh (prompt_en)
+                            <span>🇺🇸</span> Tiếng Anh
                         </span>
                         <button onclick="copyToClipboard('promptEnText', this)" class="text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-medium py-1.5 px-3 rounded shadow-sm transition flex items-center gap-1.5">
                             <i class="fa-regular fa-copy"></i> <span>Copy</span>
@@ -114,23 +114,22 @@
         async function loadPromptsFromManifest() {
             loadedPromptsData = [];
             const tbody = document.getElementById("promptTableBody");
-            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Đang đọc dữ liệu từ thư mục...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Đang tải dữ liệu...</td></tr>`;
 
             try {
-                // Đọc file manifest.json
                 const manifestRes = await fetch('manifest.json');
-                if (!manifestRes.ok) throw new Error("Không tìm thấy file manifest.json");
+                if (!manifestRes.ok) throw new Error("Không thể tải manifest.json");
                 
-                const promptKeys = await manifestRes.json();
+                const promptItems = await manifestRes.json();
 
-                for (const key of promptKeys) {
-                    const vnFileName = `${key}_vn.md`;
-                    const enFileName = `${key}_en.md`;
+                for (const item of promptItems) {
+                    const vnFileName = `${item.id}_vn.md`;
+                    const enFileName = `${item.id}_en.md`;
 
                     let vnContent = "";
                     let enContent = "";
 
-                    // Fetch file VN
+                    // Tải file Tiếng Việt
                     try {
                         const resVn = await fetch(vnFileName);
                         if (resVn.ok) vnContent = await resVn.text();
@@ -138,7 +137,7 @@
                         vnContent = "Không tải được file " + vnFileName;
                     }
 
-                    // Fetch file EN
+                    // Tải file Tiếng Anh
                     try {
                         const resEn = await fetch(enFileName);
                         if (resEn.ok) enContent = await resEn.text();
@@ -147,9 +146,8 @@
                     }
 
                     loadedPromptsData.push({
-                        id: key,
-                        name: key.replace(/[-_]/g, ' ').toUpperCase(),
-                        summary: extractSummary(vnContent || enContent),
+                        name: item.name || item.id.replace(/[-_]/g, ' ').toUpperCase(),
+                        summary: item.summary || "Không có tóm tắt",
                         vn_file: vnFileName,
                         en_file: enFileName,
                         vn_content: vnContent,
@@ -161,22 +159,10 @@
 
             } catch (err) {
                 console.error(err);
-                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Vui lòng tạo file <b>manifest.json</b> nằm cùng thư mục để tự động đọc file!
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-medium">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Lỗi đọc file manifest.json. Hãy đảm bảo bạn đã mở web qua Python Server (http://localhost:8000).
                 </td></tr>`;
             }
-        }
-
-        // Tự động lấy tóm tắt từ nội dung MD
-        function extractSummary(content) {
-            if (!content) return "File Prompt";
-            const lines = content.split('\n');
-            for (let line of lines) {
-                if (line.includes('1.') || line.toLowerCase().includes('tóm tắt') || line.toLowerCase().includes('executive summary')) {
-                    return line.replace(/[#*1-9.]/g, '').trim();
-                }
-            }
-            return lines[0]?.substring(0, 90) + '...' || 'File Prompt';
         }
 
         function renderTable() {
@@ -185,7 +171,7 @@
             tbody.innerHTML = "";
 
             if (loadedPromptsData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Chưa có prompt nào trong danh sách.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">Danh sách trống.</td></tr>`;
                 return;
             }
 
