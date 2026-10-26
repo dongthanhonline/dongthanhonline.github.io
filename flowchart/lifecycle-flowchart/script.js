@@ -18,14 +18,16 @@ const defaultJsonData = {
 let editor;
 let currentMermaidCode = '';
 
-// Initialize Mermaid.js
+// Initialize Mermaid.js với cấu hình chống tràn
 mermaid.initialize({
   startOnLoad: false,
   theme: 'dark',
   flowchart: {
-    useMaxWidth: true,
+    useMaxWidth: false, // QUAN TRỌNG: Tắt ép chiều rộng tối đa để SVG không bị bóp méo
     htmlLabels: true,
-    curve: 'basis'
+    curve: 'basis',
+    nodeSpacing: 50,
+    rankSpacing: 60
   }
 });
 
@@ -114,7 +116,7 @@ function showToast(message) {
   }, 2500);
 }
 
-// Initialize Page & Load Initial JSON File
+// Initialize Page & Load Initial JSON Data
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize CodeMirror Editor
   const textarea = document.getElementById('json-input');
@@ -137,7 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       initialJsonContent = JSON.stringify(defaultJsonData, null, 2);
     }
   } catch (e) {
-    // Fallback to default Javascript object if local file fetch is restricted
     initialJsonContent = JSON.stringify(defaultJsonData, null, 2);
   }
 
