@@ -1,0 +1,49 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "event_name": "membership.signup",
+      "note": "Status: active"
+    },
+    {
+      "id": "2",
+      "event_name": "payment_failed",
+      "note": "Status: past_due"
+    },
+    {
+      "id": "3",
+      "event_name": "payment_succeeded",
+      "note": "Status: active"
+    },
+    {
+      "id": "4",
+      "event_name": "cancelled",
+      "note": "Status: cancelled"
+    }
+  ],
+  "edges": [
+    {
+      "from": "1",
+      "to": "2"
+    },
+    {
+      "from": "1",
+      "to": "4",
+      "label": "User Cancelled"
+    },
+    {
+      "from": "2",
+      "to": "3"
+    },
+    {
+      "from": "2",
+      "to": "4",
+      "label": "Max Retries Exceeded"
+    },
+    {
+      "from": "3",
+      "to": "4",
+      "label": "User Cancelled"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifecycle Flowchart Generator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="bg-indigo-600 p-2 rounded-lg text-white">
+        <i class="fa-solid fa-diagram-project text-xl"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold tracking-wide text-white">Lifecycle Diagram Visualizer</h1>
+        <p class="text-xs text-gray-400">Generate lifecycle flowcharts dynamically from JSON data</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-3">
+      <button id="btn-reset" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium rounded-md transition flex items-center gap-2 border border-gray-700">
+        <i class="fa-solid fa-rotate-left"></i> Reset Sample
+      </button>
+      <button id="btn-copy-mermaid" class="px-3 py-1.5 bg-indigo-900/50 hover:bg-indigo-800/60 text-indigo-300 text-sm font-medium rounded-md transition flex items-center gap-2 border border-indigo-700/50">
+        <i class="fa-regular fa-copy"></i> Copy Mermaid Syntax
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Grid Content -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
+    
+    <!-- Left Column: JSON Input Panel (5 Cols) -->
+    <section class="lg:col-span-5 bg-gray-900 border-r border-gray-800 flex flex-col h-[calc(100vh-73px)]">
+      <div class="p-4 bg-gray-900/80 border-b border-gray-800 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-code text-indigo-400"></i>
+          <span class="font-semibold text-sm text-gray-200">JSON Lifecycle Configuration</span>
+        </div>
+        <span id="json-status" class="text-xs px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Valid JSON
+        </span>
+      </div>
+
+      <!-- JSON Code Mirror Container -->
+      <div class="flex-1 relative overflow-hidden">
+        <textarea id="json-input"></textarea>
+      </div>
+
+      <!-- Data Structure Documentation Quick View -->
+      <div class="p-4 bg-gray-950/80 border-t border-gray-800 text-xs text-gray-400 space-y-1">
+        <div class="font-semibold text-gray-300 mb-1 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-info text-indigo-400"></i> Required Schema Format:
+        </div>
+        <p><code class="text-indigo-300">nodes</code>: Array of nodes with <code class="text-gray-300">id</code>, <code class="text-gray-300">event_name</code>, <code class="text-gray-300">note</code>.</p>
+        <p><code class="text-indigo-300">edges</code>: Connectors with <code class="text-gray-300">from</code>, <code class="text-gray-300">to</code>, and optional <code class="text-gray-300">label</code>.</p>
+      </div>
+    </section>
+
+    <!-- Right Column: Flowchart Render Output (7 Cols) -->
+    <section class="lg:col-span-7 bg-gray-950 flex flex-col h-[calc(100vh-73px)] relative">
+      <div class="p-4 bg-gray-900/50 border-b border-gray-800/80 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-eye text-emerald-400"></i>
+          <span class="font-semibold text-sm text-gray-200">Interactive Visual Diagram</span>
+        </div>
+        <div class="text-xs text-gray-500">Auto-sync enabled</div>
+      </div>
+
+      <!-- Diagram Canvas Container -->
+      <div class="flex-1 p-6 overflow-auto flex items-center justify-center relative min-h-[400px]" id="canvas-container">
+        <!-- Rendered Flowchart target -->
+        <div id="mermaid-output" class="mermaid flex justify-center items-center w-full"></div>
+      </div>
+
+      <!-- Toast Notification -->
+      <div id="toast" class="absolute bottom-6 right-6 bg-indigo-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium opacity-0 transition-opacity duration-300 pointer-events-none flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-msg">Copied successfully!</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <!-- Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>

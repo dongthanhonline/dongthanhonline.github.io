@@ -1,0 +1,70 @@
+/* CodeMirror Custom Dark Style Adjustment */
+.CodeMirror {
+  height: 100% !important;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  background-color: #0d1117 !important;
+}
+
+.CodeMirror-gutters {
+  background-color: #161b22 !important;
+  border-right: 1px solid #30363d !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #21262d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #30363d;
+}
+
+/* Mermaid Custom Node Styling for Dashed Boxes */
+#mermaid-output svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+#mermaid-output .node rect, 
+#mermaid-output .node polygon,
+#mermaid-output .node circle {
+  stroke-dasharray: 4 4 !important;
+  stroke-width: 1.5px !important;
+  stroke: #ffffff !important;
+  fill: #000000 !important;
+  rx: 4px;
+  ry: 4px;
+}
+
+#mermaid-output .node .label {
+  color: #ffffff !important;
+  font-family: 'Fira Code', Consolas, monospace !important;
+  font-size: 13px !important;
+}
+
+#mermaid-output .edgePath .path {
+  stroke: #9ca3af !important;
+  stroke-width: 1.5px !important;
+}
+
+#mermaid-output .edgeLabel {
+  background-color: #030712 !important;
+  color: #d1d5db !important;
+  font-family: ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 12px !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+#mermaid-output .marker {
+  fill: #9ca3af !important;
+  stroke: #9ca3af !important;
+}
