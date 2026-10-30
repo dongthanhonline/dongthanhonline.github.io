@@ -1,5 +1,186 @@
+// Dữ liệu mẫu dự phòng (Tránh lỗi Undefined khi không load được data.json)
+const defaultJsonData = {
+  "nodes": [
+    {
+      "id": "1",
+      "event_name": "membership.signup",
+      "note": "Status: active"
+    },
+    {
+      "id": "2",
+      "event_name": "payment_succeeded",
+      "note": "Status: active"
+    },
+    {
+      "id": "3",
+      "event_name": "payment_failed",
+      "note": "Status: past_due"
+    }
+  ],
+  "edges": [
+    {
+      "from": "1",
+      "to": "2",
+      "label": "Next month"
+    },
+    {
+      "from": "1",
+      "to": "3",
+      "label": "Fail payment"
+    }
+  ]
+};
+
+const systemPromptText = `Bạn là một JSON Workflow Parser chuyên nghiệp. Nhiệm vụ của bạn là đọc mô tả quy trình (Workflow / State Machine) dạng Markdown hoặc văn bản do người dùng cung cấp và chuyển đổi thành một đối tượng JSON chuẩn theo đúng Schema bên dưới.
+
+### Yêu cầu đầu ra (JSON Schema Rules):
+1. Cấu trúc JSON chỉ bao gồm 2 mảng chính: \`nodes\` và \`edges\`.
+2. Mảng \`nodes\`: Mỗi node đại diện cho một trạng thái / sự kiện / bước trong workflow.
+   - \`id\`: Chuỗi định danh duy nhất (ví dụ: "1", "2", "3" hoặc slug tên event).
+   - \`event_name\`: Tên ngắn gọn của sự kiện hoặc trạng thái (ví dụ: "membership.signup", "payment_failed").
+   - \`note\`: Thông tin phụ, trạng thái liên quan (ví dụ: "Status: active", "Status: past_due").
+3. Mảng \`edges\`: Mỗi edge đại diện cho luồng chuyển đổi (transition) giữa 2 node.
+   - \`from\`: ID của node bắt đầu.
+   - \`to\`: ID của node kết thúc.
+   - \`label\`: Điều kiện hoặc hành động kích hoạt sự dịch chuyển (ví dụ: "Fail payment", "User Cancelled").
+4. CHỈ TRẢ VỀ DUY NHẤT ĐOẠN MÃ JSON (Không thêm lời dẫn, không giải thích, không dùng markdown block thừa ngoài code block json).
+
+---
+
+### Mẫu JSON mong muốn (Output Format Example):
+{
+  "nodes": [
+    {
+      "id": "1",
+      "event_name": "membership.signup",
+      "note": "Status: active"
+    },
+    {
+      "id": "2",
+      "event_name": "payment_succeeded",
+      "note": "Status: active"
+    }
+  ],
+  "edges": [
+    {
+      "from": "1",
+      "to": "2",
+      "label": "Next month"
+    }
+  ]
+}
+
+---
+
+Dưới đây là nội dung Workflow Markdown của tôi, hãy trích xuất và trả về JSON tương ứng:
+[DÁN NỘI DUNG MARKDOWN WORKFLOW CỦA BẠN VÀO ĐÂY]`;
+
 let editor;
 let currentMermaidCode = '';
+
+
+let editor;
+let currentMermaidCode = '';
+
+// Dữ liệu mẫu dự phòng (Tránh lỗi Undefined khi không load được data.json)
+const defaultJsonData = {
+  "nodes": [
+    {
+      "id": "1",
+      "event_name": "membership.signup",
+      "note": "Status: active"
+    },
+    {
+      "id": "2",
+      "event_name": "payment_succeeded",
+      "note": "Status: active"
+    },
+    {
+      "id": "3",
+      "event_name": "payment_failed",
+      "note": "Status: past_due"
+    }
+  ],
+  "edges": [
+    {
+      "from": "1",
+      "to": "2",
+      "label": "Next month"
+    },
+    {
+      "from": "1",
+      "to": "3",
+      "label": "Fail payment"
+    }
+  ]
+};
+
+const systemPromptText = `Bạn là một JSON Workflow Parser chuyên nghiệp. Nhiệm vụ của bạn là đọc mô tả quy trình (Workflow / State Machine) dạng Markdown hoặc văn bản do người dùng cung cấp và chuyển đổi thành một đối tượng JSON chuẩn theo đúng Schema bên dưới.
+
+### Yêu cầu đầu ra (JSON Schema Rules):
+1. Cấu trúc JSON chỉ bao gồm 2 mảng chính: \`nodes\` và \`edges\`.
+2. Mảng \`nodes\`: Mỗi node đại diện cho một trạng thái / sự kiện / bước trong workflow.
+   - \`id\`: Chuỗi định danh duy nhất (ví dụ: "1", "2", "3" hoặc slug tên event).
+   - \`event_name\`: Tên ngắn gọn của sự kiện hoặc trạng thái (ví dụ: "membership.signup", "payment_failed").
+   - \`note\`: Thông tin phụ, trạng thái liên quan (ví dụ: "Status: active", "Status: past_due").
+3. Mảng \`edges\`: Mỗi edge đại diện cho luồng chuyển đổi (transition) giữa 2 node.
+   - \`from\`: ID của node bắt đầu.
+   - \`to\`: ID của node kết thúc.
+   - \`label\`: Điều kiện hoặc hành động kích hoạt sự dịch chuyển (ví dụ: "Fail payment", "User Cancelled").
+4. CHỈ TRẢ VỀ DUY NHẤT ĐOẠN MÃ JSON (Không thêm lời dẫn, không giải thích, không dùng markdown block thừa ngoài code block json).
+
+---
+
+### Mẫu JSON mong muốn (Output Format Example):
+{
+  "nodes": [
+    {
+      "id": "1",
+      "event_name": "membership.signup",
+      "note": "Status: active"
+    },
+    {
+      "id": "2",
+      "event_name": "payment_succeeded",
+      "note": "Status: active"
+    }
+  ],
+  "edges": [
+    {
+      "from": "1",
+      "to": "2",
+      "label": "Next month"
+    }
+  ]
+}
+
+---
+
+Dưới đây là nội dung Workflow Markdown của tôi, hãy trích xuất và trả về JSON tương ứng:
+[DÁN NỘI DUNG MARKDOWN WORKFLOW CỦA BẠN VÀO ĐÂY]`;
+
+let editor;
+let currentMermaidCode = '';
+
+function copySystemPrompt() {
+  navigator.clipboard.writeText(systemPromptText).then(() => {
+    const btn = document.getElementById('btn-copy-prompt');
+    const btnText = document.getElementById('prompt-btn-text');
+    if (!btn || !btnText) return;
+    
+    btnText.textContent = 'Copied!';
+    btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+    btn.classList.add('bg-emerald-600');
+
+    setTimeout(() => {
+      btnText.textContent = 'Copy System Prompt';
+      btn.classList.remove('bg-emerald-600');
+      btn.classList.add('bg-indigo-600', 'hover:bg-indigo-500');
+    }, 2000);
+  }).catch(err => {
+    console.error('Lỗi khi copy prompt: ', err);
+  });
+}
 
 // Initialize Mermaid.js với cấu hình chống tràn
 mermaid.initialize({
