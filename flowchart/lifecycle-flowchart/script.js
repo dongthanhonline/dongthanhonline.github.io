@@ -78,90 +78,6 @@ Dưới đây là nội dung Workflow Markdown của tôi, hãy trích xuất v�
 let editor;
 let currentMermaidCode = '';
 
-
-let editor;
-let currentMermaidCode = '';
-
-// Dữ liệu mẫu dự phòng (Tránh lỗi Undefined khi không load được data.json)
-const defaultJsonData = {
-  "nodes": [
-    {
-      "id": "1",
-      "event_name": "membership.signup",
-      "note": "Status: active"
-    },
-    {
-      "id": "2",
-      "event_name": "payment_succeeded",
-      "note": "Status: active"
-    },
-    {
-      "id": "3",
-      "event_name": "payment_failed",
-      "note": "Status: past_due"
-    }
-  ],
-  "edges": [
-    {
-      "from": "1",
-      "to": "2",
-      "label": "Next month"
-    },
-    {
-      "from": "1",
-      "to": "3",
-      "label": "Fail payment"
-    }
-  ]
-};
-
-const systemPromptText = `Bạn là một JSON Workflow Parser chuyên nghiệp. Nhiệm vụ của bạn là đọc mô tả quy trình (Workflow / State Machine) dạng Markdown hoặc văn bản do người dùng cung cấp và chuyển đổi thành một đối tượng JSON chuẩn theo đúng Schema bên dưới.
-
-### Yêu cầu đầu ra (JSON Schema Rules):
-1. Cấu trúc JSON chỉ bao gồm 2 mảng chính: \`nodes\` và \`edges\`.
-2. Mảng \`nodes\`: Mỗi node đại diện cho một trạng thái / sự kiện / bước trong workflow.
-   - \`id\`: Chuỗi định danh duy nhất (ví dụ: "1", "2", "3" hoặc slug tên event).
-   - \`event_name\`: Tên ngắn gọn của sự kiện hoặc trạng thái (ví dụ: "membership.signup", "payment_failed").
-   - \`note\`: Thông tin phụ, trạng thái liên quan (ví dụ: "Status: active", "Status: past_due").
-3. Mảng \`edges\`: Mỗi edge đại diện cho luồng chuyển đổi (transition) giữa 2 node.
-   - \`from\`: ID của node bắt đầu.
-   - \`to\`: ID của node kết thúc.
-   - \`label\`: Điều kiện hoặc hành động kích hoạt sự dịch chuyển (ví dụ: "Fail payment", "User Cancelled").
-4. CHỈ TRẢ VỀ DUY NHẤT ĐOẠN MÃ JSON (Không thêm lời dẫn, không giải thích, không dùng markdown block thừa ngoài code block json).
-
----
-
-### Mẫu JSON mong muốn (Output Format Example):
-{
-  "nodes": [
-    {
-      "id": "1",
-      "event_name": "membership.signup",
-      "note": "Status: active"
-    },
-    {
-      "id": "2",
-      "event_name": "payment_succeeded",
-      "note": "Status: active"
-    }
-  ],
-  "edges": [
-    {
-      "from": "1",
-      "to": "2",
-      "label": "Next month"
-    }
-  ]
-}
-
----
-
-Dưới đây là nội dung Workflow Markdown của tôi, hãy trích xuất và trả về JSON tương ứng:
-[DÁN NỘI DUNG MARKDOWN WORKFLOW CỦA BẠN VÀO ĐÂY]`;
-
-let editor;
-let currentMermaidCode = '';
-
 function copySystemPrompt() {
   navigator.clipboard.writeText(systemPromptText).then(() => {
     const btn = document.getElementById('btn-copy-prompt');
@@ -182,12 +98,12 @@ function copySystemPrompt() {
   });
 }
 
-// Initialize Mermaid.js với cấu hình chống tràn
+// Initialize Mermaid.js
 mermaid.initialize({
   startOnLoad: false,
   theme: 'dark',
   flowchart: {
-    useMaxWidth: false, // QUAN TRỌNG: Tắt ép chiều rộng tối đa để SVG không bị bóp méo
+    useMaxWidth: false,
     htmlLabels: true,
     curve: 'basis',
     nodeSpacing: 50,
@@ -195,7 +111,6 @@ mermaid.initialize({
   }
 });
 
-// Helper: Escape HTML string to avoid injection in labels
 function escapeHtml(text) {
   if (!text) return '';
   return text
@@ -206,7 +121,6 @@ function escapeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
-// Convert JSON structure into Mermaid Syntax
 function jsonToMermaid(data) {
   if (!data || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) {
     throw new Error("JSON structure must contain 'nodes' and 'edges' arrays.");
@@ -214,17 +128,13 @@ function jsonToMermaid(data) {
 
   let code = "graph TD\n";
 
-  // Define Nodes
   data.nodes.forEach(node => {
     const eventName = escapeHtml(node.event_name || '');
     const note = escapeHtml(node.note || '');
-    
-    // Formatting content inside node box
     const label = `"${eventName}<br/><span style='font-size:11px;opacity:0.8;'>(${note})</span>"`;
     code += `  node_${node.id}[${label}]\n`;
   });
 
-  // Define Edges/Connections
   data.edges.forEach(edge => {
     if (edge.label && edge.label.trim() !== '') {
       const edgeLabel = escapeHtml(edge.label);
@@ -237,22 +147,21 @@ function jsonToMermaid(data) {
   return code;
 }
 
-// Render Flowchart to UI
 async function renderDiagram(jsonString) {
   const statusEl = document.getElementById('json-status');
   const outputEl = document.getElementById('mermaid-output');
+  if (!outputEl) return;
 
   try {
     const data = JSON.parse(jsonString);
     
-    // Update status badge: Valid JSON
-    statusEl.className = 'text-xs px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1.5';
-    statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Valid JSON';
+    if (statusEl) {
+      statusEl.className = 'text-xs px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1.5';
+      statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Valid JSON';
+    }
 
-    // Generate Mermaid Code
     currentMermaidCode = jsonToMermaid(data);
 
-    // Render using Mermaid
     outputEl.removeAttribute('data-processed');
     outputEl.innerHTML = '';
     
@@ -260,16 +169,18 @@ async function renderDiagram(jsonString) {
     outputEl.innerHTML = svg;
 
   } catch (err) {
-    // Update status badge: Invalid JSON
-    statusEl.className = 'text-xs px-2.5 py-1 rounded-full bg-rose-950 text-rose-400 border border-rose-800 flex items-center gap-1.5';
-    statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Syntax Error';
+    if (statusEl) {
+      statusEl.className = 'text-xs px-2.5 py-1 rounded-full bg-rose-950 text-rose-400 border border-rose-800 flex items-center gap-1.5';
+      statusEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Syntax Error';
+    }
   }
 }
 
-// Show Toast Notification
 function showToast(message) {
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toast-msg');
+  if (!toast || !toastMsg) return;
+  
   toastMsg.innerText = message;
   toast.classList.remove('opacity-0');
   toast.classList.add('opacity-100');
@@ -280,10 +191,10 @@ function showToast(message) {
   }, 2500);
 }
 
-// Initialize Page & Load Initial JSON Data
 document.addEventListener('DOMContentLoaded', async () => {
-  // Initialize CodeMirror Editor
   const textarea = document.getElementById('json-input');
+  if (!textarea) return;
+
   editor = CodeMirror.fromTextArea(textarea, {
     mode: { name: "javascript", json: true },
     theme: "dracula",
@@ -292,7 +203,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     lineWrapping: true
   });
 
-  // Try fetching external data.json file first
   let initialJsonContent = '';
   try {
     const response = await fetch('data.json');
@@ -306,11 +216,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initialJsonContent = JSON.stringify(defaultJsonData, null, 2);
   }
 
-  // Set editor value & render
   editor.setValue(initialJsonContent);
   renderDiagram(initialJsonContent);
 
-  // Auto Render on Change (Debounce)
   let timer;
   editor.on('change', () => {
     clearTimeout(timer);
@@ -319,19 +227,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 400);
   });
 
-  // Button Action: Reset Sample
-  document.getElementById('btn-reset').addEventListener('click', () => {
-    const resetContent = JSON.stringify(defaultJsonData, null, 2);
-    editor.setValue(resetContent);
-    renderDiagram(resetContent);
-    showToast('Reset to default sample data');
-  });
+  const btnReset = document.getElementById('btn-reset');
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      const resetContent = JSON.stringify(defaultJsonData, null, 2);
+      editor.setValue(resetContent);
+      renderDiagram(resetContent);
+      showToast('Reset to default sample data');
+    });
+  }
 
-  // Button Action: Copy Mermaid Code
-  document.getElementById('btn-copy-mermaid').addEventListener('click', () => {
-    if (currentMermaidCode) {
-      navigator.clipboard.writeText(currentMermaidCode);
-      showToast('Mermaid syntax copied to clipboard!');
-    }
-  });
+  const btnCopyMermaid = document.getElementById('btn-copy-mermaid');
+  if (btnCopyMermaid) {
+    btnCopyMermaid.addEventListener('click', () => {
+      if (currentMermaidCode) {
+        navigator.clipboard.writeText(currentMermaidCode);
+        showToast('Mermaid syntax copied to clipboard!');
+      }
+    });
+  }
 });
