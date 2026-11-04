@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Email Thread & Mind Map Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .node-link {
+            fill: none;
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+            transition: stroke-opacity 0.2s, stroke-width 0.2s;
+        }
+
+        .node-link:hover {
+            stroke-opacity: 1;
+            stroke-width: 3.5px;
+        }
+
+        .node-circle {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .node-circle:hover {
+            filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.6));
+            transform: scale(1.15);
+        }
+
+        .node-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="font-sans h-full bg-slate-950 text-slate-100 flex flex-col overflow-hidden">
+
+    <!-- Top Navigation Header -->
+    <header class="h-16 border-b border-slate-800 bg-slate-900/90 px-4 md:px-6 flex items-center justify-between z-20 shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
+                <i class="fa-solid fa-diagram-project text-slate-950 text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-base md:text-lg font-bold text-slate-100 leading-tight">Interactive Mind Map & Tree Generator</h1>
+                <p class="text-xs text-teal-400 font-medium">Generate Mind Maps dynamically from text or JSON</p>
+            </div>
+        </div>
+
+        <!-- Central View Controls -->
+        <div class="flex items-center space-x-2 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
+            <button id="btn-radial" onclick="switchViewMode('radial')" class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition bg-teal-500 text-slate-950 shadow-sm">
+                <i class="fa-solid fa-circle-notch"></i>
+                <span class="hidden sm:inline">Radial Map</span>
+            </button>
+            <button id="btn-tree" onclick="switchViewMode('tree')" class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition text-slate-400 hover:text-slate-100 hover:bg-slate-800">
+                <i class="fa-solid fa-sitemap"></i>
+                <span class="hidden sm:inline">Tree Diagram</span>
+            </button>
+        </div>
+
+        <!-- Quick Actions & Import/Export Controls -->
+        <div class="flex items-center space-x-2">
+            <button id="btn-import-json" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs rounded-lg shadow-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-file-import"></i> <span class="hidden md:inline">Import JSON</span>
+            </button>
+            <input type="file" id="import-file-input" accept=".json" class="hidden">
+
+            <button id="btn-export-json" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs rounded-lg shadow-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-file-export"></i> <span class="hidden md:inline">Export JSON</span>
+            </button>
+
+            <button onclick="resetZoom()" class="p-2 text-slate-400 hover:text-slate-100 bg-slate-800/80 hover:bg-slate-700 rounded-lg text-xs transition" title="Reset View">
+                <i class="fa-solid fa-arrows-to-dot text-sm"></i>
+            </button>
+            <button onclick="toggleSidebar()" class="p-2 text-teal-400 bg-slate-800/80 hover:bg-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span class="hidden md:inline">Input & Tree</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="flex-1 flex relative overflow-hidden">
+        
+        <!-- Interactive Canvas Area -->
+        <main class="flex-1 relative h-full w-full bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px]">
+            
+            <!-- Real-time Metrics Floating Badge -->
+            <div class="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
+                <div class="glass-panel px-3 py-2 rounded-xl flex items-center gap-2 shadow-lg">
+                    <span class="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse"></span>
+                    <span class="text-xs font-semibold text-slate-300">Total Nodes:</span>
+                    <span id="stat-total-nodes" class="text-xs font-bold text-teal-400">0</span>
+                </div>
+                <div class="glass-panel px-3 py-2 rounded-xl flex items-center gap-2 shadow-lg hidden sm:flex">
+                    <i class="fa-solid fa-code-branch text-purple-400 text-xs"></i>
+                    <span class="text-xs font-semibold text-slate-300">Main Branches:</span>
+                    <span id="stat-main-branches" class="text-xs font-bold text-purple-400">0</span>
+                </div>
+                <div class="glass-panel px-3 py-2 rounded-xl flex items-center gap-2 shadow-lg hidden md:flex">
+                    <i class="fa-solid fa-cubes text-amber-400 text-xs"></i>
+                    <span class="text-xs font-semibold text-slate-300">Leaf Features:</span>
+                    <span id="stat-leaf-nodes" class="text-xs font-bold text-amber-400">0</span>
+                </div>
+            </div>
+
+            <!-- Controls Info -->
+            <div class="absolute bottom-4 left-4 z-10 glass-panel p-3 rounded-xl text-[11px] text-slate-400 space-y-1 hidden sm:block border border-slate-800">
+                <div class="flex items-center gap-2 font-semibold text-slate-300 mb-1">
+                    <i class="fa-solid fa-hand-pointer text-teal-400"></i> Navigation:
+                </div>
+                <div>• Scroll Wheel: Zoom In / Out</div>
+                <div>• Click & Drag: Pan Workspace</div>
+                <div>• Click Circle Node: Expand / Collapse</div>
+                <div>• Click Node Text: View Details</div>
+            </div>
+
+            <!-- SVG Container for D3 Rendering -->
+            <div id="canvas-container" class="w-full h-full cursor-grab active:cursor-grabbing">
+                <svg id="mindmap-svg" class="w-full h-full"></svg>
+            </div>
+        </main>
+
+        <!-- Right Side Text Input & Hierarchy Panel -->
+        <aside id="sidebar-panel" class="w-80 md:w-96 glass-panel border-l border-slate-800 flex flex-col h-full z-10 transition-all duration-300 absolute right-0 top-0 bottom-0 md:relative translate-x-full md:translate-x-0">
+            
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-teal-400"></i>
+                    <span>Text Input & Controls</span>
+                </h2>
+                <button onclick="toggleSidebar()" class="text-slate-400 hover:text-slate-200 md:hidden p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Text Area Input & Parse Button -->
+            <div class="p-4 border-b border-slate-800 bg-slate-950/40 space-y-3">
+                <label for="text-input" class="block font-semibold text-xs text-slate-300">
+                    Input Text (Structured / Indented / Raw):
+                </label>
+                <textarea id="text-input" rows="6" class="w-full p-2.5 font-mono text-xs border border-slate-700/80 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-slate-900 text-slate-200 resize-y leading-relaxed placeholder-slate-500" placeholder="Paste structured text or bullet points here..."></textarea>
+                
+                <button id="btn-generate" onclick="generateFromTextInput()" class="w-full py-2 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-slate-950 font-bold text-xs rounded-lg shadow-sm transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Generate Diagram</span>
+                </button>
+            </div>
+
+            <!-- Scrollable Details & Search -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                
+                <!-- Search Filter Input -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                    <input type="text" id="search-input" onkeyup="filterTree()" placeholder="Filter nodes..." class="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700/60 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <!-- Active Node Inspector Box -->
+                <div id="inspector-card" class="bg-gradient-to-br from-slate-900 to-slate-900/90 border border-teal-500/30 p-4 rounded-xl space-y-2 shadow-lg">
+                    <div class="text-[10px] font-bold tracking-wider text-teal-400 uppercase">Selected Node Inspector</div>
+                    <h3 id="inspect-title" class="text-base font-bold text-white">Thrive Pet Care</h3>
+                    <p id="inspect-desc" class="text-xs text-slate-300 leading-relaxed">Comprehensive veterinary medical care ecosystem & digital services.</p>
+                    <div class="pt-2 flex items-center gap-2 text-[11px] text-slate-400 border-t border-slate-800">
+                        <span>Level: <strong id="inspect-level" class="text-slate-200">Root</strong></span>
+                        <span>•</span>
+                        <span>Children: <strong id="inspect-children" class="text-slate-200">4</strong></span>
+                    </div>
+                </div>
+
+                <!-- Hierarchical List -->
+                <div>
+                    <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Hierarchy Tree Breakdown</h4>
+                    <div id="hierarchy-list" class="space-y-1 text-xs">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Sample default input text
+        const defaultInputText = `Thrive Pet Care
+- Primary & Wellness Care
+  - General Health Checkups
+  - Vaccinations
+  - Preventive Screening
+  - Microchipping
+  - Dental Care
+- Emergency & Urgent Care
+  - 24/7 Emergency Care
+  - Trauma & Respiratory Support
+  - Urgent Poisoning Treatment
+- Specialty Care
+  - Internal Medicine & Cardiology
+  - Dermatology & Ophthalmology
+  - Oncology & Soft Tissue Surgery
+  - Advanced Imaging (CT, MRI, Ultrasound)
+  - Physical Therapy & Rehabilitation
+- Digital Services & Portal
+  - Online Appointment Booking
+  - Pet Health Records
+  - 24/7 Virtual Support & Telehealth
+  - Online Pharmacy & Refills
+- Thrive Plus Membership
+  - Unlimited Free Routine Exams
+  - Service Discounts & Vaccinations
+  - Automated Billing via Pet Portal
+- Customer Segments
+  - Non-members / Guest Users
+  - Registered Members
+  - Thrive Plus Members`;
+
+        let rawTreeData = {};
+        let currentMode = 'radial';
+        let svg, gLink, gNode, zoomBehavior;
+        let root;
+        let isExpandedAll = true;
+
+        const colorMap = {
+            "root": "#14b8a6",
+            "category": "#3b82f6",
+            "sub": "#60a5fa",
+            "leaf": "#94a3b8"
+        };
+
+        window.onload = function() {
+            document.getElementById('text-input').value = defaultInputText;
+            rawTreeData = parseTextToHierarchy(defaultInputText);
+            initD3Canvas();
+            updateStatistics();
+            renderHierarchyList();
+            inspectNode(rawTreeData);
+
+            window.addEventListener('resize', () => {
+                renderDiagram();
+            });
+        };
+
+        // Text parsing function (handles bullet points, dashes, indentation)
+        function parseTextToHierarchy(text) {
+            const lines = text.split('\n').filter(line => line.trim().length > 0);
+            if (lines.length === 0) {
+                return { id: "root", name: "Root Theme", category: "root", children: [] };
+            }
+
+            const rootName = lines[0].replace(/^[-*#\s]+/, '').trim();
+            const rootNode = { id: "node-root", name: rootName, category: "root", children: [] };
+            const stack = [{ node: rootNode, indent: -1 }];
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i];
+                const indent = line.search(/\S/);
+                const cleanName = line.replace(/^[-*#\s]+/, '').trim();
+
+                if (!cleanName) continue;
+
+                while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
+                    stack.pop();
+                }
+
+                const parent = stack[stack.length - 1].node;
+                const newNode = {
+                    id: `node-${Math.random().toString(36).substr(2, 9)}`,
+                    name: cleanName,
+                    category: stack.length === 1 ? "category" : (stack.length === 2 ? "sub" : "leaf"),
+                    children: []
+                };
+
+                if (!parent.children) parent.children = [];
+                parent.children.push(newNode);
+                stack.push({ node: newNode, indent: indent });
+            }
+
+            return rootNode;
+        }
+
+        function generateFromTextInput() {
+            const text = document.getElementById('text-input').value;
+            rawTreeData = parseTextToHierarchy(text);
+            root = d3.hierarchy(rawTreeData);
+            renderDiagram();
+            updateStatistics();
+            renderHierarchyList();
+            inspectNode(rawTreeData);
+        }
+
+        function initD3Canvas() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            svg = d3.select("#mindmap-svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            svg.selectAll("*").remove();
+
+            const gContainer = svg.append("g").attr("id", "viewport-group");
+
+            gLink = gContainer.append("g").attr("class", "links-group");
+            gNode = gContainer.append("g").attr("class", "nodes-group");
+
+            zoomBehavior = d3.zoom()
+                .scaleExtent([0.15, 3])
+                .on("zoom", (event) => {
+                    gContainer.attr("transform", event.transform);
+                });
+
+            svg.call(zoomBehavior);
+
+            root = d3.hierarchy(rawTreeData);
+            root.x0 = height / 2;
+            root.y0 = width / 2;
+
+            renderDiagram();
+        }
+
+        function renderDiagram() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            if (currentMode === 'radial') {
+                renderRadialMindMap(width, height);
+            } else {
+                renderTreeDiagram(width, height);
+            }
+        }
+
+        function renderRadialMindMap(width, height) {
+            const radius = Math.min(width, height) / 2 - 80;
+            
+            const treeLayout = d3.tree()
+                .size([2 * Math.PI, radius])
+                .separation((a, b) => (a.parent == b.parent ? 1 : 2) / a.depth);
+
+            treeLayout(root);
+
+            root.descendants().forEach(d => {
+                if (d.depth === 0) {
+                    d.xPos = 0;
+                    d.yPos = 0;
+                } else {
+                    const angle = d.x - Math.PI / 2;
+                    d.xPos = d.y * Math.cos(angle);
+                    d.yPos = d.y * Math.sin(angle);
+                }
+            });
+
+            const initialTransform = d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(0.85);
+
+            svg.transition().duration(500).call(zoomBehavior.transform, initialTransform);
+            drawElements();
+        }
+
+        function renderTreeDiagram(width, height) {
+            const treeLayout = d3.tree()
+                .size([height - 120, width - 360]);
+
+            treeLayout(root);
+
+            root.descendants().forEach(d => {
+                d.xPos = d.y;
+                d.yPos = d.x - height / 2;
+            });
+
+            const initialTransform = d3.zoomIdentity
+                .translate(140, height / 2)
+                .scale(0.85);
+
+            svg.transition().duration(500).call(zoomBehavior.transform, initialTransform);
+            drawElements();
+        }
+
+        function drawElements() {
+            const nodes = root.descendants();
+            const links = root.links();
+
+            const linkSelection = gLink.selectAll(".node-link")
+                .data(links, d => d.target.data.id);
+
+            linkSelection.exit().remove();
+
+            linkSelection.enter()
+                .append("path")
+                .attr("class", "node-link")
+                .merge(linkSelection)
+                .transition().duration(400)
+                .attr("stroke", d => getNodeColor(d.target))
+                .attr("d", d => {
+                    if (currentMode === 'radial') {
+                        return d3.linkRadial()
+                            .angle(d => d.x)
+                            .radius(d => d.y)
+                            ({ source: d.source, target: d.target });
+                    } else {
+                        return d3.linkHorizontal()
+                            .x(d => d.xPos)
+                            .y(d => d.yPos)
+                            ({ source: d.source, target: d.target });
+                    }
+                });
+
+            const nodeSelection = gNode.selectAll(".node-group")
+                .data(nodes, d => d.data.id);
+
+            nodeSelection.exit().remove();
+
+            const nodeEnter = nodeSelection.enter()
+                .append("g")
+                .attr("class", "node-group")
+                .on("click", (event, d) => {
+                    event.stopPropagation();
+                    inspectNode(d.data);
+                    if (d.children || d._children) {
+                        toggleNodeExpand(d);
+                    }
+                });
+
+            nodeEnter.append("circle").attr("class", "node-circle");
+            nodeEnter.append("text").attr("class", "node-text");
+
+            const nodeUpdate = nodeSelection.merge(nodeEnter);
+
+            nodeUpdate.transition().duration(400)
+                .attr("transform", d => `translate(${d.xPos},${d.yPos})`);
+
+            nodeUpdate.select("circle")
+                .attr("r", d => d.depth === 0 ? 18 : (d.children || d._children ? 10 : 6))
+                .attr("fill", d => getNodeColor(d))
+                .attr("stroke", "#0f172a")
+                .attr("stroke-width", 2);
+
+            nodeUpdate.select("text")
+                .text(d => d.data.name)
+                .attr("font-size", d => d.depth === 0 ? "14px" : (d.depth === 1 ? "12px" : "11px"))
+                .attr("font-weight", d => d.depth <= 1 ? "700" : "500")
+                .attr("fill", d => d.depth === 0 ? "#2dd4bf" : (d.depth === 1 ? "#f8fafc" : "#cbd5e1"))
+                .transition().duration(400)
+                .attr("dy", "0.32em")
+                .attr("x", d => {
+                    if (currentMode === 'radial') {
+                        if (d.depth === 0) return 0;
+                        return d.x < Math.PI ? 14 : -14;
+                    } else {
+                        return d.children || d._children ? -14 : 14;
+                    }
+                })
+                .attr("text-anchor", d => {
+                    if (currentMode === 'radial') {
+                        if (d.depth === 0) return "middle";
+                        return d.x < Math.PI ? "start" : "end";
+                    } else {
+                        return d.children || d._children ? "end" : "start";
+                    }
+                });
+        }
+
+        function getNodeColor(node) {
+            const cat = node.data.category || "leaf";
+            if (colorMap[cat]) return colorMap[cat];
+            return "#94a3b8";
+        }
+
+        function switchViewMode(mode) {
+            currentMode = mode;
+            const btnRadial = document.getElementById('btn-radial');
+            const btnTree = document.getElementById('btn-tree');
+
+            if (mode === 'radial') {
+                btnRadial.className = "px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition bg-teal-500 text-slate-950 shadow-sm";
+                btnTree.className = "px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition text-slate-400 hover:text-slate-100 hover:bg-slate-800";
+            } else {
+                btnTree.className = "px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition bg-teal-500 text-slate-950 shadow-sm";
+                btnRadial.className = "px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition text-slate-400 hover:text-slate-100 hover:bg-slate-800";
+            }
+
+            renderDiagram();
+        }
+
+        function toggleNodeExpand(d) {
+            if (d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else {
+                d.children = d._children;
+                d._children = null;
+            }
+            renderDiagram();
+            updateStatistics();
+        }
+
+        function resetZoom() {
+            const container = document.getElementById('canvas-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            let initialTransform = currentMode === 'radial' 
+                ? d3.zoomIdentity.translate(width / 2, height / 2).scale(0.85)
+                : d3.zoomIdentity.translate(140, height / 2).scale(0.85);
+
+            svg.transition().duration(600).call(zoomBehavior.transform, initialTransform);
+        }
+
+        function inspectNode(data) {
+            document.getElementById('inspect-title').innerText = data.name;
+            document.getElementById('inspect-desc').innerText = data.description || "Interactive Mind Map node.";
+            document.getElementById('inspect-level').innerText = data.category || "General Node";
+            
+            const count = data.children ? data.children.length : (data._children ? data._children.length : 0);
+            document.getElementById('inspect-children').innerText = count;
+        }
+
+        function renderHierarchyList() {
+            const container = document.getElementById('hierarchy-list');
+            container.innerHTML = '';
+
+            function buildListHTML(node, level = 0) {
+                const paddingLeft = level * 12;
+                const hasChildren = node.children && node.children.length > 0;
+
+                const item = document.createElement('div');
+                item.className = `p-2 rounded-lg hover:bg-slate-800/60 cursor-pointer transition flex items-center justify-between border-l-2 border-transparent hover:border-teal-400`;
+                item.style.paddingLeft = `${paddingLeft + 8}px`;
+
+                item.onclick = () => {
+                    inspectNode(node);
+                };
+
+                let icon = '<i class="fa-regular fa-circle text-[8px] text-slate-500 mr-2"></i>';
+                if (level === 0) icon = '<i class="fa-solid fa-paw text-teal-400 text-xs mr-2"></i>';
+                else if (hasChildren) icon = '<i class="fa-solid fa-folder text-amber-400 text-xs mr-2"></i>';
+
+                item.innerHTML = `
+                    <div class="flex items-center truncate">
+                        ${icon}
+                        <span class="truncate font-medium text-slate-200">${node.name}</span>
+                    </div>
+                    ${hasChildren ? `<span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded-full ml-1">${node.children.length}</span>` : ''}
+                `;
+
+                container.appendChild(item);
+
+                if (node.children) {
+                    node.children.forEach(child => buildListHTML(child, level + 1));
+                }
+            }
+
+            buildListHTML(rawTreeData);
+        }
+
+        function filterTree() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const items = document.getElementById('hierarchy-list').children;
+
+            Array.from(items).forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(query) ? 'flex' : 'none';
+            });
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar-panel').classList.toggle('translate-x-full');
+        }
+
+        function updateStatistics() {
+            const allNodes = root.descendants();
+            const total = allNodes.length;
+            const mainBranches = root.children ? root.children.length : 0;
+            const leafNodes = total - mainBranches - 1;
+
+            document.getElementById('stat-total-nodes').innerText = total;
+            document.getElementById('stat-main-branches').innerText = mainBranches;
+            document.getElementById('stat-leaf-nodes').innerText = leafNodes;
+        }
+
+        // Import JSON Handler
+        document.getElementById('btn-import-json').addEventListener('click', () => {
+            document.getElementById('import-file-input').click();
+        });
+
+        document.getElementById('import-file-input').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    rawTreeData = importedData;
+                    root = d3.hierarchy(rawTreeData);
+                    renderDiagram();
+                    updateStatistics();
+                    renderHierarchyList();
+                    inspectNode(rawTreeData);
+                    alert("JSON imported successfully!");
+                } catch (error) {
+                    alert("Invalid JSON format.");
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        });
+
+        // Export JSON Handler
+        document.getElementById('btn-export-json').addEventListener('click', () => {
+            const jsonString = JSON.stringify(rawTreeData, null, 4);
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "mindmap-hierarchy.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
