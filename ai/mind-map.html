@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
-        tailwind.config = {
+        tailwind.config = {	
             theme: {
                 extend: {
                     fontFamily: {
@@ -88,8 +88,8 @@
                 <i class="fa-solid fa-diagram-project text-slate-950 text-xl"></i>
             </div>
             <div>
-                <h1 class="text-base md:text-lg font-bold text-slate-100 leading-tight">Interactive Mind Map & Tree Generator</h1>
-                <p class="text-xs text-teal-400 font-medium">Generate Mind Maps dynamically from text or JSON</p>
+                <h1 class="text-base md:text-lg font-bold text-slate-100 leading-tight">Dynamic Mind Map & Tree Visualizer</h1>
+                <p class="text-xs text-teal-400 font-medium">Generate Mind Maps dynamically from structured text or JSON</p>
             </div>
         </div>
 
@@ -207,8 +207,8 @@
                 <!-- Active Node Inspector Box -->
                 <div id="inspector-card" class="bg-gradient-to-br from-slate-900 to-slate-900/90 border border-teal-500/30 p-4 rounded-xl space-y-2 shadow-lg">
                     <div class="text-[10px] font-bold tracking-wider text-teal-400 uppercase">Selected Node Inspector</div>
-                    <h3 id="inspect-title" class="text-base font-bold text-white">Thrive Pet Care</h3>
-                    <p id="inspect-desc" class="text-xs text-slate-300 leading-relaxed">Comprehensive veterinary medical care ecosystem & digital services.</p>
+                    <h3 id="inspect-title" class="text-base font-bold text-white">Root System</h3>
+                    <p id="inspect-desc" class="text-xs text-slate-300 leading-relaxed">Generic root node representing the central structure of the dynamic map.</p>
                     <div class="pt-2 flex items-center gap-2 text-[11px] text-slate-400 border-t border-slate-800">
                         <span>Level: <strong id="inspect-level" class="text-slate-200">Root</strong></span>
                         <span>•</span>
@@ -229,37 +229,23 @@
     </div>
 
     <script>
-        // Sample default input text
-        const defaultInputText = `Thrive Pet Care
-- Primary & Wellness Care
-  - General Health Checkups
-  - Vaccinations
-  - Preventive Screening
-  - Microchipping
-  - Dental Care
-- Emergency & Urgent Care
-  - 24/7 Emergency Care
-  - Trauma & Respiratory Support
-  - Urgent Poisoning Treatment
-- Specialty Care
-  - Internal Medicine & Cardiology
-  - Dermatology & Ophthalmology
-  - Oncology & Soft Tissue Surgery
-  - Advanced Imaging (CT, MRI, Ultrasound)
-  - Physical Therapy & Rehabilitation
-- Digital Services & Portal
-  - Online Appointment Booking
-  - Pet Health Records
-  - 24/7 Virtual Support & Telehealth
-  - Online Pharmacy & Refills
-- Thrive Plus Membership
-  - Unlimited Free Routine Exams
-  - Service Discounts & Vaccinations
-  - Automated Billing via Pet Portal
-- Customer Segments
-  - Non-members / Guest Users
-  - Registered Members
-  - Thrive Plus Members`;
+        // Generic default input text with Template A, B, C logic
+        const defaultInputText = `Root System
+- Template A
+  - Feature A.1
+  - Feature A.2
+  - Sub-item A.3
+- Template B
+  - Component B.1
+  - Component B.2
+    - Detail B.2.1
+    - Detail B.2.2
+- Template C
+  - Module C.1
+  - Module C.2
+- Template D
+  - Section D.1
+  - Section D.2`;
 
         let rawTreeData = {};
         let currentMode = 'radial';
@@ -581,7 +567,7 @@
                 };
 
                 let icon = '<i class="fa-regular fa-circle text-[8px] text-slate-500 mr-2"></i>';
-                if (level === 0) icon = '<i class="fa-solid fa-paw text-teal-400 text-xs mr-2"></i>';
+                if (level === 0) icon = '<i class="fa-solid fa-sitemap text-teal-400 text-xs mr-2"></i>';
                 else if (hasChildren) icon = '<i class="fa-solid fa-folder text-amber-400 text-xs mr-2"></i>';
 
                 item.innerHTML = `
