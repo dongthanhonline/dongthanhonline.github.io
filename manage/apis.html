@@ -358,6 +358,8 @@
                     if (!validMethods.includes(normMethod)) return;
 
                     const details = methods[methodName];
+                    if (!details || details.deprecated === true) return;
+
                     let description = details.summary || details.description || 'No description available';
                     let methodClass = `method-${normMethod}`;
 
