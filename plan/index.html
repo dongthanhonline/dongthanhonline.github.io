@@ -1,0 +1,1222 @@
+html
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow - Quản Lý Mục Tiêu & Công Việc Hàng Ngày</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.8);
+        }
+        
+        /* Checkbox animation */
+        .task-checkbox:checked + div .task-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        /* Smooth transitions */
+        body, div, button, input, select, textarea {
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight text-slate-900 dark:text-white leading-none">FocusFlow</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Mục tiêu & Công việc</p>
+                </div>
+            </div>
+
+            <!-- Actions: Backup, Restore, Theme Toggle -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Export JSON -->
+                <button onclick="exportData()" title="Xuất dữ liệu dự phòng (JSON)" class="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-download text-blue-500"></i>
+                    <span class="hidden md:inline">Sao lưu</span>
+                </button>
+
+                <!-- Import JSON -->
+                <label title="Khôi phục dữ liệu từ file JSON" class="cursor-pointer p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-upload text-emerald-500"></i>
+                    <span class="hidden md:inline">Khôi phục</span>
+                    <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)">
+                </label>
+
+                <!-- Reset Sample Data -->
+                <button onclick="openConfirmModal('reset')" title="Khôi phục dữ liệu mẫu" class="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-sm">
+                    <i class="fa-solid fa-rotate-right text-amber-500"></i>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggle" onclick="toggleTheme()" title="Chuyển đổi giao diện Sáng/Tối" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-amber-400 hover:ring-2 ring-blue-500/50">
+                    <i id="themeIcon" class="fa-solid fa-moon text-base w-5 text-center"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+        
+        <!-- Dashboard Overview Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1: Today's Progress -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Hôm nay</span>
+                    <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-baseline gap-2">
+                        <span id="statTodayCompleted" class="text-2xl font-bold text-slate-900 dark:text-white">0</span>
+                        <span class="text-sm text-slate-500 dark:text-slate-400">/ <span id="statTodayTotal">0</span> công việc</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full mt-3 overflow-hidden">
+                        <div id="statTodayBar" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Active Goals -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Mục tiêu đang theo đuổi</span>
+                    <div class="w-9 h-9 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                        <i class="fa-solid fa-flag"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-baseline gap-2">
+                        <span id="statActiveGoals" class="text-2xl font-bold text-slate-900 dark:text-white">0</span>
+                        <span class="text-sm text-slate-500 dark:text-slate-400">mục tiêu</span>
+                    </div>
+                    <p id="statCompletedGoalsText" class="text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium">0 mục tiêu đã hoàn thành 100%</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Overall Task Completion -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Tổng tiến độ công việc</span>
+                    <div class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-baseline gap-2">
+                        <span id="statOverallPercent" class="text-2xl font-bold text-slate-900 dark:text-white">0%</span>
+                        <span class="text-sm text-slate-500 dark:text-slate-400">hoàn thành</span>
+                    </div>
+                    <p id="statTotalTasksText" class="text-xs text-slate-500 dark:text-slate-400 mt-2">Tổng cộng 0 công việc đã tạo</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Quick Date Info -->
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-5 text-white shadow-md flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-blue-100">Hôm nay là</span>
+                    <i class="fa-regular fa-clock text-blue-200"></i>
+                </div>
+                <div class="mt-3">
+                    <p id="currentDateDisplay" class="text-lg font-bold capitalize">--</p>
+                    <p class="text-xs text-blue-100 mt-1 opacity-90">Dữ liệu được lưu tự động trên máy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Workspace Grid: Left (Goals) & Right (Daily Tasks) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT COLUMN: GOALS MANAGEMENT (5 cols on lg) -->
+            <section class="lg:col-span-5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span>Mục Tiêu Lớn</span>
+                            <span id="goalCountBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">0</span>
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Tiến độ tự động cập nhật theo công việc</p>
+                    </div>
+                    <button onclick="openGoalModal()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm shadow-blue-500/20 flex items-center gap-1.5 active:scale-95 transition-transform">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Mục tiêu</span>
+                    </button>
+                </div>
+
+                <!-- Filter by Goal Indicator (if active) -->
+                <div id="activeGoalFilterBanner" class="hidden bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl p-3 flex items-center justify-between text-sm">
+                    <div class="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Đang lọc task theo: <strong id="filterGoalName"></strong></span>
+                    </div>
+                    <button onclick="clearGoalFilter()" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">Bỏ lọc</button>
+                </div>
+
+                <!-- Goals List Container -->
+                <div id="goalsList" class="space-y-3.5">
+                    <!-- Goal cards injected via JS -->
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: DAILY TASKS MANAGEMENT (7 cols on lg) -->
+            <section class="lg:col-span-7 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Công Việc Hàng Ngày</h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Quản lý và hoàn thành từng bước nhỏ mỗi ngày</p>
+                    </div>
+                    <button onclick="openTaskModal()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium shadow-sm shadow-emerald-500/20 flex items-center justify-center gap-1.5 active:scale-95 transition-transform">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Thêm công việc</span>
+                    </button>
+                </div>
+
+                <!-- Date & Status Filter Bar -->
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
+                    <!-- Quick Date Tabs -->
+                    <div class="flex items-center bg-slate-100 dark:bg-slate-900 p-1 rounded-xl overflow-x-auto max-w-full">
+                        <button onclick="setDateFilter('today')" id="filter-today" class="date-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">Hôm nay</button>
+                        <button onclick="setDateFilter('tomorrow')" id="filter-tomorrow" class="date-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">Ngày mai</button>
+                        <button onclick="setDateFilter('all')" id="filter-all" class="date-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">Tất cả</button>
+                    </div>
+
+                    <!-- Specific Date Picker & Priority Filter -->
+                    <div class="flex items-center gap-2 flex-1 sm:flex-initial justify-end">
+                        <div class="relative">
+                            <input type="date" id="customDatePicker" onchange="setDateFilter('custom')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <select id="priorityFilter" onchange="renderTasks()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="all">Mọi ưu tiên</option>
+                            <option value="high">Ưu tiên Cao</option>
+                            <option value="medium">Trung bình</option>
+                            <option value="low">Thấp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quick Add Task Inline Form -->
+                <form onsubmit="handleQuickAddTask(event)" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500/40">
+                    <div class="pl-2 text-slate-400">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </div>
+                    <input type="text" id="quickTaskTitle" placeholder="Thêm nhanh công việc mới..." required class="flex-1 bg-transparent border-none text-sm focus:outline-none text-slate-800 dark:text-white placeholder-slate-400">
+                    <select id="quickTaskGoal" class="hidden sm:block max-w-[140px] truncate bg-slate-100 dark:bg-slate-700 text-xs rounded-lg px-2 py-1.5 text-slate-600 dark:text-slate-300 border-none focus:outline-none">
+                        <option value="">-- Độc lập --</option>
+                    </select>
+                    <button type="submit" class="px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:opacity-90">
+                        Thêm
+                    </button>
+                </form>
+
+                <!-- Tasks List Container -->
+                <div id="tasksList" class="space-y-2.5">
+                    <!-- Task items injected via JS -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-5 mt-12 text-center text-xs text-slate-500 dark:text-slate-400">
+        <p>FocusFlow — Ứng dụng lưu trữ cục bộ (LocalStorage) an toàn trên trình duyệt của bạn.</p>
+    </footer>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- 1. GOAL MODAL (Create / Edit) -->
+    <div id="goalModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-700 shadow-2xl transform transition-all">
+            <div class="flex items-center justify-between mb-5">
+                <h3 id="goalModalTitle" class="text-lg font-bold text-slate-900 dark:text-white">Tạo Mục Tiêu Mới</h3>
+                <button onclick="closeGoalModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form id="goalForm" onsubmit="saveGoal(event)" class="space-y-4">
+                <input type="hidden" id="goalId">
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Tên mục tiêu *</label>
+                    <input type="text" id="goalTitle" required placeholder="VD: Đạt IELTS 7.5, Tiết kiệm 50 triệu..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Mô tả ngắn</label>
+                    <textarea id="goalDesc" rows="2" placeholder="Lý do hoặc ghi chú chi tiết cho mục tiêu này..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Hạn chót (Deadline)</label>
+                        <input type="date" id="goalDeadline" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Biểu tượng</label>
+                        <select id="goalIcon" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="🎯">🎯 Mục tiêu chung</option>
+                            <option value="📚">📚 Học tập / Sách</option>
+                            <option value="💼">💼 Công việc / Sự nghiệp</option>
+                            <option value="💰">💰 Tài chính</option>
+                            <option value="💪">💪 Sức khỏe / Thể thao</option>
+                            <option value="🚀">🚀 Dự án cá nhân</option>
+                            <option value="✈️">✈️ Du lịch / Trải nghiệm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Màu sắc nhận diện</label>
+                    <div class="flex items-center gap-3" id="colorPickerGroup">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="goalColor" value="blue" checked class="sr-only peer">
+                            <span class="block w-7 h-7 rounded-full bg-blue-500 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-blue-500 dark:peer-checked:ring-offset-slate-800"></span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="goalColor" value="emerald" class="sr-only peer">
+                            <span class="block w-7 h-7 rounded-full bg-emerald-500 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-emerald-500 dark:peer-checked:ring-offset-slate-800"></span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="goalColor" value="purple" class="sr-only peer">
+                            <span class="block w-7 h-7 rounded-full bg-purple-500 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-purple-500 dark:peer-checked:ring-offset-slate-800"></span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="goalColor" value="amber" class="sr-only peer">
+                            <span class="block w-7 h-7 rounded-full bg-amber-500 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-amber-500 dark:peer-checked:ring-offset-slate-800"></span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="goalColor" value="rose" class="sr-only peer">
+                            <span class="block w-7 h-7 rounded-full bg-rose-500 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-rose-500 dark:peer-checked:ring-offset-slate-800"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button type="button" onclick="closeGoalModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Hủy</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-sm">Lưu mục tiêu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. TASK MODAL (Create / Edit) -->
+    <div id="taskModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-700 shadow-2xl">
+            <div class="flex items-center justify-between mb-5">
+                <h3 id="taskModalTitle" class="text-lg font-bold text-slate-900 dark:text-white">Thêm Công Việc Mới</h3>
+                <button onclick="closeTaskModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form id="taskForm" onsubmit="saveTask(event)" class="space-y-4">
+                <input type="hidden" id="taskId">
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Tên công việc *</label>
+                    <input type="text" id="taskTitle" required placeholder="VD: Học 20 từ vựng tiếng Anh, Chạy bộ 5km..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Ngày thực hiện *</label>
+                        <input type="date" id="taskDate" required class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Mức độ ưu tiên</label>
+                        <select id="taskPriority" class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="high">🔴 Cao (Quan trọng)</option>
+                            <option value="medium" selected>🟡 Trung bình</option>
+                            <option value="low">🟢 Thấp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Thuộc Mục Tiêu (Tùy chọn)</label>
+                    <select id="taskGoalId" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">-- Công việc độc lập (Không gắn mục tiêu) --</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Hủy</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm">Lưu công việc</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. CONFIRMATION MODAL (Replaces native confirm) -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 border border-slate-200 dark:border-slate-700 shadow-2xl text-center">
+            <div class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirmTitle" class="text-lg font-bold text-slate-900 dark:text-white mb-2">Xác nhận hành động</h3>
+            <p id="confirmMessage" class="text-sm text-slate-500 dark:text-slate-400 mb-6">Bạn có chắc chắn muốn thực hiện thao tác này không?</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeConfirmModal()" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:opacity-90">Hủy bỏ</button>
+                <button id="confirmActionBtn" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white shadow-sm">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 dark:bg-slate-700 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium border border-slate-700">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toastMessage">Thao tác thành công!</span>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- 1. STATE & STORAGE KEYS ---
+        const STORAGE_KEYS = {
+            GOALS: 'focusflow_goals_v1',
+            TASKS: 'focusflow_tasks_v1',
+            THEME: 'focusflow_theme_v1',
+            INITIALIZED: 'focusflow_init_v1'
+        };
+
+        let goals = [];
+        let tasks = [];
+        let currentDateFilter = 'today'; // 'today', 'tomorrow', 'all', 'custom'
+        let selectedGoalFilter = null; // goalId or null
+
+        // Color utility mapping for Tailwind classes
+        const COLOR_STYLES = {
+            blue: { bg: 'bg-blue-500', softBg: 'bg-blue-50 dark:bg-blue-900/20', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800' },
+            emerald: { bg: 'bg-emerald-500', softBg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800' },
+            purple: { bg: 'bg-purple-500', softBg: 'bg-purple-50 dark:bg-purple-900/20', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800' },
+            amber: { bg: 'bg-amber-500', softBg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800' },
+            rose: { bg: 'bg-rose-500', softBg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-600 dark:text-rose-400', border: 'border-rose-200 dark:border-rose-800' }
+        };
+
+        // --- 2. HELPER FUNCTIONS ---
+        function getTodayString() {
+            const today = new Date();
+            return formatDateYYYYMMDD(today);
+        }
+
+        function getTomorrowString() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return formatDateYYYYMMDD(tomorrow);
+        }
+
+        function formatDateYYYYMMDD(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function formatDisplayDate(dateStr) {
+            if (!dateStr) return '';
+            const today = getTodayString();
+            const tomorrow = getTomorrowString();
+            if (dateStr === today) return 'Hôm nay';
+            if (dateStr === tomorrow) return 'Ngày mai';
+            
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.textContent = message;
+            toastIcon.className = type === 'success' 
+                ? 'fa-solid fa-circle-check text-emerald-400' 
+                : 'fa-solid fa-circle-exclamation text-amber-400';
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- 3. INITIALIZATION & SAMPLE DATA ---
+        function initApp() {
+            initTheme();
+            displayHeaderDate();
+
+            const isInitialized = localStorage.getItem(STORAGE_KEYS.INITIALIZED);
+            if (!isInitialized) {
+                loadSampleData();
+                localStorage.setItem(STORAGE_KEYS.INITIALIZED, 'true');
+            } else {
+                loadFromStorage();
+            }
+
+            // Set default date in custom date picker
+            document.getElementById('customDatePicker').value = getTodayString();
+            setDateFilter('today');
+        }
+
+        function loadSampleData() {
+            const today = getTodayString();
+            const tomorrow = getTomorrowString();
+            
+            // Future deadline (+30 days)
+            const nextMonth = new Date();
+            nextMonth.setDate(nextMonth.getDate() + 30);
+            const deadline1 = formatDateYYYYMMDD(nextMonth);
+
+            // Future deadline (+60 days)
+            const twoMonths = new Date();
+            twoMonths.setDate(twoMonths.getDate() + 60);
+            const deadline2 = formatDateYYYYMMDD(twoMonths);
+
+            goals = [
+                {
+                    id: 'goal_1',
+                    title: 'Nâng cao trình độ Tiếng Anh giao tiếp',
+                    description: 'Luyện nghe nói mỗi ngày 30 phút và học từ vựng theo chủ đề công việc.',
+                    deadline: deadline1,
+                    icon: '📚',
+                    color: 'blue'
+                },
+                {
+                    id: 'goal_2',
+                    title: 'Rèn luyện sức khỏe & Chạy bộ 50km',
+                    description: 'Duy trì thói quen chạy bộ 3 buổi/tuần và uống đủ 2 lít nước mỗi ngày.',
+                    deadline: deadline2,
+                    icon: '💪',
+                    color: 'emerald'
+                }
+            ];
+
+            tasks = [
+                {
+                    id: 'task_1',
+                    title: 'Học 15 từ vựng mới chủ đề Kinh doanh',
+                    date: today,
+                    priority: 'high',
+                    goalId: 'goal_1',
+                    completed: true
+                },
+                {
+                    id: 'task_2',
+                    title: 'Nghe 1 tập Podcast tiếng Anh (15 phút)',
+                    date: today,
+                    priority: 'medium',
+                    goalId: 'goal_1',
+                    completed: false
+                },
+                {
+                    id: 'task_3',
+                    title: 'Chạy bộ 5km công viên buổi chiều',
+                    date: today,
+                    priority: 'high',
+                    goalId: 'goal_2',
+                    completed: false
+                },
+                {
+                    id: 'task_4',
+                    title: 'Dọn dẹp bàn làm việc và lên kế hoạch tuần',
+                    date: today,
+                    priority: 'low',
+                    goalId: '',
+                    completed: true
+                },
+                {
+                    id: 'task_5',
+                    title: 'Thực hành nói tiếng Anh với AI 20 phút',
+                    date: tomorrow,
+                    priority: 'medium',
+                    goalId: 'goal_1',
+                    completed: false
+                }
+            ];
+
+            saveToStorage();
+        }
+
+        function loadFromStorage() {
+            try {
+                goals = JSON.parse(localStorage.getItem(STORAGE_KEYS.GOALS)) || [];
+                tasks = JSON.parse(localStorage.getItem(STORAGE_KEYS.TASKS)) || [];
+            } catch (e) {
+                console.error('Lỗi đọc dữ liệu LocalStorage:', e);
+                goals = [];
+                tasks = [];
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem(STORAGE_KEYS.GOALS, JSON.stringify(goals));
+            localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
+            renderAll();
+        }
+
+        function displayHeaderDate() {
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const dateStr = new Date().toLocaleDateString('vi-VN', options);
+            document.getElementById('currentDateDisplay').textContent = dateStr;
+        }
+
+        // --- 4. THEME MANAGEMENT ---
+        function initTheme() {
+            const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-sun text-base w-5 text-center';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-moon text-base w-5 text-center';
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem(STORAGE_KEYS.THEME, 'light');
+                icon.className = 'fa-solid fa-moon text-base w-5 text-center';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem(STORAGE_KEYS.THEME, 'dark');
+                icon.className = 'fa-solid fa-sun text-base w-5 text-center';
+            }
+        }
+
+        // --- 5. RENDERING ENGINE ---
+        function renderAll() {
+            updateGoalDropdowns();
+            renderGoals();
+            renderTasks();
+            updateDashboardStats();
+        }
+
+        function updateGoalDropdowns() {
+            const taskGoalSelect = document.getElementById('taskGoalId');
+            const quickTaskGoalSelect = document.getElementById('quickTaskGoal');
+            
+            const currentVal1 = taskGoalSelect.value;
+            const currentVal2 = quickTaskGoalSelect.value;
+
+            let optionsHtml1 = '<option value="">-- Công việc độc lập (Không gắn mục tiêu) --</option>';
+            let optionsHtml2 = '<option value="">-- Độc lập --</option>';
+
+            goals.forEach(g => {
+                optionsHtml1 += `<option value="${g.id}">${g.icon} ${escapeHtml(g.title)}</option>`;
+                optionsHtml2 += `<option value="${g.id}">${g.icon} ${escapeHtml(g.title)}</option>`;
+            });
+
+            taskGoalSelect.innerHTML = optionsHtml1;
+            quickTaskGoalSelect.innerHTML = optionsHtml2;
+
+            taskGoalSelect.value = currentVal1;
+            quickTaskGoalSelect.value = currentVal2;
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            document.getElementById('goalCountBadge').textContent = goals.length;
+
+            if (goals.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center border border-dashed border-slate-300 dark:border-slate-700">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400 flex items-center justify-center mx-auto mb-3 text-xl">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200">Chưa có mục tiêu nào</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Hãy tạo mục tiêu lớn để định hướng cho các công việc hàng ngày.</p>
+                        <button onclick="openGoalModal()" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">
+                            + Tạo mục tiêu đầu tiên
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = goals.map(goal => {
+                // Calculate progress based on linked tasks
+                const linkedTasks = tasks.filter(t => t.goalId === goal.id);
+                const completedTasks = linkedTasks.filter(t => t.completed);
+                const total = linkedTasks.length;
+                const percent = total === 0 ? 0 : Math.round((completedTasks.length / total) * 100);
+                
+                const style = COLOR_STYLES[goal.color] || COLOR_STYLES.blue;
+                const isSelected = selectedGoalFilter === goal.id;
+
+                return `
+                    <div onclick="toggleGoalFilter('${goal.id}')" class="cursor-pointer group bg-white dark:bg-slate-800 rounded-2xl p-4 border ${isSelected ? 'ring-2 ring-blue-500 border-blue-500' : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'} shadow-sm transition-all">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl ${style.softBg} flex items-center justify-center text-xl shrink-0">
+                                    ${goal.icon || '🎯'}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                        ${escapeHtml(goal.title)}
+                                    </h3>
+                                    ${goal.description ? `<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">${escapeHtml(goal.description)}</p>` : ''}
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons (Stop propagation so clicking edit/delete doesn't trigger filter) -->
+                            <div class="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
+                                <button onclick="openGoalModal('${goal.id}')" title="Chỉnh sửa" class="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <i class="fa-solid fa-pen text-xs"></i>
+                                </button>
+                                <button onclick="openConfirmModal('deleteGoal', '${goal.id}')" title="Xóa mục tiêu" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <i class="fa-solid fa-trash text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar & Stats -->
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between text-xs mb-1.5">
+                                <span class="font-medium text-slate-600 dark:text-slate-300">
+                                    Tiến độ: <strong class="${style.text}">${percent}%</strong> (${completedTasks.length}/${total} việc)
+                                </span>
+                                ${goal.deadline ? `
+                                    <span class="text-slate-400 flex items-center gap-1">
+                                        <i class="fa-regular fa-calendar"></i> ${formatDisplayDate(goal.deadline)}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                                <div class="${style.bg} h-full rounded-full transition-all duration-500" style="width: ${percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasksList');
+            const priorityFilter = document.getElementById('priorityFilter').value;
+            const customDate = document.getElementById('customDatePicker').value;
+
+            // Filter tasks
+            let filteredTasks = tasks.filter(task => {
+                // 1. Goal filter
+                if (selectedGoalFilter && task.goalId !== selectedGoalFilter) return false;
+
+                // 2. Date filter
+                if (currentDateFilter === 'today' && task.date !== getTodayString()) return false;
+                if (currentDateFilter === 'tomorrow' && task.date !== getTomorrowString()) return false;
+                if (currentDateFilter === 'custom' && customDate && task.date !== customDate) return false;
+
+                // 3. Priority filter
+                if (priorityFilter !== 'all' && task.priority !== priorityFilter) return false;
+
+                return true;
+            });
+
+            // Sort: Uncompleted first, then by priority (high -> medium -> low), then by date
+            const priorityWeight = { high: 3, medium: 2, low: 1 };
+            filteredTasks.sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                if (priorityWeight[b.priority] !== priorityWeight[a.priority]) {
+                    return priorityWeight[b.priority] - priorityWeight[a.priority];
+                }
+                return a.date.localeCompare(b.date);
+            });
+
+            if (filteredTasks.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-10 text-center border border-dashed border-slate-300 dark:border-slate-700">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-400 flex items-center justify-center mx-auto mb-3 text-xl">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200">Không có công việc nào</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Thử thay đổi bộ lọc ngày hoặc thêm công việc mới ở trên nhé!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredTasks.map(task => {
+                const linkedGoal = goals.find(g => g.id === task.goalId);
+                
+                // Priority Badge styling
+                let priorityBadge = '';
+                if (task.priority === 'high') {
+                    priorityBadge = `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400">Cao</span>`;
+                } else if (task.priority === 'medium') {
+                    priorityBadge = `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">Trung bình</span>`;
+                } else {
+                    priorityBadge = `<span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">Thấp</span>`;
+                }
+
+                // Goal Badge styling
+                let goalBadge = '';
+                if (linkedGoal) {
+                    const style = COLOR_STYLES[linkedGoal.color] || COLOR_STYLES.blue;
+                    goalBadge = `
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium ${style.softBg} ${style.text} max-w-[180px] truncate">
+                            <span>${linkedGoal.icon}</span>
+                            <span class="truncate">${escapeHtml(linkedGoal.title)}</span>
+                        </span>
+                    `;
+                }
+
+                return `
+                    <div class="group bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-200/90 dark:border-slate-700/90 hover:border-blue-300 dark:hover:border-slate-600 shadow-sm flex items-center justify-between gap-3 transition-all ${task.completed ? 'opacity-75 bg-slate-50/50 dark:bg-slate-800/50' : ''}">
+                        <label class="flex items-start gap-3.5 cursor-pointer flex-1 min-w-0">
+                            <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTaskComplete('${task.id}')" class="task-checkbox mt-1 w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600">
+                            <div class="flex-1 min-w-0">
+                                <p class="task-title text-sm font-medium text-slate-800 dark:text-slate-100 break-words transition-all">
+                                    ${escapeHtml(task.title)}
+                                </p>
+                                <div class="flex flex-wrap items-center gap-2 mt-1.5">
+                                    <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                                        <i class="fa-regular fa-calendar"></i> ${formatDisplayDate(task.date)}
+                                    </span>
+                                    ${priorityBadge}
+                                    ${goalBadge}
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Task Actions -->
+                        <div class="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                            <button onclick="openTaskModal('${task.id}')" title="Sửa công việc" class="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                <i class="fa-solid fa-pen text-xs"></i>
+                            </button>
+                            <button onclick="openConfirmModal('deleteTask', '${task.id}')" title="Xóa công việc" class="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateDashboardStats() {
+            const today = getTodayString();
+            const todayTasks = tasks.filter(t => t.date === today);
+            const todayCompleted = todayTasks.filter(t => t.completed).length;
+            const todayPercent = todayTasks.length === 0 ? 0 : Math.round((todayCompleted / todayTasks.length) * 100);
+
+            document.getElementById('statTodayCompleted').textContent = todayCompleted;
+            document.getElementById('statTodayTotal').textContent = todayTasks.length;
+            document.getElementById('statTodayBar').style.width = `${todayPercent}%`;
+
+            // Goals stats
+            let completedGoalsCount = 0;
+            goals.forEach(g => {
+                const gTasks = tasks.filter(t => t.goalId === g.id);
+                if (gTasks.length > 0 && gTasks.every(t => t.completed)) {
+                    completedGoalsCount++;
+                }
+            });
+            document.getElementById('statActiveGoals').textContent = goals.length;
+            document.getElementById('statCompletedGoalsText').textContent = `${completedGoalsCount} mục tiêu đã hoàn thành 100%`;
+
+            // Overall tasks stats
+            const totalTasks = tasks.length;
+            const totalCompleted = tasks.filter(t => t.completed).length;
+            const overallPercent = totalTasks === 0 ? 0 : Math.round((totalCompleted / totalTasks) * 100);
+
+            document.getElementById('statOverallPercent').textContent = `${overallPercent}%`;
+            document.getElementById('statTotalTasksText').textContent = `Đã xong ${totalCompleted}/${totalTasks} công việc`;
+        }
+
+        // --- 6. FILTERING LOGIC ---
+        function setDateFilter(filterType) {
+            currentDateFilter = filterType;
+            
+            // Update UI tabs
+            document.querySelectorAll('.date-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'dark:bg-slate-700', 'text-blue-600', 'dark:text-white', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'dark:text-slate-400');
+            });
+
+            if (filterType !== 'custom') {
+                const activeBtn = document.getElementById(`filter-${filterType}`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
+                    activeBtn.classList.add('bg-white', 'dark:bg-slate-700', 'text-blue-600', 'dark:text-white', 'shadow-sm');
+                }
+            }
+
+            renderTasks();
+        }
+
+        function toggleGoalFilter(goalId) {
+            if (selectedGoalFilter === goalId) {
+                clearGoalFilter();
+            } else {
+                selectedGoalFilter = goalId;
+                const goal = goals.find(g => g.id === goalId);
+                if (goal) {
+                    document.getElementById('filterGoalName').textContent = `${goal.icon} ${goal.title}`;
+                    document.getElementById('activeGoalFilterBanner').classList.remove('hidden');
+                }
+                renderGoals();
+                renderTasks();
+            }
+        }
+
+        function clearGoalFilter() {
+            selectedGoalFilter = null;
+            document.getElementById('activeGoalFilterBanner').classList.add('hidden');
+            renderGoals();
+            renderTasks();
+        }
+
+        // --- 7. CRUD OPERATIONS: GOALS ---
+        function openGoalModal(goalId = null) {
+            const modal = document.getElementById('goalModal');
+            const form = document.getElementById('goalForm');
+            form.reset();
+
+            if (goalId) {
+                const goal = goals.find(g => g.id === goalId);
+                if (!goal) return;
+                document.getElementById('goalModalTitle').textContent = 'Chỉnh Sửa Mục Tiêu';
+                document.getElementById('goalId').value = goal.id;
+                document.getElementById('goalTitle').value = goal.title;
+                document.getElementById('goalDesc').value = goal.description || '';
+                document.getElementById('goalDeadline').value = goal.deadline || '';
+                document.getElementById('goalIcon').value = goal.icon || '🎯';
+                
+                const colorRadio = document.querySelector(`input[name="goalColor"][value="${goal.color}"]`);
+                if (colorRadio) colorRadio.checked = true;
+            } else {
+                document.getElementById('goalModalTitle').textContent = 'Tạo Mục Tiêu Mới';
+                document.getElementById('goalId').value = '';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.add('hidden');
+        }
+
+        function saveGoal(event) {
+            event.preventDefault();
+            const id = document.getElementById('goalId').value;
+            const title = document.getElementById('goalTitle').value.trim();
+            const description = document.getElementById('goalDesc').value.trim();
+            const deadline = document.getElementById('goalDeadline').value;
+            const icon = document.getElementById('goalIcon').value;
+            const color = document.querySelector('input[name="goalColor"]:checked').value;
+
+            if (!title) return;
+
+            if (id) {
+                // Update existing
+                const index = goals.findIndex(g => g.id === id);
+                if (index !== -1) {
+                    goals[index] = { ...goals[index], title, description, deadline, icon, color };
+                    showToast('Đã cập nhật mục tiêu!');
+                }
+            } else {
+                // Create new
+                goals.push({
+                    id: 'goal_' + generateId(),
+                    title,
+                    description,
+                    deadline,
+                    icon,
+                    color
+                });
+                showToast('Đã thêm mục tiêu mới!');
+            }
+
+            closeGoalModal();
+            saveToStorage();
+        }
+
+        function deleteGoal(goalId) {
+            goals = goals.filter(g => g.id !== goalId);
+            // Unlink tasks associated with this goal (keep tasks as independent)
+            tasks = tasks.map(t => t.goalId === goalId ? { ...t, goalId: '' } : t);
+            
+            if (selectedGoalFilter === goalId) {
+                clearGoalFilter();
+            }
+            saveToStorage();
+            showToast('Đã xóa mục tiêu!');
+        }
+
+        // --- 8. CRUD OPERATIONS: TASKS ---
+        function openTaskModal(taskId = null) {
+            const modal = document.getElementById('taskModal');
+            const form = document.getElementById('taskForm');
+            form.reset();
+
+            if (taskId) {
+                const task = tasks.find(t => t.id === taskId);
+                if (!task) return;
+                document.getElementById('taskModalTitle').textContent = 'Chỉnh Sửa Công Việc';
+                document.getElementById('taskId').value = task.id;
+                document.getElementById('taskTitle').value = task.title;
+                document.getElementById('taskDate').value = task.date;
+                document.getElementById('taskPriority').value = task.priority;
+                document.getElementById('taskGoalId').value = task.goalId || '';
+            } else {
+                document.getElementById('taskModalTitle').textContent = 'Thêm Công Việc Mới';
+                document.getElementById('taskId').value = '';
+                
+                // Pre-fill date based on current filter
+                if (currentDateFilter === 'tomorrow') {
+                    document.getElementById('taskDate').value = getTomorrowString();
+                } else if (currentDateFilter === 'custom' && document.getElementById('customDatePicker').value) {
+                    document.getElementById('taskDate').value = document.getElementById('customDatePicker').value;
+                } else {
+                    document.getElementById('taskDate').value = getTodayString();
+                }
+
+                // Pre-fill goal if filtering by goal
+                if (selectedGoalFilter) {
+                    document.getElementById('taskGoalId').value = selectedGoalFilter;
+                }
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').classList.add('hidden');
+        }
+
+        function saveTask(event) {
+            event.preventDefault();
+            const id = document.getElementById('taskId').value;
+            const title = document.getElementById('taskTitle').value.trim();
+            const date = document.getElementById('taskDate').value;
+            const priority = document.getElementById('taskPriority').value;
+            const goalId = document.getElementById('taskGoalId').value;
+
+            if (!title || !date) return;
+
+            if (id) {
+                const index = tasks.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    tasks[index] = { ...tasks[index], title, date, priority, goalId };
+                    showToast('Đã cập nhật công việc!');
+                }
+            } else {
+                tasks.push({
+                    id: 'task_' + generateId(),
+                    title,
+                    date,
+                    priority,
+                    goalId,
+                    completed: false
+                });
+                showToast('Đã thêm công việc mới!');
+            }
+
+            closeTaskModal();
+            saveToStorage();
+        }
+
+        function handleQuickAddTask(event) {
+            event.preventDefault();
+            const input = document.getElementById('quickTaskTitle');
+            const goalSelect = document.getElementById('quickTaskGoal');
+            const title = input.value.trim();
+            
+            if (!title) return;
+
+            let targetDate = getTodayString();
+            if (currentDateFilter === 'tomorrow') targetDate = getTomorrowString();
+            if (currentDateFilter === 'custom' && document.getElementById('customDatePicker').value) {
+                targetDate = document.getElementById('customDatePicker').value;
+            }
+
+            const goalId = goalSelect.value || selectedGoalFilter || '';
+
+            tasks.push({
+                id: 'task_' + generateId(),
+                title,
+                date: targetDate,
+                priority: 'medium',
+                goalId,
+                completed: false
+            });
+
+            input.value = '';
+            saveToStorage();
+            showToast('Đã thêm nhanh công việc!');
+        }
+
+        function toggleTaskComplete(taskId) {
+            const index = tasks.findIndex(t => t.id === taskId);
+            if (index !== -1) {
+                tasks[index].completed = !tasks[index].completed;
+                saveToStorage();
+            }
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(t => t.id !== taskId);
+            saveToStorage();
+            showToast('Đã xóa công việc!');
+        }
+
+        // --- 9. CONFIRMATION MODAL HANDLER ---
+        function openConfirmModal(actionType, targetId = null) {
+            const modal = document.getElementById('confirmModal');
+            const title = document.getElementById('confirmTitle');
+            const message = document.getElementById('confirmMessage');
+            const btn = document.getElementById('confirmActionBtn');
+
+            if (actionType === 'deleteGoal') {
+                title.textContent = 'Xóa mục tiêu này?';
+                message.textContent = 'Mục tiêu sẽ bị xóa vĩnh viễn. Các công việc thuộc mục tiêu này vẫn được giữ lại dưới dạng công việc độc lập.';
+                btn.onclick = () => { deleteGoal(targetId); closeConfirmModal(); };
+            } else if (actionType === 'deleteTask') {
+                title.textContent = 'Xóa công việc này?';
+                message.textContent = 'Bạn có chắc chắn muốn xóa công việc này khỏi danh sách không?';
+                btn.onclick = () => { deleteTask(targetId); closeConfirmModal(); };
+            } else if (actionType === 'reset') {
+                title.textContent = 'Khôi phục dữ liệu mẫu?';
+                message.textContent = 'Toàn bộ mục tiêu và công việc hiện tại sẽ bị thay thế bằng dữ liệu mẫu ban đầu.';
+                btn.onclick = () => { 
+                    clearGoalFilter();
+                    loadSampleData(); 
+                    closeConfirmModal(); 
+                    showToast('Đã khôi phục dữ liệu mẫu!');
+                };
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        // --- 10. BACKUP & RESTORE (JSON) ---
+        function exportData() {
+            const data = {
+                app: 'FocusFlow',
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                goals: goals,
+                tasks: tasks
+            };
+
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `focusflow_backup_${getTodayString()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Đã tải xuống file sao lưu JSON!');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (Array.isArray(parsed.goals) && Array.isArray(parsed.tasks)) {
+                        goals = parsed.goals;
+                        tasks = parsed.tasks;
+                        clearGoalFilter();
+                        saveToStorage();
+                        showToast('Khôi phục dữ liệu thành công!');
+                    } else {
+                        showToast('File JSON không đúng định dạng của ứng dụng!', 'error');
+                    }
+                } catch (err) {
+                    showToast('Lỗi đọc file JSON!', 'error');
+                }
+                // Reset file input so the same file can be selected again if needed
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        // Security: Prevent XSS when rendering user input
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Start application on load
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
